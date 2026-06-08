@@ -1,0 +1,22 @@
+{
+  "name": "Français Facile",
+  "short_name": "Français",
+  "description": "Apprenez le français facilement",
+  "start_url": "/francais-facile/",
+  "display": "standalone",
+  "background_color": "#F0F2FF",
+  "theme_color": "#4F46E5",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/4F46E5/ffffff?text=FF",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/4F46E5/ffffff?text=FF",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
