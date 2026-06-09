@@ -697,7 +697,7 @@
       <button class="fc-filter-btn" data-level="beginner" onclick="setFCFilter('beginner')">Débutant</button>
       <button class="fc-filter-btn" data-level="intermediate" onclick="setFCFilter('intermediate')">Intermédiaire</button>
       <button class="fc-filter-btn" data-level="advanced" onclick="setFCFilter('advanced')">Avancé</button>
-      <button class="fc-filter-btn" data-level="tcf" onclick="setFCFilter('tcf')">TCF</button>
+      <button class="fc-filter-btn" data-level="tcf" onclick="setFCFilter('tcf')">🍁 TCF/TEF</button>
     </div>
     <div class="fc-header">
       <span class="fc-counter" id="fc-counter">1 / 100</span>
@@ -6413,7 +6413,7 @@ function setLevelFilter(level) {
 function renderLessonsList() {
   const allLabel = lang==='en'?'All':lang==='zh'?'全部':'Tout';
   const filterBtns = document.querySelectorAll('.level-filter-btn');
-  const tcfShort = '🍁 TCF';
+  const tcfShort = '🍁 TCF/TEF';
   const filterLabels = [allLabel, t('beginner'), t('intermediate'), t('advanced'), tcfShort];
   filterBtns.forEach((b,i) => { if (filterLabels[i]) b.textContent = filterLabels[i]; });
 
