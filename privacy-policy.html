@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Politique de confidentialité – FrenchGo</title>
+  <title>Privacy Policy – FrenchGo</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -21,25 +21,29 @@
       padding: 48px 40px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
-    h1 {
-      font-size: 1.8rem;
-      color: #111827;
-      margin-bottom: 8px;
+    .lang-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 16px;
     }
-    .date {
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-bottom: 36px;
-    }
-    h2 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #111827;
-      margin: 28px 0 10px;
-    }
+    .lang-badge.en { background: #E0F2FE; color: #0369A1; }
+    .lang-badge.fr { background: #DCFCE7; color: #15803D; }
+    h1 { font-size: 1.8rem; color: #111827; margin-bottom: 8px; }
+    .date { font-size: 0.9rem; color: #6b7280; margin-bottom: 36px; }
+    h2 { font-size: 1.1rem; font-weight: 700; color: #111827; margin: 28px 0 10px; }
     p { margin-bottom: 12px; color: #374151; }
     a { color: #10b981; text-decoration: none; }
     a:hover { text-decoration: underline; }
+    .divider {
+      border: none;
+      border-top: 2px dashed #e5e7eb;
+      margin: 48px 0;
+    }
     .footer {
       margin-top: 40px;
       padding-top: 24px;
@@ -48,10 +52,91 @@
       color: #9ca3af;
       text-align: center;
     }
+    @media (max-width: 600px) {
+      .container { padding: 32px 20px; }
+      h1 { font-size: 1.5rem; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- ══════════════════════ ENGLISH ══════════════════════ -->
+    <span class="lang-badge en">🇬🇧 English</span>
+    <h1>Privacy Policy</h1>
+    <p class="date">Last updated: June 9, 2026</p>
+
+    <p>
+      This Privacy Policy applies to the <strong>FrenchGo</strong> application,
+      available on Google Play and accessible via the web. We are committed to
+      protecting your privacy.
+    </p>
+
+    <h2>1. Data We Collect</h2>
+    <p>
+      <strong>Progress data (local only):</strong> Your lesson progress, chosen
+      interface language, and unlock status are saved <em>only on your device</em>
+      using local storage (localStorage). This data is never transmitted to our servers.
+    </p>
+    <p>
+      <strong>Anonymous usage data:</strong> We use Google Analytics to collect
+      anonymous information about how the app is used (pages viewed, session duration,
+      country). This data cannot be used to personally identify you.
+    </p>
+    <p>
+      We collect <strong>no</strong> personal data (name, email address, phone number)
+      through the app itself.
+    </p>
+
+    <h2>2. Third-Party Services</h2>
+    <p>
+      <strong>Google Analytics:</strong> Used to analyze app audience.
+      Privacy policy: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>
+    </p>
+    <p>
+      <strong>Gumroad:</strong> Used to process payments when unlocking premium content.
+      We do not receive or store your payment information.
+      Privacy policy: <a href="https://gumroad.com/privacy" target="_blank">gumroad.com/privacy</a>
+    </p>
+
+    <h2>3. Advertising</h2>
+    <p>The app contains no advertisements.</p>
+
+    <h2>4. Data Sharing</h2>
+    <p>
+      We do not sell, trade, or transfer your data to third parties, except for the
+      services mentioned above (Google Analytics, Gumroad) strictly within the scope
+      of their operation.
+    </p>
+
+    <h2>5. Security</h2>
+    <p>
+      Since your progress data is stored locally on your device, its security depends
+      on your device's security.
+    </p>
+
+    <h2>6. Children</h2>
+    <p>
+      Our app is intended for a general audience (16+). We do not knowingly collect
+      personal data from children.
+    </p>
+
+    <h2>7. Changes</h2>
+    <p>
+      We may update this Privacy Policy. Any changes will be posted on this page
+      with a new update date.
+    </p>
+
+    <h2>8. Contact</h2>
+    <p>
+      For any questions regarding this Privacy Policy, contact us at:
+      <a href="mailto:aceemusic.888@gmail.com">aceemusic.888@gmail.com</a>
+    </p>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════ FRANÇAIS ══════════════════════ -->
+    <span class="lang-badge fr">🇫🇷 Français</span>
     <h1>Politique de confidentialité</h1>
     <p class="date">Dernière mise à jour : 9 juin 2026</p>
 
@@ -71,8 +156,8 @@
     <p>
       <strong>Données d'utilisation anonymes :</strong> Nous utilisons Google Analytics
       pour collecter des informations anonymes sur l'utilisation de l'application
-      (pages consultées, durée de session, pays de l'utilisateur). Ces données ne
-      permettent pas de vous identifier personnellement.
+      (pages consultées, durée de session, pays). Ces données ne permettent pas de vous
+      identifier personnellement.
     </p>
     <p>
       Nous ne collectons <strong>aucune</strong> donnée personnelle (nom, adresse e-mail,
@@ -124,7 +209,7 @@
       <a href="mailto:aceemusic.888@gmail.com">aceemusic.888@gmail.com</a>
     </p>
 
-    <div class="footer">© 2026 FrenchGo. Tous droits réservés.</div>
+    <div class="footer">© 2026 FrenchGo. All rights reserved / Tous droits réservés.</div>
   </div>
 </body>
 </html>
