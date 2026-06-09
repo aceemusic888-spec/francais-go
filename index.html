@@ -7466,9 +7466,9 @@ function renderQuestion() {
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
   setText('q-text', qText);
   const fb = document.getElementById('q-feedback');
-  if (fb) { fb.innerHTML=''; fb.style.display='none'; }
+  if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
-  if (nextBtn) nextBtn.style.display = 'none';
+  if (nextBtn) { nextBtn.classList.remove('show'); }
   const opts = document.getElementById('q-options');
   if (opts) {
     opts.innerHTML = q.opts.map((o,i) =>
@@ -7497,8 +7497,7 @@ function selectAnswer(i) {
   });
   const fb = document.getElementById('q-feedback');
   if (fb) {
-    fb.style.display='flex';
-    fb.className='feedback-box show '+(correct?'correct':'wrong');
+    fb.className = 'feedback-box show ' + (correct ? 'correct' : 'wrong');
     if (correct) {
       fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
     } else {
@@ -7509,7 +7508,7 @@ function selectAnswer(i) {
   }
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) {
-    nextBtn.style.display='block';
+    nextBtn.classList.add('show');
     nextBtn.textContent = quizIndex < rawQuiz.length-1 ? t('next') : t('seeResults');
   }
   if (correct) speak(q.opts[q.ans]);
@@ -7612,9 +7611,9 @@ function renderQuestionFromList(quizList) {
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
   setText('q-text', qText);
   const fb = document.getElementById('q-feedback');
-  if (fb) { fb.innerHTML=''; fb.style.display='none'; }
+  if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
-  if (nextBtn) nextBtn.style.display = 'none';
+  if (nextBtn) { nextBtn.classList.remove('show'); }
   const opts = document.getElementById('q-options');
   if (opts) {
     opts.innerHTML = q.opts.map((o,i) =>
@@ -7641,8 +7640,7 @@ function selectAnswerWrong(i) {
   });
   const fb = document.getElementById('q-feedback');
   if (fb) {
-    fb.style.display='flex';
-    fb.className='feedback-box show '+(correct?'correct':'wrong');
+    fb.className = 'feedback-box show ' + (correct ? 'correct' : 'wrong');
     if (correct) {
       fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
     } else {
@@ -7653,7 +7651,7 @@ function selectAnswerWrong(i) {
   }
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) {
-    nextBtn.style.display='block';
+    nextBtn.classList.add('show');
     nextBtn.textContent = quizIndex < window._wrongOnlyQuiz.length-1 ? t('next') : t('seeResults');
     nextBtn.onclick = function() {
       if (quizIndex < window._wrongOnlyQuiz.length-1) {
