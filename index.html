@@ -6123,4 +6123,762 @@ const LESSONS = [
 <p>The sequence of tenses governs tense choice in subordinate clauses based on the main clause tense.</p>
 <h3>"Si" clauses (hypotheses)</h3>
 <table class="vocab-table">
-<tr><td
+<tr><td<tr><td>Si + present</td><td>→ future or imperative</td><td>If it's nice, <strong>we will go out</strong>.</td></tr>
+<tr><td>Si + imperfect</td><td>→ present conditional</td><td>If it were nice, <strong>we would go out</strong>.</td></tr>
+<tr><td>Si + pluperfect</td><td>→ past conditional</td><td>If it had been nice, <strong>we would have gone out</strong>.</td></tr>
+</table>
+<h3>In subordinate clauses (main verb in the past)</h3>
+<table class="vocab-table">
+<tr><td>Simultaneous action</td><td>→ imperfect</td><td>He said he <strong>was</strong> tired.</td></tr>
+<tr><td>Prior action</td><td>→ pluperfect</td><td>He said he <strong>had finished</strong>.</td></tr>
+<tr><td>Subsequent action</td><td>→ conditional</td><td>He said he <strong>would come</strong>.</td></tr>
+</table>
+<h3>Literary tenses</h3>
+<table class="vocab-table">
+<tr><td>Passé simple</td><td>Literary past narrative: He <strong>arrived</strong> at midnight.</td></tr>
+<tr><td>Imperfect subjunctive</td><td>Classical literature: Although it <strong>were</strong> late…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> In everyday speech, use passé composé, imperfect and conditional. The passé simple is reserved for literary writing.</div>`,
+    quiz:[
+      {q:'Complétez : "Si tu ___ (travailler) plus, tu réussirais."', q_en:'Complete: "Si tu ___ (travailler) plus, tu réussirais."', opts:['travailles','travaillais','travailleras','travaillerais'], ans:1},
+      {q:'Quel temps utilise-t-on dans la principale avec "si + imparfait" ?', q_en:'What tense is used in the main clause with "si + imperfect"?', opts:['Futur simple','Conditionnel présent','Impératif','Présent'], ans:1},
+      {q:'"Il a dit qu\'il ___ fatigué." Quel temps ?', q_en:'"He said he ___ tired." Which tense?', opts:['est','était','sera','serait'], ans:1},
+      {q:'Le passé simple est principalement utilisé :', q_en:'The passé simple is mainly used:', opts:['À l\'oral courant','Dans les SMS','Dans les textes littéraires','Avec "si"'], ans:2},
+      {q:'"Si + plus-que-parfait" → la principale est au :', q_en:'"Si + pluperfect" → the main clause uses:', opts:['Futur','Conditionnel présent','Conditionnel passé','Subjonctif'], ans:2},
+    ]
+  },
+];
+
+/* ══════════════════════════════════════
+   STATE & VARIABLES
+══════════════════════════════════════ */
+let state      = JSON.parse(localStorage.getItem('ff_state') || '{}');
+let lang       = localStorage.getItem('ff_lang') || 'fr';
+let darkMode   = localStorage.getItem('ff_dark') === '1';
+let currentTab = 'home';
+let currentLesson = null;
+let currentLessonPageIdx = 0;
+let lessonPages = [];
+let quizIndex   = 0;
+let quizScore   = 0;
+let quizAnswered = false;
+let currentLevelFilter = 'all';
+let fcFilter = 'all';
+let fcDeck   = [];
+let fcIndex  = 0;
+let fcFlipped = false;
+let obSlide  = 0;
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function t(key) {
+  return (T[lang] && T[lang][key] !== undefined) ? T[lang][key] : (T.fr[key] || key);
+}
+function saveState() { localStorage.setItem('ff_state', JSON.stringify(state)); }
+function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*10, 0); }
+
+/* ══════════════════════════════════════
+   TTS
+══════════════════════════════════════ */
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang  = 'fr-FR';
+  u.rate  = 0.88;
+  u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+
+/* ══════════════════════════════════════
+   STREAK
+══════════════════════════════════════ */
+function getTodayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+function updateStreak() {
+  const today = getTodayStr();
+  const last  = localStorage.getItem('ff_last_active');
+  let streak  = parseInt(localStorage.getItem('ff_streak') || '0', 10);
+  let maxStr  = parseInt(localStorage.getItem('ff_streak_max') || '0', 10);
+  if (last === today) return streak;
+  const yest = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  streak = (last === yest) ? streak + 1 : 1;
+  if (streak > maxStr) { maxStr = streak; localStorage.setItem('ff_streak_max', maxStr); }
+  localStorage.setItem('ff_streak', streak);
+  localStorage.setItem('ff_last_active', today);
+  if (streak > 1) showStreakToast(streak);
+  return streak;
+}
+function showStreakToast(n) {
+  let el = document.getElementById('streak-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'streak-toast';
+    el.className = 'streak-toast';
+    document.body.appendChild(el);
+  }
+  const msg = lang==='en' ? n+' days in a row! 🔥' : lang==='zh' ? '连续'+n+'天！🔥' : n+' jours de suite ! 🔥';
+  el.textContent = msg;
+  el.classList.add('streak-toast-show');
+  setTimeout(() => el.classList.remove('streak-toast-show'), 3000);
+}
+
+/* ══════════════════════════════════════
+   DARK MODE
+══════════════════════════════════════ */
+function applyDarkMode() {
+  document.body.classList.toggle('dark', darkMode);
+  const toggle = document.getElementById('dark-toggle');
+  if (toggle) toggle.classList.toggle('on', darkMode);
+  const icon = document.getElementById('dark-mode-icon');
+  if (icon) icon.textContent = darkMode ? '☀️' : '🌙';
+}
+function toggleDarkMode() {
+  darkMode = !darkMode;
+  localStorage.setItem('ff_dark', darkMode ? '1' : '0');
+  applyDarkMode();
+}
+
+/* ══════════════════════════════════════
+   LANGUAGE
+══════════════════════════════════════ */
+function updateLangBtn() {
+  const labels = { fr:'🇬🇧 EN', en:'🇨🇳 中', zh:'🇫🇷 FR' };
+  const btn = document.getElementById('lang-btn');
+  if (btn) btn.textContent = labels[lang] || '🇬🇧 EN';
+  ['fr','en','zh'].forEach(l => {
+    const b = document.getElementById('set-lang-'+l);
+    if (b) b.classList.toggle('active', lang===l);
+  });
+}
+function toggleLang() {
+  const langs = ['fr','en','zh'];
+  lang = langs[(langs.indexOf(lang)+1)%3];
+  localStorage.setItem('ff_lang', lang);
+  updateLangBtn();
+  renderCurrentView();
+}
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('ff_lang', l);
+  updateLangBtn();
+  renderCurrentView();
+}
+
+/* ══════════════════════════════════════
+   NAV / TABS
+══════════════════════════════════════ */
+function updateNav() {
+  const labels = {
+    fr:{ home:'Accueil', lessons:'Leçons', progress:'Progrès', flashcards:'Cartes', settings:'Réglages' },
+    en:{ home:'Home', lessons:'Lessons', progress:'Progress', flashcards:'Cards', settings:'Settings' },
+    zh:{ home:'首页', lessons:'课程', progress:'进度', flashcards:'卡片', settings:'设置' }
+  };
+  const lb = labels[lang] || labels.fr;
+  Object.keys(lb).forEach(k => {
+    const el = document.getElementById('nav-lbl-'+k);
+    if (el) el.textContent = lb[k];
+  });
+}
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  ['lesson-view','quiz-view','result-view'].forEach(id => {
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('nav-'+tab).classList.add('active');
+  if (tab==='home')       renderHome();
+  else if (tab==='lessons')    renderLessonsList();
+  else if (tab==='progress')   renderProgress();
+  else if (tab==='flashcards') renderFlashcards();
+  else if (tab==='settings')   renderSettings();
+}
+function renderCurrentView() {
+  updateNav();
+  if (currentTab==='home')       renderHome();
+  else if (currentTab==='lessons')    renderLessonsList();
+  else if (currentTab==='progress')   renderProgress();
+  else if (currentTab==='flashcards') renderFlashcards();
+  else if (currentTab==='settings')   renderSettings();
+  updateXPDisplay();
+}
+
+/* ══════════════════════════════════════
+   XP
+══════════════════════════════════════ */
+function updateXPDisplay() {
+  const el = document.getElementById('xp-display');
+  if (el) el.textContent = '⚡ ' + getXP() + ' XP';
+}
+
+/* ══════════════════════════════════════
+   HOME
+══════════════════════════════════════ */
+function renderHome() {
+  updateXPDisplay();
+  const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
+  const done   = Object.values(state).filter(s => s.completed).length;
+  const xp     = getXP();
+  const pct    = Math.round(done / LESSONS.length * 100);
+
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  set('hero-done-count', done);
+  set('hero-xp-stat',    xp);
+  set('hero-streak-num', streak);
+  set('hero-streak-lbl', lang==='en'?'🔥 streak':lang==='zh'?'🔥 连续':'🔥 série');
+  set('hero-lessons-lbl', lang==='en'?'lessons':lang==='zh'?'课程':'leçons');
+  const fill = document.getElementById('hero-prog-fill');
+  if (fill) fill.style.width = pct+'%';
+  set('hero-prog-pct', pct+'%');
+  set('home-welcome',  t('welcome'));
+  set('home-title',    t('title'));
+  set('home-sub',      t('sub'));
+  set('home-continue-title', t('continueTitle'));
+  set('home-start-title',    t('startHere'));
+
+  // Premium unlock banner
+  const unlockedEl = document.getElementById('home-unlocked');
+  if (unlockedEl) {
+    if (isUnlocked()) {
+      unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
+    } else {
+      unlockedEl.innerHTML = '';
+    }
+  }
+
+  // First lesson card
+  const first = LESSONS[0];
+  const s0 = state[first.id]||{};
+  const pct0 = s0.completed ? 100 : (s0.score ? Math.round(s0.score/first.quiz.length*100) : 0);
+  set('home-first-tag',   t('beginner'));
+  set('home-first-title', lang==='en'?first.title_en:lang==='zh'&&TITLES_ZH[first.id]?TITLES_ZH[first.id].title:first.title);
+  set('home-first-desc',  lang==='en'?first.desc_en:lang==='zh'&&TITLES_ZH[first.id]?TITLES_ZH[first.id].desc:first.desc);
+  const f0 = document.getElementById('fill-home-0');
+  if (f0) f0.style.width = pct0+'%';
+  set('label-home-0', s0.completed ? t('completed') : (pct0>0 ? t('pctDone')(pct0) : t('notStarted')));
+  set('done-home-0',  s0.completed ? '✅' : '');
+
+  // Continue section
+  const cont = document.getElementById('home-continue');
+  if (cont) {
+    const recent = LESSONS.find(l => state[l.id] && !state[l.id].completed);
+    if (recent && recent.id !== 0) {
+      const rpct = Math.round((state[recent.id].score||0)/recent.quiz.length*100);
+      cont.innerHTML = lessonCardHTML(recent, rpct);
+    } else if (Object.keys(state).length > 0) {
+      cont.innerHTML = '<div class="card" style="text-align:center;color:var(--green);font-weight:600;">'+t('allDone')+'</div>';
+    } else {
+      cont.innerHTML = '<div class="card" style="color:var(--muted);font-size:14px;">'+t('noProgress')+'</div>';
+    }
+  }
+}
+
+/* ══════════════════════════════════════
+   LESSONS LIST
+══════════════════════════════════════ */
+function lessonCardHTML(l, pct) {
+  const s = state[l.id] || {};
+  const isPrem = isPremium(l.id) && !isUnlocked();
+  const lvlMap = { beginner:t('beginner'), intermediate:t('intermediate'), tcf:t('tcf'), advanced:t('advanced') };
+  const lvlLabel = lvlMap[l.level] || l.level;
+  let titleText, descText;
+  if (lang==='en') { titleText=l.title_en; descText=l.desc_en; }
+  else if (lang==='zh' && TITLES_ZH[l.id]) { titleText=TITLES_ZH[l.id].title; descText=TITLES_ZH[l.id].desc; }
+  else { titleText=l.title; descText=l.desc; }
+  const progLabel = s.completed ? t('completed') : (pct>0 ? t('pctDone')(pct) : t('notStarted'));
+  return `<div class="card lesson-card${isPrem?' locked':''}" onclick="openLesson(${l.id})">
+    <span class="level-tag ${l.level}">${lvlLabel}</span>
+    ${isPrem?'<span class="done-icon">🔒</span>':''}
+    ${s.completed?'<span class="done-icon">✅</span>':''}
+    <h3>${titleText}</h3>
+    <p>${descText}</p>
+    <div class="progress-bar"><div class="progress-fill" style="width:${s.completed?100:pct}%"></div></div>
+    <div class="progress-label">${progLabel}</div>
+  </div>`;
+}
+function setLevelFilter(level) {
+  currentLevelFilter = level;
+  document.querySelectorAll('.level-filter-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.level===level)
+  );
+  ['beginner','intermediate','advanced','tcf'].forEach(lv => {
+    const sec = document.getElementById('lesson-level-section-'+lv);
+    if (sec) sec.style.display = (level==='all'||level===lv) ? '' : 'none';
+  });
+}
+function renderLessonsList() {
+  const allLabel = lang==='en'?'All':lang==='zh'?'全部':'Tout';
+  const filterBtns = document.querySelectorAll('.level-filter-btn');
+  const filterLabels = [allLabel, t('beginner'), t('intermediate'), t('advanced'), t('tcf')];
+  filterBtns.forEach((b,i) => { if (filterLabels[i]) b.textContent = filterLabels[i]; });
+
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  set('list-title-beginner',     t('beginnerLevel'));
+  set('list-title-intermediate', t('intermediateLevel'));
+  set('list-title-advanced',     t('advancedLevel'));
+  set('list-title-tcf',          t('tcfLevel'));
+
+  ['beginner','intermediate','advanced','tcf'].forEach(level => {
+    const el = document.getElementById('list-'+level);
+    if (!el) return;
+    el.innerHTML = LESSONS.filter(l => l.level===level).map(l => {
+      const s = state[l.id] || {};
+      const pct = s.score ? Math.round(s.score/l.quiz.length*100) : 0;
+      return lessonCardHTML(l, pct);
+    }).join('');
+  });
+  setLevelFilter(currentLevelFilter);
+}
+
+/* ══════════════════════════════════════
+   LESSON VIEW (multi-page)
+══════════════════════════════════════ */
+function buildLessonPages(lesson) {
+  const html = lang==='en' && lesson.content_en ? lesson.content_en
+    : lang==='zh' && CONTENT_ZH[lesson.id] ? CONTENT_ZH[lesson.id]
+    : lesson.content;
+  const parts = html.split(/(?=<h3[\s>])/i);
+  if (parts.length <= 2) return [html];
+  const pages = [];
+  let cur = '';
+  let cnt = 0;
+  parts.forEach((p, i) => {
+    if (i===0) { cur = p; }
+    else {
+      cnt++;
+      cur += p;
+      if (cnt >= 2) { pages.push(cur); cur=''; cnt=0; }
+    }
+  });
+  if (cur) pages.push(cur);
+  return pages.length ? pages : [html];
+}
+function openLesson(id) {
+  if (isPremium(id) && !isUnlocked()) { openPaywall(); return; }
+  currentLesson = LESSONS.find(l => l.id===id);
+  if (!currentLesson) return;
+  lessonPages = buildLessonPages(currentLesson);
+  currentLessonPageIdx = 0;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('quiz-view').classList.remove('active');
+  document.getElementById('result-view').classList.remove('active');
+  document.getElementById('lesson-view').classList.add('active');
+  document.getElementById('lesson-back-btn').textContent = t('back');
+  document.getElementById('start-quiz-btn').textContent  = t('startQuiz');
+  document.getElementById('btn-prev-page').textContent   = '← '+t('back');
+  document.getElementById('btn-next-page').textContent   = t('next');
+  renderLessonPage();
+}
+function renderLessonPage() {
+  const total = lessonPages.length;
+  const idx   = currentLessonPageIdx;
+  // Dots
+  let dots = '';
+  for (let i=0;i<total;i++) dots += `<div style="width:8px;height:8px;border-radius:50%;background:${i===idx?'var(--indigo)':'var(--border)'};transition:background 0.3s;"></div>`;
+  document.getElementById('lesson-dots').innerHTML = total>1 ? dots : '';
+  document.getElementById('lesson-page-counter').textContent = total>1 ? `${idx+1}/${total}` : '';
+  // Content with TTS
+  const body = document.getElementById('lesson-body');
+  body.style.opacity = '0';
+  setTimeout(() => {
+    body.innerHTML = lessonPages[idx];
+    body.querySelectorAll('.vocab-table td:first-child').forEach(function(td) {
+      const word = td.textContent.trim();
+      if (!word) return;
+      const btn = document.createElement('button');
+      btn.className = 'speak-btn';
+      btn.title = 'Écouter la prononciation';
+      btn.textContent = '🔊';
+      btn.onclick = function(e) { e.stopPropagation(); speak(word); };
+      td.appendChild(btn);
+    });
+    body.style.opacity = '1';
+  }, 160);
+  // Nav
+  const isLast = idx === total-1;
+  document.getElementById('btn-prev-page').style.display  = idx>0   ? '' : 'none';
+  document.getElementById('btn-next-page').style.display  = isLast  ? 'none' : '';
+  document.getElementById('start-quiz-btn').style.display = isLast  ? '' : 'none';
+}
+function prevLessonPage() {
+  if (currentLessonPageIdx > 0) { currentLessonPageIdx--; renderLessonPage(); }
+}
+function nextLessonPage() {
+  if (currentLessonPageIdx < lessonPages.length-1) { currentLessonPageIdx++; renderLessonPage(); }
+}
+function closeLessonView() {
+  document.getElementById('lesson-view').classList.remove('active');
+  showTab(currentTab==='home' ? 'home' : 'lessons');
+}
+
+/* ══════════════════════════════════════
+   QUIZ
+══════════════════════════════════════ */
+function startQuiz() {
+  quizIndex=0; quizScore=0;
+  document.getElementById('lesson-view').classList.remove('active');
+  document.getElementById('quiz-view').classList.add('active');
+  document.getElementById('quiz-back-btn').textContent = t('quit');
+  renderQuestion();
+}
+function renderQuestion() {
+  const q     = currentLesson.quiz[quizIndex];
+  const total = currentLesson.quiz.length;
+  quizAnswered = false;
+  // Progress dots
+  document.getElementById('quiz-dots').innerHTML = currentLesson.quiz.map((_,i) =>
+    `<div class="quiz-progress-dot ${i<quizIndex?'done':i===quizIndex?'current':''}"></div>`
+  ).join('');
+  document.getElementById('q-num').textContent =
+    t('question') + ' ' + (quizIndex+1) + ' ' + t('of') + ' ' + total;
+  // Question text + TTS button
+  const qText = (lang==='zh' && QUIZ_ZH[currentLesson.id] && QUIZ_ZH[currentLesson.id][quizIndex])
+    ? QUIZ_ZH[currentLesson.id][quizIndex]
+    : (lang==='en' && q.q_en ? q.q_en : q.q);
+  document.getElementById('q-text').innerHTML =
+    '<span>' + qText + '</span>' +
+    '<button class="quiz-speak-btn" title="Écouter" onclick="speak(\'' +
+      q.q.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ') + '\')">🔊</button>';
+  // Options
+  document.getElementById('q-options').innerHTML = q.opts.map((opt,i) =>
+    `<button class="quiz-option" onclick="selectAnswer(${i})">${opt}</button>`
+  ).join('');
+  document.getElementById('q-feedback').className = 'feedback-box';
+  document.getElementById('q-feedback').textContent = '';
+  const nb = document.getElementById('next-btn');
+  nb.className = 'next-btn';
+  nb.textContent = '';
+}
+function selectAnswer(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = currentLesson.quiz[quizIndex];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled=true);
+  const fb = document.getElementById('q-feedback');
+  if (idx===q.ans) {
+    opts[idx].classList.add('correct');
+    fb.textContent = t('correctMsg');
+    fb.className = 'feedback-box correct show';
+    quizScore++;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+    fb.textContent = t('wrongMsg') + ' "' + q.opts[q.ans] + '"';
+    fb.className = 'feedback-box wrong show';
+  }
+  const nb = document.getElementById('next-btn');
+  nb.textContent = quizIndex < currentLesson.quiz.length-1 ? t('next') : t('seeResults');
+  nb.className = 'next-btn show';
+}
+function nextQuestion() {
+  quizIndex++;
+  if (quizIndex < currentLesson.quiz.length) renderQuestion();
+  else showResult();
+}
+function closeQuiz() {
+  document.getElementById('quiz-view').classList.remove('active');
+  document.getElementById('lesson-view').classList.add('active');
+  renderLessonPage();
+}
+
+/* ══════════════════════════════════════
+   RESULT
+══════════════════════════════════════ */
+function showResult() {
+  const total  = currentLesson.quiz.length;
+  const pct    = Math.round(quizScore/total*100);
+  const passed = pct >= 80;
+  const prev   = state[currentLesson.id] || {};
+  state[currentLesson.id] = {
+    score: Math.max(quizScore, prev.score||0),
+    total,
+    completed: passed || !!prev.completed
+  };
+  saveState();
+  updateStreak();
+  updateXPDisplay();
+
+  document.getElementById('quiz-view').classList.remove('active');
+  document.getElementById('result-view').classList.add('active');
+
+  const stars = pct===100?'⭐⭐⭐':pct>=80?'⭐⭐':pct>=60?'⭐':'';
+  document.getElementById('result-stars').textContent = stars;
+  document.getElementById('result-score').textContent = quizScore+'/'+total;
+
+  let msg, sub;
+  if (pct===100){ msg=t('r100msg'); sub=t('r100sub'); }
+  else if (pct>=80){ msg=t('r80msg'); sub=t('r80sub'); }
+  else if (pct>=60){ msg=t('r60msg'); sub=t('r60sub'); }
+  else { msg=t('r0msg'); sub=t('r0sub'); }
+
+  document.getElementById('result-label').textContent = pct + t('pctLabel');
+  document.getElementById('result-msg').textContent   = msg;
+  document.getElementById('result-sub').textContent   = sub;
+  document.getElementById('xp-gained').textContent    = '+' + (quizScore*10) + ' XP';
+  document.getElementById('result-mascot').innerHTML  = getMascotSVG(pct>=80?'excited':'sad', 90);
+  document.getElementById('btn-retry').textContent       = t('retry');
+  document.getElementById('btn-back-lessons').textContent = t('backLessons');
+}
+function retryQuiz() {
+  document.getElementById('result-view').classList.remove('active');
+  startQuiz();
+}
+function backToLessons() {
+  document.getElementById('result-view').classList.remove('active');
+  showTab('lessons');
+}
+
+/* ══════════════════════════════════════
+   PROGRESS
+══════════════════════════════════════ */
+function renderProgress() {
+  const xp   = getXP();
+  const done = Object.values(state).filter(s => s.completed).length;
+  const qpassed = Object.values(state).filter(s => s.score && s.score>0).length;
+  const pct  = Math.round(done/LESSONS.length*100);
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  set('stat-xp',   xp);
+  set('stat-done', done);
+  set('stat-quiz', qpassed);
+  set('stat-pct',  pct+'%');
+  set('lbl-xp',    t('xpLbl'));
+  set('lbl-done',  t('doneLbl'));
+  set('lbl-quiz',  t('quizLbl'));
+  set('lbl-pct',   t('pctLbl'));
+  set('lbl-achievements', t('achievements'));
+  const achData = t('ach');
+  const unlocked = [
+    done>=1,
+    done>=3,
+    done>=LESSONS.length,
+    xp>=100,
+    Object.values(state).some(s => (s.score||0)>=5)
+  ];
+  document.getElementById('achievements').innerHTML = achData.map((a,i) =>
+    `<div class="achievement ${unlocked[i]?'':'locked'}">
+      <div class="achievement-icon">${a[0]}</div>
+      <div><h4>${a[1]} ${unlocked[i]?'✓':'🔒'}</h4><p>${a[2]}</p></div>
+    </div>`
+  ).join('');
+}
+
+/* ══════════════════════════════════════
+   FLASHCARDS
+══════════════════════════════════════ */
+function setFCFilter(level) {
+  fcFilter = level;
+  document.querySelectorAll('.fc-filter-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.level===level)
+  );
+  fcDeck  = level==='all' ? FLASHCARDS.slice() : FLASHCARDS.filter(c => c.level===level);
+  fcIndex = 0;
+  fcFlipped = false;
+  renderFC();
+}
+function fcReset() {
+  fcIndex=0; fcFlipped=false; renderFC();
+}
+function renderFC() {
+  if (!fcDeck.length) {
+    document.getElementById('fc-card-area').innerHTML =
+      '<div class="card" style="text-align:center;padding:40px;color:var(--muted);">'+(lang==='en'?'No cards':lang==='zh'?'无卡片':'Aucune carte')+'</div>';
+    return;
+  }
+  const card  = fcDeck[fcIndex];
+  const total = fcDeck.length;
+  document.getElementById('fc-counter').textContent = (fcIndex+1) + ' / ' + total;
+  document.getElementById('fc-progress-fill').style.width = Math.round((fcIndex+1)/total*100)+'%';
+
+  const safeFr = card.fr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  document.getElementById('fc-card-area').innerHTML = `
+    <div class="fc-card-wrap">
+      <div class="fc-card${fcFlipped?' flipped':''}" id="fc-card" onclick="flipFC()">
+        <div class="fc-face fc-front">
+          <div class="fc-word">${card.fr}</div>
+          <button class="fc-speak-btn" title="Écouter" onclick="event.stopPropagation();speak('${safeFr}')">🔊</button>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:10px;">${lang==='en'?'Tap to flip':lang==='zh'?'点击翻转':'Appuyer pour retourner'}</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-translation">${lang==='zh'?(card.zh||card.en):card.en}</div>
+          ${card.example?`<div class="fc-example">${card.example}</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="fc-nav-btn" onclick="fcPrev()">‹ ${lang==='en'?'Prev':lang==='zh'?'上一个':'Préc.'}</button>
+      <button class="fc-nav-btn" onclick="fcNext()">${lang==='en'?'Next':lang==='zh'?'下一个':'Suiv.'} ›</button>
+    </div>`;
+  const rb = document.getElementById('fc-reset-btn');
+  if (rb) rb.textContent = '↺ '+(lang==='en'?'Restart':lang==='zh'?'重新开始':'Recommencer');
+}
+function flipFC() {
+  fcFlipped = !fcFlipped;
+  const el = document.getElementById('fc-card');
+  if (el) el.classList.toggle('flipped', fcFlipped);
+}
+function fcNext() {
+  if (fcIndex < fcDeck.length-1) { fcIndex++; fcFlipped=false; renderFC(); }
+}
+function fcPrev() {
+  if (fcIndex > 0) { fcIndex--; fcFlipped=false; renderFC(); }
+}
+function renderFlashcards() {
+  if (!fcDeck.length) setFCFilter(fcFilter);
+  else renderFC();
+}
+
+/* ══════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════ */
+function renderSettings() {
+  updateLangBtn();
+  applyDarkMode();
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  set('set-ver','v3.0');
+  const lb = {
+    fr:{ lang:'Langue', lsub:"Langue de l'interface", appear:'Apparence', dark:'Mode sombre', dsub:'Réduire la luminosité', info:'Informations', priv:'Politique de confidentialité', about:"Apprendre le français n'a jamais été aussi simple." },
+    en:{ lang:'Language', lsub:'Interface language', appear:'Appearance', dark:'Dark mode', dsub:'Reduce brightness', info:'Information', priv:'Privacy Policy', about:'Learning French has never been easier.' },
+    zh:{ lang:'语言', lsub:'界面语言', appear:'外观', dark:'深色模式', dsub:'降低亮度', info:'信息', priv:'隐私政策', about:'学习法语从未如此简单。' }
+  }[lang]||{};
+  set('set-lbl-lang', lb.lang);
+  set('set-lbl-lang-sub', lb.lsub);
+  set('set-lbl-appearance', lb.appear);
+  set('set-lbl-dark', lb.dark);
+  set('set-lbl-dark-sub', lb.dsub);
+  set('set-lbl-info', lb.info);
+  set('set-lbl-privacy', lb.priv);
+  set('set-lbl-about-desc', lb.about);
+}
+function openPrivacy() {
+  window.open('privacy-policy.html', '_blank');
+}
+
+/* ══════════════════════════════════════
+   PAYWALL
+══════════════════════════════════════ */
+function openPaywall() {
+  const modal = document.getElementById('paywall-modal');
+  if (modal) modal.classList.add('show');
+  const gbtn = document.getElementById('btn-gumroad');
+  if (gbtn) gbtn.href = GUMROAD_URL;
+  const titles = {fr:'Contenu Premium',en:'Premium Content',zh:'高级内容'};
+  const subs   = {
+    fr:'Débloquez toutes les leçons avancées et progressez rapidement en français.',
+    en:'Unlock all advanced lessons and progress quickly in French.',
+    zh:'解锁所有高级课程，快速提升法语水平。'
+  };
+  const t2 = document.getElementById('modal-title');
+  const s2 = document.getElementById('modal-sub');
+  if (t2) t2.textContent = titles[lang]||titles.fr;
+  if (s2) s2.textContent = subs[lang]||subs.fr;
+}
+function closePaywall() {
+  const modal = document.getElementById('paywall-modal');
+  if (modal) modal.classList.remove('show');
+  const ca = document.getElementById('code-area');
+  if (ca) ca.style.display = 'none';
+  const ce = document.getElementById('code-error');
+  if (ce) ce.style.display = 'none';
+}
+function closePaywallOnBg(e) {
+  if (e.target===document.getElementById('paywall-modal')) closePaywall();
+}
+function toggleCodeInput() {
+  const ca = document.getElementById('code-area');
+  if (ca) ca.style.display = ca.style.display==='block' ? 'none' : 'block';
+}
+function validateCode() {
+  const input = (document.getElementById('code-input').value||'').trim().toUpperCase();
+  const err   = document.getElementById('code-error');
+  if (input===UNLOCK_CODE) {
+    localStorage.setItem('ff_unlocked','1');
+    closePaywall();
+    renderCurrentView();
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#059669;color:white;padding:12px 24px;border-radius:20px;font-weight:700;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,0.2);';
+    toast.textContent = '🔓 ' + (lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès premium activé !');
+    document.body.appendChild(toast);
+    setTimeout(()=>toast.remove(), 3000);
+  } else {
+    if (err) { err.style.display='block'; }
+    const inp = document.getElementById('code-input');
+    if (inp) inp.style.borderColor='#EF4444';
+  }
+}
+
+/* ══════════════════════════════════════
+   ONBOARDING
+══════════════════════════════════════ */
+function obUpdateLang(l) {
+  lang = l;
+  localStorage.setItem('ff_lang', l);
+  document.querySelectorAll('.ob-lang-btn').forEach(b => b.classList.remove('selected'));
+  const btn = document.getElementById('ob-lang-'+l);
+  if (btn) btn.classList.add('selected');
+  document.querySelectorAll('.ob-i18n').forEach(el => {
+    const text = el.dataset[l] || el.dataset.fr;
+    if (text) el.textContent = text;
+  });
+}
+function obNext() {
+  if (obSlide===2) { finishOnboarding(); return; }
+  document.getElementById('ob-panel-'+obSlide).style.display = 'none';
+  obSlide++;
+  document.getElementById('ob-panel-'+obSlide).style.display = '';
+  document.querySelectorAll('.ob-dot').forEach((d,i) => d.classList.toggle('active', i===obSlide));
+  if (obSlide===2) {
+    const nb = document.getElementById('ob-next-btn');
+    if (nb) nb.querySelector('.ob-i18n').textContent = lang==='en'?'Get started!':lang==='zh'?'开始学习！':'Commencer !';
+  }
+}
+function selectGoal(el, goal) {
+  document.querySelectorAll('.ob-level').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  localStorage.setItem('ff_goal', goal);
+}
+function finishOnboarding() {
+  localStorage.setItem('ff_onboarding_done','1');
+  const ob = document.getElementById('onboarding');
+  if (ob) ob.classList.add('hidden');
+  initApp();
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+function initApp() {
+  applyDarkMode();
+  fcDeck = FLASHCARDS.slice();
+  initMascot();
+  updateLangBtn();
+  updateNav();
+  renderHome();
+  setTimeout(hideSplash, 1200);
+}
+
+// Wire up onboarding lang buttons
+const _obFr = document.getElementById('ob-lang-fr');
+const _obEn = document.getElementById('ob-lang-en');
+const _obZh = document.getElementById('ob-lang-zh');
+if (_obFr) _obFr.onclick = function() { obUpdateLang('fr'); };
+if (_obEn) _obEn.onclick = function() { obUpdateLang('en'); };
+if (_obZh) _obZh.onclick = function() { obUpdateLang('zh'); };
+
+// Boot
+if (localStorage.getItem('ff_onboarding_done')==='1') {
+  initApp();
+} else {
+  setTimeout(hideSplash, 1200);
+  setTimeout(function() {
+    const ob = document.getElementById('onboarding');
+    if (ob) ob.classList.remove('hidden');
+  }, 1800);
+}
+</script>
+</body>
+</html>
