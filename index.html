@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="manifest" href="/francais-facile/manifest.json" />
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/francais-facile/sw.js');}</script>
   <title>Français Facile</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -36,15 +34,63 @@
     /* ── Main ── */
     main { padding: 16px; max-width: 600px; margin: 0 auto; }
     .section { display: none; }
-    .section.active { display: block; animation: fadeIn 0.2s ease; }
+    .section.active { display: block; animation: sectionIn 0.28s cubic-bezier(0.34,1,0.64,1); }
+    @keyframes sectionIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+    /* ── Card stagger entry ── */
+    .lesson-card { animation: cardIn 0.35s ease both; }
+    @keyframes cardIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+    /* ── Quiz feedback animations ── */
+    .quiz-option.correct { animation: correctPop 0.38s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes correctPop { 0%,100%{transform:scale(1);} 40%{transform:scale(1.035);} }
+    .quiz-option.wrong { animation: wrongShake 0.38s ease; }
+    @keyframes wrongShake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-6px);} 40%{transform:translateX(6px);} 60%{transform:translateX(-4px);} 80%{transform:translateX(4px);} }
+    .feedback-box.show { animation: feedbackIn 0.22s ease; }
+    @keyframes feedbackIn { from{opacity:0;transform:translateY(-5px);} to{opacity:1;transform:none;} }
+    .next-btn.show { animation: nextAppear 0.38s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes nextAppear { from{transform:scale(0.9);opacity:0;} to{transform:scale(1);opacity:1;} }
+
+    /* ── Result animations ── */
+    .result-stars { animation: starsBounce 0.5s 0.15s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes starsBounce { from{transform:scale(0.4) rotate(-15deg);opacity:0;} to{transform:scale(1) rotate(0);opacity:1;} }
+    .result-score { animation: scoreIn 0.45s 0.05s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes scoreIn { from{transform:scale(0.5);opacity:0;} to{transform:scale(1);opacity:1;} }
+    .xp-gained { animation: pop 0.4s 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+    /* ── Progress tab stat boxes ── */
+    .stat-box { animation: cardIn 0.4s ease both; }
+    .stat-box:nth-child(2) { animation-delay:0.07s; }
+    .stat-box:nth-child(3) { animation-delay:0.14s; }
+    .stat-box:nth-child(4) { animation-delay:0.21s; }
+
+    /* ── Nav button tap ── */
+    nav button { transition: color 0.2s, transform 0.1s; }
+    nav button:active { transform: scale(0.9); }
+
+    /* ── Hero entry ── */
+    .hero-card { animation: heroIn 0.5s cubic-bezier(0.34,1,0.64,1); }
+    @keyframes heroIn { from{opacity:0;transform:translateY(-8px) scale(0.98);} to{opacity:1;transform:none;} }
+
     /* ── Hero card ── */
-    .hero-card { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; border-radius: var(--radius); padding: 22px 118px 22px 20px; margin-bottom: 14px; box-shadow: 0 8px 28px rgba(99,102,241,0.38); }
-    .hero-sub { font-size: 12px; opacity: 0.8; margin-bottom: 5px; font-weight: 500; }
-    .hero-title { font-size: 22px; font-weight: 900; margin-bottom: 4px; letter-spacing: -0.4px; }
-    .hero-desc { font-size: 13px; opacity: 0.85; }
-    .streak-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 7px 14px; font-size: 13px; font-weight: 700; margin-top: 14px; }
+    .hero-card { background: linear-gradient(140deg, #3730A3 0%, #4F46E5 40%, #7C3AED 100%); color: white; border-radius: var(--radius); padding: 22px 114px 20px 22px; margin-bottom: 14px; box-shadow: 0 10px 36px rgba(79,70,229,0.42), 0 2px 8px rgba(0,0,0,0.08); }
+    .hero-card::before { content:''; position:absolute; top:-50px; right:-30px; width:180px; height:180px; background:rgba(255,255,255,0.06); border-radius:50%; pointer-events:none; }
+    .hero-card::after  { content:''; position:absolute; bottom:-40px; left:-20px; width:130px; height:130px; background:rgba(255,255,255,0.04); border-radius:50%; pointer-events:none; }
+    .hero-sub { font-size: 12px; opacity: 0.78; margin-bottom: 4px; font-weight: 600; letter-spacing:0.1px; }
+    .hero-title { font-size: 24px; font-weight: 900; margin-bottom: 4px; letter-spacing: -0.5px; }
+    .hero-desc { font-size: 13px; opacity: 0.82; line-height:1.45; }
+    .hero-stats { display:flex; align-items:center; gap:0; margin-top:14px; margin-bottom:12px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.22); border-radius:14px; padding:10px 14px; width:fit-content; max-width:100%; backdrop-filter:blur(4px); }
+    .hero-stat { text-align:center; padding:0 12px; }
+    .hero-stat:first-child { padding-left:4px; }
+    .hero-stat-num { display:block; font-size:19px; font-weight:900; line-height:1; letter-spacing:-0.5px; }
+    .hero-stat-lbl { display:block; font-size:10px; opacity:0.72; font-weight:600; margin-top:3px; letter-spacing:0.2px; white-space:nowrap; }
+    .hero-stat-sep { width:1px; height:32px; background:rgba(255,255,255,0.24); flex-shrink:0; }
+    .hero-prog-wrap { display:flex; align-items:center; gap:9px; margin-top:10px; }
+    .hero-prog-bar { flex:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; overflow:hidden; }
+    .hero-prog-fill { height:100%; background:rgba(255,255,255,0.88); border-radius:3px; transition:width 1.4s cubic-bezier(0.34,1,0.64,1); }
+    .hero-prog-pct { font-size:12px; opacity:0.88; font-weight:800; white-space:nowrap; min-width:30px; text-align:right; }
+    .streak-pill { display:none; }
 
     /* ── Cards ── */
     .card { background: var(--card); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; box-shadow: 0 2px 14px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.025); }
@@ -59,10 +105,12 @@
     .level-filter-btn.active[data-level="beginner"] { background:#10B981; border-color:#10B981; color:white; }
     .level-filter-btn.active[data-level="intermediate"] { background:#F59E0B; border-color:#F59E0B; color:white; }
     .level-filter-btn.active[data-level="tcf"] { background:#0EA5E9; border-color:#0EA5E9; color:white; }
+    .level-filter-btn.active[data-level="advanced"] { background:#DC2626; border-color:#DC2626; color:white; }
 
     .lesson-card.lv-beginner { border-left-color: var(--green); }
     .lesson-card.lv-intermediate { border-left-color: var(--amber); }
     .lesson-card.lv-tcf { border-left-color: #0EA5E9; }
+    .lesson-card.lv-advanced { border-left-color: #DC2626; }
     .lesson-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.09); }
     .lesson-card:active { transform: translateY(0); }
     .card-header { display: flex; align-items: flex-start; justify-content: space-between; }
@@ -71,6 +119,7 @@
     .level-tag.beginner { background: #DCFCE7; color: #15803D; }
     .level-tag.intermediate { background: #FEF3C7; color: #B45309; }
     .level-tag.tcf { background: #E0F2FE; color: #0369A1; }
+    .level-tag.advanced { background: #FEE2E2; color: #B91C1C; }
     .lesson-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 3px; letter-spacing: -0.2px; }
     .lesson-card p { font-size: 13px; color: var(--muted); }
     .progress-bar { margin-top: 13px; height: 7px; background: #F1F5F9; border-radius: 4px; overflow: hidden; }
@@ -78,6 +127,7 @@
     .lv-beginner .progress-fill { background: linear-gradient(90deg, #10B981, #34D399); }
     .lv-intermediate .progress-fill { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
     .lv-tcf .progress-fill { background: linear-gradient(90deg, #0EA5E9, #38BDF8); }
+    .lv-advanced .progress-fill { background: linear-gradient(90deg, #DC2626, #F87171); }
     .progress-label { font-size: 11px; color: var(--muted); margin-top: 5px; text-align: right; font-weight: 600; }
     .done-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--green-dark); background: #DCFCE7; padding: 3px 8px; border-radius: 7px; }
 
@@ -264,7 +314,26 @@
       <div class="hero-sub" id="home-welcome"></div>
       <div class="hero-title" id="home-title"></div>
       <div class="hero-desc" id="home-sub"></div>
-      <div class="streak-pill" id="home-streak"></div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="hero-done-count">0</span>
+          <span class="hero-stat-lbl" id="hero-lessons-lbl">leçons</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="hero-xp-stat">0</span>
+          <span class="hero-stat-lbl">XP</span>
+        </div>
+        <div class="hero-stat-sep"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">🔥</span>
+          <span class="hero-stat-lbl" id="hero-streak-lbl">série</span>
+        </div>
+      </div>
+      <div class="hero-prog-wrap">
+        <div class="hero-prog-bar"><div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div></div>
+        <span class="hero-prog-pct" id="hero-prog-pct">0%</span>
+      </div>
       <div class="hero-mascot" id="home-mascot"></div>
     </div>
     <div id="home-unlocked"></div>
@@ -288,6 +357,7 @@
       <button class="level-filter-btn" data-level="beginner" onclick="setLevelFilter('beginner')"></button>
       <button class="level-filter-btn" data-level="intermediate" onclick="setLevelFilter('intermediate')"></button>
       <button class="level-filter-btn" data-level="tcf" onclick="setLevelFilter('tcf')"></button>
+      <button class="level-filter-btn" data-level="advanced" onclick="setLevelFilter('advanced')"></button>
     </div>
     <div id="lesson-level-section-beginner">
       <div class="section-title" id="list-title-beginner"></div>
@@ -300,6 +370,10 @@
     <div id="lesson-level-section-tcf">
       <div class="section-title" id="list-title-tcf"></div>
       <div id="list-tcf"></div>
+    </div>
+    <div id="lesson-level-section-advanced">
+      <div class="section-title" id="list-title-advanced"></div>
+      <div id="list-advanced"></div>
     </div>
   </div>
 
@@ -369,10 +443,10 @@
     <div class="modal-handle"></div>
     <div class="modal-mascot" id="modal-mascot"></div>
     <div class="modal-title" id="modal-title">Contenu Premium</div>
-    <div class="modal-sub" id="modal-sub">Débloquez les 39 leçons avancées et progressez rapidement en français.</div>
+    <div class="modal-sub" id="modal-sub">Débloquez les 49 leçons avancées et progressez rapidement en français.</div>
     <div class="modal-features">
-      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">39 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁)</span></div>
-      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">195 exercices de quiz interactifs</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">49 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">245 exercices de quiz interactifs</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🔄</span><span id="mf3">Mises à jour gratuites à vie</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🌍</span><span id="mf4">Interface trilingue FR / EN / 中文</span></div>
     </div>
@@ -544,7 +618,7 @@ const T = {
     welcome:'Bienvenue 👋', title:'Apprenez le français !', sub:'Des leçons claires, des quiz interactifs.',
     streak:'🔥 Continuez votre série — pratiquez chaque jour !',
     continueTitle:'Continuer où vous en étiez', startHere:'Commencer ici',
-    beginner:'Débutant', intermediate:'Intermédiaire', tcf:'TCF/TEF Canada',
+    beginner:'Débutant', intermediate:'Intermédiaire', tcf:'TCF/TEF Canada', advanced:'Avancé',
     notStarted:'Non commencé', completed:'Terminé ✓',
     startQuiz:'🎯 Commencer le quiz',
     question:'Question', of:'sur',
@@ -567,7 +641,7 @@ const T = {
     back:'← Retour', quit:'← Quitter',
     allDone:'🎉 Toutes les leçons commencées !',
     noProgress:'Commencez une leçon pour suivre votre progression.',
-    beginnerLevel:'Niveau Débutant', intermediateLevel:'Niveau Intermédiaire', tcfLevel:'🍁 Préparation TCF/TEF Canada',
+    beginnerLevel:'Niveau Débutant', intermediateLevel:'Niveau Intermédiaire', tcfLevel:'🍁 Préparation TCF/TEF Canada', advancedLevel:'🔴 Niveau Avancé',
     pctDone: (p) => p + '% complété',
   },
   en: {
@@ -575,7 +649,7 @@ const T = {
     welcome:'Welcome 👋', title:'Learn French!', sub:'Clear lessons, interactive quizzes.',
     streak:'🔥 Keep your streak — practice every day!',
     continueTitle:'Continue where you left off', startHere:'Start here',
-    beginner:'Beginner', intermediate:'Intermediate', tcf:'TCF/TEF Canada',
+    beginner:'Beginner', intermediate:'Intermediate', tcf:'TCF/TEF Canada', advanced:'Advanced',
     notStarted:'Not started', completed:'Completed ✓',
     startQuiz:'🎯 Start quiz',
     question:'Question', of:'of',
@@ -598,7 +672,7 @@ const T = {
     back:'← Back', quit:'← Quit',
     allDone:'🎉 All lessons started!',
     noProgress:'Start a lesson to track your progress.',
-    beginnerLevel:'Beginner Level', intermediateLevel:'Intermediate Level', tcfLevel:'🍁 TCF/TEF Canada Prep',
+    beginnerLevel:'Beginner Level', intermediateLevel:'Intermediate Level', tcfLevel:'🍁 TCF/TEF Canada Prep', advancedLevel:'🔴 Advanced Level',
     pctDone: (p) => p + '% completed',
   },
   zh: {
@@ -606,7 +680,7 @@ const T = {
     welcome:'欢迎 👋', title:'学习法语！', sub:'清晰的课程，互动测验。',
     streak:'🔥 保持练习——每天坚持！',
     continueTitle:'继续上次进度', startHere:'从这里开始',
-    beginner:'初级', intermediate:'中级', tcf:'TCF/TEF加拿大',
+    beginner:'初级', intermediate:'中级', tcf:'TCF/TEF加拿大', advanced:'高级',
     notStarted:'未开始', completed:'已完成 ✓',
     startQuiz:'🎯 开始测验',
     question:'问题', of:'/',
@@ -629,7 +703,7 @@ const T = {
     back:'← 返回', quit:'← 退出',
     allDone:'🎉 所有课程已开始！',
     noProgress:'开始一节课来追踪你的进度。',
-    beginnerLevel:'初级课程', intermediateLevel:'中级课程', tcfLevel:'🍁 TCF/TEF加拿大备考',
+    beginnerLevel:'初级课程', intermediateLevel:'中级课程', tcfLevel:'🍁 TCF/TEF加拿大备考', advancedLevel:'🔴 高级课程',
     pctDone: (p) => p + '% 已完成',
   }
 };
@@ -683,6 +757,16 @@ const TITLES_ZH = {
   42:{title:'TCF/TEF进阶语法',desc:'让你脱颖而出的语法结构'},
   43:{title:'表达方式与语言风格',desc:'从口语到正式书面语'},
   44:{title:'模拟测试——TCF/TEF风格',desc:'用真实TCF风格题目测试自己'},
+  45:{title:'现在虚拟式',desc:'表达怀疑、意愿和情感'},
+  46:{title:'条件式',desc:'礼貌用语、假设和想象情境'},
+  47:{title:'间接引语',desc:'转述他人话语'},
+  48:{title:'关系代词',desc:'qui、que、dont、où及复合形式'},
+  49:{title:'时态一致性',desc:'掌握复杂句子中的时态'},
+  50:{title:'商务邮件',desc:'用法语撰写清晰正式的邮件'},
+  51:{title:'正式信函',desc:'掌握法国行政信函格式'},
+  52:{title:'简历与求职信',desc:'用法语进行职业自我介绍'},
+  53:{title:'会议记录',desc:'书面总结、综合与汇报'},
+  54:{title:'书面论证',desc:'构建有力且令人信服的论点'},
 };
 const CONTENT_ZH = {
   0:`<h2>🤝 问候语</h2>
@@ -1852,6 +1936,167 @@ const CONTENT_ZH = {
 </table>
 <div class="tip-box"><strong>💡 礼貌：</strong>进入商店或候诊室时一定要说"Bonjour"，离开时说"Merci, au revoir"。法国人对陌生人比较正式——默认使用"vous"！</div>
 <div class="example-box">每年7月14日，香榭丽舍大街都会举行阅兵式，埃菲尔铁塔燃放烟火。（Chaque 14 juillet, il y a un défilé militaire sur les Champs-Élysées.）</div>`,
+  45:`<h2>🌀 现在虚拟式（Le subjonctif présent）</h2>
+<p>虚拟式用于表达意愿、怀疑、情感或义务。</p>
+<h3>构成方法</h3>
+<p>取第三人称复数（ils）词干 + 词尾：-e, -es, -e, -ions, -iez, -ent</p>
+<table class="vocab-table">
+<tr><td>parler → ils parlent</td><td>que je parle, que tu parles…</td></tr>
+<tr><td>être（不规则）</td><td>que je sois, que tu sois, qu'il soit…</td></tr>
+<tr><td>avoir（不规则）</td><td>que j'aie, que tu aies, qu'il ait…</td></tr>
+<tr><td>aller（不规则）</td><td>que j'aille, que tu ailles, qu'il aille…</td></tr>
+</table>
+<h3>使用场合</h3>
+<table class="vocab-table">
+<tr><td>意愿</td><td>Je veux que tu <strong>viennes</strong>.</td></tr>
+<tr><td>怀疑</td><td>Je doute qu'il <strong>soit</strong> là.</td></tr>
+<tr><td>情感</td><td>Je suis content que tu <strong>aies</strong> réussi.</td></tr>
+<tr><td>义务</td><td>Il faut que vous <strong>partiez</strong>.</td></tr>
+<tr><td>连词</td><td>bien que, pour que, avant que…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 注意：</strong>虚拟式要求从句主语与主句不同。若主语相同，用不定式：Je veux <strong>partir</strong>（而非"que je parte"）。</div>`,
+  46:`<h2>🔮 条件式（Le conditionnel）</h2>
+<p>条件式用于表达假设、愿望和礼貌。</p>
+<h3>条件式现在时构成</h3>
+<p>不定式 + 未完成时词尾：-ais, -ais, -ait, -ions, -iez, -aient</p>
+<table class="vocab-table">
+<tr><td>parler</td><td>je parlerais, tu parlerais, il parlerait…</td></tr>
+<tr><td>être（不规则）</td><td>je serais, tu serais, il serait…</td></tr>
+<tr><td>avoir（不规则）</td><td>j'aurais, tu aurais, il aurait…</td></tr>
+<tr><td>aller（不规则）</td><td>j'irais, tu irais, il irait…</td></tr>
+</table>
+<h3>用法</h3>
+<table class="vocab-table">
+<tr><td>礼貌</td><td>Je <strong>voudrais</strong> un café, s'il vous plaît.</td></tr>
+<tr><td>假设（si + 未完成时）</td><td>Si j'avais de l'argent, je <strong>voyagerais</strong>.</td></tr>
+<tr><td>愿望</td><td>J'<strong>aimerais</strong> vivre à Paris.</td></tr>
+<tr><td>未经证实的信息</td><td>Il <strong>serait</strong> malade selon les rumeurs.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 规则：</strong>si引导的从句不能用条件式——si后跟未完成时或愈过去时。</div>`,
+  47:`<h2>💬 间接引语（Le discours indirect）</h2>
+<p>间接引语用于转述他人话语，无需直接引用。</p>
+<h3>主要转换</h3>
+<table class="vocab-table">
+<tr><td>直接引语</td><td>间接引语</td></tr>
+<tr><td>"Je suis fatigué."</td><td>Il dit qu'il <strong>est</strong> fatigué.</td></tr>
+<tr><td>"J'ai mangé."</td><td>Il dit qu'il <strong>avait mangé</strong>.</td></tr>
+<tr><td>"Je mangerai."</td><td>Il dit qu'il <strong>mangerait</strong>.</td></tr>
+<tr><td>"Mange !"</td><td>Il lui dit de <strong>manger</strong>.</td></tr>
+</table>
+<h3>时态一致（引导动词为过去时）</h3>
+<table class="vocab-table">
+<tr><td>现在时 → 未完成时</td><td>"Je travaille" → il disait qu'il <strong>travaillait</strong></td></tr>
+<tr><td>复合过去时 → 愈过去时</td><td>"J'ai fini" → il disait qu'il <strong>avait fini</strong></td></tr>
+<tr><td>将来时 → 条件式</td><td>"Je viendrai" → il disait qu'il <strong>viendrait</strong></td></tr>
+</table>`,
+  48:`<h2>🔗 关系代词（Les pronoms relatifs）</h2>
+<p>关系代词连接两个从句，替代名词。</p>
+<h3>简单关系代词</h3>
+<table class="vocab-table">
+<tr><td><strong>qui</strong></td><td>主语</td><td>L'homme <strong>qui</strong> parle est mon père.</td></tr>
+<tr><td><strong>que/qu'</strong></td><td>直接宾语</td><td>Le livre <strong>que</strong> je lis est passionnant.</td></tr>
+<tr><td><strong>dont</strong></td><td>以"de"引导的补语</td><td>Le sujet <strong>dont</strong> je parle est complexe.</td></tr>
+<tr><td><strong>où</strong></td><td>地点/时间</td><td>La ville <strong>où</strong> je vis est belle.</td></tr>
+</table>
+<h3>复合关系代词</h3>
+<p>用于介词后：lequel, laquelle, lesquels, lesquelles</p>
+<table class="vocab-table">
+<tr><td>La table <strong>sur laquelle</strong> je travaille</td><td>阴性单数</td></tr>
+<tr><td>Les amis <strong>auxquels</strong> je pense</td><td>à + lesquels = auxquels</td></tr>
+</table>`,
+  49:`<h2>⏱️ 时态一致性（La concordance des temps）</h2>
+<p>时态一致性决定从句时态的选择。</p>
+<h3>"si"引导的条件句</h3>
+<table class="vocab-table">
+<tr><td>Si + 现在时</td><td>→ 将来时</td><td>S'il fait beau, <strong>nous sortirons</strong>.</td></tr>
+<tr><td>Si + 未完成时</td><td>→ 条件式现在时</td><td>S'il faisait beau, <strong>nous sortirions</strong>.</td></tr>
+<tr><td>Si + 愈过去时</td><td>→ 条件式过去时</td><td>S'il avait fait beau, <strong>nous serions sortis</strong>.</td></tr>
+</table>
+<h3>从句（主句为过去时）</h3>
+<table class="vocab-table">
+<tr><td>同步动作</td><td>→ 未完成时</td><td>Il a dit qu'il <strong>était</strong> fatigué.</td></tr>
+<tr><td>先发动作</td><td>→ 愈过去时</td><td>Il a dit qu'il <strong>avait fini</strong>.</td></tr>
+<tr><td>后续动作</td><td>→ 条件式</td><td>Il a dit qu'il <strong>viendrait</strong>.</td></tr>
+</table>`,
+  50:`<h2>📧 法语商务邮件</h2>
+<p>商务邮件遵循固定结构和程式化表达。</p>
+<h3>标准结构</h3>
+<table class="vocab-table">
+<tr><td>主题</td><td>简短精确：主题：会议请求——1月15日</td></tr>
+<tr><td>开头称谓</td><td>Madame, / Monsieur, / Madame, Monsieur,</td></tr>
+<tr><td>引言</td><td>Je me permets de vous contacter au sujet de…</td></tr>
+<tr><td>正文</td><td>清晰表达请求或信息</td></tr>
+<tr><td>结束语</td><td>见下表</td></tr>
+</table>
+<h3>结束语</h3>
+<table class="vocab-table">
+<tr><td>非常正式</td><td>Veuillez agréer… l'expression de mes salutations distinguées.</td></tr>
+<tr><td>标准正式</td><td>Cordialement,（此致）</td></tr>
+<tr><td>半正式</td><td>Bien à vous,（致以问候）</td></tr>
+</table>`,
+  51:`<h2>📜 法语正式信函</h2>
+<p>正式信函遵循法国行政传统中精确的版面规则。</p>
+<h3>版面布局</h3>
+<table class="vocab-table">
+<tr><td>发件人（左上）</td><td>姓名、地址、城市、邮编</td></tr>
+<tr><td>收件人（右上）</td><td>姓名/部门、地址</td></tr>
+<tr><td>地点和日期</td><td>Paris, le 10 janvier 2025</td></tr>
+<tr><td>主题</td><td>Objet：退款申请</td></tr>
+</table>
+<h3>结束语</h3>
+<table class="vocab-table">
+<tr><td>最正式</td><td>Veuillez agréer… l'assurance de ma considération distinguée.</td></tr>
+<tr><td>正式</td><td>Veuillez agréer… mes salutations distinguées.</td></tr>
+</table>`,
+  52:`<h2>📄 简历与求职信</h2>
+<h3>法国简历结构</h3>
+<table class="vocab-table">
+<tr><td>页眉</td><td>照片（可选）、姓名、联系方式、LinkedIn</td></tr>
+<tr><td>个人简介</td><td>2-3行概括职业背景</td></tr>
+<tr><td>工作经历</td><td>倒序排列，动作动词，量化成果</td></tr>
+<tr><td>教育背景</td><td>学历、院校、年份</td></tr>
+<tr><td>技能</td><td>语言（等级）、IT、专业技能</td></tr>
+</table>
+<h3>求职信结构</h3>
+<table class="vocab-table">
+<tr><td>第1段</td><td>您+目标职位</td></tr>
+<tr><td>第2段</td><td>我：主要技能和经历</td></tr>
+<tr><td>第3段</td><td>我们：我能为公司带来什么</td></tr>
+<tr><td>结尾</td><td>面试请求</td></tr>
+</table>`,
+  53:`<h2>📋 会议记录（Le compte-rendu）</h2>
+<p>会议记录忠实记录事实，不包含个人评价。</p>
+<h3>结构</h3>
+<table class="vocab-table">
+<tr><td>页眉</td><td>日期、地点、参与者、议程</td></tr>
+<tr><td>正文</td><td>议题1：…/ 议题2：…</td></tr>
+<tr><td>决定</td><td>Il a été décidé que…（已决定……）</td></tr>
+<tr><td>行动项</td><td>[人名] est chargé(e) de…（[人名]负责……）</td></tr>
+</table>
+<h3>常用表达</h3>
+<table class="vocab-table">
+<tr><td>引出议题</td><td>En ce qui concerne… / Concernant…</td></tr>
+<tr><td>记录决定</td><td>Il a été décidé… / Il est convenu que…</td></tr>
+<tr><td>总结</td><td>En conclusion… / En définitive…</td></tr>
+</table>`,
+  54:`<h2>⚔️ 书面论证（Argumenter à l'écrit）</h2>
+<p>构建有结构的论点对于论文、报告和职业沟通至关重要。</p>
+<h3>论证性文章结构</h3>
+<table class="vocab-table">
+<tr><td>引言</td><td>引入 → 背景 → 论题 → 提纲</td></tr>
+<tr><td>正文</td><td>论点 → 论据 → 例证 → 反驳 → 综合</td></tr>
+<tr><td>结论</td><td>总结 → 展望</td></tr>
+</table>
+<h3>重要逻辑连词</h3>
+<table class="vocab-table">
+<tr><td>递进</td><td>De plus, en outre, par ailleurs（此外，而且）</td></tr>
+<tr><td>转折</td><td>Cependant, néanmoins, en revanche（然而，尽管如此）</td></tr>
+<tr><td>原因</td><td>En effet, car, puisque（确实，因为，由于）</td></tr>
+<tr><td>结果</td><td>Donc, ainsi, par conséquent（所以，因此）</td></tr>
+<tr><td>让步</td><td>Certes, il est vrai que（诚然，固然）</td></tr>
+<tr><td>总结</td><td>En conclusion, en définitive（总之，归根结底）</td></tr>
+</table>
+<div class="tip-box"><strong>💡 建议：</strong>一个好论点 = 一个观点 + 一个依据 + 一个例证。切勿只断言不论证！</div>`,
 };
 const QUIZ_ZH = {
   0:['"Good morning"用法语怎么说？','哪个表达的意思是"很高兴认识你"？','正式地问"您好吗？"怎么说？','"Salut！"是一种……表达','"À demain"是什么意思？'],
@@ -1899,6 +2144,16 @@ const QUIZ_ZH = {
   42:['"Bien qu\'il fasse froid"使用了哪种语气？','哪个句子用条件式过去时表达遗憾？','被动语态如何构成？','哪个关系代词翻译为"of which"或"whose"？','"Il a dit qu\'il viendrait le lendemain."使用了哪种时态？'],
   43:['给官方信件应使用哪种语言风格？','"un boulot"的正式表达是什么？','"Afin de"比……更正式','"Je me permets de vous contacter"是……格式','任务1（给朋友的信），哪种语言风格可以接受？'],
   44:['TCF/TEF加拿大有效期多长？','对于"文章目的"类题目，需要寻找什么？','考试时需要哪种身份证件？','CLB 7对应哪个CEFR等级？','备考计划第4周应练习什么？'],
+  45:['"aller"的虚拟式正确形式是什么？','在哪个表达后使用虚拟式？','用虚拟式变位"être"：il est dommage qu\'il… absent','为什么说"Je veux partir"而不是"Je veux que je parte"？','哪个连词引出虚拟式？'],
+  46:['"si"+条件式的规则是什么？','将"avoir"变位为条件式现在时（je）：','如何用"vouloir"表示礼貌？','补全："Si elle avait su, elle… venue."','条件式过去时由……构成'],
+  47:['变换：He says "Je suis prêt." → 他说他……','过去时：She said "Je viendrai." → 她说她……','"Mange tes légumes！"用间接引语表示：','"aujourd\'hui"在间接引语中变为：','如何将问句转换为间接引语？'],
+  48:['选择正确的代词："La femme ___ travaille ici est médecin."','"Le film ___ je t\'ai parlé est sorti."用哪个代词？','"La ville ___ j\'habite est magnifique."用哪个代词？','介词后使用：','"à + lesquels"缩合为：'],
+  49:['补全："S\'il pleut demain, nous…"','补全："S\'il pleuvait, nous…"','补全："S\'il avait plu, nous…"','主句为过去时+同步动作→用哪个时态？','简单过去时主要用于：'],
+  50:['如何用法语开始一封正式邮件？','哪种结束语最正式？','第一次联系时用：','职业邮件的主题行应该：','"Bien à vous"是……格式'],
+  51:['在正式信函中，发件人放在：','正式信函的日期写法：','在法国进行官方手续时，首选：','"J\'ai l\'honneur de vous adresser…"用于：','正式信函的签名：'],
+  52:['法国简历通常：','简历中经历的顺序是：','法国求职信的结构是：','哪个动词描述管理职责？','如何结束求职信？'],
+  53:['会议记录的写作风格：','会议记录中需要记录：','引出决定时写：','"[人名] est chargé(e) de…"表示：','会议记录的风格是：'],
+  54:['哪个连词表示转折？','哪个连词引出结果？','一个好论点由……构成：','"Certes"是……类型的连词','论证性文本的结构是：'],
 };
 
 /* ══════════════════════════════════════
@@ -5159,6 +5414,498 @@ const LESSONS = [
       {q:'Qui a écrit "Les Misérables" ?', q_en:'Who wrote "Les Misérables"?', opts:['Albert Camus','Marie Curie','Molière','Victor Hugo'], ans:3},
     ]
   },
+  /* ══ NIVEAU AVANCÉ ══ */
+  {id:45,level:'advanced',title:'Le subjonctif présent',title_en:'The Present Subjunctive',
+    desc:'Exprimer le doute, la volonté et les émotions.',desc_en:'Express doubt, will and emotions.',
+    content:`<h2>🌀 Le subjonctif présent</h2>
+<p>Le subjonctif est un mode verbal utilisé après certaines expressions de volonté, doute, émotion ou obligation.</p>
+<h3>Formation</h3>
+<p>Radical de la 3e personne du pluriel (ils) + terminaisons : -e, -es, -e, -ions, -iez, -ent</p>
+<table class="vocab-table">
+<tr><td>parler → ils parlent</td><td>que je parle, que tu parles…</td></tr>
+<tr><td>finir → ils finissent</td><td>que je finisse, que tu finisses…</td></tr>
+<tr><td>être (irrég.)</td><td>que je sois, que tu sois, qu'il soit…</td></tr>
+<tr><td>avoir (irrég.)</td><td>que j'aie, que tu aies, qu'il ait…</td></tr>
+<tr><td>aller (irrég.)</td><td>que j'aille, que tu ailles, qu'il aille…</td></tr>
+</table>
+<h3>Quand l'utiliser ?</h3>
+<table class="vocab-table">
+<tr><td>Volonté</td><td>Je veux que tu <strong>viennes</strong>.</td></tr>
+<tr><td>Doute</td><td>Je doute qu'il <strong>soit</strong> là.</td></tr>
+<tr><td>Émotion</td><td>Je suis content que tu <strong>aies</strong> réussi.</td></tr>
+<tr><td>Obligation</td><td>Il faut que vous <strong>partiez</strong>.</td></tr>
+<tr><td>Conjonctions</td><td>bien que, pour que, avant que, à moins que…</td></tr>
+</table>
+<h3>Attention !</h3>
+<div class="tip-box"><strong>💡 Astuce :</strong> Le subjonctif nécessite toujours un sujet différent dans la subordonnée. Si même sujet → infinitif : <em>Je veux <strong>partir</strong></em> (pas "que je parte").</div>
+<div class="example-box">Il est important que nous <strong>prenions</strong> soin de la planète. / Je suis ravi que vous <strong>puissiez</strong> venir.</div>`,
+    content_en:`<h2>🌀 The Present Subjunctive</h2>
+<p>The subjunctive is a verb mood used after expressions of will, doubt, emotion or obligation.</p>
+<h3>Formation</h3>
+<p>Take the ils/elles form, drop -ent, add: -e, -es, -e, -ions, -iez, -ent</p>
+<table class="vocab-table">
+<tr><td>parler → ils parlent</td><td>que je parle, que tu parles…</td></tr>
+<tr><td>finir → ils finissent</td><td>que je finisse, que tu finisses…</td></tr>
+<tr><td>être (irreg.)</td><td>que je sois, que tu sois, qu'il soit…</td></tr>
+<tr><td>avoir (irreg.)</td><td>que j'aie, que tu aies, qu'il ait…</td></tr>
+<tr><td>aller (irreg.)</td><td>que j'aille, que tu ailles, qu'il aille…</td></tr>
+</table>
+<h3>When to use it?</h3>
+<table class="vocab-table">
+<tr><td>Will / desire</td><td>Je veux que tu <strong>viennes</strong>. (I want you to come.)</td></tr>
+<tr><td>Doubt</td><td>Je doute qu'il <strong>soit</strong> là. (I doubt he is there.)</td></tr>
+<tr><td>Emotion</td><td>Je suis content que tu <strong>aies</strong> réussi. (I'm glad you succeeded.)</td></tr>
+<tr><td>Obligation</td><td>Il faut que vous <strong>partiez</strong>. (You must leave.)</td></tr>
+<tr><td>Conjunctions</td><td>bien que (although), pour que (so that), avant que (before)…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> Subjunctive requires a different subject in the subordinate clause. Same subject → infinitive: <em>Je veux <strong>partir</strong></em>.</div>`,
+    quiz:[
+      {q:'Quelle est la forme correcte du subjonctif de "aller" ?', q_en:'What is the correct subjunctive form of "aller"?', opts:['que j\'aille','que j\'alle','que j\'aile','que j\'allie'], ans:0},
+      {q:'Après quelle expression utilise-t-on le subjonctif ?', q_en:'After which expression do we use the subjunctive?', opts:['Je pense que…','Il est certain que…','Il faut que…','Je sais que…'], ans:2},
+      {q:'Conjuguez "être" au subjonctif : "Il est dommage qu\'il… absent."', q_en:'Conjugate "être" in subjunctive: "Il est dommage qu\'il… absent."', opts:['est','soit','sera','étant'], ans:1},
+      {q:'Pourquoi dit-on "Je veux partir" et non "Je veux que je parte" ?', q_en:'Why do we say "Je veux partir" not "Je veux que je parte"?', opts:['Le subjonctif est incorrect ici','Les deux sujets sont identiques','"Partir" est un verbe irrégulier','C\'est une exception grammaticale'], ans:1},
+      {q:'Quelle conjonction déclenche le subjonctif ?', q_en:'Which conjunction triggers the subjunctive?', opts:['parce que','puisque','bien que','pendant que'], ans:2},
+    ]
+  },
+  {id:46,level:'advanced',title:'Le conditionnel',title_en:'The Conditional',
+    desc:'Politesse, hypothèses et situations imaginaires.',desc_en:'Politeness, hypotheses and imaginary situations.',
+    content:`<h2>🔮 Le conditionnel</h2>
+<p>Le conditionnel exprime des actions hypothétiques, des souhaits et s'utilise pour la politesse.</p>
+<h3>Formation — Conditionnel présent</h3>
+<p>Infinitif + terminaisons de l'imparfait : -ais, -ais, -ait, -ions, -iez, -aient</p>
+<table class="vocab-table">
+<tr><td>parler</td><td>je parlerais, tu parlerais, il parlerait…</td></tr>
+<tr><td>finir</td><td>je finirais, tu finirais, il finirait…</td></tr>
+<tr><td>être (irrég.)</td><td>je serais, tu serais, il serait…</td></tr>
+<tr><td>avoir (irrég.)</td><td>j'aurais, tu aurais, il aurait…</td></tr>
+<tr><td>aller (irrég.)</td><td>j'irais, tu irais, il irait…</td></tr>
+</table>
+<h3>Emplois</h3>
+<table class="vocab-table">
+<tr><td>Politesse</td><td>Je <strong>voudrais</strong> un café, s'il vous plaît.</td></tr>
+<tr><td>Hypothèse (si + imparfait)</td><td>Si j'avais de l'argent, je <strong>voyagerais</strong>.</td></tr>
+<tr><td>Souhait</td><td>J'<strong>aimerais</strong> vivre à Paris.</td></tr>
+<tr><td>Information non confirmée</td><td>Il <strong>serait</strong> malade selon les rumeurs.</td></tr>
+</table>
+<h3>Conditionnel passé</h3>
+<p>Auxiliaire au conditionnel présent + participe passé</p>
+<div class="example-box">Si j'avais étudié, j'<strong>aurais réussi</strong> l'examen. / Elle <strong>serait venue</strong> si elle avait su.</div>
+<div class="tip-box"><strong>💡 Attention :</strong> Jamais "si + conditionnel" — la proposition avec "si" prend toujours l'imparfait ou le plus-que-parfait.</div>`,
+    content_en:`<h2>🔮 The Conditional</h2>
+<p>The conditional expresses hypothetical actions, wishes and is used for politeness.</p>
+<h3>Formation — Present conditional</h3>
+<p>Infinitive + imperfect endings: -ais, -ais, -ait, -ions, -iez, -aient</p>
+<table class="vocab-table">
+<tr><td>parler</td><td>je parlerais, tu parlerais, il parlerait…</td></tr>
+<tr><td>avoir (irreg.)</td><td>j'aurais, tu aurais, il aurait…</td></tr>
+<tr><td>être (irreg.)</td><td>je serais, tu serais, il serait…</td></tr>
+<tr><td>aller (irreg.)</td><td>j'irais, tu irais, il irait…</td></tr>
+</table>
+<h3>Uses</h3>
+<table class="vocab-table">
+<tr><td>Politeness</td><td>Je <strong>voudrais</strong> un café. (I would like a coffee.)</td></tr>
+<tr><td>Hypothesis (si + imperfect)</td><td>Si j'avais de l'argent, je <strong>voyagerais</strong>.</td></tr>
+<tr><td>Wish</td><td>J'<strong>aimerais</strong> vivre à Paris.</td></tr>
+<tr><td>Unconfirmed info</td><td>Il <strong>serait</strong> malade. (He is reportedly ill.)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Rule:</strong> Never "si + conditional" — the "si" clause always takes imperfect or pluperfect.</div>`,
+    quiz:[
+      {q:'Quelle est la règle pour "si" + conditionnel ?', q_en:'What is the rule for "si" + conditional?', opts:['Si + conditionnel est correct','Si prend toujours l\'imparfait','Si prend toujours le subjonctif','Si prend toujours le futur'], ans:1},
+      {q:'Conjuguez "avoir" au conditionnel présent (je) :', q_en:'Conjugate "avoir" at present conditional (je):', opts:['j\'avais','j\'aurais','j\'aurai','j\'aie'], ans:1},
+      {q:'Comment exprimer la politesse avec "vouloir" ?', q_en:'How to express politeness with "vouloir"?', opts:['Je veux','Je voulais','Je voudrais','Je voudrai'], ans:2},
+      {q:'Complétez : "Si elle avait su, elle… venue."', q_en:'Complete: "Si elle avait su, elle… venue."', opts:['est','sera','serait','soit'], ans:2},
+      {q:'Le conditionnel passé se forme avec :', q_en:'The past conditional is formed with:', opts:['Futur + participe passé','Imparfait + participe passé','Auxiliaire au conditionnel + participe passé','Subjonctif + infinitif'], ans:2},
+    ]
+  },
+  {id:47,level:'advanced',title:'Le discours indirect',title_en:'Reported Speech',
+    desc:'Rapporter les paroles de quelqu\'un.',desc_en:'Report what someone said.',
+    content:`<h2>💬 Le discours indirect</h2>
+<p>Le discours indirect permet de rapporter les paroles de quelqu'un sans les citer directement.</p>
+<h3>Transformations principales</h3>
+<table class="vocab-table">
+<tr><td>Discours direct</td><td>Discours indirect</td></tr>
+<tr><td>"Je suis fatigué."</td><td>Il dit qu'il <strong>est</strong> fatigué.</td></tr>
+<tr><td>"J'ai mangé."</td><td>Il dit qu'il <strong>avait mangé</strong>.</td></tr>
+<tr><td>"Je mangerai."</td><td>Il dit qu'il <strong>mangerait</strong>.</td></tr>
+<tr><td>"Mange !"</td><td>Il lui dit de <strong>manger</strong>.</td></tr>
+<tr><td>"Es-tu prêt ?"</td><td>Il demande s'il <strong>est</strong> prêt.</td></tr>
+</table>
+<h3>Concordance des temps (verbe introducteur au passé)</h3>
+<table class="vocab-table">
+<tr><td>Présent → Imparfait</td><td>"Je travaille" → il disait qu'il <strong>travaillait</strong></td></tr>
+<tr><td>Passé composé → Plus-que-parfait</td><td>"J'ai fini" → il disait qu'il <strong>avait fini</strong></td></tr>
+<tr><td>Futur → Conditionnel</td><td>"Je viendrai" → il disait qu'il <strong>viendrait</strong></td></tr>
+</table>
+<h3>Changements de pronoms et expressions</h3>
+<table class="vocab-table">
+<tr><td>aujourd'hui → ce jour-là</td><td>ici → là</td></tr>
+<tr><td>demain → le lendemain</td><td>hier → la veille</td></tr>
+</table>
+<div class="example-box">Elle a dit : "Je pars demain." → Elle a dit qu'elle <strong>partait le lendemain</strong>.</div>`,
+    content_en:`<h2>💬 Reported Speech</h2>
+<p>Reported speech allows you to report someone's words without quoting them directly.</p>
+<h3>Main transformations</h3>
+<table class="vocab-table">
+<tr><td>Direct speech</td><td>Reported speech</td></tr>
+<tr><td>"I am tired."</td><td>He says he <strong>is</strong> tired.</td></tr>
+<tr><td>"I ate."</td><td>He says he <strong>had eaten</strong>.</td></tr>
+<tr><td>"I will eat."</td><td>He says he <strong>would eat</strong>.</td></tr>
+<tr><td>"Eat!"</td><td>He tells him <strong>to eat</strong>.</td></tr>
+</table>
+<h3>Tense backshift (introductory verb in past)</h3>
+<table class="vocab-table">
+<tr><td>Present → Imperfect</td><td>"Je travaille" → il disait qu'il <strong>travaillait</strong></td></tr>
+<tr><td>Perfect → Pluperfect</td><td>"J'ai fini" → il disait qu'il <strong>avait fini</strong></td></tr>
+<tr><td>Future → Conditional</td><td>"Je viendrai" → il disait qu'il <strong>viendrait</strong></td></tr>
+</table>`,
+    quiz:[
+      {q:'Transformez : Il dit "Je suis prêt." → Il dit qu\'il…', q_en:'Transform: He says "Je suis prêt." → He says he…', opts:['est prêt','était prêt','sera prêt','soit prêt'], ans:0},
+      {q:'Au passé : Elle a dit "Je viendrai." → Elle a dit qu\'elle…', q_en:'In past: She said "Je viendrai." → She said she…', opts:['viendrait','venait','est venue','vient'], ans:0},
+      {q:'"Mange tes légumes !" au discours indirect :', q_en:'"Eat your vegetables!" in reported speech:', opts:['Il dit qu\'il mange','Il dit de manger','Il dit qu\'il mangeait','Il dit manges'], ans:1},
+      {q:'"aujourd\'hui" devient au discours indirect :', q_en:'"aujourd\'hui" becomes in reported speech:', opts:['demain','ce jour-là','hier','maintenant'], ans:1},
+      {q:'Comment transformer une question en discours indirect ?', q_en:'How to transform a question into reported speech?', opts:['Avec "que"','Avec "si" ou un mot interrogatif','Avec "quand"','Avec "parce que"'], ans:1},
+    ]
+  },
+  {id:48,level:'advanced',title:'Les pronoms relatifs',title_en:'Relative Pronouns',
+    desc:'Qui, que, dont, où et les formes composées.',desc_en:'Qui, que, dont, où and compound forms.',
+    content:`<h2>🔗 Les pronoms relatifs</h2>
+<p>Les pronoms relatifs permettent de relier deux propositions en remplaçant un nom.</p>
+<h3>Les pronoms simples</h3>
+<table class="vocab-table">
+<tr><td><strong>qui</strong></td><td>sujet</td><td>L'homme <strong>qui</strong> parle est mon père.</td></tr>
+<tr><td><strong>que/qu'</strong></td><td>COD</td><td>Le livre <strong>que</strong> je lis est passionnant.</td></tr>
+<tr><td><strong>dont</strong></td><td>complément avec "de"</td><td>Le sujet <strong>dont</strong> je parle est complexe.</td></tr>
+<tr><td><strong>où</strong></td><td>lieu / temps</td><td>La ville <strong>où</strong> je vis est belle.</td></tr>
+</table>
+<h3>Les pronoms composés</h3>
+<p>Utilisés après une préposition : lequel, laquelle, lesquels, lesquelles</p>
+<table class="vocab-table">
+<tr><td>La table <strong>sur laquelle</strong> je travaille</td><td>féminin singulier</td></tr>
+<tr><td>Le stylo <strong>avec lequel</strong> j'écris</td><td>masculin singulier</td></tr>
+<tr><td>Les raisons <strong>pour lesquelles</strong> je pars</td><td>féminin pluriel</td></tr>
+<tr><td>Les amis <strong>auxquels</strong> je pense</td><td>à + lesquels = auxquels</td></tr>
+<tr><td>Le projet <strong>duquel</strong> je parle</td><td>de + lequel = duquel</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Dont vs. duquel :</strong> Après une préposition complexe (à côté de, en face de…) on utilise <em>duquel/de laquelle</em>, pas "dont".</div>
+<div class="example-box">C'est un problème <strong>dont</strong> nous devons parler. / La chaise <strong>sur laquelle</strong> tu t'assieds est fragile.</div>`,
+    content_en:`<h2>🔗 Relative Pronouns</h2>
+<p>Relative pronouns link two clauses by replacing a noun.</p>
+<h3>Simple pronouns</h3>
+<table class="vocab-table">
+<tr><td><strong>qui</strong></td><td>subject</td><td>The man <strong>who</strong> is speaking is my father.</td></tr>
+<tr><td><strong>que/qu'</strong></td><td>direct object</td><td>The book <strong>that</strong> I'm reading is fascinating.</td></tr>
+<tr><td><strong>dont</strong></td><td>complement with "de"</td><td>The subject <strong>of which</strong> I speak is complex.</td></tr>
+<tr><td><strong>où</strong></td><td>place / time</td><td>The city <strong>where</strong> I live is beautiful.</td></tr>
+</table>
+<h3>Compound pronouns</h3>
+<p>Used after a preposition: lequel, laquelle, lesquels, lesquelles</p>
+<table class="vocab-table">
+<tr><td>La table <strong>sur laquelle</strong> je travaille</td><td>the table on which I work</td></tr>
+<tr><td>Les amis <strong>auxquels</strong> je pense</td><td>à + lesquels = auxquels</td></tr>
+</table>`,
+    quiz:[
+      {q:'Choisissez le bon pronom : "La femme ___ travaille ici est médecin."', q_en:'Choose: "La femme ___ travaille ici est médecin."', opts:['que','qui','dont','où'], ans:1},
+      {q:'"Le film ___ je t\'ai parlé est sorti." Quel pronom ?', q_en:'"Le film ___ je t\'ai parlé est sorti." Which pronoun?', opts:['qui','que','dont','lequel'], ans:2},
+      {q:'"La ville ___ j\'habite est magnifique." Quel pronom ?', q_en:'"La ville ___ j\'habite est magnifique." Which pronoun?', opts:['qui','que','dont','où'], ans:3},
+      {q:'Après une préposition, on utilise :', q_en:'After a preposition, we use:', opts:['qui','que','dont','lequel/laquelle/lesquels'], ans:3},
+      {q:'"à + lesquels" se contracte en :', q_en:'"à + lesquels" contracts to:', opts:['ausquels','auxquels','àlesquels','desquels'], ans:1},
+    ]
+  },
+  {id:49,level:'advanced',title:'La concordance des temps',title_en:'Sequence of Tenses',
+    desc:'Maîtriser les temps dans les phrases complexes.',desc_en:'Master tenses in complex sentences.',
+    content:`<h2>⏱️ La concordance des temps</h2>
+<p>La concordance des temps régit le choix du temps dans la proposition subordonnée selon le temps de la principale.</p>
+<h3>Propositions avec "si" (hypothèses)</h3>
+<table class="vocab-table">
+<tr><td>Si + présent</td><td>→ futur ou impératif</td><td>S'il fait beau, <strong>nous sortirons</strong>.</td></tr>
+<tr><td>Si + imparfait</td><td>→ conditionnel présent</td><td>S'il faisait beau, <strong>nous sortirions</strong>.</td></tr>
+<tr><td>Si + plus-que-parfait</td><td>→ conditionnel passé</td><td>S'il avait fait beau, <strong>nous serions sortis</strong>.</td></tr>
+</table>
+<h3>Dans les subordonnées (verbe principal au passé)</h3>
+<table class="vocab-table">
+<tr><td>Action simultanée</td><td>→ imparfait</td><td>Il a dit qu'il <strong>était</strong> fatigué.</td></tr>
+<tr><td>Action antérieure</td><td>→ plus-que-parfait</td><td>Il a dit qu'il <strong>avait fini</strong>.</td></tr>
+<tr><td>Action postérieure</td><td>→ conditionnel</td><td>Il a dit qu'il <strong>viendrait</strong>.</td></tr>
+</table>
+<h3>Temps littéraires</h3>
+<table class="vocab-table">
+<tr><td>Passé simple</td><td>Récit littéraire au passé : Il <strong>arriva</strong> à minuit.</td></tr>
+<tr><td>Subjonctif imparfait</td><td>Littérature classique : Bien qu'il <strong>fût</strong> tard…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Dans la vie courante, on utilise passé composé, imparfait et conditionnel. Le passé simple est réservé à l'écrit littéraire.</div>`,
+    content_en:`<h2>⏱️ Sequence of Tenses</h2>
+<p>The sequence of tenses governs tense choice in subordinate clauses based on the main clause tense.</p>
+<h3>"Si" clauses (hypotheses)</h3>
+<table class="vocab-table">
+<tr><td>Si + present</td><td>→ future or imperative</td><td>S'il fait beau, <strong>nous sortirons</strong>.</td></tr>
+<tr><td>Si + imperfect</td><td>→ present conditional</td><td>S'il faisait beau, <strong>nous sortirions</strong>.</td></tr>
+<tr><td>Si + pluperfect</td><td>→ past conditional</td><td>S'il avait fait beau, <strong>nous serions sortis</strong>.</td></tr>
+</table>
+<h3>Subordinate clauses (main verb in past)</h3>
+<table class="vocab-table">
+<tr><td>Simultaneous action</td><td>→ imperfect</td><td>He said he <strong>was</strong> tired.</td></tr>
+<tr><td>Prior action</td><td>→ pluperfect</td><td>He said he <strong>had finished</strong>.</td></tr>
+<tr><td>Subsequent action</td><td>→ conditional</td><td>He said he <strong>would come</strong>.</td></tr>
+</table>`,
+    quiz:[
+      {q:'Complétez : "S\'il pleut demain, nous…"', q_en:'Complete: "S\'il pleut demain, nous…"', opts:['resterions','resterons','restions','serions restés'], ans:1},
+      {q:'Complétez : "S\'il pleuvait, nous…"', q_en:'Complete: "S\'il pleuvait, nous…"', opts:['resterions','resterons','restions','serions restés'], ans:0},
+      {q:'Complétez : "S\'il avait plu, nous…"', q_en:'Complete: "S\'il avait plu, nous…"', opts:['resterions','resterons','restions','serions restés'], ans:3},
+      {q:'Verbe principal au passé + action simultanée → quel temps ?', q_en:'Main verb in past + simultaneous action → which tense?', opts:['Futur','Conditionnel','Imparfait','Plus-que-parfait'], ans:2},
+      {q:'Le passé simple est utilisé principalement :', q_en:'The passé simple is mainly used:', opts:['Dans la conversation quotidienne','Dans les SMS','Dans les récits littéraires','Au téléphone'], ans:2},
+    ]
+  },
+  {id:50,level:'advanced',title:'L\'email professionnel',title_en:'Professional Email',
+    desc:'Rédiger des emails clairs et formels en français.',desc_en:'Write clear and formal emails in French.',
+    content:`<h2>📧 L'email professionnel en français</h2>
+<p>Un email professionnel suit une structure précise avec des formules codifiées.</p>
+<h3>Structure type</h3>
+<table class="vocab-table">
+<tr><td>Objet</td><td>Court, précis : "Demande de rendez-vous — 15 janvier"</td></tr>
+<tr><td>Formule d'ouverture</td><td>Madame, / Monsieur, / Madame, Monsieur,</td></tr>
+<tr><td>Introduction</td><td>Je me permets de vous contacter au sujet de…</td></tr>
+<tr><td>Corps</td><td>Développer clairement la demande ou l'information</td></tr>
+<tr><td>Formule de clôture</td><td>Voir tableau ci-dessous</td></tr>
+<tr><td>Signature</td><td>Prénom Nom, Poste, Entreprise, Téléphone</td></tr>
+</table>
+<h3>Formules d'ouverture</h3>
+<table class="vocab-table">
+<tr><td>Première prise de contact</td><td>Je me permets de vous contacter afin de…</td></tr>
+<tr><td>Suite à un contact</td><td>Comme convenu lors de notre entretien…</td></tr>
+<tr><td>En réponse</td><td>En réponse à votre message du [date]…</td></tr>
+</table>
+<h3>Formules de clôture</h3>
+<table class="vocab-table">
+<tr><td>Très formel</td><td>Veuillez agréer, Madame/Monsieur, l'expression de mes salutations distinguées.</td></tr>
+<tr><td>Formel standard</td><td>Cordialement, / Bien cordialement,</td></tr>
+<tr><td>Semi-formel</td><td>Bien à vous, / Avec mes remerciements,</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> En France, les formules de clôture très longues sont encore courantes dans les courriers officiels. Pour les emails quotidiens, "Cordialement" suffit.</div>
+<div class="example-box">Madame,\nJe me permets de vous contacter afin de solliciter un entretien concernant le poste de développeur.\nDans l'attente de votre réponse, veuillez recevoir, Madame, mes salutations distinguées.</div>`,
+    content_en:`<h2>📧 Professional Email in French</h2>
+<p>A professional French email follows a precise structure with codified formulas.</p>
+<h3>Structure</h3>
+<table class="vocab-table">
+<tr><td>Subject line</td><td>Short, precise: "Meeting request — January 15"</td></tr>
+<tr><td>Opening formula</td><td>Madame, / Monsieur, / Madame, Monsieur,</td></tr>
+<tr><td>Introduction</td><td>Je me permets de vous contacter au sujet de… (I am writing to you regarding…)</td></tr>
+<tr><td>Body</td><td>Clearly develop your request or information</td></tr>
+<tr><td>Closing formula</td><td>See table below</td></tr>
+</table>
+<h3>Closing formulas</h3>
+<table class="vocab-table">
+<tr><td>Very formal</td><td>Veuillez agréer… l'expression de mes salutations distinguées.</td></tr>
+<tr><td>Standard formal</td><td>Cordialement, (Regards,)</td></tr>
+<tr><td>Semi-formal</td><td>Bien à vous, (Best regards,)</td></tr>
+</table>`,
+    quiz:[
+      {q:'Comment commence-t-on un email formel en français ?', q_en:'How do you start a formal email in French?', opts:['Salut !','Cher ami,','Madame, Monsieur,','Bonjour tout le monde,'], ans:2},
+      {q:'Quelle formule de clôture est la plus formelle ?', q_en:'Which closing formula is the most formal?', opts:['Bisous','Cordialement','À plus','Veuillez agréer… mes salutations distinguées'], ans:3},
+      {q:'Pour la première prise de contact, on commence par :', q_en:'For a first contact, you start with:', opts:['Comme convenu…','Je me permets de vous contacter…','En réponse à…','Suite à notre réunion…'], ans:1},
+      {q:'Un objet d\'email professionnel doit être :', q_en:'A professional email subject should be:', opts:['Long et détaillé','Court et précis','Facultatif','En majuscules'], ans:1},
+      {q:'"Bien à vous" est une formule :', q_en:'"Bien à vous" is a formula:', opts:['Très formelle','Semi-formelle','Familière','Incorrecte'], ans:1},
+    ]
+  },
+  {id:51,level:'advanced',title:'La lettre formelle',title_en:'The Formal Letter',
+    desc:'Maîtriser le format de la lettre administrative française.',desc_en:'Master the French administrative letter format.',
+    content:`<h2>📜 La lettre formelle française</h2>
+<p>La lettre formelle obéit à des règles précises de mise en page héritées de la tradition administrative française.</p>
+<h3>Mise en page</h3>
+<table class="vocab-table">
+<tr><td>En-tête (haut gauche)</td><td>Nom Prénom, Adresse, Ville, Code postal</td></tr>
+<tr><td>Destinataire (haut droite)</td><td>Nom/Service, Adresse</td></tr>
+<tr><td>Lieu et date</td><td>Paris, le 10 janvier 2025</td></tr>
+<tr><td>Objet</td><td>Objet : Demande de remboursement</td></tr>
+<tr><td>Références (optionnel)</td><td>Réf. : Dossier n° 1234</td></tr>
+</table>
+<h3>Corps de la lettre</h3>
+<table class="vocab-table">
+<tr><td>Formule d'appel</td><td>Madame, Monsieur,</td></tr>
+<tr><td>Introduction</td><td>J'ai l'honneur de vous adresser… / Je vous écris afin de…</td></tr>
+<tr><td>Développement</td><td>Exposer clairement la situation, les faits, la demande</td></tr>
+<tr><td>Conclusion</td><td>Dans l'attente de votre réponse, je reste à votre disposition.</td></tr>
+<tr><td>Formule de politesse</td><td>Veuillez agréer, Madame/Monsieur, l'assurance de ma considération distinguée.</td></tr>
+<tr><td>Signature</td><td>Prénom NOM (manuscrite)</td></tr>
+</table>
+<h3>Différences lettre / email</h3>
+<table class="vocab-table">
+<tr><td>Lettre</td><td>Plus formelle, signature manuscrite, mise en page stricte</td></tr>
+<tr><td>Email</td><td>Plus rapide, formules plus courtes, "Cordialement" suffit</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> En France, pour toute démarche officielle (mairie, préfecture, banque), la lettre formelle avec accusé de réception reste la norme.</div>`,
+    content_en:`<h2>📜 The French Formal Letter</h2>
+<p>The formal letter follows precise layout rules inherited from the French administrative tradition.</p>
+<h3>Layout</h3>
+<table class="vocab-table">
+<tr><td>Sender (top left)</td><td>Name, Address, City, Postal code</td></tr>
+<tr><td>Recipient (top right)</td><td>Name/Department, Address</td></tr>
+<tr><td>Place and date</td><td>Paris, le 10 janvier 2025</td></tr>
+<tr><td>Subject</td><td>Objet: Reimbursement request</td></tr>
+</table>
+<h3>Closing formulas</h3>
+<table class="vocab-table">
+<tr><td>Most formal</td><td>Veuillez agréer… l'assurance de ma considération distinguée.</td></tr>
+<tr><td>Formal</td><td>Veuillez agréer… mes salutations distinguées.</td></tr>
+</table>`,
+    quiz:[
+      {q:'Dans une lettre formelle, l\'expéditeur est placé :', q_en:'In a formal letter, the sender is placed:', opts:['En haut à droite','En haut à gauche','En bas à gauche','Au centre'], ans:1},
+      {q:'La date dans une lettre formelle s\'écrit :', q_en:'The date in a formal letter is written:', opts:['10/01/2025','10 janvier 2025','Paris, le 10 janvier 2025','January 10, 2025'], ans:2},
+      {q:'Pour une démarche officielle en France, on privilégie :', q_en:'For official procedures in France, you prefer:', opts:['Un SMS','Un email','Une lettre formelle avec AR','Un appel téléphonique'], ans:2},
+      {q:'"J\'ai l\'honneur de vous adresser…" s\'utilise dans :', q_en:'"J\'ai l\'honneur de vous adresser…" is used in:', opts:['Un SMS','Une lettre très formelle','Un email amical','Un formulaire'], ans:1},
+      {q:'La signature dans une lettre formelle est :', q_en:'The signature in a formal letter is:', opts:['Imprimée uniquement','Manuscrite','Facultative','En majuscules'], ans:1},
+    ]
+  },
+  {id:52,level:'advanced',title:'Le CV et la lettre de motivation',title_en:'CV and Cover Letter',
+    desc:'Se présenter professionnellement en français.',desc_en:'Present yourself professionally in French.',
+    content:`<h2>📄 Le CV et la lettre de motivation</h2>
+<h3>Le CV français — structure</h3>
+<table class="vocab-table">
+<tr><td>En-tête</td><td>Photo (optionnel), Prénom NOM, Coordonnées, LinkedIn</td></tr>
+<tr><td>Profil/Accroche</td><td>2-3 lignes résumant votre profil professionnel</td></tr>
+<tr><td>Expériences</td><td>Ordre antichronologique, verbes d'action, résultats chiffrés</td></tr>
+<tr><td>Formation</td><td>Diplômes, établissements, années</td></tr>
+<tr><td>Compétences</td><td>Langues (niveau), informatique, compétences techniques</td></tr>
+<tr><td>Centres d'intérêt</td><td>Facultatif, humanise le profil</td></tr>
+</table>
+<h3>Verbes d'action pour le CV</h3>
+<table class="vocab-table">
+<tr><td>Géré, piloté, coordonné</td><td>Management</td></tr>
+<tr><td>Développé, créé, conçu</td><td>Création</td></tr>
+<tr><td>Analysé, évalué, optimisé</td><td>Analyse</td></tr>
+<tr><td>Formé, encadré, accompagné</td><td>Formation</td></tr>
+</table>
+<h3>Structure lettre de motivation</h3>
+<table class="vocab-table">
+<tr><td>Paragraphe 1</td><td>Vous + poste visé : "Passionné par X, je candidate au poste de…"</td></tr>
+<tr><td>Paragraphe 2</td><td>Moi : mes compétences et expériences clés</td></tr>
+<tr><td>Paragraphe 3</td><td>Nous : ce que je peux apporter à l'entreprise</td></tr>
+<tr><td>Conclusion</td><td>Demande d'entretien : "Je serais heureux de vous rencontrer…"</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Spécificité française :</strong> En France, le CV fait généralement 1 page (2 max). La lettre de motivation est souvent manuscrite pour certains postes.</div>`,
+    content_en:`<h2>📄 CV and Cover Letter in French</h2>
+<h3>French CV structure</h3>
+<table class="vocab-table">
+<tr><td>Header</td><td>Photo (optional), Name, Contact details, LinkedIn</td></tr>
+<tr><td>Profile summary</td><td>2-3 lines summarizing your professional profile</td></tr>
+<tr><td>Experience</td><td>Reverse chronological, action verbs, quantified results</td></tr>
+<tr><td>Education</td><td>Degrees, institutions, years</td></tr>
+<tr><td>Skills</td><td>Languages (level), IT, technical skills</td></tr>
+</table>
+<h3>Cover letter structure</h3>
+<table class="vocab-table">
+<tr><td>Paragraph 1</td><td>You + target position</td></tr>
+<tr><td>Paragraph 2</td><td>Me: my key skills and experiences</td></tr>
+<tr><td>Paragraph 3</td><td>Us: what I can bring to the company</td></tr>
+<tr><td>Conclusion</td><td>Interview request</td></tr>
+</table>`,
+    quiz:[
+      {q:'Un CV français fait généralement :', q_en:'A French CV is generally:', opts:['5 pages','3 pages','1 page (2 max)','Pas de limite'], ans:2},
+      {q:'L\'ordre des expériences dans un CV est :', q_en:'The order of experiences in a CV is:', opts:['Chronologique','Antichronologique','Alphabétique','Par importance'], ans:1},
+      {q:'La structure de la lettre de motivation en France est :', q_en:'The French cover letter structure is:', opts:['Moi — Vous — Nous','Vous — Moi — Nous','Nous — Vous — Moi','Pas de structure fixe'], ans:1},
+      {q:'Quel verbe d\'action pour décrire un rôle de management ?', q_en:'Which action verb describes a management role?', opts:['Analysé','Géré','Conçu','Évalué'], ans:1},
+      {q:'Comment terminer une lettre de motivation ?', q_en:'How to conclude a cover letter?', opts:['Au revoir','Je serais heureux de vous rencontrer en entretien.','Merci d\'avance et bonne journée !','Cordialement'], ans:1},
+    ]
+  },
+  {id:53,level:'advanced',title:'Le compte-rendu',title_en:'The Report / Summary',
+    desc:'Résumer, synthétiser et rapporter à l\'écrit.',desc_en:'Summarize, synthesize and report in writing.',
+    content:`<h2>📋 Le compte-rendu</h2>
+<p>Le compte-rendu rapporte fidèlement des faits, une réunion ou un événement sans jugement personnel.</p>
+<h3>Types de compte-rendu</h3>
+<table class="vocab-table">
+<tr><td>CR de réunion</td><td>Participants, points abordés, décisions prises, actions à mener</td></tr>
+<tr><td>CR de lecture</td><td>Résumé objectif d'un texte</td></tr>
+<tr><td>CR d'activité</td><td>Bilan d'une période, résultats obtenus</td></tr>
+</table>
+<h3>Structure d'un CR de réunion</h3>
+<table class="vocab-table">
+<tr><td>En-tête</td><td>Date, lieu, participants présents, ordre du jour</td></tr>
+<tr><td>Corps</td><td>Point 1 : … / Point 2 : …</td></tr>
+<tr><td>Décisions</td><td>Il a été décidé que… / Il a été convenu de…</td></tr>
+<tr><td>Actions</td><td>M. X est chargé de… avant le [date]</td></tr>
+<tr><td>Clôture</td><td>La séance est levée à [heure]. Prochain RDV : [date]</td></tr>
+</table>
+<h3>Formules utiles</h3>
+<table class="vocab-table">
+<tr><td>Pour introduire un point</td><td>En ce qui concerne… / S'agissant de… / Concernant…</td></tr>
+<tr><td>Pour les décisions</td><td>Il a été décidé… / Il est convenu que… / Il est acté que…</td></tr>
+<tr><td>Pour les actions</td><td>[Personne] est chargé(e) de… / Il appartient à X de…</td></tr>
+<tr><td>Pour conclure</td><td>En conclusion… / Pour résumer… / En définitive…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Style :</strong> Le compte-rendu est rédigé à la 3e personne, au passé, sans opinion personnelle. Soyez précis et factuel.</div>`,
+    content_en:`<h2>📋 The Report / Minutes</h2>
+<p>A compte-rendu faithfully reports facts, a meeting or an event without personal judgment.</p>
+<h3>Types</h3>
+<table class="vocab-table">
+<tr><td>Meeting minutes</td><td>Participants, topics, decisions, action items</td></tr>
+<tr><td>Reading report</td><td>Objective summary of a text</td></tr>
+<tr><td>Activity report</td><td>Period review, results obtained</td></tr>
+</table>
+<h3>Useful phrases</h3>
+<table class="vocab-table">
+<tr><td>To introduce a point</td><td>En ce qui concerne… / Concernant…</td></tr>
+<tr><td>For decisions</td><td>Il a été décidé… / Il est convenu que…</td></tr>
+<tr><td>For action items</td><td>[Person] est chargé(e) de… (is responsible for…)</td></tr>
+</table>`,
+    quiz:[
+      {q:'Le compte-rendu est rédigé :', q_en:'A compte-rendu is written:', opts:['À la 1ère personne avec opinions','À la 3e personne, sans opinion','En style familier','Avec des émojis'], ans:1},
+      {q:'Dans un CR de réunion, on note :', q_en:'In meeting minutes, you note:', opts:['Uniquement les opinions','Les participants, décisions et actions','Les rumeurs','Les anecdotes'], ans:1},
+      {q:'Pour introduire une décision, on écrit :', q_en:'To introduce a decision, you write:', opts:['Je pense que…','Il a été décidé que…','Selon moi…','On a dit que…'], ans:1},
+      {q:'"[Personne] est chargé(e) de…" indique :', q_en:'"[Person] est chargé(e) de…" indicates:', opts:['Une opinion','Une action à mener','Une décision passée','Un fait historique'], ans:1},
+      {q:'Le style du compte-rendu est :', q_en:'The style of a compte-rendu is:', opts:['Poétique et créatif','Précis et factuel','Humoristique','Subjectif'], ans:1},
+    ]
+  },
+  {id:54,level:'advanced',title:'Argumenter à l\'écrit',title_en:'Written Argumentation',
+    desc:'Construire un argumentaire solide et convaincant.',desc_en:'Build a solid and convincing argument.',
+    content:`<h2>⚔️ Argumenter à l'écrit</h2>
+<p>Savoir construire un argument structuré est essentiel pour les essais, rapports et toute communication professionnelle.</p>
+<h3>Structure d'un texte argumentatif</h3>
+<table class="vocab-table">
+<tr><td>Introduction</td><td>Accroche → Contexte → Problématique → Annonce du plan</td></tr>
+<tr><td>Développement</td><td>Thèse → Arguments → Exemples → Antithèse → Synthèse</td></tr>
+<tr><td>Conclusion</td><td>Bilan → Ouverture</td></tr>
+</table>
+<h3>Connecteurs logiques essentiels</h3>
+<table class="vocab-table">
+<tr><td>Addition</td><td>De plus, en outre, par ailleurs, également</td></tr>
+<tr><td>Opposition</td><td>Cependant, néanmoins, or, en revanche, toutefois</td></tr>
+<tr><td>Cause</td><td>En effet, car, puisque, étant donné que</td></tr>
+<tr><td>Conséquence</td><td>Donc, ainsi, par conséquent, c'est pourquoi</td></tr>
+<tr><td>Concession</td><td>Certes, il est vrai que, bien que (+subj.)</td></tr>
+<tr><td>Illustration</td><td>Par exemple, notamment, tel que, comme</td></tr>
+<tr><td>Conclusion</td><td>En conclusion, en définitive, pour conclure, en somme</td></tr>
+</table>
+<h3>Présenter un argument efficacement</h3>
+<table class="vocab-table">
+<tr><td>Affirmer</td><td>Il est indéniable que… / Force est de constater que…</td></tr>
+<tr><td>Nuancer</td><td>Il convient toutefois de… / Il faut néanmoins préciser que…</td></tr>
+<tr><td>Conclure</td><td>En définitive… / Tout bien considéré… / Il ressort que…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Conseil :</strong> Un bon argument = une idée + une justification + un exemple. Ne jamais affirmer sans prouver !</div>
+<div class="example-box">La lecture développe l'esprit critique. En effet, elle expose le lecteur à diverses perspectives. Par exemple, les romans historiques permettent de comprendre d'autres époques.</div>`,
+    content_en:`<h2>⚔️ Written Argumentation</h2>
+<p>Building a structured argument is essential for essays, reports and professional communication.</p>
+<h3>Structure</h3>
+<table class="vocab-table">
+<tr><td>Introduction</td><td>Hook → Context → Issue → Plan announcement</td></tr>
+<tr><td>Development</td><td>Thesis → Arguments → Examples → Counterargument → Synthesis</td></tr>
+<tr><td>Conclusion</td><td>Summary → Opening perspective</td></tr>
+</table>
+<h3>Essential logical connectors</h3>
+<table class="vocab-table">
+<tr><td>Addition</td><td>De plus, en outre, par ailleurs (furthermore, moreover)</td></tr>
+<tr><td>Opposition</td><td>Cependant, néanmoins, en revanche (however, nevertheless)</td></tr>
+<tr><td>Cause</td><td>En effet, car, puisque (indeed, because, since)</td></tr>
+<tr><td>Consequence</td><td>Donc, ainsi, par conséquent (so, thus, therefore)</td></tr>
+<tr><td>Conclusion</td><td>En conclusion, en définitive, en somme (in conclusion, ultimately)</td></tr>
+</table>`,
+    quiz:[
+      {q:'Quel connecteur exprime une opposition ?', q_en:'Which connector expresses opposition?', opts:['De plus','Par conséquent','Cependant','En effet'], ans:2},
+      {q:'Quel connecteur introduit une conséquence ?', q_en:'Which connector introduces a consequence?', opts:['Certes','Par conséquent','Par exemple','Bien que'], ans:1},
+      {q:'Un bon argument se compose de :', q_en:'A good argument consists of:', opts:['Une idée uniquement','Une idée + justification + exemple','Plusieurs exemples sans idée directrice','Une longue liste de faits'], ans:1},
+      {q:'"Certes" est un connecteur de :', q_en:'"Certes" is a connector of:', opts:['Addition','Conséquence','Concession','Cause'], ans:2},
+      {q:'La structure d\'un texte argumentatif est :', q_en:'The structure of an argumentative text is:', opts:['Introduction → Exemples → Fin','Introduction → Développement → Conclusion','Conclusion → Développement → Introduction','Pas de structure fixe'], ans:1},
+    ]
+  },
 ];
 
 /* ══════════════════════════════════════
@@ -5177,7 +5924,7 @@ function saveState() { localStorage.setItem('ff_state', JSON.stringify(state)); 
 function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*10, 0); }
 
 /* ── Icons per lesson ── */
-const ICONS = {0:'👋',1:'🔢',2:'🎨',3:'👨‍👩‍👧‍👦',4:'🔢',5:'✏️',6:'⏮️',7:'❤️',8:'⏳',9:'🔜',10:'🔮',11:'📌',12:'🚫',13:'❓',14:'🍎',15:'👗',16:'🏙️',17:'🧍',18:'😊',19:'⛅',20:'👆',21:'🔄',22:'⚖️',23:'🏠',24:'💼',25:'🐾',26:'⚽',27:'🏥',28:'🍽️',29:'💊',30:'📱',31:'🛍️',32:'💬',33:'⚠️',34:'🗼',35:'🍁',36:'👂',37:'📖',38:'✍️',39:'🗣️',40:'🏛️',41:'💡',42:'📋',43:'🌍',44:'🎯'};
+const ICONS = {0:'👋',1:'🔢',2:'🎨',3:'👨‍👩‍👧‍👦',4:'🔢',5:'✏️',6:'⏮️',7:'❤️',8:'⏳',9:'🔜',10:'🔮',11:'📌',12:'🚫',13:'❓',14:'🍎',15:'👗',16:'🏙️',17:'🧍',18:'😊',19:'⛅',20:'👆',21:'🔄',22:'⚖️',23:'🏠',24:'💼',25:'🐾',26:'⚽',27:'🏥',28:'🍽️',29:'💊',30:'📱',31:'🛍️',32:'💬',33:'⚠️',34:'🗼',35:'🍁',36:'👂',37:'📖',38:'✍️',39:'🗣️',40:'🏛️',41:'💡',42:'📋',43:'🌍',44:'🎯',45:'🌀',46:'🔮',47:'💬',48:'🔗',49:'⏱️',50:'📧',51:'📜',52:'📄',53:'📋',54:'⚔️'};
 
 /* ── Language toggle ── */
 function toggleLang() {
@@ -5246,7 +5993,21 @@ function renderHome() {
   document.getElementById('home-welcome').textContent = t('welcome');
   document.getElementById('home-title').textContent = t('title');
   document.getElementById('home-sub').textContent = t('sub');
-  document.getElementById('home-streak').textContent = t('streak');
+
+  // Hero stats
+  const doneLessons = Object.values(state).filter(s => s.completed).length;
+  const totalXP = getXP();
+  const totalPct = Math.round(doneLessons / LESSONS.length * 100);
+  document.getElementById('hero-done-count').textContent = doneLessons;
+  document.getElementById('hero-xp-stat').textContent = totalXP;
+  document.getElementById('hero-prog-pct').textContent = totalPct + '%';
+  document.getElementById('hero-lessons-lbl').textContent = lang==='zh' ? '课程' : lang==='en' ? 'lessons' : 'leçons';
+  document.getElementById('hero-streak-lbl').textContent = lang==='zh' ? '系列' : lang==='en' ? 'streak' : 'série';
+  // Animate progress bar (tiny delay so transition fires)
+  setTimeout(() => {
+    const fill = document.getElementById('hero-prog-fill');
+    if (fill) fill.style.width = totalPct + '%';
+  }, 80);
   renderUnlockedBanner();
   document.getElementById('home-continue-title').textContent = t('continueTitle');
   document.getElementById('home-start-title').textContent = t('startHere');
@@ -5281,7 +6042,7 @@ function renderHome() {
 function lessonCardHTML(l, pct) {
   const s = state[l.id] || {};
   const accessible = isAccessible(l.id);
-  const lvlLabel = l.level === 'beginner' ? t('beginner') : l.level === 'tcf' ? t('tcf') : t('intermediate');
+  const lvlLabel = l.level === 'beginner' ? t('beginner') : l.level === 'tcf' ? t('tcf') : l.level === 'advanced' ? t('advanced') : t('intermediate');
   const zhT = TITLES_ZH[l.id];
   const titleText = lang === 'zh' && zhT ? zhT.title : lang === 'en' ? l.title_en : l.title;
   const descText  = lang === 'zh' && zhT ? zhT.desc  : lang === 'en' ? l.desc_en  : l.desc;
@@ -5332,9 +6093,9 @@ function setLevelFilter(level) {
     btn.classList.toggle('active', btn.dataset.level === level);
   });
   // Show/hide sections
-  ['beginner','intermediate','tcf'].forEach(lv => {
+  ['beginner','intermediate','tcf','advanced'].forEach(lv => {
     const sec = document.getElementById('lesson-level-section-' + lv);
-    sec.style.display = (level === 'all' || level === lv) ? 'block' : 'none';
+    if (sec) sec.style.display = (level === 'all' || level === lv) ? 'block' : 'none';
   });
 }
 
@@ -5343,28 +6104,36 @@ function renderLessonsList() {
   document.getElementById('list-title-beginner').textContent = t('beginnerLevel');
   document.getElementById('list-title-intermediate').textContent = t('intermediateLevel');
   document.getElementById('list-title-tcf').textContent = t('tcfLevel');
+  document.getElementById('list-title-advanced').textContent = t('advancedLevel');
 
   // Filter button labels
   const filterLabels = {
-    fr:  { all:'Tous', beginner:'Débutant', intermediate:'Intermédiaire', tcf:'TCF/TEF 🍁' },
-    en:  { all:'All',  beginner:'Beginner',  intermediate:'Intermediate',  tcf:'TCF/TEF 🍁' },
-    zh:  { all:'全部', beginner:'初级',       intermediate:'中级',          tcf:'TCF/TEF 🍁' },
+    fr:  { all:'Tous', beginner:'Débutant', intermediate:'Intermédiaire', tcf:'TCF/TEF 🍁', advanced:'Avancé' },
+    en:  { all:'All',  beginner:'Beginner',  intermediate:'Intermediate',  tcf:'TCF/TEF 🍁', advanced:'Advanced' },
+    zh:  { all:'全部', beginner:'初级',       intermediate:'中级',          tcf:'TCF/TEF 🍁', advanced:'高级' },
   };
   const fl = filterLabels[lang] || filterLabels.fr;
   document.querySelector('.level-filter-btn[data-level="all"]').textContent         = fl.all;
   document.querySelector('.level-filter-btn[data-level="beginner"]').textContent    = fl.beginner;
   document.querySelector('.level-filter-btn[data-level="intermediate"]').textContent= fl.intermediate;
   document.querySelector('.level-filter-btn[data-level="tcf"]').textContent         = fl.tcf;
+  document.querySelector('.level-filter-btn[data-level="advanced"]').textContent    = fl.advanced;
 
-  // Render cards
-  ['beginner','intermediate','tcf'].forEach(level => {
-    const key = level === 'beginner' ? 'list-beginner' : level === 'intermediate' ? 'list-intermediate' : 'list-tcf';
-    const el = document.getElementById(key);
+  // Render cards with stagger
+  let globalIdx = 0;
+  ['beginner','intermediate','tcf','advanced'].forEach(level => {
+    const keyMap = {beginner:'list-beginner',intermediate:'list-intermediate',tcf:'list-tcf',advanced:'list-advanced'};
+    const el = document.getElementById(keyMap[level]);
+    if (!el) return;
     el.innerHTML = LESSONS.filter(l => l.level === level).map(l => {
       const s = state[l.id] || {};
       const pct = s.score ? Math.round(s.score/l.quiz.length*100) : 0;
       return lessonCardHTML(l, pct);
     }).join('');
+    el.querySelectorAll('.lesson-card').forEach(card => {
+      card.style.animationDelay = (globalIdx * 0.045) + 's';
+      globalIdx++;
+    });
   });
 
   // Re-apply current filter visibility
@@ -5606,10 +6375,23 @@ function renderProgress() {
   const quizPassed = Object.values(state).filter(s => s.score && s.score > 0).length;
   const pct = Math.round(done / LESSONS.length * 100);
 
-  document.getElementById('stat-xp').textContent = xp;
-  document.getElementById('stat-done').textContent = done;
-  document.getElementById('stat-quiz').textContent = quizPassed;
-  document.getElementById('stat-pct').textContent = pct + '%';
+  // Count-up animation for stats
+  function countUp(el, target, suffix, duration) {
+    suffix = suffix || '';
+    duration = duration || 600;
+    const start = Date.now();
+    (function tick() {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(ease * target) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    })();
+  }
+  countUp(document.getElementById('stat-xp'), xp);
+  countUp(document.getElementById('stat-done'), done);
+  countUp(document.getElementById('stat-quiz'), quizPassed);
+  countUp(document.getElementById('stat-pct'), pct, '%');
   document.getElementById('lbl-xp').textContent = t('xpLbl');
   document.getElementById('lbl-done').textContent = t('doneLbl');
   document.getElementById('lbl-quiz').textContent = t('quizLbl');
@@ -5636,9 +6418,9 @@ function updateXPDisplay() {
 function showPaywall() {
   // Update modal text based on language
   const title    = lang==='fr' ? 'Contenu Premium 🌟' : lang==='zh' ? '高级内容 🌟' : 'Premium Content 🌟';
-  const sub      = lang==='fr' ? 'Débloquez les 39 leçons avancées et progressez rapidement en français.' : lang==='zh' ? '解锁39节高级课程，快速提升你的法语水平。' : 'Unlock 39 advanced lessons and progress fast in French.';
-  const f1       = lang==='fr' ? '39 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁)' : lang==='zh' ? '39节高级课程（语法、词汇、TCF/TEF 🍁）' : '39 premium lessons (grammar, vocabulary, TCF/TEF 🍁)';
-  const f2       = lang==='fr' ? '195 exercices de quiz interactifs' : lang==='zh' ? '195道互动测验题' : '195 interactive quiz exercises';
+  const sub      = lang==='fr' ? 'Débloquez les 49 leçons avancées et progressez rapidement en français.' : lang==='zh' ? '解锁49节高级课程，快速提升你的法语水平。' : 'Unlock 49 advanced lessons and progress fast in French.';
+  const f1       = lang==='fr' ? '49 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)' : lang==='zh' ? '49节高级课程（语法、词汇、TCF/TEF 🍁、高级）' : '49 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)';
+  const f2       = lang==='fr' ? '245 exercices de quiz interactifs' : lang==='zh' ? '245道互动测验题' : '245 interactive quiz exercises';
   const f3       = lang==='fr' ? 'Mises à jour gratuites à vie' : lang==='zh' ? '终身免费更新' : 'Free lifetime updates';
   const f4       = lang==='fr' ? 'Interface trilingue FR / EN / 中文' : lang==='zh' ? '三语界面 FR / EN / 中文' : 'Trilingual FR / EN / 中文 interface';
   const priceLbl = lang==='fr' ? 'Accès complet — paiement unique' : lang==='zh' ? '完全访问权限 — 一次性付款' : 'Full access — one-time payment';
