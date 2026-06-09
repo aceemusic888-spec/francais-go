@@ -124,7 +124,7 @@
     .lesson-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border-left: 5px solid var(--border); display: flex; flex-direction: column; }
     /* ── Level Filter Bar ── */
     #level-filter-bar { display:flex; gap:8px; margin-bottom:16px; padding:4px 0; position:sticky; top:0; z-index:10; background:var(--bg); padding-bottom:10px; border-bottom:1px solid var(--border); }
-    .level-filter-btn { flex:1; padding:8px 4px; border:2px solid var(--border); border-radius:12px; background:white; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.18s; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .level-filter-btn { flex:1; min-width:0; padding:8px 4px; border:2px solid var(--border); border-radius:12px; background:white; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.18s; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .level-filter-btn:hover { border-color:var(--indigo); color:var(--indigo); }
     .level-filter-btn.active[data-level="all"] { background:var(--indigo); border-color:var(--indigo); color:white; }
     .level-filter-btn.active[data-level="beginner"] { background:#10B981; border-color:#10B981; color:white; }
@@ -830,7 +830,7 @@
       <div class="price">4,99 €</div>
       <div class="price-label" id="modal-price-label">Accès complet — paiement unique</div>
     </div>
-    <a class="btn-gumroad" id="btn-gumroad" href="https://VOTRE_LIEN_GUMROAD" target="_blank" id="modal-buy-btn">🛒 Acheter maintenant</a>
+    <a class="btn-gumroad" id="btn-gumroad" href="https://aceemusic6.gumroad.com/l/klcdld" target="_blank" id="modal-buy-btn">🛒 Acheter maintenant</a>
     <button class="btn-unlock-code" onclick="toggleCodeInput()" id="modal-code-btn">🔑 J'ai déjà un code d'accès</button>
     <div class="code-input-area" id="code-area">
       <input class="code-input" id="code-input" type="text" placeholder="XXXXXXXXX" maxlength="20" oninput="this.value=this.value.toUpperCase()" />
@@ -6413,7 +6413,8 @@ function setLevelFilter(level) {
 function renderLessonsList() {
   const allLabel = lang==='en'?'All':lang==='zh'?'全部':'Tout';
   const filterBtns = document.querySelectorAll('.level-filter-btn');
-  const filterLabels = [allLabel, t('beginner'), t('intermediate'), t('advanced'), t('tcf')];
+  const tcfShort = '🍁 TCF';
+  const filterLabels = [allLabel, t('beginner'), t('intermediate'), t('advanced'), tcfShort];
   filterBtns.forEach((b,i) => { if (filterLabels[i]) b.textContent = filterLabels[i]; });
 
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
