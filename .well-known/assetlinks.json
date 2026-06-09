@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.francaisfacile.app",
+        "sha256_cert_fingerprints": ["DD:17:4C:EA:A2:C9:4D:CF:C5:FC:CC:88:CC:14:D4:7A:A6:E5:FE:5D:12:EE:A4:6E:93:A6:9D:C3:E1:C1:60:8F"]
+      }
+    }]
