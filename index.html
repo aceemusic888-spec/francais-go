@@ -355,6 +355,10 @@
     .float-xp { position:fixed; font-size:17px; font-weight:900; color:white; pointer-events:none; z-index:9000; animation:floatXP 1.5s ease-out forwards; text-shadow:0 2px 10px rgba(99,102,241,0.7); background:linear-gradient(135deg,#6366F1,#8B5CF6); padding:6px 14px; border-radius:20px; }
     @keyframes floatXP { 0%{opacity:1;transform:translateY(0) scale(1);} 100%{opacity:0;transform:translateY(-90px) scale(1.2);} }
 
+    /* ── Streak Toast ── */
+    .streak-toast { position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:linear-gradient(135deg,#F59E0B,#EF4444); color:white; font-size:15px; font-weight:800; padding:11px 22px; border-radius:24px; box-shadow:0 6px 24px rgba(239,68,68,0.45); z-index:8000; opacity:0; transition:opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.2,0.64,1); pointer-events:none; white-space:nowrap; }
+    .streak-toast.streak-toast-show { opacity:1; transform:translateX(-50%) translateY(0); }
+
     /* ══════════════════════════════════════
        ENHANCED MICRO-INTERACTIONS
     ══════════════════════════════════════ */
@@ -415,6 +419,65 @@
     .settings-about-contact:hover { background:#EEF2FF; }
     body.dark .settings-about-contact { border-color:#3730A3; }
     body.dark .settings-about-contact:hover { background:#1E1B4B; }
+
+    /* ══════════════════════════════════════
+       FLASHCARDS TAB
+    ══════════════════════════════════════ */
+    #fc-filter-bar { display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
+    #fc-filter-bar::-webkit-scrollbar { display:none; }
+    .fc-filter-btn { flex-shrink:0; padding:7px 13px; border:2px solid var(--border); border-radius:12px; background:var(--card); font-size:12px; font-weight:800; cursor:pointer; color:var(--muted); transition:all 0.18s; }
+    .fc-filter-btn.active { background:var(--indigo); border-color:var(--indigo); color:white; }
+    .fc-filter-btn.active[data-level="beginner"] { background:#10B981; border-color:#10B981; }
+    .fc-filter-btn.active[data-level="intermediate"] { background:#F59E0B; border-color:#F59E0B; }
+    .fc-filter-btn.active[data-level="advanced"] { background:#DC2626; border-color:#DC2626; }
+    .fc-filter-btn.active[data-level="tcf"] { background:#0EA5E9; border-color:#0EA5E9; }
+    .fc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .fc-counter { font-size:13px; font-weight:700; color:var(--muted); }
+    .fc-reset-btn { font-size:12px; font-weight:700; color:var(--indigo); background:none; border:none; cursor:pointer; padding:4px 8px; border-radius:8px; transition:background 0.15s; }
+    .fc-reset-btn:hover { background:#EEF2FF; }
+    .fc-progress-bar { height:4px; background:var(--border); border-radius:2px; margin-bottom:16px; overflow:hidden; }
+    .fc-progress-fill { height:100%; background:linear-gradient(90deg,var(--indigo),var(--purple)); border-radius:2px; transition:width 0.4s ease; }
+    /* Card flip */
+    .fc-card-wrap { perspective:1200px; margin-bottom:18px; }
+    .fc-card { width:100%; height:210px; position:relative; transform-style:preserve-3d; transition:transform 0.5s cubic-bezier(0.4,0,0.2,1); cursor:pointer; }
+    .fc-card.flipped { transform:rotateY(180deg); }
+    .fc-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; box-shadow:0 6px 28px rgba(0,0,0,0.1); }
+    .fc-front { background:linear-gradient(140deg,#3730A3 0%,#4F46E5 50%,#7C3AED 100%); color:white; }
+    .fc-back { background:var(--card); transform:rotateY(180deg); }
+    body.dark .fc-back { background:#1E1E38; }
+    .fc-level-tag-card { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.7px; margin-bottom:10px; }
+    .fc-word { font-size:28px; font-weight:900; text-align:center; letter-spacing:-0.5px; margin-bottom:6px; line-height:1.2; }
+    .fc-hint { font-size:11px; opacity:0.6; margin-top:8px; font-weight:500; }
+    .fc-translation { font-size:20px; font-weight:800; color:var(--text); text-align:center; margin-bottom:4px; line-height:1.3; }
+    .fc-zh { font-size:14px; color:var(--muted); text-align:center; margin-bottom:8px; }
+    .fc-example { font-size:12px; color:var(--muted); text-align:center; font-style:italic; line-height:1.5; padding:7px 12px; background:var(--bg); border-radius:10px; max-width:100%; }
+    /* Action buttons */
+    .fc-actions { display:flex; gap:10px; margin-bottom:12px; }
+    .fc-btn { flex:1; padding:13px; border-radius:14px; border:none; font-size:14px; font-weight:800; cursor:pointer; transition:all 0.18s cubic-bezier(0.34,1.2,0.64,1); }
+    .fc-btn:active { transform:scale(0.95); }
+    .fc-btn-review { background:#FEE2E2; color:#B91C1C; }
+    .fc-btn-know { background:#DCFCE7; color:#15803D; }
+    body.dark .fc-btn-review { background:#2D1B1B; }
+    body.dark .fc-btn-know { background:#0F2D1E; }
+    /* Nav buttons */
+    .fc-nav { display:flex; gap:10px; }
+    .fc-nav-btn { flex:1; padding:11px; border:2px solid var(--border); border-radius:14px; background:var(--card); font-size:13px; font-weight:700; cursor:pointer; color:var(--muted); transition:all 0.15s; }
+    .fc-nav-btn:hover { border-color:var(--indigo); color:var(--indigo); }
+    /* Summary */
+    .fc-summary { text-align:center; padding:28px 20px; background:var(--card); border-radius:20px; box-shadow:0 2px 14px rgba(0,0,0,0.05); animation:sectionIn 0.3s ease; }
+    .fc-summary-emoji { font-size:60px; display:block; margin-bottom:10px; animation:pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    .fc-summary-title { font-size:21px; font-weight:900; margin-bottom:5px; letter-spacing:-0.4px; }
+    .fc-summary-sub { font-size:14px; color:var(--muted); margin-bottom:18px; }
+    .fc-summary-stats { display:flex; gap:12px; justify-content:center; margin-bottom:20px; }
+    .fc-stat-box { flex:1; max-width:130px; padding:14px; border-radius:14px; text-align:center; }
+    .fc-stat-box.known { background:#DCFCE7; }
+    .fc-stat-box.review { background:#FEE2E2; }
+    .fc-stat-num { font-size:30px; font-weight:900; display:block; }
+    .fc-stat-box.known .fc-stat-num { color:#15803D; }
+    .fc-stat-box.review .fc-stat-num { color:#B91C1C; }
+    .fc-stat-lbl { font-size:11px; font-weight:700; margin-top:2px; display:block; }
+    .fc-stat-box.known .fc-stat-lbl { color:#15803D; }
+    .fc-stat-box.review .fc-stat-lbl { color:#B91C1C; }
   </style>
 </head>
 <body>
@@ -533,6 +596,7 @@
   <button id="nav-home" class="active" onclick="showTab('home')"><span class="nav-icon">🏠</span><span class="nav-label" id="nav-lbl-home">Accueil</span></button>
   <button id="nav-lessons" onclick="showTab('lessons')"><span class="nav-icon">📚</span><span class="nav-label" id="nav-lbl-lessons">Leçons</span></button>
   <button id="nav-progress" onclick="showTab('progress')"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
+  <button id="nav-flashcards" onclick="showTab('flashcards')"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
   <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
 </nav>
 
@@ -555,8 +619,8 @@
         </div>
         <div class="hero-stat-sep"></div>
         <div class="hero-stat">
-          <span class="hero-stat-num">🔥</span>
-          <span class="hero-stat-lbl" id="hero-streak-lbl">série</span>
+          <span class="hero-stat-num" id="hero-streak-num">0</span>
+          <span class="hero-stat-lbl" id="hero-streak-lbl">🔥 série</span>
         </div>
       </div>
       <div class="hero-prog-wrap">
@@ -616,6 +680,23 @@
     </div>
     <div class="section-title" id="lbl-achievements"></div>
     <div id="achievements"></div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="tab-flashcards" class="section">
+    <div id="fc-filter-bar">
+      <button class="fc-filter-btn active" data-level="all" onclick="setFCFilter('all')">Tout</button>
+      <button class="fc-filter-btn" data-level="beginner" onclick="setFCFilter('beginner')">Débutant</button>
+      <button class="fc-filter-btn" data-level="intermediate" onclick="setFCFilter('intermediate')">Intermédiaire</button>
+      <button class="fc-filter-btn" data-level="advanced" onclick="setFCFilter('advanced')">Avancé</button>
+      <button class="fc-filter-btn" data-level="tcf" onclick="setFCFilter('tcf')">TCF</button>
+    </div>
+    <div class="fc-header">
+      <span class="fc-counter" id="fc-counter">1 / 100</span>
+      <button class="fc-reset-btn" id="fc-reset-btn" onclick="fcReset()">↺ Recommencer</button>
+    </div>
+    <div class="fc-progress-bar"><div class="fc-progress-fill" id="fc-progress-fill" style="width:0%"></div></div>
+    <div id="fc-card-area"></div>
   </div>
 
   <!-- SETTINGS -->
@@ -756,7 +837,7 @@
 /* ══════════════════════════════════════
    FREEMIUM CONFIG  ← modifiez ici !
 ══════════════════════════════════════ */
-const FREE_LESSONS  = [0, 1, 2, 3, 4, 35];      // IDs des leçons gratuites
+const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35]; // IDs des leçons gratuites
 const UNLOCK_CODE   = 'FRANCAIS2024';            // Code donné aux acheteurs
 const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld';
 
@@ -895,6 +976,116 @@ function hideSplash() {
   splash.classList.add('hide');
   setTimeout(() => { splash.style.display = 'none'; }, 550);
 }
+
+/* ══════════════════════════════════════
+   FLASHCARDS DATA
+══════════════════════════════════════ */
+const FLASHCARDS = [
+  // ── DÉBUTANT (35 cartes) ──
+  {id:100,level:'beginner',fr:'Bonjour',en:'Hello / Good morning',zh:'你好 / 早上好',example:'Bonjour, comment allez-vous ?'},
+  {id:101,level:'beginner',fr:'Bonsoir',en:'Good evening',zh:'晚上好',example:'Bonsoir, bonne soirée !'},
+  {id:102,level:'beginner',fr:'Bonne nuit',en:'Good night',zh:'晚安',example:'Bonne nuit, à demain !'},
+  {id:103,level:'beginner',fr:'Au revoir',en:'Goodbye',zh:'再见',example:'Au revoir et merci !'},
+  {id:104,level:'beginner',fr:'À bientôt',en:'See you soon',zh:'待会儿见',example:'À bientôt !'},
+  {id:105,level:'beginner',fr:'Merci',en:'Thank you',zh:'谢谢',example:'Merci beaucoup !'},
+  {id:106,level:'beginner',fr:"S'il vous plaît",en:'Please (formal)',zh:'请（正式）',example:"Un café, s'il vous plaît."},
+  {id:107,level:'beginner',fr:'De rien',en:"You're welcome",zh:'不客气',example:'— Merci ! — De rien.'},
+  {id:108,level:'beginner',fr:'Excusez-moi',en:'Excuse me',zh:'打扰一下',example:'Excusez-moi, où est la gare ?'},
+  {id:109,level:'beginner',fr:'Comment allez-vous ?',en:'How are you? (formal)',zh:'您好吗？（正式）',example:'Bonjour, comment allez-vous ?'},
+  {id:110,level:'beginner',fr:'Ça va ?',en:'How are you? (informal)',zh:'你好吗？（非正式）',example:'Salut, ça va ?'},
+  {id:111,level:'beginner',fr:"Je m'appelle...",en:'My name is...',zh:'我叫...',example:"Je m'appelle Marie."},
+  {id:112,level:'beginner',fr:'Enchanté(e)',en:'Nice to meet you',zh:'很高兴认识你',example:'Enchanté, je suis Paul.'},
+  {id:113,level:'beginner',fr:'Oui / Non',en:'Yes / No',zh:'是的 / 不',example:"Oui, c'est vrai. Non, merci."},
+  {id:114,level:'beginner',fr:'Un, deux, trois',en:'One, two, three',zh:'一，二，三',example:'Un café, deux croissants, trois baguettes.'},
+  {id:115,level:'beginner',fr:'Dix',en:'Ten',zh:'十',example:"J'ai dix euros."},
+  {id:116,level:'beginner',fr:'Vingt',en:'Twenty',zh:'二十',example:'Il a vingt ans.'},
+  {id:117,level:'beginner',fr:'Cent',en:'One hundred',zh:'一百',example:"Cent euros, s'il vous plaît."},
+  {id:118,level:'beginner',fr:'Rouge',en:'Red',zh:'红色',example:'Une robe rouge.'},
+  {id:119,level:'beginner',fr:'Bleu(e)',en:'Blue',zh:'蓝色',example:'Le ciel est bleu.'},
+  {id:120,level:'beginner',fr:'Vert(e)',en:'Green',zh:'绿色',example:'La forêt est verte.'},
+  {id:121,level:'beginner',fr:'Jaune',en:'Yellow',zh:'黄色',example:'Un tournesol jaune.'},
+  {id:122,level:'beginner',fr:'Noir(e)',en:'Black',zh:'黑色',example:'Un chat noir.'},
+  {id:123,level:'beginner',fr:'Blanc(he)',en:'White',zh:'白色',example:'La neige est blanche.'},
+  {id:124,level:'beginner',fr:'Le père',en:'Father',zh:'父亲',example:"Mon père s'appelle Henri."},
+  {id:125,level:'beginner',fr:'La mère',en:'Mother',zh:'母亲',example:'Ma mère est professeure.'},
+  {id:126,level:'beginner',fr:'Le frère',en:'Brother',zh:'兄弟',example:'Mon frère a quinze ans.'},
+  {id:127,level:'beginner',fr:'La sœur',en:'Sister',zh:'姐妹',example:'Ma sœur habite à Paris.'},
+  {id:128,level:'beginner',fr:'Le pain',en:'Bread',zh:'面包',example:'Je mange du pain le matin.'},
+  {id:129,level:'beginner',fr:"L'eau",en:'Water',zh:'水',example:"Un verre d'eau, s'il vous plaît."},
+  {id:130,level:'beginner',fr:'Le café',en:'Coffee',zh:'咖啡',example:'Je prends un café au lait.'},
+  {id:131,level:'beginner',fr:'Manger',en:'To eat',zh:'吃',example:"J'aime manger des croissants."},
+  {id:132,level:'beginner',fr:'Le, la, les',en:'The (definite articles)',zh:'定冠词',example:'Le chat, la maison, les enfants.'},
+  {id:133,level:'beginner',fr:'Ne... pas',en:'Not (negation)',zh:'否定结构',example:'Je ne parle pas espagnol.'},
+  {id:134,level:'beginner',fr:'Où est... ?',en:'Where is... ?',zh:'...在哪里？',example:'Où est la boulangerie ?'},
+  // ── INTERMÉDIAIRE (25 cartes) ──
+  {id:135,level:'intermediate',fr:'Être',en:'To be',zh:'是（动词）',example:'Je suis étudiant.'},
+  {id:136,level:'intermediate',fr:'Avoir',en:'To have',zh:'有（动词）',example:"J'ai deux enfants."},
+  {id:137,level:'intermediate',fr:'Aller',en:'To go',zh:'去（动词）',example:"Je vais à l'école."},
+  {id:138,level:'intermediate',fr:'Faire',en:'To do / make',zh:'做（动词）',example:"Il fait beau aujourd'hui."},
+  {id:139,level:'intermediate',fr:'Vouloir',en:'To want',zh:'想要（动词）',example:"Je veux un café, s'il vous plaît."},
+  {id:140,level:'intermediate',fr:'Pouvoir',en:'To be able to / can',zh:'能够（动词）',example:'Tu peux m\'aider ?'},
+  {id:141,level:'intermediate',fr:'Devoir',en:'To have to / must',zh:'必须（动词）',example:'Tu dois étudier ce soir.'},
+  {id:142,level:'intermediate',fr:'Savoir',en:'To know (fact or skill)',zh:'知道（动词）',example:'Je sais nager.'},
+  {id:143,level:'intermediate',fr:'Le passé composé',en:'Past tense (compound)',zh:'复合过去时',example:"J'ai mangé une pizza hier."},
+  {id:144,level:'intermediate',fr:"L'imparfait",en:'Imperfect tense',zh:'未完成过去时',example:"Quand j'étais enfant, je jouais au foot."},
+  {id:145,level:'intermediate',fr:'Le futur proche',en:'Near future (going to)',zh:'最近将来时',example:'Je vais partir demain.'},
+  {id:146,level:'intermediate',fr:"J'aime / J'adore",en:'I like / I love',zh:'我喜欢 / 我热爱',example:'J\'adore le chocolat.'},
+  {id:147,level:'intermediate',fr:"Je n'aime pas",en:"I don't like",zh:'我不喜欢',example:'Je n\'aime pas le froid.'},
+  {id:148,level:'intermediate',fr:'Il faut',en:'It is necessary / you must',zh:'必须 / 需要',example:'Il faut pratiquer chaque jour.'},
+  {id:149,level:'intermediate',fr:"C'est-à-dire",en:'That is to say / i.e.',zh:'也就是说',example:"Il est tardif, c'est-à-dire après 22h."},
+  {id:150,level:'intermediate',fr:'En effet',en:'Indeed / in fact',zh:'确实 / 事实上',example:"En effet, c'est une bonne idée."},
+  {id:151,level:'intermediate',fr:'Cependant',en:'However',zh:'然而',example:"C'est beau, cependant c'est cher."},
+  {id:152,level:'intermediate',fr:'Donc',en:'Therefore / so',zh:'所以 / 因此',example:'Il pleut, donc je prends le bus.'},
+  {id:153,level:'intermediate',fr:'Parce que',en:'Because',zh:'因为',example:"Je suis fatigué parce que je n'ai pas dormi."},
+  {id:154,level:'intermediate',fr:'Depuis',en:'Since / for (duration)',zh:'自从 / 已经...多久',example:"J'habite ici depuis cinq ans."},
+  {id:155,level:'intermediate',fr:'Avant / Après',en:'Before / After',zh:'之前 / 之后',example:'Je lis avant de dormir.'},
+  {id:156,level:'intermediate',fr:'Toujours / Jamais',en:'Always / Never',zh:'总是 / 从不',example:'Il arrive toujours en retard.'},
+  {id:157,level:'intermediate',fr:'Souvent / Parfois',en:'Often / Sometimes',zh:'经常 / 有时',example:'Je mange souvent des pâtes.'},
+  {id:158,level:'intermediate',fr:'Beaucoup / Un peu',en:'A lot / A little',zh:'很多 / 一点',example:'Je parle un peu français.'},
+  {id:159,level:'intermediate',fr:'Trop / Assez',en:'Too much / Enough',zh:'太多了 / 足够',example:"C'est trop cher."},
+  // ── AVANCÉ (20 cartes) ──
+  {id:160,level:'advanced',fr:'Le subjonctif',en:'The subjunctive mood',zh:'虚拟式',example:'Il faut que tu viennes.'},
+  {id:161,level:'advanced',fr:'Bien que',en:'Although / Even though',zh:'尽管 / 虽然',example:'Bien qu\'il soit tard, je continue.'},
+  {id:162,level:'advanced',fr:'Afin que',en:'So that / In order that',zh:'为了（使）',example:'Je parle lentement afin que tu comprennes.'},
+  {id:163,level:'advanced',fr:'Malgré',en:'Despite / In spite of',zh:'尽管 / 不顾',example:'Malgré la pluie, nous sortons.'},
+  {id:164,level:'advanced',fr:'Néanmoins',en:'Nevertheless / Nonetheless',zh:'尽管如此',example:"C'est difficile ; néanmoins, c'est possible."},
+  {id:165,level:'advanced',fr:'Avoir le cafard',en:'To feel down / blue (idiom)',zh:'情绪低落（惯用语）',example:"Je ne sais pas pourquoi j'ai le cafard."},
+  {id:166,level:'advanced',fr:'Il pleut des cordes',en:"It's raining cats and dogs",zh:'倾盆大雨（惯用语）',example:'Ne sors pas, il pleut des cordes !'},
+  {id:167,level:'advanced',fr:'Coûter les yeux de la tête',en:'To cost an arm and a leg',zh:'价格昂贵（惯用语）',example:'Cette voiture coûte les yeux de la tête.'},
+  {id:168,level:'advanced',fr:'Avoir du pain sur la planche',en:"To have a lot on one's plate",zh:'任务繁重（惯用语）',example:'On a du pain sur la planche avant le lancement.'},
+  {id:169,level:'advanced',fr:'La mondialisation',en:'Globalization',zh:'全球化',example:'La mondialisation affecte toutes les économies.'},
+  {id:170,level:'advanced',fr:'Le développement durable',en:'Sustainable development',zh:'可持续发展',example:"Le développement durable est crucial pour l'avenir."},
+  {id:171,level:'advanced',fr:"L'intelligence artificielle",en:'Artificial intelligence',zh:'人工智能',example:'L\'intelligence artificielle transforme le travail.'},
+  {id:172,level:'advanced',fr:'En outre',en:'Moreover / Furthermore',zh:'此外 / 而且',example:"C'est rapide et, en outre, c'est gratuit."},
+  {id:173,level:'advanced',fr:'Par conséquent',en:'Consequently / As a result',zh:'因此 / 结果',example:'Il a raté l\'examen ; par conséquent, il redouble.'},
+  {id:174,level:'advanced',fr:"S'avérer",en:'To turn out to be',zh:'证明是 / 结果是',example:'Cela s\'avère plus difficile que prévu.'},
+  {id:175,level:'advanced',fr:'Nuancer',en:'To nuance / qualify',zh:'细化 / 加以区分',example:'Il faut nuancer cette affirmation.'},
+  {id:176,level:'advanced',fr:'Approfondir',en:'To deepen / go into depth',zh:'深化 / 深入研究',example:'Je veux approfondir mes connaissances.'},
+  {id:177,level:'advanced',fr:'La citoyenneté',en:'Citizenship',zh:'公民身份',example:'La citoyenneté française confère des droits.'},
+  {id:178,level:'advanced',fr:'À condition que',en:'On the condition that',zh:'只要 / 条件是',example:'Je viens à condition que tu cuisines.'},
+  {id:179,level:'advanced',fr:'Mettre les pieds dans le plat',en:"To put one's foot in it",zh:'说错话（惯用语）',example:'Il a mis les pieds dans le plat devant tout le monde.'},
+  // ── TCF/TEF CANADA (20 cartes) ──
+  {id:180,level:'tcf',fr:'La résidence permanente',en:'Permanent residence',zh:'永久居留权',example:"J'ai obtenu ma résidence permanente."},
+  {id:181,level:'tcf',fr:'Le permis de travail',en:'Work permit',zh:'工作许可证',example:'Mon permis de travail expire en décembre.'},
+  {id:182,level:'tcf',fr:'La citoyenneté canadienne',en:'Canadian citizenship',zh:'加拿大公民身份',example:'La citoyenneté canadienne offre de nombreux avantages.'},
+  {id:183,level:'tcf',fr:'Soumettre une demande',en:'To submit an application',zh:'提交申请',example:"J'ai soumis ma demande en ligne."},
+  {id:184,level:'tcf',fr:'Le formulaire',en:'The form',zh:'表格',example:'Remplissez ce formulaire en lettres capitales.'},
+  {id:185,level:'tcf',fr:'Le délai de traitement',en:'Processing time',zh:'处理时间',example:'Le délai de traitement est de six mois.'},
+  {id:186,level:'tcf',fr:"L'entretien",en:'Interview',zh:'面试 / 访谈',example:"J'ai un entretien à l'ambassade."},
+  {id:187,level:'tcf',fr:'Maîtriser',en:'To master / be proficient in',zh:'掌握 / 精通',example:"Je maîtrise le français et l'anglais."},
+  {id:188,level:'tcf',fr:'La compréhension orale',en:'Listening comprehension',zh:'听力理解',example:'La compréhension orale est évaluée au TCF.'},
+  {id:189,level:'tcf',fr:"L'expression écrite",en:'Written expression',zh:'书面表达',example:"L'expression écrite représente 25 % du score."},
+  {id:190,level:'tcf',fr:'Bilingue',en:'Bilingual',zh:'双语的',example:'Le Canada est officiellement bilingue.'},
+  {id:191,level:'tcf',fr:'Francophone',en:'French-speaking / Francophone',zh:'说法语的人/地区',example:'Le Québec est une province francophone.'},
+  {id:192,level:'tcf',fr:'Le dossier',en:'File / Application dossier',zh:'档案 / 申请材料',example:'Votre dossier sera examiné sous deux semaines.'},
+  {id:193,level:'tcf',fr:'Les pièces justificatives',en:'Supporting documents',zh:'证明文件',example:'Joignez toutes les pièces justificatives requises.'},
+  {id:194,level:'tcf',fr:"L'acte de naissance",en:'Birth certificate',zh:'出生证明',example:"Fournissez un acte de naissance traduit."},
+  {id:195,level:'tcf',fr:"L'intégration",en:'Integration',zh:'融合 / 融入',example:"L'intégration linguistique est essentielle."},
+  {id:196,level:'tcf',fr:'Le seuil linguistique',en:'Language threshold / level',zh:'语言门槛',example:'Le TCF Canada évalue votre seuil linguistique.'},
+  {id:197,level:'tcf',fr:'Obtenir des points',en:'To earn points',zh:'获得分数',example:"On peut obtenir des points pour l'expérience."},
+  {id:198,level:'tcf',fr:"À l'écrit / à l'oral",en:'In writing / orally',zh:'书面上 / 口头上',example:"Je suis meilleur à l'écrit qu'à l'oral."},
+  {id:199,level:'tcf',fr:'Renouveler',en:'To renew',zh:'更新 / 续签',example:'Je dois renouveler mon permis de séjour.'},
+];
 
 /* ══════════════════════════════════════
    TRANSLATIONS
@@ -6210,6 +6401,42 @@ function t(key) { return (T[lang] && T[lang][key] !== undefined) ? T[lang][key] 
 function saveState() { localStorage.setItem('ff_state', JSON.stringify(state)); }
 function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*10, 0); }
 
+/* ══════════════════════════════════════
+   STREAK SYSTEM
+══════════════════════════════════════ */
+function getTodayStr() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function getStreak() {
+  return parseInt(localStorage.getItem('ff_streak') || '0', 10);
+}
+function initStreak() {
+  var last = localStorage.getItem('ff_last_active');
+  if (!last) return;
+  var today = getTodayStr();
+  if (last === today) return;
+  var diff = Math.round((new Date(today) - new Date(last)) / 86400000);
+  if (diff >= 2) { localStorage.setItem('ff_streak', '0'); }
+}
+function updateStreak() {
+  var today = getTodayStr();
+  var last  = localStorage.getItem('ff_last_active');
+  if (last === today) return 0; // Already counted today
+  var streak = getStreak();
+  if (!last) {
+    streak = 1;
+  } else {
+    var diff = Math.round((new Date(today) - new Date(last)) / 86400000);
+    streak = (diff === 1) ? streak + 1 : 1;
+  }
+  localStorage.setItem('ff_streak', String(streak));
+  localStorage.setItem('ff_last_active', today);
+  var max = parseInt(localStorage.getItem('ff_streak_max') || '0', 10);
+  if (streak > max) localStorage.setItem('ff_streak_max', String(streak));
+  return streak; // returns new streak value so caller can react
+}
+
 /* ── Icons per lesson ── */
 const ICONS = {0:'👋',1:'🔢',2:'🎨',3:'👨‍👩‍👧‍👦',4:'🔢',5:'✏️',6:'⏮️',7:'❤️',8:'⏳',9:'🔜',10:'🔮',11:'📌',12:'🚫',13:'❓',14:'🍎',15:'👗',16:'🏙️',17:'🧍',18:'😊',19:'⛅',20:'👆',21:'🔄',22:'⚖️',23:'🏠',24:'💼',25:'🐾',26:'⚽',27:'🏥',28:'🍽️',29:'💊',30:'📱',31:'🛍️',32:'💬',33:'⚠️',34:'🗼',35:'🍁',36:'👂',37:'📖',38:'✍️',39:'🗣️',40:'🏛️',41:'💡',42:'📋',43:'🌍',44:'🎯',45:'🌀',46:'🔮',47:'💬',48:'🔗',49:'⏱️',50:'📧',51:'📜',52:'📄',53:'📋',54:'⚔️'};
 
@@ -6299,6 +6526,7 @@ function renderCurrentView() {
   if (currentTab === 'home') renderHome();
   else if (currentTab === 'lessons') renderLessonsList();
   else if (currentTab === 'progress') renderProgress();
+  else if (currentTab === 'flashcards') renderFC();
   else if (currentTab === 'settings') renderSettings();
   document.getElementById('lesson-back-btn').textContent = t('back');
   document.getElementById('quiz-back-btn').textContent = t('quit');
@@ -6318,15 +6546,16 @@ function renderCurrentView() {
 /* ── Nav ── */
 function updateNav() {
   const labels = {
-    fr: ['Accueil','Leçons','Progrès','Réglages'],
-    en: ['Home','Lessons','Progress','Settings'],
-    zh: ['首页','课程','进度','设置']
+    fr: ['Accueil','Leçons','Progrès','Cartes','Réglages'],
+    en: ['Home','Lessons','Progress','Cards','Settings'],
+    zh: ['首页','课程','进度','卡片','设置']
   };
   const l = labels[lang];
   document.getElementById('nav-lbl-home').textContent = l[0];
   document.getElementById('nav-lbl-lessons').textContent = l[1];
   document.getElementById('nav-lbl-progress').textContent = l[2];
-  document.getElementById('nav-lbl-settings').textContent = l[3];
+  document.getElementById('nav-lbl-flashcards').textContent = l[3];
+  document.getElementById('nav-lbl-settings').textContent = l[4];
 }
 
 function showTab(tab) {
@@ -6342,6 +6571,7 @@ function showTab(tab) {
   if (tab === 'home') renderHome();
   else if (tab === 'lessons') renderLessonsList();
   else if (tab === 'progress') renderProgress();
+  else if (tab === 'flashcards') { if (!fcDeck.length) fcReset(); else renderFC(); }
   else if (tab === 'settings') renderSettings();
 }
 
@@ -6362,7 +6592,8 @@ function renderHome() {
   document.getElementById('hero-xp-stat').textContent = totalXP;
   document.getElementById('hero-prog-pct').textContent = totalPct + '%';
   document.getElementById('hero-lessons-lbl').textContent = lang==='zh' ? '课程' : lang==='en' ? 'lessons' : 'leçons';
-  document.getElementById('hero-streak-lbl').textContent = lang==='zh' ? '系列' : lang==='en' ? 'streak' : 'série';
+  document.getElementById('hero-streak-num').textContent = getStreak();
+  document.getElementById('hero-streak-lbl').textContent = lang==='zh' ? '🔥 系列' : lang==='en' ? '🔥 streak' : '🔥 série';
   // Animate progress bar (tiny delay so transition fires)
   setTimeout(() => {
     const fill = document.getElementById('hero-prog-fill');
@@ -6716,6 +6947,13 @@ function showResult() {
   document.getElementById('btn-retry').textContent = t('retry');
   document.getElementById('btn-back-lessons').textContent = t('backLessons');
 
+  // 🔥 Update streak
+  const newStreak = updateStreak();
+  if (newStreak > 0) {
+    const streakMsg = lang==='zh' ? `🔥 ${newStreak} 天连续练习！` : lang==='en' ? `🔥 ${newStreak}-day streak!` : `🔥 ${newStreak} jour${newStreak>1?'s':''} de suite !`;
+    setTimeout(() => showStreakBadge(streakMsg), 1000);
+  }
+
   // 🎉 Celebrate good results
   if (pct === 100) {
     setTimeout(() => launchConfetti('epic'), 300);
@@ -7048,11 +7286,195 @@ function showFloatingXP(amount, x, y) {
 }
 
 /* ══════════════════════════════════════
+   FLASHCARDS LOGIC
+══════════════════════════════════════ */
+var fcFilter = 'all';
+var fcDeck   = [];
+var fcIndex  = 0;
+var fcFlipped = false;
+var fcKnownIds  = new Set();
+var fcReviewIds = new Set();
+
+function setFCFilter(level) {
+  fcFilter = level;
+  document.querySelectorAll('.fc-filter-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.level === level);
+  });
+  fcReset();
+}
+
+function buildFCDeck() {
+  fcDeck = fcFilter === 'all' ? FLASHCARDS.slice() : FLASHCARDS.filter(function(c){ return c.level === fcFilter; });
+  // Shuffle
+  for (var i = fcDeck.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = fcDeck[i]; fcDeck[i] = fcDeck[j]; fcDeck[j] = tmp;
+  }
+}
+
+function fcReset() {
+  fcKnownIds  = new Set();
+  fcReviewIds = new Set();
+  fcIndex  = 0;
+  fcFlipped = false;
+  buildFCDeck();
+  renderFC();
+}
+
+function renderFC() {
+  var fl = {
+    fr: {all:'Tout', beginner:'Débutant', intermediate:'Intermédiaire', advanced:'Avancé', tcf:'TCF'},
+    en: {all:'All',  beginner:'Beginner',  intermediate:'Intermediate',  advanced:'Advanced', tcf:'TCF'},
+    zh: {all:'全部', beginner:'初级',       intermediate:'中级',          advanced:'高级',     tcf:'TCF'}
+  }[lang];
+  document.querySelectorAll('.fc-filter-btn').forEach(function(b){ b.textContent = fl[b.dataset.level]; });
+  var resetLbl = {fr:'↺ Recommencer', en:'↺ Restart', zh:'↺ 重新开始'}[lang];
+  var el = document.getElementById('fc-reset-btn'); if (el) el.textContent = resetLbl;
+
+  var area = document.getElementById('fc-card-area');
+  if (!area) return;
+
+  // Update counter + progress bar
+  var total = fcDeck.length;
+  var pct   = total > 0 ? Math.round(fcIndex / total * 100) : 0;
+  var counter = document.getElementById('fc-counter');
+  if (counter) counter.textContent = Math.min(fcIndex + 1, total) + ' / ' + total;
+  var fill = document.getElementById('fc-progress-fill');
+  if (fill) fill.style.width = (fcIndex >= total ? 100 : pct) + '%';
+
+  if (fcIndex >= total) { renderFCSummary(area); return; }
+
+  var card = fcDeck[fcIndex];
+  var lvColors = {beginner:'#10B981', intermediate:'#F59E0B', advanced:'#DC2626', tcf:'#0EA5E9'};
+  var lvNames  = {
+    fr: {beginner:'Débutant', intermediate:'Intermédiaire', advanced:'Avancé', tcf:'TCF/TEF'},
+    en: {beginner:'Beginner', intermediate:'Intermediate',  advanced:'Advanced', tcf:'TCF/TEF'},
+    zh: {beginner:'初级',      intermediate:'中级',          advanced:'高级',     tcf:'TCF/TEF'}
+  }[lang];
+
+  var tapHint    = {fr:'Appuyer pour voir la réponse', en:'Tap to see the answer', zh:'点击查看答案'}[lang];
+  var knownLbl   = {fr:'✓ Je sais',  en:'✓ I know',   zh:'✓ 认识'}[lang];
+  var reviewLbl  = {fr:'↩ À revoir', en:'↩ Review',   zh:'↩ 再看'}[lang];
+  var prevLbl    = {fr:'← Préc.',    en:'← Prev',     zh:'← 上一个'}[lang];
+  var nextLbl    = {fr:'Suiv. →',    en:'Next →',     zh:'下一个 →'}[lang];
+
+  var translation = lang === 'zh' ? card.zh : card.en;
+  var secondary   = lang === 'zh' ? '<div style="font-size:13px;color:var(--muted);margin-bottom:8px;">' + card.en + '</div>' : '';
+  var exampleHtml = card.example ? '<div class="fc-example">' + card.example + '</div>' : '';
+
+  area.innerHTML =
+    '<div class="fc-card-wrap">' +
+      '<div class="fc-card' + (fcFlipped ? ' flipped' : '') + '" id="fc-card" onclick="flipCard()">' +
+        '<div class="fc-face fc-front">' +
+          '<div class="fc-level-tag-card" style="color:rgba(255,255,255,0.7)">' + lvNames[card.level] + '</div>' +
+          '<div class="fc-word">' + card.fr + '</div>' +
+          '<div class="fc-hint">' + tapHint + '</div>' +
+        '</div>' +
+        '<div class="fc-face fc-back">' +
+          '<div class="fc-level-tag-card" style="color:' + lvColors[card.level] + '">' + lvNames[card.level] + '</div>' +
+          '<div class="fc-translation">' + translation + '</div>' +
+          secondary +
+          exampleHtml +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="fc-actions">' +
+      '<button class="fc-btn fc-btn-review" onclick="fcMark(\'review\')">' + reviewLbl + '</button>' +
+      '<button class="fc-btn fc-btn-know"   onclick="fcMark(\'know\')">'   + knownLbl  + '</button>' +
+    '</div>' +
+    '<div class="fc-nav">' +
+      '<button class="fc-nav-btn" onclick="fcPrev()">' + prevLbl + '</button>' +
+      '<button class="fc-nav-btn" onclick="fcNext()">' + nextLbl + '</button>' +
+    '</div>';
+}
+
+function renderFCSummary(area) {
+  var known  = fcKnownIds.size;
+  var review = fcReviewIds.size;
+  var total  = fcDeck.length;
+  var emoji  = known >= total * 0.8 ? '🎉' : known >= total * 0.5 ? '👍' : '💪';
+  var title  = {fr:'Session terminée !', en:'Session complete!', zh:'本轮结束！'}[lang];
+  var sub    = {fr:'Tu as révisé ' + total + ' cartes', en:'You reviewed ' + total + ' cards', zh:'你复习了' + total + '张卡片'}[lang];
+  var knownLbl  = {fr:'Sus',     en:'Known',  zh:'认识'}[lang];
+  var reviewLbl = {fr:'À revoir',en:'Review', zh:'待复习'}[lang];
+  var restartLbl   = {fr:'Recommencer',        en:'Restart',           zh:'重新开始'}[lang];
+  var reviewOnlyLbl= {fr:'Revoir les difficiles',en:'Review hard ones',zh:'复习难的'}[lang];
+  area.innerHTML =
+    '<div class="fc-summary">' +
+      '<span class="fc-summary-emoji">' + emoji + '</span>' +
+      '<div class="fc-summary-title">' + title + '</div>' +
+      '<div class="fc-summary-sub">' + sub + '</div>' +
+      '<div class="fc-summary-stats">' +
+        '<div class="fc-stat-box known"><span class="fc-stat-num">' + known + '</span><span class="fc-stat-lbl">' + knownLbl + '</span></div>' +
+        '<div class="fc-stat-box review"><span class="fc-stat-num">' + review + '</span><span class="fc-stat-lbl">' + reviewLbl + '</span></div>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:10px;">' +
+        '<button class="btn-primary" onclick="fcReset()">' + restartLbl + '</button>' +
+        (review > 0 ? '<button class="btn-secondary" onclick="fcReviewOnly()">' + reviewOnlyLbl + '</button>' : '') +
+      '</div>' +
+    '</div>';
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  var card = document.getElementById('fc-card');
+  if (card) card.classList.toggle('flipped', fcFlipped);
+}
+
+function fcMark(type) {
+  var card = fcDeck[fcIndex];
+  if (!card) return;
+  if (type === 'know') { fcKnownIds.add(card.id); fcReviewIds.delete(card.id); }
+  else                 { fcReviewIds.add(card.id); fcKnownIds.delete(card.id); }
+  fcIndex = Math.min(fcIndex + 1, fcDeck.length);
+  fcFlipped = false;
+  renderFC();
+}
+
+function fcNext() {
+  fcIndex = Math.min(fcIndex + 1, fcDeck.length);
+  fcFlipped = false;
+  renderFC();
+}
+
+function fcPrev() {
+  if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFC(); }
+}
+
+function fcReviewOnly() {
+  var reviewCards = fcDeck.filter(function(c){ return fcReviewIds.has(c.id); });
+  fcDeck = reviewCards;
+  fcKnownIds  = new Set();
+  fcReviewIds = new Set();
+  fcIndex  = 0;
+  fcFlipped = false;
+  renderFC();
+}
+
+/* ══════════════════════════════════════
+   STREAK BADGE
+══════════════════════════════════════ */
+function showStreakBadge(msg) {
+  const el = document.createElement('div');
+  el.className = 'streak-toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.classList.add('streak-toast-show'), 50);
+  setTimeout(() => {
+    el.classList.remove('streak-toast-show');
+    setTimeout(() => el.remove(), 400);
+  }, 2800);
+}
+
+/* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
 updateLangBtn();
 // Init dark mode immediately (before first render)
 if (localStorage.getItem('ff_dark') === '1') { document.body.classList.add('dark'); }
+
+// Init streak (check if a day was missed)
+initStreak();
 
 updateNav();
 renderHome();
