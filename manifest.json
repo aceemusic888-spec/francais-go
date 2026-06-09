@@ -1,22 +1,30 @@
 {
+  "id": "/francais-facile/",
   "name": "Français Facile",
   "short_name": "Français",
-  "description": "Apprenez le français facilement",
+  "description": "Apprenez le français facilement avec des leçons interactives et des quiz",
   "start_url": "/francais-facile/",
+  "scope": "/francais-facile/",
   "display": "standalone",
   "background_color": "#F0F2FF",
   "theme_color": "#4F46E5",
   "lang": "fr",
+  "dir": "ltr",
+  "orientation": "portrait",
+  "categories": ["education"],
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "https://via.placeholder.com/192x192/4F46E5/ffffff?text=FF",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "https://via.placeholder.com/512x512/4F46E5/ffffff?text=FF",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
