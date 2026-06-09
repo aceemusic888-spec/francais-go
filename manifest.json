@@ -1,27 +1,24 @@
 {
-  "id": "/",
-  "name": "FrenchGo",
+  "name": "FrenchGo — Apprendre le français",
   "short_name": "FrenchGo",
-  "description": "Apprenez le français avec des leçons interactives, flashcards et quiz — TCF, débutant à avancé",
+  "description": "Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF Canada.",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "background_color": "#0F0F1A",
+  "orientation": "portrait",
+  "background_color": "#4F46E5",
   "theme_color": "#4F46E5",
   "lang": "fr",
-  "dir": "ltr",
-  "orientation": "portrait",
-  "categories": ["education"],
-  "prefer_related_applications": false,
+  "scope": "/",
+  "categories": ["education", "lifestyle"],
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
