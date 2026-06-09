@@ -6245,7 +6245,7 @@ function toggleDarkMode() {
    LANGUAGE
 ══════════════════════════════════════ */
 function updateLangBtn() {
-  const labels = { fr:'🇬🇧 EN', en:'🇨🇳 中', zh:'🇫🇷 FR' };
+  const labels = { fr:'🇫🇷 FR', en:'🇬🇧 EN', zh:'🇨🇳 中文' };
   const btn = document.getElementById('lang-btn');
   if (btn) btn.textContent = labels[lang] || '🇬🇧 EN';
   ['fr','en','zh'].forEach(l => {
@@ -6346,7 +6346,14 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      unlockedEl.innerHTML = '';
+      const promoTitle = lang==='en'?'🔓 Unlock all 49 premium lessons':lang==='zh'?'🔓 解锁全部49节高级课程':'🔓 Débloquer les 49 leçons premium';
+      const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':'lang'==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
+      const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
+      unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;">
+        <div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div>
+        <div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div>
+        <div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div>
+      </div>`;
     }
   }
 
