@@ -6808,7 +6808,10 @@ function openLesson(id) {
   const rawContent = (lang==='zh' && CONTENT_ZH[id]) ? CONTENT_ZH[id] : currentLesson.content;
   lessonPages = Array.isArray(rawContent) ? rawContent : [rawContent];
   currentLessonPageIdx = 0;
+  // Hide all tab sections so lesson-view is the only thing visible
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('lesson-view').classList.add('active');
+  window.scrollTo(0, 0);
   renderLessonPage();
 }
 function renderLessonPage() {
@@ -6867,6 +6870,8 @@ function closeLessonView() {
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('result-view').classList.remove('active');
   currentLesson = null;
+  window.scrollTo(0, 0);
+  showTab(currentTab);
 }
 
 /* ══════════════════════════════════════
@@ -6992,8 +6997,8 @@ function closeQuiz() {
   renderLessonPage();
 }
 function backToLessons() {
+  currentTab = 'lessons';
   closeLessonView();
-  showTab('lessons');
 }
 
 /* ══════════════════════════════════════
@@ -7279,15 +7284,11 @@ function initApp() {
   });
 }
 
-/* ══════════════════════════════════════
-   BOOT
-══════════════════════════════════════ */
+/* BOOT */
 (function() {
-  // Always init the app so home page is populated
   initApp();
   const onboarded = localStorage.getItem('ff_onboarded');
   if (!onboarded) {
-    // Show onboarding overlay on top of the app
     const ob = document.getElementById('onboarding');
     if (ob) ob.classList.remove('hidden');
     obUpdateLang(lang);
