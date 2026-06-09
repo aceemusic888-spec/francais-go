@@ -1,12 +1,12 @@
 {
-  "id": "/francais-facile/",
-  "name": "Français Facile",
-  "short_name": "Français",
-  "description": "Apprenez le français facilement avec des leçons interactives et des quiz",
-  "start_url": "/francais-facile/",
-  "scope": "/francais-facile/",
+  "id": "/",
+  "name": "FrenchGo",
+  "short_name": "FrenchGo",
+  "description": "Apprenez le français avec des leçons interactives, flashcards et quiz — TCF, débutant à avancé",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#F0F2FF",
+  "background_color": "#0F0F1A",
   "theme_color": "#4F46E5",
   "lang": "fr",
   "dir": "ltr",
@@ -24,7 +24,7 @@
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }
