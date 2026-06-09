@@ -16,6 +16,31 @@
     }
     body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
 
+    /* ── Dark Mode ── */
+    body.dark { --bg:#0F0F1A; --card:#1A1A2E; --text:#E2E8F0; --muted:#94A3B8; --border:#2D3748; }
+    body.dark header { background: linear-gradient(135deg,#2D2B6B 0%,#3B1F6B 100%); }
+    body.dark nav { background:#1A1A2E; border-top-color:#2D3748; }
+    body.dark .card, body.dark .stat-box, body.dark .achievement { background:#1E1E38; }
+    body.dark .quiz-option, body.dark .back-btn { background:#1E1E38; color:var(--text); border-color:#2D3748; }
+    body.dark .modal-box { background:#1A1A2E; color:var(--text); }
+    body.dark .modal-features { background:#111126; }
+    body.dark .btn-secondary, body.dark .btn-unlock-code { background:#1E1E38; color:#818CF8; border-color:#3730A3; }
+    body.dark .hero-card { background: linear-gradient(140deg,#1E1B4B 0%,#2D2B6B 40%,#3B1F6B 100%); }
+    body.dark .result-inner { background: linear-gradient(160deg,#1E1B4B,#2D1B4E); }
+    body.dark #level-filter-bar { background:var(--bg); }
+    body.dark .level-filter-btn { background:#1E1E38; color:var(--muted); }
+    body.dark .vocab-table tr:nth-child(even) { background:#111126; }
+    body.dark .vocab-table td { color:var(--text); }
+    body.dark .tip-box { background: linear-gradient(135deg,#1E1B4B,#2D1B4E); }
+    body.dark .example-box { background: linear-gradient(135deg,#0F2D1E,#0F2D25); }
+    body.dark .code-input { background:#1E1E38; color:var(--text); border-color:#2D3748; }
+    body.dark .quiz-option:hover:not(:disabled) { background:#252550; }
+    body.dark .progress-bar { background:#2D3748; }
+    body.dark .xp-gained { background:#2D2410; color:#FCD34D; border-color:#78350F; }
+    body.dark .modal-title, body.dark .modal-sub, body.dark .modal-feature { color:var(--text); }
+    body.dark .lesson-card h3 { color:var(--text); }
+    body.dark .lesson-card p { color:var(--muted); }
+
     /* ── Header ── */
     header { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 24px rgba(99,102,241,0.35); }
     header h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
@@ -276,6 +301,120 @@
 
     /* ── Unlocked banner ── */
     .unlocked-banner { background: linear-gradient(135deg, #10B981, #34D399); color: white; border-radius: 14px; padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 14px; }
+
+    /* ══════════════════════════════════════
+       ONBOARDING
+    ══════════════════════════════════════ */
+    #onboarding { position:fixed; inset:0; z-index:9998; background:#0F0A28; display:flex; flex-direction:column; overflow:hidden; }
+    #onboarding.hidden { display:none; }
+    .ob-particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+    .ob-particle { position:absolute; border-radius:50%; animation:floatUp 7s infinite linear; }
+    @keyframes floatUp { 0%{transform:translateY(100vh) scale(0.2);opacity:0;} 10%{opacity:0.6;} 90%{opacity:0.3;} 100%{transform:translateY(-10vh) scale(1.3);opacity:0;} }
+    .ob-slide-panel { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 32px 20px; text-align:center; width:100%; overflow-y:auto; animation:obPop 0.35s ease; }
+    .ob-emoji { font-size:80px; margin-bottom:20px; animation:obPop 0.7s cubic-bezier(0.34,1.56,0.64,1); display:block; }
+    .ob-title { font-size:27px; font-weight:900; color:white; margin-bottom:12px; letter-spacing:-0.5px; line-height:1.2; }
+    .ob-desc { font-size:15px; color:rgba(255,255,255,0.72); line-height:1.65; max-width:280px; }
+    .ob-features { display:flex; flex-direction:column; gap:12px; width:100%; max-width:320px; margin-top:22px; }
+    .ob-feat { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); border-radius:16px; padding:13px 16px; display:flex; align-items:center; gap:13px; text-align:left; backdrop-filter:blur(6px); animation:slideInFeat 0.5s cubic-bezier(0.34,1,0.64,1) both; }
+    .ob-feat:nth-child(1){animation-delay:0.1s;} .ob-feat:nth-child(2){animation-delay:0.22s;} .ob-feat:nth-child(3){animation-delay:0.34s;}
+    .ob-feat-icon { font-size:26px; flex-shrink:0; }
+    .ob-feat-text strong { display:block; color:white; font-size:14px; font-weight:700; }
+    .ob-feat-text span { color:rgba(255,255,255,0.6); font-size:12px; }
+    .ob-levels { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:340px; margin-top:20px; }
+    .ob-level { background:rgba(255,255,255,0.09); border:2px solid rgba(255,255,255,0.16); border-radius:18px; padding:16px 10px; display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; transition:all 0.22s cubic-bezier(0.34,1.2,0.64,1); text-align:center; }
+    .ob-level:hover { background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.5); transform:scale(1.04); }
+    .ob-level.selected { background:rgba(255,255,255,0.22); border-color:white; transform:scale(1.06); box-shadow:0 0 20px rgba(255,255,255,0.2); }
+    .ob-level-icon { font-size:34px; }
+    .ob-level-name { color:white; font-size:13px; font-weight:800; }
+    .ob-level-sub { color:rgba(255,255,255,0.55); font-size:10px; line-height:1.3; }
+    .ob-nav { padding:20px 24px 44px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .ob-dots { display:flex; gap:6px; margin-bottom:2px; }
+    .ob-dot { width:8px; height:8px; border-radius:4px; background:rgba(255,255,255,0.28); transition:all 0.35s cubic-bezier(0.34,1.2,0.64,1); }
+    .ob-dot.active { background:white; width:24px; }
+    .ob-btn-next { width:100%; max-width:320px; padding:16px; background:linear-gradient(135deg,#6366F1,#8B5CF6,#EC4899); color:white; border:none; border-radius:16px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 6px 28px rgba(139,92,246,0.55); transition:transform 0.15s,opacity 0.15s; letter-spacing:0.2px; }
+    .ob-btn-next:hover { transform:translateY(-2px); opacity:0.92; }
+    .ob-btn-next:active { transform:scale(0.97); }
+    .ob-btn-skip { background:none; border:none; color:rgba(255,255,255,0.4); font-size:13px; cursor:pointer; padding:4px 10px; transition:color 0.2s; }
+    .ob-btn-skip:hover { color:rgba(255,255,255,0.65); }
+    .ob-lang-picker { display:flex; gap:10px; margin-bottom:24px; }
+    .ob-lang-btn { background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.18); border-radius:14px; padding:10px 16px; color:white; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.22s cubic-bezier(0.34,1.2,0.64,1); display:flex; align-items:center; gap:7px; }
+    .ob-lang-btn:hover { background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.5); transform:scale(1.04); }
+    .ob-lang-btn.selected { background:rgba(255,255,255,0.25); border-color:white; box-shadow:0 0 18px rgba(255,255,255,0.22); transform:scale(1.07); }
+    @keyframes obPop { from{transform:scale(0.2) rotate(-20deg);opacity:0;} to{transform:scale(1) rotate(0);opacity:1;} }
+    @keyframes slideInFeat { from{opacity:0;transform:translateX(28px);} to{opacity:1;transform:none;} }
+
+    /* ══════════════════════════════════════
+       CONFETTI
+    ══════════════════════════════════════ */
+    .confetti-piece { position:fixed; border-radius:2px; top:-12px; pointer-events:none; z-index:9999; animation:confettiFall var(--dur) var(--delay) ease-in forwards; }
+    @keyframes confettiFall { 0%{transform:translateX(0) rotate(0deg) scale(1);opacity:1;top:-12px;} 75%{opacity:1;} 100%{transform:translateX(var(--drift)) rotate(720deg) scale(0.4);opacity:0;top:105vh;} }
+
+    /* ══════════════════════════════════════
+       FLOATING XP
+    ══════════════════════════════════════ */
+    .float-xp { position:fixed; font-size:17px; font-weight:900; color:white; pointer-events:none; z-index:9000; animation:floatXP 1.5s ease-out forwards; text-shadow:0 2px 10px rgba(99,102,241,0.7); background:linear-gradient(135deg,#6366F1,#8B5CF6); padding:6px 14px; border-radius:20px; }
+    @keyframes floatXP { 0%{opacity:1;transform:translateY(0) scale(1);} 100%{opacity:0;transform:translateY(-90px) scale(1.2);} }
+
+    /* ══════════════════════════════════════
+       ENHANCED MICRO-INTERACTIONS
+    ══════════════════════════════════════ */
+    .lesson-card { transition:transform 0.18s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.18s, border-left-color 0.18s; }
+    .lesson-card:hover { transform:translateY(-3px) scale(1.008); box-shadow:0 10px 32px rgba(99,102,241,0.16); }
+    .lesson-card:active { transform:scale(0.98); }
+    nav button .nav-icon { transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1); display:inline-block; }
+    nav button.active .nav-icon { transform:scale(1.25) translateY(-3px); }
+    .quiz-option { transition:all 0.18s cubic-bezier(0.34,1.2,0.64,1); }
+    .quiz-option:hover:not(:disabled) { transform:translateX(6px) scale(1.01); }
+    .level-tag.beginner { box-shadow:0 0 10px rgba(16,185,129,0.4); }
+    .level-tag.intermediate { box-shadow:0 0 10px rgba(245,158,11,0.4); }
+    .level-tag.tcf { box-shadow:0 0 10px rgba(14,165,233,0.4); }
+    .level-tag.advanced { box-shadow:0 0 10px rgba(220,38,38,0.4); }
+    @keyframes heroPulse { 0%,100%{transform:scale(1);opacity:0.5;} 50%{transform:scale(1.15);opacity:0.9;} }
+    .hero-card::before { animation:heroPulse 3.5s infinite ease-in-out !important; }
+    .hero-card::after  { animation:heroPulse 3.5s 1.7s infinite ease-in-out !important; }
+    .xp-badge { position:relative; overflow:hidden; }
+    .xp-badge::after { content:''; position:absolute; top:0; left:-60%; width:35%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent); transform:skewX(-20deg); animation:shine 3.5s 2s infinite; }
+    @keyframes shine { 0%{left:-60%;} 25%{left:130%;} 100%{left:130%;} }
+    .progress-fill { background:linear-gradient(90deg,#6366F1,#8B5CF6,#EC4899) !important; }
+    .btn-primary, .ob-btn-next, .start-quiz-btn, .btn-gumroad { position:relative; overflow:hidden; }
+    .btn-primary::after, .ob-btn-next::after, .start-quiz-btn::after, .btn-gumroad::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent); opacity:0; transition:opacity 0.2s; }
+    .btn-primary:hover::after, .ob-btn-next:hover::after, .start-quiz-btn:hover::after, .btn-gumroad:hover::after { opacity:1; }
+    .stat-box { transition:transform 0.18s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.18s; }
+    .stat-box:hover { transform:translateY(-2px) scale(1.02); box-shadow:0 6px 22px rgba(99,102,241,0.15); }
+    .achievement { transition:transform 0.18s, box-shadow 0.18s; }
+    .achievement:not(.locked):hover { transform:translateX(4px); box-shadow:0 4px 18px rgba(99,102,241,0.12); }
+
+    /* ── Settings Tab ── */
+    .settings-group { background:var(--card); border-radius:var(--radius); overflow:hidden; margin-bottom:16px; box-shadow:0 2px 14px rgba(0,0,0,0.05),0 0 0 1px rgba(0,0,0,0.025); animation:sectionIn 0.28s cubic-bezier(0.34,1,0.64,1); }
+    .settings-group-title { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); padding:14px 18px 8px; }
+    .settings-row { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; cursor:default; transition:background 0.15s; gap:10px; }
+    .settings-row:active { background:rgba(99,102,241,0.06); }
+    .settings-row-left { display:flex; align-items:center; gap:13px; flex:1; min-width:0; }
+    .settings-row-icon { font-size:22px; width:28px; text-align:center; flex-shrink:0; }
+    .settings-row-label { font-size:15px; font-weight:600; color:var(--text); }
+    .settings-row-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+    .settings-chevron { font-size:22px; color:var(--muted); font-weight:300; flex-shrink:0; }
+    .settings-divider { height:1px; background:var(--border); margin:0 18px; }
+    .settings-lang-btns { display:flex; gap:6px; flex-shrink:0; }
+    .set-lang-btn { padding:6px 10px; border-radius:10px; border:2px solid var(--border); background:var(--bg); font-size:12px; font-weight:700; cursor:pointer; color:var(--muted); transition:all 0.18s; }
+    .set-lang-btn.active { border-color:var(--indigo); color:var(--indigo); background:#EEF2FF; }
+    body.dark .set-lang-btn.active { background:#1E1B4B; }
+    body.dark .set-lang-btn { background:#111126; }
+    /* Toggle switch */
+    .settings-toggle { width:48px; height:27px; border-radius:14px; background:#CBD5E1; position:relative; transition:background 0.25s; cursor:pointer; flex-shrink:0; }
+    .settings-toggle.on { background:var(--indigo); }
+    .settings-toggle-thumb { position:absolute; top:3px; left:3px; width:21px; height:21px; border-radius:50%; background:white; box-shadow:0 1px 4px rgba(0,0,0,0.22); transition:transform 0.25s cubic-bezier(0.34,1.2,0.64,1); }
+    .settings-toggle.on .settings-toggle-thumb { transform:translateX(21px); }
+    /* About block */
+    .settings-about { text-align:center; padding:24px 18px 28px; }
+    .settings-about-logo { font-size:54px; margin-bottom:10px; display:block; }
+    .settings-about-name { font-size:21px; font-weight:900; letter-spacing:-0.4px; }
+    .settings-about-ver { font-size:12px; color:var(--muted); margin:4px 0 10px; font-weight:600; }
+    .settings-about-desc { font-size:13px; color:var(--muted); line-height:1.6; max-width:260px; margin:0 auto 14px; }
+    .settings-about-contact { display:inline-block; font-size:13px; color:var(--indigo); font-weight:600; text-decoration:none; padding:6px 14px; border:1.5px solid #C7D2FE; border-radius:10px; transition:background 0.15s; }
+    .settings-about-contact:hover { background:#EEF2FF; }
+    body.dark .settings-about-contact { border-color:#3730A3; }
+    body.dark .settings-about-contact:hover { background:#1E1B4B; }
   </style>
 </head>
 <body>
@@ -285,6 +424,95 @@
   <div class="splash-mascot" id="splash-mascot"></div>
   <div class="splash-title">FrenchGo</div>
   <div class="splash-sub">Apprenez le français facilement 🍁</div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding" class="hidden">
+  <div class="ob-particles" id="ob-particles"></div>
+
+  <!-- Slide 0 : langue + bienvenue -->
+  <div class="ob-slide-panel" id="ob-panel-0">
+    <div class="ob-lang-picker">
+      <button class="ob-lang-btn selected" id="ob-lang-fr">🇫🇷 Français</button>
+      <button class="ob-lang-btn"          id="ob-lang-en">🇬🇧 English</button>
+      <button class="ob-lang-btn"          id="ob-lang-zh">🇨🇳 中文</button>
+    </div>
+    <span class="ob-emoji">🦊</span>
+    <div class="ob-title ob-i18n" data-fr="Bienvenue sur FrenchGo !" data-en="Welcome to FrenchGo!" data-zh="欢迎使用 FrenchGo！">Bienvenue sur FrenchGo !</div>
+    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 55 leçons interactives, des quiz et un système de progression gamifié." data-en="Learn French at your own pace with 55 interactive lessons, quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，55节互动课程、测验和游戏化进度系统。">Apprenez le français à votre rythme avec 55 leçons interactives, des quiz et un système de progression gamifié.</div>
+  </div>
+
+  <!-- Slide 1 : fonctionnalités -->
+  <div class="ob-slide-panel" id="ob-panel-1" style="display:none">
+    <span class="ob-emoji">🚀</span>
+    <div class="ob-title ob-i18n" data-fr="Tout ce qu'il vous faut" data-en="Everything you need" data-zh="您所需的一切">Tout ce qu'il vous faut</div>
+    <div class="ob-features">
+      <div class="ob-feat">
+        <span class="ob-feat-icon">📚</span>
+        <div class="ob-feat-text">
+          <strong class="ob-i18n" data-fr="55 leçons structurées"    data-en="55 structured lessons"    data-zh="55节结构化课程">55 leçons structurées</strong>
+          <span   class="ob-i18n" data-fr="Du débutant au niveau avancé" data-en="From beginner to advanced" data-zh="从初级到高级">Du débutant au niveau avancé</span>
+        </div>
+      </div>
+      <div class="ob-feat">
+        <span class="ob-feat-icon">🎯</span>
+        <div class="ob-feat-text">
+          <strong class="ob-i18n" data-fr="275 quiz interactifs"    data-en="275 interactive quizzes"   data-zh="275道互动测验">275 quiz interactifs</strong>
+          <span   class="ob-i18n" data-fr="Testez vos connaissances à chaque étape" data-en="Test your knowledge at every step" data-zh="每一步测试您的知识">Testez vos connaissances à chaque étape</span>
+        </div>
+      </div>
+      <div class="ob-feat">
+        <span class="ob-feat-icon">🍁</span>
+        <div class="ob-feat-text">
+          <strong class="ob-i18n" data-fr="Préparation TCF/TEF Canada" data-en="TCF/TEF Canada prep"      data-zh="TCF/TEF加拿大备考">Préparation TCF/TEF Canada</strong>
+          <span   class="ob-i18n" data-fr="10 leçons spéciales immigration" data-en="10 special immigration lessons" data-zh="10节特别移民课程">10 leçons spéciales immigration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 : objectif -->
+  <div class="ob-slide-panel" id="ob-panel-2" style="display:none">
+    <span class="ob-emoji">🎯</span>
+    <div class="ob-title ob-i18n" data-fr="Quel est votre objectif ?" data-en="What is your goal?" data-zh="您的目标是什么？">Quel est votre objectif ?</div>
+    <div class="ob-desc  ob-i18n" data-fr="Choisissez pour personnaliser votre parcours." data-en="Choose to personalize your learning journey." data-zh="选择以个性化您的学习旅程。" style="margin-bottom:0">Choisissez pour personnaliser votre parcours.</div>
+    <div class="ob-levels">
+      <div class="ob-level" onclick="selectGoal(this,'travel')">
+        <span class="ob-level-icon">✈️</span>
+        <span class="ob-level-name ob-i18n" data-fr="Voyage"         data-en="Travel"       data-zh="旅游">Voyage</span>
+        <span class="ob-level-sub  ob-i18n" data-fr="Communication de base" data-en="Basic communication" data-zh="基础交流">Communication de base</span>
+      </div>
+      <div class="ob-level" onclick="selectGoal(this,'immigration')">
+        <span class="ob-level-icon">🍁</span>
+        <span class="ob-level-name ob-i18n" data-fr="Immigration"    data-en="Immigration"  data-zh="移民">Immigration</span>
+        <span class="ob-level-sub  ob-i18n" data-fr="TCF/TEF Canada" data-en="TCF/TEF Canada" data-zh="TCF/TEF加拿大">TCF/TEF Canada</span>
+      </div>
+      <div class="ob-level" onclick="selectGoal(this,'pro')">
+        <span class="ob-level-icon">💼</span>
+        <span class="ob-level-name ob-i18n" data-fr="Professionnel"  data-en="Professional" data-zh="职业发展">Professionnel</span>
+        <span class="ob-level-sub  ob-i18n" data-fr="Français des affaires" data-en="Business French" data-zh="商务法语">Français des affaires</span>
+      </div>
+      <div class="ob-level" onclick="selectGoal(this,'fluent')">
+        <span class="ob-level-icon">🌟</span>
+        <span class="ob-level-name ob-i18n" data-fr="Maîtrise totale" data-en="Full mastery" data-zh="完全掌握">Maîtrise totale</span>
+        <span class="ob-level-sub  ob-i18n" data-fr="Niveau avancé"  data-en="Advanced level" data-zh="高级水平">Niveau avancé</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ob-nav">
+    <div class="ob-dots" id="ob-dots">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <button class="ob-btn-next" id="ob-next-btn" onclick="obNext()">
+      <span class="ob-i18n" data-fr="Suivant →" data-en="Next →" data-zh="下一步 →">Suivant →</span>
+    </button>
+    <button class="ob-btn-skip" id="ob-skip-btn" onclick="finishOnboarding()">
+      <span class="ob-i18n" data-fr="Passer" data-en="Skip" data-zh="跳过">Passer</span>
+    </button>
+  </div>
 </div>
 
 <header>
@@ -305,6 +533,7 @@
   <button id="nav-home" class="active" onclick="showTab('home')"><span class="nav-icon">🏠</span><span class="nav-label" id="nav-lbl-home">Accueil</span></button>
   <button id="nav-lessons" onclick="showTab('lessons')"><span class="nav-icon">📚</span><span class="nav-label" id="nav-lbl-lessons">Leçons</span></button>
   <button id="nav-progress" onclick="showTab('progress')"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
+  <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
 </nav>
 
 <main>
@@ -387,6 +616,64 @@
     </div>
     <div class="section-title" id="lbl-achievements"></div>
     <div id="achievements"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="tab-settings" class="section">
+
+    <!-- Langue -->
+    <div class="settings-group">
+      <div class="settings-group-title" id="set-lbl-lang">Langue</div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">🌐</span>
+          <span class="settings-row-label" id="set-lbl-lang-sub">Langue de l'interface</span>
+        </div>
+        <div class="settings-lang-btns">
+          <button class="set-lang-btn active" id="set-lang-fr" onclick="setLang('fr')">🇫🇷 FR</button>
+          <button class="set-lang-btn" id="set-lang-en" onclick="setLang('en')">🇬🇧 EN</button>
+          <button class="set-lang-btn" id="set-lang-zh" onclick="setLang('zh')">🇨🇳 中文</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apparence -->
+    <div class="settings-group">
+      <div class="settings-group-title" id="set-lbl-appearance">Apparence</div>
+      <div class="settings-row" onclick="toggleDarkMode()" style="cursor:pointer">
+        <div class="settings-row-left">
+          <span class="settings-row-icon" id="dark-mode-icon">🌙</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-dark">Mode sombre</div>
+            <div class="settings-row-sub" id="set-lbl-dark-sub">Réduire la luminosité</div>
+          </div>
+        </div>
+        <div class="settings-toggle" id="dark-toggle">
+          <div class="settings-toggle-thumb"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infos & Confidentialité -->
+    <div class="settings-group">
+      <div class="settings-group-title" id="set-lbl-info">Informations</div>
+      <div class="settings-row" onclick="openPrivacy()" style="cursor:pointer">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">🔒</span>
+          <span class="settings-row-label" id="set-lbl-privacy">Politique de confidentialité</span>
+        </div>
+        <span class="settings-chevron">›</span>
+      </div>
+      <div class="settings-divider"></div>
+      <div class="settings-about">
+        <span class="settings-about-logo">🦊</span>
+        <div class="settings-about-name">FrenchGo</div>
+        <div class="settings-about-ver" id="set-ver">v1.0</div>
+        <div class="settings-about-desc" id="set-lbl-about-desc">Apprendre le français n'a jamais été aussi simple.</div>
+        <a class="settings-about-contact" href="mailto:aceemusic.888@gmail.com">aceemusic.888@gmail.com</a>
+      </div>
+    </div>
+
   </div>
 
   <!-- LESSON DETAIL -->
@@ -5932,6 +6219,76 @@ function toggleLang() {
   localStorage.setItem('ff_lang', lang);
   updateLangBtn();
   renderCurrentView();
+  updateObI18n();
+}
+
+/* ── Set language directly (from settings) ── */
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('ff_lang', l);
+  updateLangBtn();
+  renderCurrentView();
+  updateObI18n();
+}
+
+/* ── Dark mode ── */
+function toggleDarkMode() {
+  var isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('ff_dark', isDark ? '1' : '0');
+  renderSettings();
+}
+
+/* ── Open privacy policy ── */
+function openPrivacy() {
+  window.open('privacy-policy.html', '_blank');
+}
+
+/* ── Render Settings ── */
+function renderSettings() {
+  var isDark = document.body.classList.contains('dark');
+  var el = function(id, txt) { var e = document.getElementById(id); if (e) e.textContent = txt; };
+
+  var gLang =       {fr:'Langue',                       en:'Language',             zh:'语言'};
+  var gApp =        {fr:'Apparence',                    en:'Appearance',           zh:'外观'};
+  var gInfo =       {fr:'Informations',                 en:'Information',          zh:'信息'};
+  var lLangSub =    {fr:'Langue de l\'interface',       en:'Interface language',   zh:'界面语言'};
+  var lDark =       {fr:'Mode sombre',                  en:'Dark mode',            zh:'深色模式'};
+  var lDarkSub =    {fr:'Réduire la luminosité',        en:'Reduce brightness',    zh:'减少亮度'};
+  var lPrivacy =    {fr:'Politique de confidentialité', en:'Privacy Policy',       zh:'隐私政策'};
+  var lAboutDesc =  {fr:'Apprendre le français n\'a jamais été aussi simple.', en:'Learning French has never been this easy.', zh:'学习法语从未如此简单。'};
+
+  el('set-lbl-lang',       gLang[lang]);
+  el('set-lbl-lang-sub',   lLangSub[lang]);
+  el('set-lbl-appearance', gApp[lang]);
+  el('set-lbl-dark',       lDark[lang]);
+  el('set-lbl-dark-sub',   lDarkSub[lang]);
+  el('set-lbl-info',       gInfo[lang]);
+  el('set-lbl-privacy',    lPrivacy[lang]);
+  el('set-lbl-about-desc', lAboutDesc[lang]);
+  el('dark-mode-icon',     isDark ? '☀️' : '🌙');
+
+  // Language buttons active state
+  ['fr','en','zh'].forEach(function(l) {
+    var btn = document.getElementById('set-lang-' + l);
+    if (btn) btn.classList.toggle('active', l === lang);
+  });
+
+  // Dark mode toggle state
+  var toggle = document.getElementById('dark-toggle');
+  if (toggle) toggle.classList.toggle('on', isDark);
+}
+
+function updateObI18n() {
+  var els = document.querySelectorAll('.ob-i18n');
+  for (var i = 0; i < els.length; i++) {
+    var val = els[i].getAttribute('data-' + lang);
+    if (val !== null) els[i].textContent = val;
+  }
+  var btns = document.querySelectorAll('.ob-lang-btn');
+  for (var j = 0; j < btns.length; j++) btns[j].classList.remove('selected');
+  var sel = document.getElementById('ob-lang-' + lang);
+  if (sel) sel.classList.add('selected');
+  updateObNextBtn();
 }
 function updateLangBtn() {
   const labels = {fr:'🇬🇧 EN', en:'🇨🇳 中文', zh:'🇫🇷 FR'};
@@ -5942,6 +6299,7 @@ function renderCurrentView() {
   if (currentTab === 'home') renderHome();
   else if (currentTab === 'lessons') renderLessonsList();
   else if (currentTab === 'progress') renderProgress();
+  else if (currentTab === 'settings') renderSettings();
   document.getElementById('lesson-back-btn').textContent = t('back');
   document.getElementById('quiz-back-btn').textContent = t('quit');
   document.getElementById('btn-retry').textContent = t('retry');
@@ -5960,14 +6318,15 @@ function renderCurrentView() {
 /* ── Nav ── */
 function updateNav() {
   const labels = {
-    fr: ['Accueil','Leçons','Progrès'],
-    en: ['Home','Lessons','Progress'],
-    zh: ['首页','课程','进度']
+    fr: ['Accueil','Leçons','Progrès','Réglages'],
+    en: ['Home','Lessons','Progress','Settings'],
+    zh: ['首页','课程','进度','设置']
   };
   const l = labels[lang];
   document.getElementById('nav-lbl-home').textContent = l[0];
   document.getElementById('nav-lbl-lessons').textContent = l[1];
   document.getElementById('nav-lbl-progress').textContent = l[2];
+  document.getElementById('nav-lbl-settings').textContent = l[3];
 }
 
 function showTab(tab) {
@@ -5983,6 +6342,7 @@ function showTab(tab) {
   if (tab === 'home') renderHome();
   else if (tab === 'lessons') renderLessonsList();
   else if (tab === 'progress') renderProgress();
+  else if (tab === 'settings') renderSettings();
 }
 
 /* ══════════════════════════════════════
@@ -6355,6 +6715,18 @@ function showResult() {
   document.getElementById('xp-gained').textContent = '⚡ +' + xpEarned + ' XP';
   document.getElementById('btn-retry').textContent = t('retry');
   document.getElementById('btn-back-lessons').textContent = t('backLessons');
+
+  // 🎉 Celebrate good results
+  if (pct === 100) {
+    setTimeout(() => launchConfetti('epic'), 300);
+    setTimeout(() => showFloatingXP(xpEarned), 500);
+    setTimeout(() => showFloatingXP(xpEarned, 60, 45), 900);
+  } else if (pct >= 80) {
+    setTimeout(() => launchConfetti('normal'), 300);
+    setTimeout(() => showFloatingXP(xpEarned), 500);
+  } else if (pct >= 60) {
+    setTimeout(() => showFloatingXP(xpEarned), 400);
+  }
 }
 
 function retryQuiz() {
@@ -6497,14 +6869,196 @@ function renderUnlockedBanner() {
 }
 
 /* ══════════════════════════════════════
+   ONBOARDING TRANSLATIONS
+══════════════════════════════════════ */
+const OB_TEXTS = {
+  fr: {
+    s1title: 'Bienvenue sur FrenchGo !',
+    s1desc:  'Apprenez le français à votre rythme avec 55 leçons interactives, des quiz et un système de progression gamifié.',
+    s2title: 'Tout ce qu\'il vous faut',
+    f1name: '55 leçons structurées',      f1sub: 'Du débutant au niveau avancé',
+    f2name: '275 quiz interactifs',        f2sub: 'Testez vos connaissances à chaque étape',
+    f3name: 'Préparation TCF/TEF Canada',  f3sub: '10 leçons spéciales immigration',
+    s3title: 'Quel est votre objectif ?',
+    s3desc:  'Choisissez pour personnaliser votre parcours.',
+    g1name: 'Voyage',         g1sub: 'Communication de base',
+    g2name: 'Immigration',    g2sub: 'TCF/TEF Canada',
+    g3name: 'Professionnel',  g3sub: 'Français des affaires',
+    g4name: 'Maîtrise totale',g4sub: 'Niveau avancé',
+    next: 'Suivant →', start: '🚀 Commencer FrenchGo !', skip: 'Passer',
+  },
+  en: {
+    s1title: 'Welcome to FrenchGo!',
+    s1desc:  'Learn French at your own pace with 55 interactive lessons, quizzes, and a gamified progress system.',
+    s2title: 'Everything you need',
+    f1name: '55 structured lessons',       f1sub: 'From beginner to advanced',
+    f2name: '275 interactive quizzes',     f2sub: 'Test your knowledge at every step',
+    f3name: 'TCF/TEF Canada prep',         f3sub: '10 special immigration lessons',
+    s3title: 'What is your goal?',
+    s3desc:  'Choose to personalize your learning journey.',
+    g1name: 'Travel',         g1sub: 'Basic communication',
+    g2name: 'Immigration',    g2sub: 'TCF/TEF Canada',
+    g3name: 'Professional',   g3sub: 'Business French',
+    g4name: 'Full mastery',   g4sub: 'Advanced level',
+    next: 'Next →', start: '🚀 Start FrenchGo!', skip: 'Skip',
+  },
+  zh: {
+    s1title: '欢迎使用 FrenchGo！',
+    s1desc:  '按照自己的节奏学习法语，55节互动课程、测验和游戏化进度系统。',
+    s2title: '您所需的一切',
+    f1name: '55节结构化课程',    f1sub: '从初级到高级',
+    f2name: '275道互动测验',     f2sub: '每一步测试您的知识',
+    f3name: 'TCF/TEF加拿大备考', f3sub: '10节特别移民课程',
+    s3title: '您的目标是什么？',
+    s3desc:  '选择以个性化您的学习旅程。',
+    g1name: '旅游',     g1sub: '基础交流',
+    g2name: '移民',     g2sub: 'TCF/TEF加拿大',
+    g3name: '职业发展', g3sub: '商务法语',
+    g4name: '完全掌握', g4sub: '高级水平',
+    next: '下一步 →', start: '🚀 开始 FrenchGo！', skip: '跳过',
+  }
+};
+
+function selectObLang(l) {
+  lang = l;
+  try { localStorage.setItem('ff_lang', l); } catch(e) {}
+  updateLangBtn();
+  updateObI18n();
+}
+
+function updateObNextBtn() {
+  var tx = OB_TEXTS[lang] || OB_TEXTS.fr;
+  var btn = document.getElementById('ob-next-btn');
+  if (!btn) return;
+  var span = btn.querySelector('.ob-i18n');
+  if (span) span.textContent = obSlide === OB_TOTAL - 1 ? tx.start : tx.next;
+  btn.style.background = obSlide === OB_TOTAL - 1 ? 'linear-gradient(135deg,#10B981,#059669)' : 'linear-gradient(135deg,#6366F1,#8B5CF6,#EC4899)';
+  btn.style.boxShadow  = obSlide === OB_TOTAL - 1 ? '0 6px 28px rgba(16,185,129,0.55)' : '0 6px 28px rgba(139,92,246,0.55)';
+}
+
+/* ══════════════════════════════════════
+   ONBOARDING
+══════════════════════════════════════ */
+let obSlide = 0;
+const OB_TOTAL = 3;
+let selectedGoal = null;
+
+function initOnboarding() {
+  if (localStorage.getItem('ff_onboarding_done')) return;
+  var ob = document.getElementById('onboarding');
+  ob.classList.remove('hidden');
+  spawnObParticles();
+
+  // Lier les boutons de langue avec addEventListener (plus fiable que onclick)
+  var btnFr = document.getElementById('ob-lang-fr');
+  var btnEn = document.getElementById('ob-lang-en');
+  var btnZh = document.getElementById('ob-lang-zh');
+  if (btnFr) btnFr.addEventListener('click', function() { selectObLang('fr'); });
+  if (btnEn) btnEn.addEventListener('click', function() { selectObLang('en'); });
+  if (btnZh) btnZh.addEventListener('click', function() { selectObLang('zh'); });
+
+  selectObLang(lang);
+}
+
+function spawnObParticles() {
+  const container = document.getElementById('ob-particles');
+  if (!container) return;
+  const colors = ['#6366F1','#8B5CF6','#EC4899','#10B981','#F59E0B','#0EA5E9','#F97316'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'ob-particle';
+    const size = 4 + Math.random() * 12;
+    p.style.cssText = `width:${size}px;height:${size}px;background:${colors[i % colors.length]};left:${Math.random()*100}%;animation-duration:${5+Math.random()*7}s;animation-delay:${Math.random()*6}s;opacity:0;`;
+    container.appendChild(p);
+  }
+}
+
+function obNext() {
+  if (obSlide < OB_TOTAL - 1) {
+    // Cacher panel courant, montrer le suivant
+    var cur = document.getElementById('ob-panel-' + obSlide);
+    if (cur) cur.style.display = 'none';
+    obSlide++;
+    var next = document.getElementById('ob-panel-' + obSlide);
+    if (next) next.style.display = 'flex';
+    // Dots
+    document.querySelectorAll('.ob-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === obSlide);
+    });
+    updateObNextBtn();
+  } else {
+    finishOnboarding();
+  }
+}
+
+function selectGoal(el, goal) {
+  selectedGoal = goal;
+  document.querySelectorAll('.ob-level').forEach(l => l.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function finishOnboarding() {
+  localStorage.setItem('ff_onboarding_done', '1');
+  if (selectedGoal) localStorage.setItem('ff_goal', selectedGoal);
+  var ob = document.getElementById('onboarding');
+  if (!ob) return;
+  ob.style.opacity = '0';
+  ob.style.transition = 'opacity 0.55s ease';
+  setTimeout(function() {
+    ob.classList.add('hidden');
+    // Re-render l'app dans la langue choisie pendant l'onboarding
+    renderCurrentView();
+  }, 580);
+}
+
+/* ══════════════════════════════════════
+   CONFETTI
+══════════════════════════════════════ */
+function launchConfetti(intensity) {
+  const count = intensity === 'epic' ? 110 : 70;
+  const colors = ['#6366F1','#8B5CF6','#EC4899','#10B981','#F59E0B','#EF4444','#0EA5E9','#F97316','#34D399','#A78BFA'];
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = 5 + Math.random() * 90;
+    const drift = (Math.random() - 0.5) * 320;
+    const dur = 1.6 + Math.random() * 1.8;
+    const delay = Math.random() * 0.8;
+    const size = 5 + Math.random() * 11;
+    const isCircle = Math.random() > 0.6;
+    piece.style.cssText = `left:${left}vw;background:${color};width:${size}px;height:${size}px;border-radius:${isCircle?'50%':'2px'};--drift:${drift}px;--dur:${dur}s;--delay:${delay}s;`;
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), (dur + delay) * 1000 + 300);
+  }
+}
+
+/* ══════════════════════════════════════
+   FLOATING XP
+══════════════════════════════════════ */
+function showFloatingXP(amount, x, y) {
+  const el = document.createElement('div');
+  el.className = 'float-xp';
+  el.textContent = `+${amount} XP ⚡`;
+  const px = x !== undefined ? x : (30 + Math.random() * 40);
+  const py = y !== undefined ? y : 55;
+  el.style.cssText = `left:${px}vw;top:${py}vh;`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1600);
+}
+
+/* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
 updateLangBtn();
+// Init dark mode immediately (before first render)
+if (localStorage.getItem('ff_dark') === '1') { document.body.classList.add('dark'); }
+
 updateNav();
 renderHome();
 initMascot();
-// Splash screen: hide after 1.6s
-setTimeout(hideSplash, 1600);
+// Splash screen: hide after 1.6s, then show onboarding if needed
+setTimeout(() => { hideSplash(); setTimeout(initOnboarding, 600); }, 1600);
 </script>
 </body>
 </html>
