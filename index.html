@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FrenchGo — Apprendre le français</title>
-  <meta name="description" content="Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF Canada." />
+  <meta name="description" content="Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF." />
   <meta name="theme-color" content="#4F46E5" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,7 +218,21 @@
     .quiz-option.wrong { border-color: var(--red); background: #FFF1F2; color: #B91C1C; }
     .quiz-option.wrong .opt-letter { background: var(--red); color: white; }
     .quiz-option:disabled { cursor: default; transform: none !important; }
-    .feedback-box { margin-top: 14px; padding: 13px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; }
+    .feedback-box { margin-top: 14px; padding: 14px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; }
+    .feedback-answer { font-size:15px; font-weight:800; margin-bottom:4px; }
+    .feedback-exp { font-size:13px; font-weight:500; opacity:0.85; margin-top:4px; }
+    /* Search bar */
+    .lesson-search-wrap { position:relative; margin-bottom:12px; }
+    .lesson-search-input { width:100%; padding:11px 16px 11px 40px; border-radius:14px; border:2px solid var(--border); background:var(--bg); font-size:14px; color:var(--text); outline:none; transition:border-color 0.18s; }
+    .lesson-search-input:focus { border-color:var(--indigo); }
+    .lesson-search-icon { position:absolute; left:13px; top:50%; transform:translateY(-50%); font-size:16px; pointer-events:none; }
+    .lesson-search-clear { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; color:var(--muted); display:none; }
+    /* Share button */
+    .btn-share { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; padding:13px; border-radius:14px; border:2px solid var(--indigo); background:transparent; color:var(--indigo); font-size:15px; font-weight:800; cursor:pointer; margin-top:10px; transition:background 0.18s; }
+    .btn-share:hover { background:#EEF2FF; }
+    body.dark .btn-share:hover { background:#1E1B4B; }
+    /* Wrong answers review */
+    .btn-review-wrong { display:none; width:100%; padding:13px; border-radius:14px; border:none; background:linear-gradient(135deg,#EF4444,#F87171); color:white; font-size:15px; font-weight:800; cursor:pointer; margin-top:8px; }
     .feedback-box.show { display: flex; align-items: flex-start; gap: 8px; }
     .feedback-box.correct { background: #F0FDF4; color: #15803D; border: 1.5px solid #BBF7D0; }
     .feedback-box.wrong { background: #FFF1F2; color: #B91C1C; border: 1.5px solid #FECDD3; }
@@ -439,6 +453,21 @@
     body.dark .settings-about-contact:hover { background:#1E1B4B; }
 
     /* ══════════════════════════════════════
+       ENHANCED PROGRESS
+    ══════════════════════════════════════ */
+    .level-progress-section { margin-top:4px; }
+    .level-progress-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .level-progress-row:last-child { margin-bottom:0; }
+    .level-progress-label { font-size:12px; font-weight:700; width:88px; color:var(--muted); flex-shrink:0; }
+    .level-progress-bar { flex:1; height:10px; background:var(--border); border-radius:5px; overflow:hidden; }
+    .level-progress-fill { height:100%; border-radius:5px; transition:width 0.8s cubic-bezier(0.34,1.2,0.64,1); }
+    .level-progress-fill.beginner { background:linear-gradient(90deg,#10B981,#34D399); }
+    .level-progress-fill.intermediate { background:linear-gradient(90deg,#F59E0B,#FCD34D); }
+    .level-progress-fill.advanced { background:linear-gradient(90deg,#DC2626,#F87171); }
+    .level-progress-fill.tcf { background:linear-gradient(90deg,#0EA5E9,#38BDF8); }
+    .level-progress-pct { font-size:11px; font-weight:700; color:var(--indigo); width:32px; text-align:right; flex-shrink:0; }
+
+    /* ══════════════════════════════════════
        FLASHCARDS TAB
     ══════════════════════════════════════ */
     #fc-filter-bar { display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
@@ -545,7 +574,7 @@
       <div class="ob-feat">
         <span class="ob-feat-icon">🍁</span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="Préparation TCF/TEF Canada" data-en="TCF/TEF Canada prep"      data-zh="TCF/TEF加拿大备考">Préparation TCF/TEF Canada</strong>
+          <strong class="ob-i18n" data-fr="Préparation TCF/TEF" data-en="TCF/TEF prep"      data-zh="TCF/TEF备考">Préparation TCF/TEF Canada</strong>
           <span   class="ob-i18n" data-fr="10 leçons spéciales immigration" data-en="10 special immigration lessons" data-zh="10节特别移民课程">10 leçons spéciales immigration</span>
         </div>
       </div>
@@ -566,7 +595,7 @@
       <div class="ob-level" onclick="selectGoal(this,'immigration')">
         <span class="ob-level-icon">🍁</span>
         <span class="ob-level-name ob-i18n" data-fr="Immigration"    data-en="Immigration"  data-zh="移民">Immigration</span>
-        <span class="ob-level-sub  ob-i18n" data-fr="TCF/TEF Canada" data-en="TCF/TEF Canada" data-zh="TCF/TEF加拿大">TCF/TEF Canada</span>
+        <span class="ob-level-sub  ob-i18n" data-fr="TCF/TEF" data-en="TCF/TEF" data-zh="TCF/TEF">TCF/TEF Canada</span>
       </div>
       <div class="ob-level" onclick="selectGoal(this,'pro')">
         <span class="ob-level-icon">💼</span>
@@ -663,6 +692,12 @@
 
   <!-- LESSONS -->
   <div id="tab-lessons" class="section">
+    <div class="lesson-search-wrap">
+      <span class="lesson-search-icon">🔍</span>
+      <input class="lesson-search-input" id="lesson-search" type="text" placeholder="Rechercher une leçon…" oninput="filterLessons(this.value)" />
+      <button class="lesson-search-clear" id="lesson-search-clear" onclick="clearLessonSearch()">✕</button>
+    </div>
+    <div id="lesson-search-results" style="display:none;"></div>
     <div id="level-filter-bar">
       <button class="level-filter-btn active" data-level="all" onclick="setLevelFilter('all')"></button>
       <button class="level-filter-btn" data-level="beginner" onclick="setLevelFilter('beginner')"></button>
@@ -693,8 +728,31 @@
     <div class="stat-grid">
       <div class="stat-box"><div class="stat-num" id="stat-xp">0</div><div class="stat-lbl" id="lbl-xp"></div></div>
       <div class="stat-box"><div class="stat-num" id="stat-done">0</div><div class="stat-lbl" id="lbl-done"></div></div>
-      <div class="stat-box"><div class="stat-num" id="stat-quiz">0</div><div class="stat-lbl" id="lbl-quiz"></div></div>
-      <div class="stat-box"><div class="stat-num" id="stat-pct">0%</div><div class="stat-lbl" id="lbl-pct"></div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-streak">0🔥</div><div class="stat-lbl" id="lbl-streak"></div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-avg">—</div><div class="stat-lbl" id="lbl-avg"></div></div>
+    </div>
+    <div class="section-title" id="lbl-level-progress" style="margin-top:18px;margin-bottom:10px;"></div>
+    <div class="card level-progress-section">
+      <div class="level-progress-row">
+        <span class="level-progress-label" id="lbl-lv-beginner"></span>
+        <div class="level-progress-bar"><div class="level-progress-fill beginner" id="fill-lv-beginner" style="width:0%"></div></div>
+        <span class="level-progress-pct" id="pct-lv-beginner">0%</span>
+      </div>
+      <div class="level-progress-row">
+        <span class="level-progress-label" id="lbl-lv-intermediate"></span>
+        <div class="level-progress-bar"><div class="level-progress-fill intermediate" id="fill-lv-intermediate" style="width:0%"></div></div>
+        <span class="level-progress-pct" id="pct-lv-intermediate">0%</span>
+      </div>
+      <div class="level-progress-row">
+        <span class="level-progress-label" id="lbl-lv-advanced"></span>
+        <div class="level-progress-bar"><div class="level-progress-fill advanced" id="fill-lv-advanced" style="width:0%"></div></div>
+        <span class="level-progress-pct" id="pct-lv-advanced">0%</span>
+      </div>
+      <div class="level-progress-row">
+        <span class="level-progress-label" id="lbl-lv-tcf"></span>
+        <div class="level-progress-bar"><div class="level-progress-fill tcf" id="fill-lv-tcf" style="width:0%"></div></div>
+        <span class="level-progress-pct" id="pct-lv-tcf">0%</span>
+      </div>
     </div>
     <div class="section-title" id="lbl-achievements"></div>
     <div id="achievements"></div>
@@ -756,6 +814,15 @@
     <!-- Infos & Confidentialité -->
     <div class="settings-group">
       <div class="settings-group-title" id="set-lbl-info">Informations</div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label" id="set-lbl-notif">Notifications</div>
+          <div class="settings-row-sub" id="set-lbl-notif-sub">Rappel quotidien de pratiquer</div>
+        </div>
+        <div class="settings-toggle" id="notif-toggle" onclick="toggleNotifications()">
+          <div class="settings-toggle-thumb"></div>
+        </div>
+      </div>
       <div class="settings-row" onclick="openPrivacy()" style="cursor:pointer">
         <div class="settings-row-left">
           <span class="settings-row-icon">🔒</span>
@@ -817,8 +884,10 @@
       <div class="xp-gained" id="xp-gained"></div>
       <div class="result-actions">
         <button class="btn-primary" id="btn-retry" onclick="retryQuiz()"></button>
+        <button class="btn-review-wrong" id="btn-review-wrong" onclick="retryWrongAnswers()"></button>
         <button class="btn-secondary" id="btn-back-lessons" onclick="backToLessons()"></button>
       </div>
+      <button class="btn-share" id="btn-share" onclick="shareResult()">📤 <span id="btn-share-lbl">Partager mon score</span></button>
     </div>
   </div>
 </main>
@@ -1114,7 +1183,7 @@ const T = {
     welcome:'Bienvenue 👋', title:'Apprenez le français !', sub:'Des leçons claires, des quiz interactifs.',
     streak:'🔥 Continuez votre série — pratiquez chaque jour !',
     continueTitle:'Continuer où vous en étiez', startHere:'Commencer ici',
-    beginner:'Débutant', intermediate:'Intermédiaire', tcf:'TCF/TEF Canada', advanced:'Avancé',
+    beginner:'Débutant', intermediate:'Intermédiaire', tcf:'TCF/TEF', advanced:'Avancé',
     notStarted:'Non commencé', completed:'Terminé ✓',
     startQuiz:'🎯 Commencer le quiz',
     question:'Question', of:'sur',
@@ -1137,7 +1206,7 @@ const T = {
     back:'← Retour', quit:'← Quitter',
     allDone:'🎉 Toutes les leçons commencées !',
     noProgress:'Commencez une leçon pour suivre votre progression.',
-    beginnerLevel:'Niveau Débutant', intermediateLevel:'Niveau Intermédiaire', tcfLevel:'🍁 Préparation TCF/TEF Canada', advancedLevel:'🔴 Niveau Avancé',
+    beginnerLevel:'Niveau Débutant', intermediateLevel:'Niveau Intermédiaire', tcfLevel:'🍁 Préparation TCF/TEF', advancedLevel:'🔴 Niveau Avancé',
     pctDone: (p) => p + '% complété',
   },
   en: {
@@ -1145,7 +1214,7 @@ const T = {
     welcome:'Welcome 👋', title:'Learn French!', sub:'Clear lessons, interactive quizzes.',
     streak:'🔥 Keep your streak — practice every day!',
     continueTitle:'Continue where you left off', startHere:'Start here',
-    beginner:'Beginner', intermediate:'Intermediate', tcf:'TCF/TEF Canada', advanced:'Advanced',
+    beginner:'Beginner', intermediate:'Intermediate', tcf:'TCF/TEF', advanced:'Advanced',
     notStarted:'Not started', completed:'Completed ✓',
     startQuiz:'🎯 Start quiz',
     question:'Question', of:'of',
@@ -1168,7 +1237,7 @@ const T = {
     back:'← Back', quit:'← Quit',
     allDone:'🎉 All lessons started!',
     noProgress:'Start a lesson to track your progress.',
-    beginnerLevel:'Beginner Level', intermediateLevel:'Intermediate Level', tcfLevel:'🍁 TCF/TEF Canada Prep', advancedLevel:'🔴 Advanced Level',
+    beginnerLevel:'Beginner Level', intermediateLevel:'Intermediate Level', tcfLevel:'🍁 TCF/TEF Prep', advancedLevel:'🔴 Advanced Level',
     pctDone: (p) => p + '% completed',
   },
   zh: {
@@ -1176,7 +1245,7 @@ const T = {
     welcome:'欢迎 👋', title:'学习法语！', sub:'清晰的课程，互动测验。',
     streak:'🔥 保持练习——每天坚持！',
     continueTitle:'继续上次进度', startHere:'从这里开始',
-    beginner:'初级', intermediate:'中级', tcf:'TCF/TEF加拿大', advanced:'高级',
+    beginner:'初级', intermediate:'中级', tcf:'TCF/TEF', advanced:'高级',
     notStarted:'未开始', completed:'已完成 ✓',
     startQuiz:'🎯 开始测验',
     question:'问题', of:'/',
@@ -1199,7 +1268,7 @@ const T = {
     back:'← 返回', quit:'← 退出',
     allDone:'🎉 所有课程已开始！',
     noProgress:'开始一节课来追踪你的进度。',
-    beginnerLevel:'初级课程', intermediateLevel:'中级课程', tcfLevel:'🍁 TCF/TEF加拿大备考', advancedLevel:'🔴 高级课程',
+    beginnerLevel:'初级课程', intermediateLevel:'中级课程', tcfLevel:'🍁 TCF/TEF备考', advancedLevel:'🔴 高级课程',
     pctDone: (p) => p + '% 已完成',
   }
 };
@@ -3034,11 +3103,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Tip:</strong> In France, always say "Bonjour" before starting a conversation or entering a shop. It's essential for politeness!</div>
 <div class="example-box">— Bonjour ! Je m'appelle Marie. Et vous ? (Hello! My name is Marie. And you?)<br>— Bonjour Marie ! Je m'appelle Paul. Enchanté ! (Hello Marie! My name is Paul. Nice to meet you!)</div>`,
     quiz:[
-      {q:'Comment dit-on "Good morning" en français ?', q_en:'How do you say "Good morning" in French?', opts:['Bonsoir','Bonjour','Au revoir','Bonne nuit'], ans:1},
-      {q:'Quelle expression signifie "Nice to meet you" ?', q_en:'Which expression means "Nice to meet you"?', opts:['Ça va ?','À bientôt','Enchanté !','Salut !'], ans:2},
-      {q:'Comment demande-t-on poliment "How are you?" ?', q_en:'How do you formally ask "How are you?"', opts:['Comment vas-tu ?','Ça va ?','Comment allez-vous ?','Bonjour !'], ans:2},
-      {q:'"Salut !" est une expression…', q_en:'"Salut!" is a __ expression', opts:['Formelle / Formal','Informelle / Informal','Négative','Incorrecte'], ans:1},
-      {q:'Que signifie "À demain" ?', q_en:'What does "À demain" mean?', opts:['See you soon','Goodbye','See you tomorrow','Good night'], ans:2},
+      {q:'Comment dit-on "Good morning" en français ?', q_en:'How do you say "Good morning" in French?', opts:['Bonsoir','Bonjour','Au revoir','Bonne nuit'], ans:1, exp:'Bonjour s\'utilise de la matinée jusqu\'au soir. Bonsoir prend le relais après 18h.', exp_en:'Bonjour is used from morning until evening. Bonsoir takes over after 6 pm.', exp_zh:'Bonjour用于早上到傍晚。18点后改用Bonsoir（晚上好）。'},
+      {q:'Quelle expression signifie "Nice to meet you" ?', q_en:'Which expression means "Nice to meet you"?', opts:['Ça va ?','À bientôt','Enchanté !','Salut !'], ans:2, exp:'Enchanté(e) est la formule standard pour exprimer qu\'on est ravi de faire la connaissance de quelqu\'un.', exp_en:'Enchanté(e) is the standard phrase to express pleasure at meeting someone.', exp_zh:'Enchanté(e)是见到某人时表示高兴的标准用语。'},
+      {q:'Comment demande-t-on poliment "How are you?" ?', q_en:'How do you formally ask "How are you?"', opts:['Comment vas-tu ?','Ça va ?','Comment allez-vous ?','Bonjour !'], ans:2, exp:'Comment allez-vous ? utilise le vouvoiement (vous), plus formel. Comment vas-tu ? est la forme informelle.', exp_en:'Comment allez-vous? uses "vous" (formal). Comment vas-tu? is the informal version.', exp_zh:'Comment allez-vous？使用正式的vous。Comment vas-tu？是非正式说法。'},
+      {q:'"Salut !" est une expression…', q_en:'"Salut!" is a __ expression', opts:['Formelle / Formal','Informelle / Informal','Négative','Incorrecte'], ans:1, exp:'Salut est familier, réservé aux amis. On ne l\'utilise pas avec des inconnus ou dans un contexte professionnel.', exp_en:'Salut is informal, used with friends. Avoid it with strangers or in professional settings.', exp_zh:'Salut是随意打招呼，只用于朋友间，不适合正式场合或陌生人。'},
+      {q:'Que signifie "À demain" ?', q_en:'What does "À demain" mean?', opts:['See you soon','Goodbye','See you tomorrow','Good night'], ans:2, exp:'À + moment = rendez-vous à ce moment. À demain = à + demain. À bientôt = see you soon, À ce soir = see you tonight.', exp_en:'À + time = see you at that time. À demain = see you tomorrow. À bientôt = see you soon.', exp_zh:'À + 时间 = 届时见。À demain = 明天见。À bientôt = 再见（不久后）。'},
     ]
   },
 
@@ -3088,11 +3157,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Tip:</strong> From 17 to 19, numbers are compound: dix-sept = 10 + 7. Very logical!</div>
 <div class="example-box">J'ai <strong>dix-huit</strong> ans. (I am 18 years old.)<br>Il y a <strong>quinze</strong> élèves. (There are 15 students.)</div>`,
     quiz:[
-      {q:'Comment dit-on "8" en français ?', q_en:'How do you say "8" in French?', opts:['sept','neuf','huit','six'], ans:2},
-      {q:'Quel nombre représente "quinze" ?', q_en:'Which number is "quinze"?', opts:['14','15','16','13'], ans:1},
-      {q:'Comment écrit-on 17 en lettres ?', q_en:'How do you write 17 in French words?', opts:['dix-neuf','dix-six','dix-sept','vingt'], ans:2},
-      {q:'"Vingt" correspond à quel nombre ?', q_en:'Which number is "vingt"?', opts:['12','20','22','15'], ans:1},
-      {q:'Comment dit-on "11" en français ?', q_en:'How do you say "11" in French?', opts:['dix','onze','douze','treize'], ans:1},
+      {q:'Comment dit-on "8" en français ?', q_en:'How do you say "8" in French?', opts:['sept','neuf','huit','six'], ans:2, exp:'De 1 à 10 : un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix. Huit se prononce [ɥit].', exp_en:'Numbers 1–10: un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix. Huit is pronounced [ɥit].', exp_zh:'1到10：un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix。huit发音为[ɥit]。'},
+      {q:'Quel nombre représente "quinze" ?', q_en:'Which number is "quinze"?', opts:['14','15','16','13'], ans:1, exp:'Quatorze (14), quinze (15), seize (16) sont des formes irrégulières à mémoriser telles quelles.', exp_en:'Quatorze (14), quinze (15), seize (16) are irregular forms — memorize them as they are.', exp_zh:'Quatorze(14), quinze(15), seize(16)是不规则形式，需要直接记忆。'},
+      {q:'Comment écrit-on 17 en lettres ?', q_en:'How do you write 17 in French words?', opts:['dix-neuf','dix-six','dix-sept','vingt'], ans:2, exp:'17, 18, 19 se forment avec dix + le chiffre : dix-sept (10+7), dix-huit (10+8), dix-neuf (10+9).', exp_en:'17, 18, 19 are formed with dix + the digit: dix-sept (10+7), dix-huit (10+8), dix-neuf (10+9).', exp_zh:'17、18、19 = dix + 数字：dix-sept(10+7), dix-huit(10+8), dix-neuf(10+9)。'},
+      {q:'"Vingt" correspond à quel nombre ?', q_en:'Which number is "vingt"?', opts:['12','20','22','15'], ans:1, exp:'Vingt (20) est la base des nombres 21-29 : vingt et un, vingt-deux... Attention : quatre-vingts = 80.', exp_en:'Vingt (20) is the base for 21–29: vingt et un, vingt-deux... Note: quatre-vingts = 80.', exp_zh:'Vingt(20)是21-29的基础：vingt et un, vingt-deux...注意：quatre-vingts = 80。'},
+      {q:'Comment dit-on "11" en français ?', q_en:'How do you say "11" in French?', opts:['dix','onze','douze','treize'], ans:1, exp:'11 à 16 ont des formes spéciales : onze, douze, treize, quatorze, quinze, seize. À partir de 17, on compose avec dix.', exp_en:'11–16 have special forms: onze, douze, treize, quatorze, quinze, seize. From 17, compose with dix.', exp_zh:'11到16有特殊形式：onze, douze, treize, quatorze, quinze, seize。17起用dix+数字。'},
     ]
   },
 
@@ -3138,11 +3207,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Agreement rule:</strong> Colour adjectives agree with the noun: <em>un chat noir</em> (a black cat) → <em>une robe noire</em> (a black dress). Exception: <em>orange</em> and <em>marron</em> never change.</div>
 <div class="example-box">Le ciel est <strong>bleu</strong>. (The sky is blue.)<br>La fleur est <strong>rouge</strong>. (The flower is red.)<br>Les pommes sont <strong>vertes</strong>. (The apples are green.)</div>`,
     quiz:[
-      {q:'Comment dit-on "yellow" en français ?', q_en:'How do you say "yellow" in French?', opts:['rouge','vert','jaune','bleu'], ans:2},
-      {q:'Quelle couleur ne s\'accorde JAMAIS avec le nom ?', q_en:'Which colour NEVER agrees with the noun?', opts:['bleu','vert','orange','noir'], ans:2},
-      {q:'Le féminin de "blanc" est…', q_en:'The feminine of "blanc" is…', opts:['blanche','blanque','blancée','blanc'], ans:0},
-      {q:'Comment dit-on "purple" en français ?', q_en:'How do you say "purple" in French?', opts:['rose','violet','gris','marron'], ans:1},
-      {q:'"Les voitures sont ___" (black) — quelle forme est correcte ?', q_en:'"Les voitures sont ___" (black) — which form is correct?', opts:['noir','noirs','noires','noiry'], ans:2},
+      {q:'Comment dit-on "yellow" en français ?', q_en:'How do you say "yellow" in French?', opts:['rouge','vert','jaune','bleu'], ans:2, exp:'Les couleurs de base : rouge (red), bleu (blue), vert (green), jaune (yellow), orange, violet (purple).', exp_en:'Basic colors: rouge (red), bleu (blue), vert (green), jaune (yellow), orange, violet (purple).', exp_zh:'基本颜色：rouge(红), bleu(蓝), vert(绿), jaune(黄), orange(橙), violet(紫)。'},
+      {q:'Quelle couleur ne s\'accorde JAMAIS avec le nom ?', q_en:'Which colour NEVER agrees with the noun?', opts:['bleu','vert','orange','noir'], ans:2, exp:'Marron et orange sont invariables car ce sont des noms utilisés comme adjectifs : des chaussures orange (jamais oranges).', exp_en:'Marron and orange are invariable (nouns used as adjectives): des chaussures orange — never oranges.', exp_zh:'Marron和orange是不变形容词（名词用作形容词）：des chaussures orange，不加-s。'},
+      {q:'Le féminin de "blanc" est…', q_en:'The feminine of "blanc" is…', opts:['blanche','blanque','blancée','blanc'], ans:0, exp:'Blanc → blanche au féminin. Les adjectifs en -c font leur féminin en -che : blanc/blanche, sec/sèche.', exp_en:'Blanc → blanche (feminine). Adjectives ending in -c form feminine in -che: blanc/blanche, sec/sèche.', exp_zh:'Blanc→blanche（阴性）。以-c结尾的形容词阴性变为-che：blanc/blanche, sec/sèche。'},
+      {q:'Comment dit-on "purple" en français ?', q_en:'How do you say "purple" in French?', opts:['rose','violet','gris','marron'], ans:1, exp:'Violet (purple) fait son féminin en violette : une robe violette. Rose est invariable en genre.', exp_en:'Violet (purple) becomes violette (feminine): une robe violette. Rose (pink) does not change in gender.', exp_zh:'Violet（紫）的阴性是violette：une robe violette。Rose（粉色）是性别不变形容词。'},
+      {q:'"Les voitures sont ___" (black) — quelle forme est correcte ?', q_en:'"Les voitures sont ___" (black) — which form is correct?', opts:['noir','noirs','noires','noiry'], ans:2, exp:'Voitures est féminin pluriel → noir devient noires. Règle : adjectif + e (fém.) + s (pluriel) = noires.', exp_en:'Voitures is feminine plural → noir becomes noires. Rule: adjective + e (fem.) + s (plural) = noires.', exp_zh:'Voitures是阴性复数→noir变为noires。规则：形容词+e（阴性）+s（复数）= noires。'},
     ]
   },
 
@@ -3188,11 +3257,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Watch out:</strong> <em>Les parents</em> means "mother and father", NOT "relatives" like in English!</div>
 <div class="example-box">J'ai un frère et deux sœurs. (I have one brother and two sisters.)<br>Ma grand-mère s'appelle Hélène. (My grandmother's name is Hélène.)</div>`,
     quiz:[
-      {q:'Comment dit-on "sister" en français ?', q_en:'How do you say "sister" in French?', opts:['la mère','la fille','la sœur','la cousine'], ans:2},
-      {q:'"Les parents" signifie…', q_en:'"Les parents" means…', opts:['all relatives','father and mother','grandparents','uncles and aunts'], ans:1},
-      {q:'Comment dit-on "nephew" en français ?', q_en:'How do you say "nephew" in French?', opts:['le neveu','la nièce','l\'oncle','le cousin'], ans:0},
-      {q:'Le mot pour "wife" en français est…', q_en:'The word for "wife" in French is…', opts:['la fille','la mère','la femme','la sœur'], ans:2},
-      {q:'"Grandmother" se dit…', q_en:'"Grandmother" is said…', opts:['la grand-mère','la tante','la mère','la nièce'], ans:0},
+      {q:'Comment dit-on "sister" en français ?', q_en:'How do you say "sister" in French?', opts:['la mère','la fille','la sœur','la cousine'], ans:2, exp:'La sœur (sister) / le frère (brother). La fille peut aussi vouloir dire daughter selon le contexte.', exp_en:'La sœur (sister) / le frère (brother). La fille can also mean daughter depending on context.', exp_zh:'La sœur（姐妹）/ le frère（兄弟）。La fille根据上下文可以表示女儿或女孩。'},
+      {q:'"Les parents" signifie…', q_en:'"Les parents" means…', opts:['all relatives','father and mother','grandparents','uncles and aunts'], ans:1, exp:'Les parents désigne le père et la mère. Pour dire all relatives, on dit la famille ou les proches.', exp_en:'Les parents means father and mother. For all relatives, say la famille or les proches.', exp_zh:'Les parents指父亲和母亲。表示所有亲戚用la famille或les proches。'},
+      {q:'Comment dit-on "nephew" en français ?', q_en:'How do you say "nephew" in French?', opts:['le neveu','la nièce','l\'oncle','le cousin'], ans:0, exp:'Le neveu (nephew) / la nièce (niece). Paire importante : le fils de votre frère ou sœur.', exp_en:'Le neveu (nephew) / la nièce (niece). Your brother\'s or sister\'s child.', exp_zh:'Le neveu（侄子/外甥）/ la nièce（侄女/外甥女）。兄弟姐妹的孩子。'},
+      {q:'Le mot pour "wife" en français est…', q_en:'The word for "wife" in French is…', opts:['la fille','la mère','la femme','la sœur'], ans:2, exp:'La femme peut signifier woman ou wife selon le contexte. Le mari = husband. Époux/épouse = spouse.', exp_en:'La femme can mean woman or wife depending on context. Le mari = husband. Époux/épouse = spouse.', exp_zh:'La femme根据上下文可表示女人或妻子。Le mari=丈夫。Époux/épouse=配偶。'},
+      {q:'"Grandmother" se dit…', q_en:'"Grandmother" is said…', opts:['la grand-mère','la tante','la mère','la nièce'], ans:0, exp:'Grand-mère (grandmother) / grand-père (grandfather). Au pluriel : les grands-parents.', exp_en:'Grand-mère (grandmother) / grand-père (grandfather). Plural: les grands-parents.', exp_zh:'Grand-mère（祖母）/ grand-père（祖父）。复数：les grands-parents（祖父母）。'},
     ]
   },
 
@@ -3256,11 +3325,11 @@ const LESSONS = [
 </div>
 <div class="example-box">J'ai <strong>quatre-vingt-cinq</strong> euros. (I have 85 euros.)<br>Il y a <strong>trois cents</strong> élèves. (There are 300 students.)<br>Ma ville a <strong>mille</strong> habitants. (My town has 1,000 inhabitants.)</div>`,
     quiz:[
-      {q:'Comment dit-on "70" en français ?', q_en:'How do you say "70" in French?', opts:['soixante-dix','soixante-sept','septante','soixante-vingt'], ans:0},
-      {q:'"Quatre-vingts" représente quel nombre ?', q_en:'What number is "quatre-vingts"?', opts:['40','84','80','88'], ans:2},
-      {q:'Comment dit-on "91" ?', q_en:'How do you say "91"?', opts:['quatre-vingt-un','quatre-vingt-onze','soixante-onze','quatre-vingts-onze'], ans:1},
-      {q:'On dit "deux cents" mais "deux cent un". Pourquoi ?', q_en:'We say "deux cents" but "deux cent un". Why?', opts:['Le s disparaît quand un autre chiffre suit','C\'est une erreur','Toujours cents','Jamais de s'], ans:0},
-      {q:'Comment dit-on "1 000" en français ?', q_en:'How do you say "1,000" in French?', opts:['cent','mille','million','millier'], ans:1},
+      {q:'Comment dit-on "70" en français ?', q_en:'How do you say "70" in French?', opts:['soixante-dix','soixante-sept','septante','soixante-vingt'], ans:0, exp:'En France, 70 = soixante-dix (60+10). En Belgique et Suisse, on dit septante - beaucoup plus logique !', exp_en:'In France, 70 = soixante-dix (60+10). In Belgium and Switzerland they say septante — much more logical!', exp_zh:'在法国，70 = soixante-dix（60+10）。在比利时和瑞士说septante，更加合乎逻辑！'},
+      {q:'"Quatre-vingts" représente quel nombre ?', q_en:'What number is "quatre-vingts"?', opts:['40','84','80','88'], ans:2, exp:'80 = quatre-vingts (4×20). Avec un s quand il est seul, mais sans s suivi d\'un chiffre : quatre-vingt-un.', exp_en:'80 = quatre-vingts (4×20). Has an s when alone, but no s before another digit: quatre-vingt-un.', exp_zh:'80 = quatre-vingts（4×20）。单独时加s，后跟数字时去掉s：quatre-vingt-un。'},
+      {q:'Comment dit-on "91" ?', q_en:'How do you say "91"?', opts:['quatre-vingt-un','quatre-vingt-onze','soixante-onze','quatre-vingts-onze'], ans:1, exp:'91 = quatre-vingt (80) + onze (11). Les nombres 81-99 suivent tous ce modèle avec quatre-vingt-.', exp_en:'91 = quatre-vingt (80) + onze (11). All numbers 81–99 follow this model with quatre-vingt-.', exp_zh:'91 = quatre-vingt（80）+ onze（11）。81-99的数字都遵循quatre-vingt-的模式。'},
+      {q:'On dit "deux cents" mais "deux cent un". Pourquoi ?', q_en:'We say "deux cents" but "deux cent un". Why?', opts:['Le s disparaît quand un autre chiffre suit','C\'est une erreur','Toujours cents','Jamais de s'], ans:0, exp:'Cent et vingt prennent un s seulement quand multipliés ET non suivis d\'un chiffre : deux cents mais deux cent un.', exp_en:'Cent and vingt take an s only when multiplied AND not followed by another digit: deux cents, but deux cent un.', exp_zh:'Cent和vingt只在被乘且后面没有其他数字时加s：deux cents，但deux cent un。'},
+      {q:'Comment dit-on "1 000" en français ?', q_en:'How do you say "1,000" in French?', opts:['cent','mille','million','millier'], ans:1, exp:'Mille est invariable en français : deux mille (pas deux milles). Million et milliard prennent le pluriel normalement.', exp_en:'Mille is invariable: deux mille (not deux milles). Million and milliard take the plural normally.', exp_zh:'Mille是不变的：deux mille（不是deux milles）。Million和milliard正常变复数。'},
     ]
   },
 
@@ -3314,11 +3383,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Rule:</strong> infinitive − er + endings: <em>-e, -es, -e, -ons, -ez, -ent</em></div>
 <div class="example-box">J'<strong>aime</strong> le chocolat. (I like chocolate.)<br>Nous <strong>habitons</strong> à Paris. (We live in Paris.)<br>Ils <strong>mangent</strong> une pizza. (They are eating a pizza.)</div>`,
     quiz:[
-      {q:'Conjuguez PARLER : "We speak" → Nous…', q_en:'Conjugate PARLER: "We speak" → Nous…', opts:['parlons','parlez','parlent','parle'], ans:0},
-      {q:'Quelle est la terminaison pour "ils/elles" au présent (-er) ?', q_en:'What is the ending for "ils/elles" in the present tense (-er)?', opts:['-e','-ez','-ons','-ent'], ans:3},
-      {q:'"Tu ___ (manger)" — quelle forme est correcte ?', q_en:'"Tu ___ (manger)" — which form is correct?', opts:['mange','manges','mangez','mangeons'], ans:1},
-      {q:'L\'infinitif de "j\'habite" est…', q_en:'The infinitive of "j\'habite" is…', opts:['habiter','avoir','être','aller'], ans:0},
-      {q:'"Vous ___ (écouter)" — quelle forme est correcte ?', q_en:'"Vous ___ (écouter)" — which form is correct?', opts:['écoutent','écoutes','écoutons','écoutez'], ans:3},
+      {q:'Conjuguez PARLER : "We speak" → Nous…', q_en:'Conjugate PARLER: "We speak" → Nous…', opts:['parlons','parlez','parlent','parle'], ans:0, exp:'La terminaison -ons pour nous est la même pour tous les verbes réguliers au présent. Ex: nous mangeons, nous habitons.', exp_en:'The ending -ons for nous is the same for all regular verbs. Ex: nous mangeons, nous habitons.', exp_zh:'-ons结尾用于nous，所有规则动词都适用：nous mangeons, nous habitons。'},
+      {q:'Quelle est la terminaison pour "ils/elles" au présent (-er) ?', q_en:'What is the ending for "ils/elles" in the present tense (-er)?', opts:['-e','-ez','-ons','-ent'], ans:3, exp:'La terminaison -ent pour ils/elles est SILENCIEUSE. Ils parlent se prononce exactement comme il parle.', exp_en:'The ending -ent for ils/elles is SILENT. Ils parlent sounds exactly like il parle.', exp_zh:'ils/elles的词尾-ent是不发音的。Ils parlent和il parle发音完全一样。'},
+      {q:'"Tu ___ (manger)" — quelle forme est correcte ?', q_en:'"Tu ___ (manger)" — which form is correct?', opts:['mange','manges','mangez','mangeons'], ans:1, exp:'Pour tu avec les verbes en -er : on ajoute -es. Je mange → tu manges. La terminaison -es est muette.', exp_en:'For tu with -er verbs: add -es. Je mange → tu manges. The ending -es is silent.', exp_zh:'tu + er动词：加-es。Je mange → tu manges。词尾-es不发音。'},
+      {q:'L\'infinitif de "j\'habite" est…', q_en:'The infinitive of "j\'habite" is…', opts:['habiter','avoir','être','aller'], ans:0, exp:'J\'habite vient de habiter. L\'infinitif se retrouve en ajoutant -er au radical : habit- + er = habiter.', exp_en:'J\'habite comes from habiter. Find the infinitive by adding -er to the stem: habit- + er = habiter.', exp_zh:'j\'habite来自habiter。词干habit-加-er得到不定式：habiter。'},
+      {q:'"Vous ___ (écouter)" — quelle forme est correcte ?', q_en:'"Vous ___ (écouter)" — which form is correct?', opts:['écoutent','écoutes','écoutons','écoutez'], ans:3, exp:'La terminaison -ez pour vous est caractéristique. C\'est aussi la base de l\'impératif : Écoutez ! Parlez !', exp_en:'The ending -ez for vous is characteristic. It is also the imperative base: Écoutez! Parlez!', exp_zh:'-ez是vous的特征词尾，也是命令式的基础：Écoutez！Parlez！'},
     ]
   },
 
@@ -3376,11 +3445,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Agreement with ÊTRE:</strong> The past participle agrees with the subject: <em>Elle est allée</em> (female subject → add e).</div>
 <div class="example-box">Hier, j'<strong>ai mangé</strong> une pizza. (Yesterday, I ate a pizza.)<br>Elle <strong>est arrivée</strong> à 8h. (She arrived at 8am.)</div>`,
     quiz:[
-      {q:'Le passé composé de "manger" (je) est…', q_en:'The passé composé of "manger" (je) is…', opts:['j\'ai mangé','j\'ai manger','je suis mangé','j\'avais mangé'], ans:0},
-      {q:'Quel est le participe passé de "faire" ?', q_en:'What is the past participle of "faire"?', opts:['faisé','feru','fait','fais'], ans:2},
-      {q:'"Elle ___ allée" — quel auxiliaire ?', q_en:'"Elle ___ allée" — which auxiliary verb?', opts:['a','est','aura','avait'], ans:1},
-      {q:'Pourquoi dit-on "elle est allée" (avec e) ?', q_en:'Why do we say "elle est allée" (with e)?', opts:['C\'est incorrect','Le participe s\'accorde avec le sujet féminin','Avec être, pas d\'accord','Allé est invariable'], ans:1},
-      {q:'Le participe passé de "voir" est…', q_en:'The past participle of "voir" is…', opts:['voyé','vu','voir','vit'], ans:1},
+      {q:'Le passé composé de "manger" (je) est…', q_en:'The passé composé of "manger" (je) is…', opts:['j\'ai mangé','j\'ai manger','je suis mangé','j\'avais mangé'], ans:0, exp:'Passé composé = avoir/être + participe passé. Pour -er : participe en -é. J\'ai + mangé (pas manger).', exp_en:'Passé composé = avoir/être + past participle. For -er verbs: participle ends in -é. J\'ai + mangé (not manger).', exp_zh:'复合过去时 = avoir/être + 过去分词。-er动词过去分词以-é结尾：j\'ai + mangé。'},
+      {q:'Quel est le participe passé de "faire" ?', q_en:'What is the past participle of "faire"?', opts:['faisé','feru','fait','fais'], ans:2, exp:'Faire → fait (irrégulier). Autres irréguliers courants : être→été, avoir→eu, aller→allé, voir→vu, prendre→pris.', exp_en:'Faire → fait (irregular). Other common irregulars: être→été, avoir→eu, aller→allé, voir→vu, prendre→pris.', exp_zh:'Faire的过去分词是fait（不规则）。其他常见不规则：être→été, avoir→eu, voir→vu, prendre→pris。'},
+      {q:'"Elle ___ allée" — quel auxiliaire ?', q_en:'"Elle ___ allée" — which auxiliary verb?', opts:['a','est','aura','avait'], ans:1, exp:'Aller utilise être comme auxiliaire (verbe de mouvement). Mnémotechnique DR MRS VANDERTRAMP : Devenir, Revenir, Monter...', exp_en:'Aller uses être as auxiliary (motion verb). Mnemonic DR MRS VANDERTRAMP: Devenir, Revenir, Monter...', exp_zh:'Aller用être作助动词（位移动词）。记忆法：DR MRS VANDERTRAMP：Devenir, Revenir, Monter...'},
+      {q:'Pourquoi dit-on "elle est allée" (avec e) ?', q_en:'Why do we say "elle est allée" (with e)?', opts:['C\'est incorrect','Le participe s\'accorde avec le sujet féminin','Avec être, pas d\'accord','Allé est invariable'], ans:1, exp:'Avec être, le participe s\'accorde avec le sujet : elle est allée (+e), elles sont allées (+es).', exp_en:'With être, the past participle agrees with the subject: elle est allée (+e), elles sont allées (+es).', exp_zh:'用être时，过去分词与主语一致：elle est allée（+e），elles sont allées（+es）。'},
+      {q:'Le participe passé de "voir" est…', q_en:'The past participle of "voir" is…', opts:['voyé','vu','voir','vit'], ans:1, exp:'Voir → vu (irrégulier). Autres participes en -u : lire→lu, boire→bu, savoir→su, vouloir→voulu.', exp_en:'Voir → vu (irregular). Other -u participles: lire→lu, boire→bu, savoir→su, vouloir→voulu.', exp_zh:'Voir→vu（不规则）。其他-u过去分词：lire→lu, boire→bu, savoir→su, vouloir→voulu。'},
     ]
   },
 
@@ -3690,11 +3759,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Elision:</strong> <em>le</em> and <em>la</em> shorten to <em>l'</em> before a vowel or silent h: <em>l'école</em> (the school), <em>l'homme</em> (the man).</div>
 <div class="example-box">Le chien joue avec une balle. (The dog plays with a ball.)<br>Des enfants mangent des pommes. (Some children eat some apples.)</div>`,
     quiz:[
-      {q:'Quel article utilise-t-on devant "chat" (masculin) ?', q_en:'Which article goes before "chat" (masculine)?', opts:['la','le','les','une'], ans:1},
-      {q:'Comment dit-on "a woman" en français ?', q_en:'How do you say "a woman" in French?', opts:['le femme','un femme','une femme','des femmes'], ans:2},
-      {q:'"___ ami" — quel article utilise-t-on ?', q_en:'"___ ami" — which article is used?', opts:['le','la','l\'','un'], ans:2},
-      {q:'Quel article utilise-t-on pour le pluriel (the children) ?', q_en:'Which article is used for "the children"?', opts:['un','une','le','les'], ans:3},
-      {q:'"Des livres" utilise l\'article…', q_en:'"Des livres" uses the __ article', opts:['défini singulier','indéfini singulier','défini pluriel','indéfini pluriel'], ans:3},
+      {q:'Quel article utilise-t-on devant "chat" (masculin) ?', q_en:'Which article goes before "chat" (masculine)?', opts:['la','le','les','une'], ans:1, exp:'Chat est masculin → article défini le. La règle : le (masc. sing.), la (fém. sing.), l\' (devant voyelle), les (pluriel).', exp_en:'Chat is masculine → definite article le. Rule: le (masc.), la (fem.), l\' (before vowel), les (plural).', exp_zh:'Chat是阳性→定冠词le。规则：le（阳性单数），la（阴性单数），l\'（元音前），les（复数）。'},
+      {q:'Comment dit-on "a woman" en français ?', q_en:'How do you say "a woman" in French?', opts:['le femme','un femme','une femme','des femmes'], ans:2, exp:'Femme est féminin → article indéfini une. Règle : un (masc. sing.), une (fém. sing.), des (pluriel).', exp_en:'Femme is feminine → indefinite article une. Rule: un (masc.), une (fem.), des (plural).', exp_zh:'Femme是阴性→不定冠词une。规则：un（阳性），une（阴性），des（复数）。'},
+      {q:'"___ ami" — quel article utilise-t-on ?', q_en:'"___ ami" — which article is used?', opts:['le','la','l\'','un'], ans:2, exp:'Devant une voyelle ou h muet, le et la deviennent l\' : l\'ami, l\'amie, l\'hôtel, l\'orange.', exp_en:'Before a vowel or silent h, le and la become l\': l\'ami, l\'amie, l\'hôtel, l\'orange.', exp_zh:'在元音或不发音的h前，le和la变为l\'：l\'ami, l\'amie, l\'hôtel。'},
+      {q:'Quel article utilise-t-on pour le pluriel (the children) ?', q_en:'Which article is used for "the children"?', opts:['un','une','le','les'], ans:3, exp:'Les est l\'article défini pluriel pour les deux genres : les enfants (masc.), les filles (fém.).', exp_en:'Les is the definite plural article for both genders: les enfants (masc.), les filles (fem.).', exp_zh:'Les是两种性别的复数定冠词：les enfants（阳性），les filles（阴性）。'},
+      {q:'"Des livres" utilise l\'article…', q_en:'"Des livres" uses the __ article', opts:['défini singulier','indéfini singulier','défini pluriel','indéfini pluriel'], ans:3, exp:'Des est l\'article indéfini pluriel : un livre → des livres. Ne pas confondre avec les (défini : les livres = the books).', exp_en:'Des is the indefinite plural article: un livre → des livres. Don\'t confuse with les (definite: les livres = the books).', exp_zh:'Des是不定复数冠词：un livre → des livres。不要与les混淆（定冠词：les livres = 那些书）。'},
     ]
   },
 
@@ -3740,11 +3809,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Word order:</strong> <em>ne</em> goes BEFORE the verb, <em>pas / jamais / plus / rien</em> goes AFTER the conjugated verb.<br>Before a vowel: <em>ne → n'</em> (n'aime pas, n'est pas).</div>
 <div class="example-box">Je <strong>ne parle pas</strong> espagnol. (I don't speak Spanish.)<br>Il <strong>ne vient plus</strong> ici. (He doesn't come here anymore.)<br>Nous <strong>n'avons rien</strong> mangé. (We ate nothing.)</div>`,
     quiz:[
-      {q:'La négation de "Je mange" est…', q_en:'The negative of "Je mange" is…', opts:['Je mange pas','Je ne mange pas','Je pas mange','Non je mange'], ans:1},
-      {q:'"Ne…jamais" signifie…', q_en:'"Ne…jamais" means…', opts:['not anymore','never','nobody','nothing'], ans:1},
-      {q:'"Il ne fume plus" signifie…', q_en:'"Il ne fume plus" means…', opts:['He never smokes','He doesn\'t smoke anymore','He only smokes','He smokes a lot'], ans:1},
-      {q:'Devant une voyelle, "ne" devient…', q_en:'Before a vowel, "ne" becomes…', opts:['no','ni','n\'','nen'], ans:2},
-      {q:'"Je ___ vois rien" — quel mot manque ?', q_en:'"Je ___ vois rien" — which word is missing?', opts:['pas','ne','jamais','plus'], ans:1},
+      {q:'La négation de "Je mange" est…', q_en:'The negative of "Je mange" is…', opts:['Je mange pas','Je ne mange pas','Je pas mange','Non je mange'], ans:1, exp:'La négation encadre le verbe : ne...pas. Ne se place avant le verbe, pas après. En parlé, le ne est souvent omis.', exp_en:'Negation frames the verb: ne...pas. Ne goes before the verb, pas after. In spoken French, ne is often dropped.', exp_zh:'否定句把动词夹在中间：ne...pas。ne在动词前，pas在动词后。口语中ne常省略。'},
+      {q:'"Ne…jamais" signifie…', q_en:'"Ne…jamais" means…', opts:['not anymore','never','nobody','nothing'], ans:1, exp:'Les négations : ne...jamais (never), ne...plus (not anymore), ne...rien (nothing), ne...personne (nobody).', exp_en:'Negations: ne...jamais (never), ne...plus (not anymore), ne...rien (nothing), ne...personne (nobody).', exp_zh:'否定结构：ne...jamais（从不），ne...plus（不再），ne...rien（什么都不），ne...personne（没有人）。'},
+      {q:'"Il ne fume plus" signifie…', q_en:'"Il ne fume plus" means…', opts:['He never smokes','He doesn\'t smoke anymore','He only smokes','He smokes a lot'], ans:1, exp:'Ne...plus indique l\'arrêt d\'une action : il fumait avant, mais ne fume plus maintenant.', exp_en:'Ne...plus indicates the stopping of an action: he used to smoke, but no longer does now.', exp_zh:'Ne...plus表示某个动作已经停止：他以前抽烟，但现在不再抽了。'},
+      {q:'Devant une voyelle, "ne" devient…', q_en:'Before a vowel, "ne" becomes…', opts:['no','ni','n\'','nen'], ans:2, exp:'Élision : quand ne est suivi d\'une voyelle, le e disparaît → n\'. Ex: je n\'aime pas, il n\'est pas là.', exp_en:'Elision: when ne is followed by a vowel, the e disappears → n\'. Ex: je n\'aime pas, il n\'est pas là.', exp_zh:'省音：ne后接元音时，e消失→n\'。例如：je n\'aime pas，il n\'est pas là。'},
+      {q:'"Je ___ vois rien" — quel mot manque ?', q_en:'"Je ___ vois rien" — which word is missing?', opts:['pas','ne','jamais','plus'], ans:1, exp:'La structure complète est je ne vois rien. Ne est souvent omis à l\'oral : je vois rien. Mais à l\'écrit, toujours mettre ne.', exp_en:'The full structure is je ne vois rien. In spoken French, ne is often omitted: je vois rien. Always write ne in text.', exp_zh:'完整结构是je ne vois rien。口语中常省略ne：je vois rien。书写时必须加ne。'},
     ]
   },
 
@@ -4318,11 +4387,11 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 TCF vs TEF?</strong> Both are accepted for Express Entry. CO and CE are multiple choice for both. Choose whichever is offered at a test centre near you!</div>
 <div class="example-box">Target B2 = CLB 7-8 → ~64-128 CRS points for language<br>Target C1 = CLB 9-10 → significant advantage in the CRS ranking</div>`,
     quiz:[
-      {q:'Quelle est la durée de validité du TCF/TEF Canada ?', q_en:'How long is the TCF/TEF Canada valid for?', opts:['1 an','2 ans','3 ans','5 ans'], ans:1},
-      {q:'Quel niveau CECRL correspond au CLB 9 ?', q_en:'Which CEFR level corresponds to CLB 9?', opts:['A2','B1','B2','C1'], ans:3},
-      {q:'Pour Express Entry, quel niveau est recommandé ?', q_en:'For Express Entry, which level is recommended?', opts:['A2','B1','B2 (CLB 7-8)','A1'], ans:2},
-      {q:'Combien de compétences sont évaluées au TCF/TEF Canada ?', q_en:'How many skills are assessed in the TCF/TEF Canada?', opts:['2','3','4','5'], ans:2},
-      {q:'Qui organise le TEF Canada ?', q_en:'Who organises the TEF Canada?', opts:['CIEP','France Éducation International','CCI Paris Île-de-France','Université de Paris'], ans:2},
+      {q:'Quelle est la durée de validité du TCF/TEF Canada ?', q_en:'How long is the TCF/TEF Canada valid for?', opts:['1 an','2 ans','3 ans','5 ans'], ans:1, exp:'TCF et TEF Canada sont valides 2 ans. Planifiez votre test pour qu\'il reste valide à la date de votre demande d\'immigration.', exp_en:'TCF and TEF Canada are valid for 2 years. Plan your test so it remains valid on your application date.', exp_zh:'TCF和TEF Canada有效期2年。确保考试日期与申请截止日期匹配。'},
+      {q:'Quel niveau CECRL correspond au CLB 9 ?', q_en:'Which CEFR level corresponds to CLB 9?', opts:['A2','B1','B2','C1'], ans:3, exp:'CLB 9-10 ≈ C1, CLB 11-12 ≈ C2. Pour Express Entry, CLB 7 (≈B2) est le niveau clé pour obtenir des points bonus.', exp_en:'CLB 9–10 ≈ C1, CLB 11–12 ≈ C2. For Express Entry, CLB 7 (≈B2) is the key level for bonus points.', exp_zh:'CLB 9-10≈C1，CLB 11-12≈C2。对于快速通道，CLB 7（≈B2）是获得额外分数的关键级别。'},
+      {q:'Pour Express Entry, quel niveau est recommandé ?', q_en:'For Express Entry, which level is recommended?', opts:['A2','B1','B2 (CLB 7-8)','A1'], ans:2, exp:'CLB 7 dans toutes les compétences donne 16 points CRS supplémentaires. CLB 9+ double ce bonus à 32 points.', exp_en:'CLB 7 in all skills gives 16 extra CRS points. CLB 9+ doubles this bonus to 32 points.', exp_zh:'所有技能达到CLB 7可获得16个额外CRS分数。CLB 9+可将奖励翻倍至32分。'},
+      {q:'Combien de compétences sont évaluées au TCF/TEF Canada ?', q_en:'How many skills are assessed in the TCF/TEF Canada?', opts:['2','3','4','5'], ans:2, exp:'Les 4 compétences : compréhension orale, compréhension écrite, expression écrite, expression orale. Chacune est notée séparément.', exp_en:'The 4 skills tested: listening comprehension, reading comprehension, written expression, oral expression.', exp_zh:'考察的4项技能：听力理解、阅读理解、书面表达、口头表达。'},
+      {q:'Qui organise le TEF Canada ?', q_en:'Who organises the TEF Canada?', opts:['CIEP','France Éducation International','CCI Paris Île-de-France','Université de Paris'], ans:2, exp:'TEF = CCI Paris Île-de-France. TCF = France Éducation International (anciennement CIEP). Deux examens différents, même objectif.', exp_en:'TEF is run by CCI Paris Île-de-France. TCF is run by France Éducation International (formerly CIEP).', exp_zh:'TEF由巴黎法兰西岛工商会（CCI Paris）主办。TCF由法国教育国际主办。'},
     ]
   },
 
@@ -7267,6 +7336,8 @@ function renderLessonsList() {
   const filterBtns = document.querySelectorAll('.level-filter-btn');
   const filterLabels = [allLabel, t('beginner'), t('intermediate'), t('advanced'), tcfShort];
   filterBtns.forEach((b,i) => { if (filterLabels[i]) b.textContent = filterLabels[i]; });
+  const searchInput = document.getElementById('lesson-search');
+  if (searchInput) searchInput.placeholder = lang==='en'?'Search a lesson…':lang==='zh'?'搜索课程…':'Rechercher une leçon…';
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
   set('list-title-beginner', t('beginnerLevel'));
   set('list-title-intermediate', t('intermediateLevel'));
@@ -7367,18 +7438,21 @@ function closeLessonView() {
 ══════════════════════════════════════ */
 function startQuiz() {
   if (!currentLesson) return;
-  quizIndex = 0; quizScore = 0; quizAnswered = false;
+  quizIndex = 0; quizScore = 0; quizAnswered = false; window.wrongAnswersList = [];
   document.getElementById('lesson-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
   renderQuestion();
 }
 function renderQuestion() {
   const l = currentLesson;
-  const rawQuiz = (lang==='zh' && QUIZ_ZH[l.id]) ? QUIZ_ZH[l.id] :
-                 (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
+  // ZH uses question strings only — always take opts/ans from l.quiz
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
                  l.quiz;
   const q = rawQuiz[quizIndex];
   const total = rawQuiz.length;
+  // resolve question text per language
+  const qText = (lang==='zh' && QUIZ_ZH[l.id]) ? QUIZ_ZH[l.id][quizIndex] :
+                (lang==='en' && q.q_en) ? q.q_en : q.q;
   quizAnswered = false;
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
   const setText = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
@@ -7390,7 +7464,7 @@ function renderQuestion() {
     ).join('');
   }
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
-  setText('q-text', q.q);
+  setText('q-text', qText);
   const fb = document.getElementById('q-feedback');
   if (fb) { fb.innerHTML=''; fb.style.display='none'; }
   const nextBtn = document.getElementById('next-btn');
@@ -7408,12 +7482,12 @@ function selectAnswer(i) {
   if (quizAnswered) return;
   quizAnswered = true;
   const l = currentLesson;
-  const rawQuiz = (lang==='zh' && QUIZ_ZH[l.id]) ? QUIZ_ZH[l.id] :
-                 (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
                  l.quiz;
   const q = rawQuiz[quizIndex];
   const correct = i === q.ans;
   if (correct) quizScore++;
+  else { if (!window.wrongAnswersList) window.wrongAnswersList=[]; window.wrongAnswersList.push(quizIndex); }
   const opts = document.querySelectorAll('.quiz-option');
   opts.forEach((btn,j) => {
     btn.disabled = true;
@@ -7424,20 +7498,25 @@ function selectAnswer(i) {
   const fb = document.getElementById('q-feedback');
   if (fb) {
     fb.style.display='';
-    fb.className='feedback-box '+(correct?'correct':'wrong');
-    fb.innerHTML = correct ? t('correctMsg') : t('wrongMsg')+' <strong>'+q.opts[q.ans]+'</strong>';
+    fb.className='feedback-box show '+(correct?'correct':'wrong');
+    if (correct) {
+      fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
+    } else {
+      const expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
+      const expText = expLang ? ('<div class="feedback-exp">💡 '+expLang+'</div>') : '';
+      fb.innerHTML = '<div><div class="feedback-answer">'+t('wrongMsg')+' <strong>'+q.opts[q.ans]+'</strong></div>'+expText+'</div>';
+    }
   }
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) {
-    nextBtn.style.display='';
+    nextBtn.style.display='block';
     nextBtn.textContent = quizIndex < rawQuiz.length-1 ? t('next') : t('seeResults');
   }
   if (correct) speak(q.opts[q.ans]);
 }
 function nextQuestion() {
   const l = currentLesson;
-  const rawQuiz = (lang==='zh' && QUIZ_ZH[l.id]) ? QUIZ_ZH[l.id] :
-                 (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
                  l.quiz;
   if (quizIndex < rawQuiz.length-1) {
     quizIndex++;
@@ -7448,8 +7527,7 @@ function nextQuestion() {
 }
 function showResult() {
   const l = currentLesson;
-  const rawQuiz = (lang==='zh' && QUIZ_ZH[l.id]) ? QUIZ_ZH[l.id] :
-                 (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
                  l.quiz;
   const total = rawQuiz.length;
   const pct = Math.round(quizScore/total*100);
@@ -7481,11 +7559,178 @@ function showResult() {
   if (backBtn)  backBtn.textContent  = t('backLessons');
   updateXPDisplay();
   if (pct>=80) launchConfetti();
+  // Share button label
+  const shareBtn = document.getElementById('btn-share-lbl');
+  if (shareBtn) shareBtn.textContent = lang==='en'?'Share my score':lang==='zh'?'分享我的成绩':'Partager mon score';
+  // Review wrong answers button
+  const reviewBtn = document.getElementById('btn-review-wrong');
+  if (reviewBtn) {
+    if (window.wrongAnswersList && window.wrongAnswersList.length > 0 && pct < 100) {
+      reviewBtn.style.display = 'block';
+      reviewBtn.textContent = lang==='en'?`Retry ${window.wrongAnswersList.length} wrong answer(s) 🔁`:lang==='zh'?`重做 ${window.wrongAnswersList.length} 道错题 🔁`:`Revoir ${window.wrongAnswersList.length} mauvaise(s) réponse(s) 🔁`;
+    } else {
+      reviewBtn.style.display = 'none';
+    }
+  }
 }
 function retryQuiz() {
+  window.wrongAnswersList = [];
   document.getElementById('result-view').classList.remove('active');
   document.getElementById('lesson-view').classList.add('active');
   renderLessonPage();
+}
+
+function retryWrongAnswers() {
+  if (!window.wrongAnswersList || window.wrongAnswersList.length === 0) return;
+  const l = currentLesson;
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
+                 l.quiz;
+  // Build a mini-quiz with only wrong answers
+  window._wrongOnlyQuiz = window.wrongAnswersList.map(i => rawQuiz[i]);
+  window._origQuiz = rawQuiz;
+  // Temporarily replace quiz
+  window._wrongMode = true;
+  quizIndex = 0; quizScore = 0; quizAnswered = false; window.wrongAnswersList = [];
+  document.getElementById('result-view').classList.remove('active');
+  document.getElementById('quiz-view').classList.add('active');
+  renderQuestionFromList(window._wrongOnlyQuiz);
+}
+
+function renderQuestionFromList(quizList) {
+  const q = quizList[quizIndex];
+  const total = quizList.length;
+  const qText = (lang==='en' && q.q_en) ? q.q_en : q.q;
+  quizAnswered = false;
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
+  const setText = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  const dotsEl = document.getElementById('quiz-dots');
+  if (dotsEl) {
+    dotsEl.innerHTML = quizList.map((_,i) =>
+      `<div style="width:${i===quizIndex?22:8}px;height:8px;border-radius:4px;background:${i===quizIndex?'#EF4444':'var(--border)'};transition:all .2s"></div>`
+    ).join('');
+  }
+  setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
+  setText('q-text', qText);
+  const fb = document.getElementById('q-feedback');
+  if (fb) { fb.innerHTML=''; fb.style.display='none'; }
+  const nextBtn = document.getElementById('next-btn');
+  if (nextBtn) nextBtn.style.display = 'none';
+  const opts = document.getElementById('q-options');
+  if (opts) {
+    opts.innerHTML = q.opts.map((o,i) =>
+      `<button class="quiz-option" onclick="selectAnswerWrong(${i})">${o}</button>`
+    ).join('');
+  }
+  const backBtn = document.getElementById('quiz-back-btn');
+  if (backBtn) backBtn.textContent = t('quit');
+}
+
+function selectAnswerWrong(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = window._wrongOnlyQuiz[quizIndex];
+  const correct = i === q.ans;
+  if (correct) quizScore++;
+  else { if (!window.wrongAnswersList) window.wrongAnswersList=[]; window.wrongAnswersList.push(quizIndex); }
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach((btn,j) => {
+    btn.disabled = true;
+    if (j===q.ans) btn.style.background='#10B981';
+    else if (j===i && !correct) btn.style.background='#EF4444';
+    btn.style.color='white';
+  });
+  const fb = document.getElementById('q-feedback');
+  if (fb) {
+    fb.style.display='';
+    fb.className='feedback-box show '+(correct?'correct':'wrong');
+    if (correct) {
+      fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
+    } else {
+      const expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
+      const expText = expLang ? ('<div class="feedback-exp">💡 '+expLang+'</div>') : '';
+      fb.innerHTML = '<div><div class="feedback-answer">'+t('wrongMsg')+' <strong>'+q.opts[q.ans]+'</strong></div>'+expText+'</div>';
+    }
+  }
+  const nextBtn = document.getElementById('next-btn');
+  if (nextBtn) {
+    nextBtn.style.display='block';
+    nextBtn.textContent = quizIndex < window._wrongOnlyQuiz.length-1 ? t('next') : t('seeResults');
+    nextBtn.onclick = function() {
+      if (quizIndex < window._wrongOnlyQuiz.length-1) {
+        quizIndex++;
+        renderQuestionFromList(window._wrongOnlyQuiz);
+      } else {
+        window._wrongMode = false;
+        showResult();
+      }
+    };
+  }
+  if (correct) speak(q.opts[q.ans]);
+}
+
+function shareResult() {
+  if (!currentLesson) return;
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[currentLesson.id]) ? QUIZ_EN[currentLesson.id] :
+                 currentLesson.quiz;
+  const total = rawQuiz.length;
+  const pct = Math.round(quizScore/total*100);
+  const titleText = lang==='en' ? currentLesson.title_en : currentLesson.title;
+  const stars = pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
+  const text = lang==='en'
+    ? `I scored ${quizScore}/${total} (${pct}%) ${stars} on "${titleText}" in FrenchGo! 🦊 Learn French: https://francaisgo.netlify.app`
+    : lang==='zh'
+    ? `我在FrenchGo"${titleText}"课程中获得了${quizScore}/${total} (${pct}%) ${stars}！🦊 学法语：https://francaisgo.netlify.app`
+    : `J'ai obtenu ${quizScore}/${total} (${pct}%) ${stars} à la leçon "${titleText}" sur FrenchGo ! 🦊 Apprends le français : https://francaisgo.netlify.app`;
+  if (navigator.share) {
+    navigator.share({ text }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('btn-share-lbl');
+      if (btn) { btn.textContent = lang==='en'?'Copied!':lang==='zh'?'已复制！':'Copié !'; setTimeout(()=>{ btn.textContent = lang==='en'?'Share my score':lang==='zh'?'分享我的成绩':'Partager mon score'; }, 2000); }
+    });
+  }
+}
+
+/* ══════════════════════════════════════
+   LESSON SEARCH
+══════════════════════════════════════ */
+function filterLessons(query) {
+  const q = query.trim().toLowerCase();
+  const clearBtn = document.getElementById('lesson-search-clear');
+  const filterBar = document.getElementById('level-filter-bar');
+  const levelSections = document.querySelectorAll('[id^="lesson-level-section-"]');
+  const searchResults = document.getElementById('lesson-search-results');
+  if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+  if (!q) {
+    if (searchResults) searchResults.style.display = 'none';
+    if (filterBar) filterBar.style.display = '';
+    levelSections.forEach(s => s.style.display = '');
+    return;
+  }
+  if (filterBar) filterBar.style.display = 'none';
+  levelSections.forEach(s => s.style.display = 'none');
+  if (searchResults) searchResults.style.display = '';
+  const matches = LESSONS.filter(l => {
+    const title = (lang==='en'?l.title_en:lang==='zh'&&TITLES_ZH[l.id]?TITLES_ZH[l.id].title:l.title)||'';
+    const desc  = (lang==='en'?l.desc_en:lang==='zh'&&TITLES_ZH[l.id]?TITLES_ZH[l.id].desc:l.desc)||'';
+    return title.toLowerCase().includes(q) || desc.toLowerCase().includes(q);
+  });
+  if (searchResults) {
+    if (matches.length === 0) {
+      searchResults.innerHTML = `<div style="text-align:center;padding:32px;color:var(--muted);font-size:14px;">${lang==='en'?'No lessons found':lang==='zh'?'未找到课程':'Aucune leçon trouvée'}</div>`;
+    } else {
+      searchResults.innerHTML = matches.map(l => {
+        const s = state[l.id] || {};
+        const pct = s.score ? Math.round(s.score/l.quiz.length*100) : 0;
+        return lessonCardHTML(l, pct);
+      }).join('');
+    }
+  }
+}
+
+function clearLessonSearch() {
+  const input = document.getElementById('lesson-search');
+  if (input) { input.value = ''; filterLessons(''); input.focus(); }
 }
 function closeQuiz() {
   document.getElementById('quiz-view').classList.remove('active');
@@ -7567,13 +7812,42 @@ function fcPrev() {
 ══════════════════════════════════════ */
 function renderProgress() {
   updateXPDisplay();
-  const xp   = getXP();
-  const done = Object.values(state).filter(s=>s.completed).length;
-  const quiz = Object.values(state).filter(s=>s.score>0).length;
-  const pct  = Math.round(done/LESSONS.length*100);
+  const xp     = getXP();
+  const done   = Object.values(state).filter(s=>s.completed).length;
+  const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
+  const scored = Object.entries(state).filter(([,s])=>s.score>0);
+  let avgScore = 0;
+  if (scored.length) {
+    const total = scored.reduce((sum,[id,s]) => {
+      const l = LESSONS.find(x=>x.id===parseInt(id));
+      return sum + (l ? s.score/l.quiz.length*100 : 0);
+    }, 0);
+    avgScore = Math.round(total/scored.length);
+  }
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-  set('stat-xp', xp); set('stat-done', done); set('stat-quiz', quiz); set('stat-pct', pct+'%');
-  set('lbl-xp', t('xpLbl')); set('lbl-done', t('doneLbl')); set('lbl-quiz', t('quizLbl')); set('lbl-pct', t('pctLbl'));
+  set('stat-xp', xp);
+  set('stat-done', done);
+  set('stat-streak', streak+'🔥');
+  set('stat-avg', scored.length ? avgScore+'%' : '—');
+  set('lbl-xp', t('xpLbl'));
+  set('lbl-done', t('doneLbl'));
+  set('lbl-streak', lang==='en'?'Streak':lang==='zh'?'连续天数':'Série');
+  set('lbl-avg', lang==='en'?'Avg score':lang==='zh'?'平均分':'Score moy.');
+  set('lbl-level-progress', lang==='en'?'Progress by level':lang==='zh'?'各级别进度':'Progression par niveau');
+  ['beginner','intermediate','advanced','tcf'].forEach(lv => {
+    const lvL = LESSONS.filter(l=>l.level===lv);
+    const lvD = lvL.filter(l=>state[l.id]&&state[l.id].completed).length;
+    const lvP = lvL.length ? Math.round(lvD/lvL.length*100) : 0;
+    const fill = document.getElementById('fill-lv-'+lv);
+    const pctEl = document.getElementById('pct-lv-'+lv);
+    const lblEl = document.getElementById('lbl-lv-'+lv);
+    if (fill)  fill.style.width  = lvP+'%';
+    if (pctEl) pctEl.textContent = lvP+'%';
+    if (lblEl) lblEl.textContent = lv==='beginner'?(lang==='en'?'Beginner':lang==='zh'?'初级':'Débutant')
+                                  :lv==='intermediate'?(lang==='en'?'Intermediate':lang==='zh'?'中级':'Interméd.')
+                                  :lv==='advanced'?(lang==='en'?'Advanced':lang==='zh'?'高级':'Avancé')
+                                  :'TCF/TEF';
+  });
   set('lbl-achievements', t('achievements'));
   const ach = t('ach') || [];
   const earned = [
@@ -7595,6 +7869,71 @@ function renderProgress() {
 }
 
 /* ══════════════════════════════════════
+   NOTIFICATIONS
+══════════════════════════════════════ */
+function initNotifications() {
+  const enabled = localStorage.getItem('ff_notif') === '1';
+  const toggle = document.getElementById('notif-toggle');
+  if (toggle) toggle.classList.toggle('on', enabled);
+}
+
+async function toggleNotifications() {
+  const toggle = document.getElementById('notif-toggle');
+  const current = localStorage.getItem('ff_notif') === '1';
+  if (!current) {
+    if (!('Notification' in window)) {
+      alert(lang==='en'?'Notifications are not supported on this browser.':lang==='zh'?'此浏览器不支持通知。':'Les notifications ne sont pas supportées sur ce navigateur.');
+      return;
+    }
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') {
+      alert(lang==='en'?'Please allow notifications in your browser settings.':lang==='zh'?'请在浏览器设置中允许通知。':'Veuillez autoriser les notifications dans les paramètres du navigateur.');
+      return;
+    }
+    localStorage.setItem('ff_notif', '1');
+    localStorage.setItem('ff_notif_last', Date.now().toString());
+    if (toggle) toggle.classList.add('on');
+    scheduleStreakReminder();
+    new Notification('FrenchGo 🦊', {
+      body: lang==='en'?`Notifications enabled! We'll remind you to practice every day.`:lang==='zh'?`通知已开启！我们每天提醒您练习。`:`Notifications activées ! On vous rappellera de pratiquer chaque jour.`,
+      icon: '/icon-192.png'
+    });
+  } else {
+    localStorage.setItem('ff_notif', '0');
+    if (toggle) toggle.classList.remove('on');
+  }
+}
+
+function scheduleStreakReminder() {
+  if (localStorage.getItem('ff_notif') !== '1') return;
+  if (Notification.permission !== 'granted') return;
+  setTimeout(() => {
+    const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
+    const body = streak > 0
+      ? (lang==='en'?`Keep your ${streak}-day streak alive! 🔥`:lang==='zh'?`保持您${streak}天的连续学习！🔥`:`Maintenez votre série de ${streak} jours ! 🔥`)
+      : (lang==='en'?'Time to learn French today! 🦊':lang==='zh'?'今天该学法语了！🦊':`C'est l'heure de pratiquer le français ! 🦊`);
+    new Notification('FrenchGo 🦊', { body, icon: '/icon-192.png' });
+    localStorage.setItem('ff_notif_last', Date.now().toString());
+    scheduleStreakReminder();
+  }, 23 * 60 * 60 * 1000);
+}
+
+function checkPendingNotification() {
+  if (localStorage.getItem('ff_notif') !== '1') return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const last = parseInt(localStorage.getItem('ff_notif_last')||'0', 10);
+  if (Date.now() - last > 20 * 60 * 60 * 1000) {
+    const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
+    const body = streak > 0
+      ? (lang==='en'?`Welcome back! Keep your ${streak}-day streak! 🔥`:lang==='zh'?`欢迎回来！保持${streak}天！🔥`:`Bon retour ! Maintenez votre série de ${streak} jours ! 🔥`)
+      : (lang==='en'?'Welcome back! Ready to learn French? 🦊':lang==='zh'?'欢迎回来！准备好学法语了吗？🦊':`Bon retour ! Prêt(e) à pratiquer ? 🦊`);
+    new Notification('FrenchGo 🦊', { body, icon: '/icon-192.png' });
+    localStorage.setItem('ff_notif_last', Date.now().toString());
+  }
+  scheduleStreakReminder();
+}
+
+/* ══════════════════════════════════════
    SETTINGS
 ══════════════════════════════════════ */
 function renderSettings() {
@@ -7607,7 +7946,10 @@ function renderSettings() {
   set('set-lbl-info', lang==='en'?'Information':lang==='zh'?'信息':'Informations');
   set('set-lbl-privacy', lang==='en'?'Privacy policy':lang==='zh'?'隐私政策':'Politique de confidentialité');
   set('set-lbl-about-desc', lang==='en'?'Learning French has never been easier.':lang==='zh'?'学法语从未如此简单。':'Apprendre le français n\'a jamais été aussi simple.');
-  set('set-ver', 'v1.2');
+  set('set-ver', 'v1.3');
+  set('set-lbl-notif', lang==='en'?'Notifications':lang==='zh'?'通知':'Notifications');
+  set('set-lbl-notif-sub', lang==='en'?'Daily practice reminder':lang==='zh'?'每日练习提醒':'Rappel quotidien de pratiquer');
+  initNotifications();
   applyDarkMode();
   updateLangBtn();
 }
@@ -7773,6 +8115,7 @@ function initApp() {
   showTab('home');
   updateNav();
   hideSplash();
+  checkPendingNotification();
   // Wire up onboarding lang buttons
   ['fr','en','zh'].forEach(l => {
     const b = document.getElementById('ob-lang-'+l);
