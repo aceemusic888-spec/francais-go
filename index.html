@@ -174,6 +174,14 @@
     .vocab-table tr:last-child td { border-bottom: none; }
     .vocab-table td:first-child { font-weight: 700; color: var(--indigo-dark); width: 45%; }
     .vocab-table tr:nth-child(even) { background: #F8FAFF; }
+    .speak-btn { background:none; border:none; cursor:pointer; font-size:15px; padding:0 0 0 6px; opacity:0.55; transition:opacity .15s,transform .15s; vertical-align:middle; line-height:1; }
+    .speak-btn:hover { opacity:1; transform:scale(1.25); }
+    .speak-btn:active { transform:scale(0.85); }
+    .fc-speak-btn { display:block; margin:14px auto 0; background:rgba(255,255,255,0.18); border:none; border-radius:50%; width:48px; height:48px; font-size:22px; cursor:pointer; transition:background .2s,transform .15s; }
+    .fc-speak-btn:hover { background:rgba(255,255,255,0.32); }
+    .fc-speak-btn:active { transform:scale(0.88); }
+    .quiz-speak-btn { background:none; border:none; cursor:pointer; font-size:18px; opacity:0.65; padding:2px 6px; transition:opacity .15s,transform .15s; vertical-align:middle; }
+    .quiz-speak-btn:hover { opacity:1; transform:scale(1.2); }
     .tip-box { background: linear-gradient(135deg, #EEF2FF, #F5F3FF); border-left: 4px solid var(--indigo); padding: 13px 16px; border-radius: 0 14px 14px 0; margin: 16px 0; font-size: 14px; line-height: 1.65; }
     .tip-box strong { color: var(--indigo-dark); }
     .example-box { background: linear-gradient(135deg, #F0FDF4, #ECFDF5); border-left: 4px solid var(--green); padding: 13px 16px; border-radius: 0 14px 14px 0; margin: 12px 0; font-size: 14px; font-style: italic; line-height: 1.7; }
@@ -6404,6 +6412,17 @@ function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*
 /* ══════════════════════════════════════
    STREAK SYSTEM
 ══════════════════════════════════════ */
+/* ── Text-to-Speech ────────────────────────────────────────────── */
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang  = 'fr-FR';
+  u.rate  = 0.88;
+  u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+
 function getTodayStr() {
   var d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -6764,7 +6783,20 @@ function showLessonPage(idx) {
   // Fade content
   const body = document.getElementById('lesson-body');
   body.style.opacity = '0';
-  setTimeout(() => { body.innerHTML = lessonPages[idx]; body.style.opacity = '1'; }, 160);
+  setTimeout(() => {
+    body.innerHTML = lessonPages[idx];
+    // Inject 🔊 buttons into vocab table French cells
+    body.querySelectorAll('.vocab-table td:first-child').forEach(function(td) {
+      var word = td.textContent.trim();
+      var btn = document.createElement('button');
+      btn.className = 'speak-btn';
+      btn.title = 'Écouter la prononciation';
+      btn.textContent = '🔊';
+      btn.onclick = function(e) { e.stopPropagation(); speak(word); };
+      td.appendChild(btn);
+    });
+    body.style.opacity = '1';
+  }, 160);
 
   // Dots
   const showDots = total > 1;
@@ -6865,9 +6897,12 @@ function renderQuestion() {
 
   document.getElementById('q-num').textContent = `${t('question')} ${quizIndex+1} ${t('of')} ${total}`;
   const qZh = QUIZ_ZH[currentLesson.id];
-  document.getElementById('q-text').textContent =
-    lang === 'zh' && qZh && qZh[quizIndex] ? qZh[quizIndex] :
+  const qText = lang === 'zh' && qZh && qZh[quizIndex] ? qZh[quizIndex] :
     lang === 'en' && q.q_en ? q.q_en : q.q;
+  document.getElementById('q-text').innerHTML =
+    '<span>' + qText + '</span>' +
+    '<button class="quiz-speak-btn" title="Écouter" onclick="speak(\'' +
+      q.q.replace(/'/g,"\\'") + '\')">🔊</button>';
 
   const letters = ['A','B','C','D'];
   document.getElementById('q-options').innerHTML = q.opts.map((opt, i) =>
@@ -7368,6 +7403,7 @@ function renderFC() {
         '<div class="fc-face fc-front">' +
           '<div class="fc-level-tag-card" style="color:rgba(255,255,255,0.7)">' + lvNames[card.level] + '</div>' +
           '<div class="fc-word">' + card.fr + '</div>' +
+          '<button class="fc-speak-btn" title="Écouter" onclick="event.stopPropagation();speak(\'' + card.fr.replace(/'/g,"\\'") + '\')">🔊</button>' +
           '<div class="fc-hint">' + tapHint + '</div>' +
         '</div>' +
         '<div class="fc-face fc-back">' +
