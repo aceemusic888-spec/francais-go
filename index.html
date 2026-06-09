@@ -7497,7 +7497,7 @@ function selectAnswer(i) {
   });
   const fb = document.getElementById('q-feedback');
   if (fb) {
-    fb.style.display='';
+    fb.style.display='flex';
     fb.className='feedback-box show '+(correct?'correct':'wrong');
     if (correct) {
       fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
@@ -7641,7 +7641,7 @@ function selectAnswerWrong(i) {
   });
   const fb = document.getElementById('q-feedback');
   if (fb) {
-    fb.style.display='';
+    fb.style.display='flex';
     fb.className='feedback-box show '+(correct?'correct':'wrong');
     if (correct) {
       fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
