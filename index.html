@@ -7468,7 +7468,7 @@ function renderQuestion() {
   const fb = document.getElementById('q-feedback');
   if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
-  if (nextBtn) { nextBtn.classList.remove('show'); }
+  if (nextBtn) { nextBtn.classList.remove('show'); nextBtn.onclick = nextQuestion; }
   const opts = document.getElementById('q-options');
   if (opts) {
     opts.innerHTML = q.opts.map((o,i) =>
