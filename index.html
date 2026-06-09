@@ -830,7 +830,7 @@
       <div class="price">4,99 €</div>
       <div class="price-label" id="modal-price-label">Accès complet — paiement unique</div>
     </div>
-    <a class="btn-gumroad" id="btn-gumroad" href="https://aceemusic6.gumroad.com/l/klcdld" target="_blank" id="modal-buy-btn">🛒 Acheter maintenant</a>
+    <a class="btn-gumroad" id="btn-gumroad" href="https://aceemusic6.gumroad.com/l/klcdld" target="_blank" rel="noopener" onclick="window.open(GUMROAD_URL,'_blank');return false;">🛒 Acheter maintenant</a>
     <button class="btn-unlock-code" onclick="toggleCodeInput()" id="modal-code-btn">🔑 J'ai déjà un code d'accès</button>
     <div class="code-input-area" id="code-area">
       <input class="code-input" id="code-input" type="text" placeholder="XXXXXXXXX" maxlength="20" oninput="this.value=this.value.toUpperCase()" />
@@ -1258,6 +1258,12 @@ const TITLES_ZH = {
   57:{title:'逻辑连接词',desc:'TCF写作：论证与组织观点'},
   58:{title:'主题词汇 — 健康、教育、科技',desc:'TCF/TEF高频主题词汇'},
   59:{title:'TCF/TEF 模拟练习 2',desc:'真实风格题目综合测试'},
+
+  60:{title:'时间与日期',desc:'法语报时、星期与月份'},
+  61:{title:'形容词',desc:'形容词的性数配合与位置规则'},
+  62:{title:'代词式动词',desc:'Se lever, s\'appeler, se coucher…'},
+  63:{title:'副词',desc:'构成与使用法语副词'},
+  64:{title:'Pouvoir/Vouloir/Devoir',desc:'三个核心情态动词'},
 };
 const CONTENT_ZH = {
   0:`<h2>🤝 问候语</h2>
@@ -2663,6 +2669,140 @@ const CONTENT_ZH = {
 <tr><td>géré par</td><td>由……管理</td></tr>
 </table>
 <div class="tip-box"><strong>💡 考试策略：</strong>先读题目，再读文章。在文章中标记关键词，与选项逐一对照。</div>`,
+
+  60:`<h2>🕐 时间与日期</h2>
+<p>掌握报时和日期是日常交流的基础。</p>
+<h3>询问时间</h3>
+<table class="vocab-table">
+<tr><td>Quelle heure est-il ?</td><td>现在几点？</td></tr>
+<tr><td>Il est… heure(s).</td><td>现在……点。</td></tr>
+</table>
+<h3>时间表达</h3>
+<table class="vocab-table">
+<tr><td>Il est huit heures.</td><td>8点整</td></tr>
+<tr><td>Il est midi.</td><td>中午12点</td></tr>
+<tr><td>Il est minuit.</td><td>午夜12点</td></tr>
+<tr><td>Il est huit heures et quart.</td><td>8点15分</td></tr>
+<tr><td>Il est huit heures et demie.</td><td>8点30分</td></tr>
+<tr><td>Il est neuf heures moins le quart.</td><td>8点45分</td></tr>
+</table>
+<h3>星期</h3>
+<table class="vocab-table">
+<tr><td>lundi / mardi / mercredi</td><td>周一 / 周二 / 周三</td></tr>
+<tr><td>jeudi / vendredi</td><td>周四 / 周五</td></tr>
+<tr><td>samedi / dimanche</td><td>周六 / 周日</td></tr>
+</table>
+<h3>月份</h3>
+<table class="vocab-table">
+<tr><td>janvier à mars</td><td>一月至三月</td></tr>
+<tr><td>avril à juin</td><td>四月至六月</td></tr>
+<tr><td>juillet à septembre</td><td>七月至九月</td></tr>
+<tr><td>octobre à décembre</td><td>十月至十二月</td></tr>
+</table>
+<p>💡 法语中星期和月份不需要大写！</p>`,
+  61:`<h2>🎨 形容词</h2>
+<p>法语形容词要与名词在<strong>性</strong>（阴/阳）和<strong>数</strong>（单/复）上保持一致。</p>
+<h3>阳性/阴性变化</h3>
+<table class="vocab-table">
+<tr><th>阳性</th><th>阴性</th><th>含义</th></tr>
+<tr><td>petit</td><td>petite</td><td>小的</td></tr>
+<tr><td>grand</td><td>grande</td><td>大的/高的</td></tr>
+<tr><td>beau</td><td>belle</td><td>漂亮的</td></tr>
+<tr><td>heureux</td><td>heureuse</td><td>幸福的</td></tr>
+</table>
+<h3>复数变化</h3>
+<p>通常在词尾加<strong>-s</strong>：</p>
+<table class="vocab-table">
+<tr><td>un chat noir</td><td>des chats noirs（黑猫们）</td></tr>
+<tr><td>une robe rouge</td><td>des robes rouges（红裙子们）</td></tr>
+</table>
+<h3>形容词的位置</h3>
+<p>大多数形容词放在名词<strong>后面</strong>：</p>
+<table class="vocab-table">
+<tr><td>une voiture rouge</td><td>一辆红色汽车</td></tr>
+</table>
+<p>短小常用的形容词（美丽、年龄、好坏、大小）放在名词<strong>前面</strong>：</p>
+<table class="vocab-table">
+<tr><td>un beau jardin</td><td>一个美丽的花园</td></tr>
+<tr><td>un petit garçon</td><td>一个小男孩</td></tr>
+</table>`,
+  62:`<h2>🔄 代词式动词</h2>
+<p>代词式动词带有<strong>反身代词</strong>（me, te, se, nous, vous, se），表示主语对自身做某动作。</p>
+<h3>"se lever"（起床）的变位</h3>
+<table class="vocab-table">
+<tr><td>je me lève</td><td>我起床</td></tr>
+<tr><td>tu te lèves</td><td>你起床</td></tr>
+<tr><td>il/elle se lève</td><td>他/她起床</td></tr>
+<tr><td>nous nous levons</td><td>我们起床</td></tr>
+<tr><td>vous vous levez</td><td>您/你们起床</td></tr>
+<tr><td>ils/elles se lèvent</td><td>他们/她们起床</td></tr>
+</table>
+<h3>常用代词式动词</h3>
+<table class="vocab-table">
+<tr><td>s'appeler</td><td>叫做（名字）</td></tr>
+<tr><td>se coucher</td><td>睡觉/上床</td></tr>
+<tr><td>se laver</td><td>洗漱</td></tr>
+<tr><td>s'habiller</td><td>穿衣</td></tr>
+<tr><td>se reposer</td><td>休息</td></tr>
+<tr><td>se souvenir</td><td>记得/记忆</td></tr>
+</table>
+<h3>复合过去时</h3>
+<p>代词式动词用<strong>être</strong>构成复合过去时：</p>
+<table class="vocab-table">
+<tr><td>Je me suis levé(e).</td><td>我起床了。</td></tr>
+<tr><td>Elle s'est couchée.</td><td>她睡觉了。</td></tr>
+</table>`,
+  63:`<h2>⚡ 副词</h2>
+<p>副词修饰动词、形容词或其他副词，<strong>形式不变化</strong>（不随性数变化）。</p>
+<h3>以-ment结尾的副词构成</h3>
+<p>在形容词的阴性形式后加<strong>-ment</strong>：</p>
+<table class="vocab-table">
+<tr><th>阳性形容词</th><th>阴性形容词</th><th>副词</th><th>含义</th></tr>
+<tr><td>lent</td><td>lente</td><td>lentement</td><td>缓慢地</td></tr>
+<tr><td>rapide</td><td>rapide</td><td>rapidement</td><td>迅速地</td></tr>
+<tr><td>heureux</td><td>heureuse</td><td>heureusement</td><td>幸运地</td></tr>
+</table>
+<h3>常用副词</h3>
+<table class="vocab-table">
+<tr><td>bien / mal</td><td>好地 / 不好地</td></tr>
+<tr><td>très / beaucoup</td><td>非常 / 很多</td></tr>
+<tr><td>souvent / toujours / jamais</td><td>经常 / 总是 / 从不</td></tr>
+<tr><td>déjà / encore / vite</td><td>已经 / 还/又 / 快</td></tr>
+</table>
+<h3>副词的位置</h3>
+<table class="vocab-table">
+<tr><td>Elle parle bien français.</td><td>她法语说得很好。</td></tr>
+<tr><td>J'ai bien dormi.</td><td>我睡得很好。（复合过去时中放辅助动词和分词之间）</td></tr>
+</table>`,
+  64:`<h2>💪 Pouvoir / Vouloir / Devoir</h2>
+<p>这三个情态动词是法语中最重要的：表达<strong>能力</strong>、<strong>愿望</strong>和<strong>义务</strong>。</p>
+<h3>POUVOIR（能/可以）</h3>
+<table class="vocab-table">
+<tr><td>je peux</td><td>tu peux</td></tr>
+<tr><td>il/elle peut</td><td>nous pouvons</td></tr>
+<tr><td>vous pouvez</td><td>ils/elles peuvent</td></tr>
+</table>
+<p>→ <em>Je peux venir demain.</em>（我明天可以来。）</p>
+<h3>VOULOIR（想要）</h3>
+<table class="vocab-table">
+<tr><td>je veux</td><td>tu veux</td></tr>
+<tr><td>il/elle veut</td><td>nous voulons</td></tr>
+<tr><td>vous voulez</td><td>ils/elles veulent</td></tr>
+</table>
+<p>→ 礼貌用法（条件式）：<em>Je voudrais un café.</em>（我想要一杯咖啡。）</p>
+<h3>DEVOIR（必须/应该）</h3>
+<table class="vocab-table">
+<tr><td>je dois</td><td>tu dois</td></tr>
+<tr><td>il/elle doit</td><td>nous devons</td></tr>
+<tr><td>vous devez</td><td>ils/elles doivent</td></tr>
+</table>
+<p>→ <em>Tu dois étudier.</em>（你必须学习。）</p>
+<h3>实用句型</h3>
+<table class="vocab-table">
+<tr><td>Je peux vous aider ?</td><td>我可以帮您吗？</td></tr>
+<tr><td>Je voudrais réserver.</td><td>我想预订。</td></tr>
+<tr><td>Vous devez remplir ce formulaire.</td><td>您必须填写这份表格。</td></tr>
+</table>`,
 };
 const QUIZ_ZH = {
   0:['"Good morning"用法语怎么说？','哪个表达的意思是"很高兴认识你"？','正式地问"您好吗？"怎么说？','"Salut！"是一种……表达','"À demain"是什么意思？'],
@@ -2720,6 +2860,42 @@ const QUIZ_ZH = {
   52:['法国简历通常：','简历中经历的顺序是：','法国求职信的结构是：','哪个动词描述管理职责？','如何结束求职信？'],
   53:['会议记录的写作风格：','会议记录中需要记录：','引出决定时写：','"[人名] est chargé(e) de…"表示：','会议记录的风格是：'],
   54:['哪个连词表示转折？','哪个连词引出结果？','一个好论点由……构成：','"Certes"是……类型的连词','论证性文本的结构是：'],
+
+  60:[
+    {q:"如何用法语询问时间？", opts:["Quel jour est-il ?","Quelle heure est-il ?","Quelle est la date ?","Combien de temps ?"], ans:1},
+    {q:'怎么说"8:30"？', opts:["Il est huit heures et quart","Il est neuf heures moins demie","Il est huit heures et demie","Il est midi et demi"], ans:2},
+    {q:'mercredi（周三）后面是哪天？', opts:["mardi","lundi","vendredi","jeudi"], ans:3},
+    {q:'"du matin"对应的是：', opts:["下午","午夜","上午","傍晚"], ans:2},
+    {q:'以下哪句话是正确的？', opts:["月份要大写","midi = minuit","Il est midi = 现在是中午","dimanche是第一天"], ans:2},
+  ],
+  61:[
+    {q:'"heureux"的阴性形式是？', opts:["heureuse","heureuxe","heureusse","heureux"], ans:0},
+    {q:'"一辆红色汽车"法语怎么说？', opts:["une rouge voiture","une voiture rouge","une voiture rouges","un voiture rouge"], ans:1},
+    {q:'哪个形容词放在名词前面？', opts:["intelligent","intéressant","petit","rouge"], ans:2},
+    {q:'"des chats noirs"的单数形式是？', opts:["un chat noirs","une chatte noire","un chat noir","des chats noir"], ans:2},
+    {q:'"un grand homme"的意思是？', opts:["一个高个子男人","一个大男人","一个伟大的男人","一个老男人"], ans:2},
+  ],
+  62:[
+    {q:'"se laver"第一人称单数怎么变位？', opts:["je se lave","je me lave","je te lave","je lève"], ans:1},
+    {q:'"She goes to bed"法语怎么说？', opts:["Elle couche","Elle se couche","Elle te couche","Elle nous couche"], ans:1},
+    {q:'以下哪个否定句正确？', opts:["Je me ne lève pas","Je ne me lève pas","Je ne lève me pas","Je ne pas me lève"], ans:1},
+    {q:'代词式动词的复合过去时用哪个助动词？', opts:["avoir","être","faire","aller"], ans:1},
+    {q:'哪个复合过去时句子是正确的？', opts:["Elle a se couchée","Elle s'est couché","Elle s'est couchée","Elle est se couchée"], ans:2},
+  ],
+  63:[
+    {q:'"heureux"对应的副词是？', opts:["heureuxement","heureusement","heurément","heureusment"], ans:1},
+    {q:'"souvent"的意思是？', opts:["从不","有时","经常","总是"], ans:2},
+    {q:'哪个句子是正确的？', opts:["Elle parle française bien","Elle bien parle français","Elle parle bien français","Elle parle français bien"], ans:2},
+    {q:'副词的特点是：', opts:["随性变化","随数变化","不变化","与主语配合"], ans:2},
+    {q:'在复合过去时中，短副词"bien"放在哪里？', opts:["助动词前","分词后","助动词与分词之间","句子末尾"], ans:2},
+  ],
+  64:[
+    {q:'"pouvoir"第三人称复数怎么变位？', opts:["ils pouvent","ils peuvent","ils pouvoir","ils peuves"], ans:1},
+    {q:'"Tu dois partir"是什么意思？', opts:["你想走","你能走","你必须走","你正在走"], ans:2},
+    {q:'点咖啡哪句最礼貌？', opts:["Je veux un café.","Je dois un café.","Je voudrais un café.","Je peux un café."], ans:2},
+    {q:'"She can speak French"法语怎么说？', opts:["Elle veut parler français","Elle doit parler français","Elle peut parler français","Elle parle pouvoir français"], ans:2},
+    {q:'"vouloir"第一人称复数哪个正确？', opts:["nous voulons","nous voulez","nous veulent","nous voulont"], ans:0},
+  ],
 };
 
 /* ══════════════════════════════════════
@@ -6527,6 +6703,248 @@ const LESSONS = [
       {q:'Le TCF Canada comporte combien d\'épreuves obligatoires ?', q_en:'How many mandatory components does the TCF Canada have?', opts:['2','3','4','6'], ans:2},
     ]
   },
+
+  /* ─── 60 ─── */
+  {
+    id:60, level:'beginner',
+    title:"L'heure et les jours", title_en:'Time and days',
+    desc:"Dire l'heure, les jours et les mois.", desc_en:'Telling time, days and months.',
+    content:`<h2>🕐 L'heure et les jours</h2>
+<p>Savoir lire et dire l'heure est essentiel pour la vie quotidienne.</p>
+<h3>Demander l'heure</h3>
+<table class="vocab-table">
+<tr><td>Quelle heure est-il ?</td><td>What time is it?</td></tr>
+<tr><td>Il est… heure(s).</td><td>It is… o'clock.</td></tr>
+<tr><td>Avez-vous l'heure ?</td><td>Do you have the time?</td></tr>
+</table>
+<h3>Les heures et les minutes</h3>
+<table class="vocab-table">
+<tr><td>Il est huit heures.</td><td>It is 8:00.</td></tr>
+<tr><td>Il est midi.</td><td>It is noon (12:00).</td></tr>
+<tr><td>Il est minuit.</td><td>It is midnight (00:00).</td></tr>
+<tr><td>Il est huit heures et quart.</td><td>It is 8:15.</td></tr>
+<tr><td>Il est huit heures et demie.</td><td>It is 8:30.</td></tr>
+<tr><td>Il est neuf heures moins le quart.</td><td>It is 8:45.</td></tr>
+<tr><td>Il est huit heures dix.</td><td>It is 8:10.</td></tr>
+<tr><td>Il est neuf heures moins cinq.</td><td>It is 8:55.</td></tr>
+</table>
+<h3>Matin, après-midi, soir</h3>
+<table class="vocab-table">
+<tr><td>du matin</td><td>a.m. / in the morning</td></tr>
+<tr><td>de l'après-midi</td><td>p.m. / in the afternoon</td></tr>
+<tr><td>du soir</td><td>p.m. / in the evening</td></tr>
+</table>
+<h3>Les jours de la semaine</h3>
+<table class="vocab-table">
+<tr><td>lundi</td><td>Monday</td></tr>
+<tr><td>mardi</td><td>Tuesday</td></tr>
+<tr><td>mercredi</td><td>Wednesday</td></tr>
+<tr><td>jeudi</td><td>Thursday</td></tr>
+<tr><td>vendredi</td><td>Friday</td></tr>
+<tr><td>samedi</td><td>Saturday</td></tr>
+<tr><td>dimanche</td><td>Sunday</td></tr>
+</table>
+<h3>Les mois de l'année</h3>
+<table class="vocab-table">
+<tr><td>janvier · février · mars</td><td>January · February · March</td></tr>
+<tr><td>avril · mai · juin</td><td>April · May · June</td></tr>
+<tr><td>juillet · août · septembre</td><td>July · August · September</td></tr>
+<tr><td>octobre · novembre · décembre</td><td>October · November · December</td></tr>
+</table>
+<p>💡 En français, les jours et les mois s'écrivent en <strong>minuscule</strong>.</p>`,
+    quiz:[
+      {q:"Comment demande-t-on l'heure ?", opts:["Quel jour est-il ?","Quelle heure est-il ?","Quelle est la date ?","Combien de temps ?"], ans:1},
+      {q:'Comment dit-on "8:30" ?', opts:["Il est huit heures et quart","Il est neuf heures moins demie","Il est huit heures et demie","Il est midi et demi"], ans:2},
+      {q:'Quel jour vient après mercredi ?', opts:["mardi","lundi","vendredi","jeudi"], ans:3},
+      {q:'"Du matin" correspond à :', opts:["p.m.","minuit","a.m.","l'après-midi"], ans:2},
+      {q:'Quelle affirmation est correcte ?', opts:["Les mois prennent une majuscule","Midi = minuit","Il est midi = It is noon","Dimanche est le premier jour"], ans:2},
+    ]
+  },
+  /* ─── 61 ─── */
+  {
+    id:61, level:'beginner',
+    title:'Les adjectifs qualificatifs', title_en:'Descriptive adjectives',
+    desc:"Accorder et placer les adjectifs correctement.", desc_en:'Adjective agreement and placement.',
+    content:`<h2>🎨 Les adjectifs qualificatifs</h2>
+<p>En français, les adjectifs s'accordent en <strong>genre</strong> (masculin/féminin) et en <strong>nombre</strong> (singulier/pluriel).</p>
+<h3>Accord masculin / féminin</h3>
+<table class="vocab-table">
+<tr><th>Masculin</th><th>Féminin</th><th>Sens</th></tr>
+<tr><td>petit</td><td>petite</td><td>small</td></tr>
+<tr><td>grand</td><td>grande</td><td>tall / big</td></tr>
+<tr><td>beau</td><td>belle</td><td>beautiful</td></tr>
+<tr><td>nouveau</td><td>nouvelle</td><td>new</td></tr>
+<tr><td>vieux</td><td>vieille</td><td>old</td></tr>
+<tr><td>heureux</td><td>heureuse</td><td>happy</td></tr>
+<tr><td>actif</td><td>active</td><td>active</td></tr>
+</table>
+<h3>Accord singulier / pluriel</h3>
+<p>On ajoute généralement un <strong>-s</strong> au pluriel :</p>
+<table class="vocab-table">
+<tr><td>un chat noir</td><td>des chats noirs</td></tr>
+<tr><td>une robe rouge</td><td>des robes rouges</td></tr>
+</table>
+<h3>Place de l'adjectif</h3>
+<p>La plupart des adjectifs se placent <strong>après</strong> le nom :</p>
+<table class="vocab-table">
+<tr><td>une voiture rouge</td><td>a red car</td></tr>
+<tr><td>un homme intelligent</td><td>an intelligent man</td></tr>
+</table>
+<p>Mais quelques adjectifs courts et courants se placent <strong>avant</strong> le nom (BAGS : Beauty, Age, Goodness, Size) :</p>
+<table class="vocab-table">
+<tr><td>un beau jardin</td><td>a beautiful garden</td></tr>
+<tr><td>un jeune homme</td><td>a young man</td></tr>
+<tr><td>un bon repas</td><td>a good meal</td></tr>
+<tr><td>une petite maison</td><td>a small house</td></tr>
+</table>
+<p>💡 Certains adjectifs changent de sens selon leur position : <em>un grand homme</em> (a great man) ≠ <em>un homme grand</em> (a tall man).</p>`,
+    quiz:[
+      {q:'Quelle est la forme féminine de "heureux" ?', opts:["heureuse","heureuxe","heureusse","heureux"], ans:0},
+      {q:'Comment dit-on "a red car" ?', opts:["une rouge voiture","une voiture rouge","une voiture rouges","un voiture rouge"], ans:1},
+      {q:'Quel adjectif se place AVANT le nom ?', opts:["intelligent","intéressant","petit","rouge"], ans:2},
+      {q:'"Des chats noirs" est le pluriel de :', opts:["un chat noirs","une chatte noire","un chat noir","des chats noir"], ans:2},
+      {q:'"Un grand homme" signifie :', opts:["a tall man","a big man","a great man","an old man"], ans:2},
+    ]
+  },
+  /* ─── 62 ─── */
+  {
+    id:62, level:'intermediate',
+    title:'Les verbes pronominaux', title_en:'Reflexive verbs',
+    desc:"Se lever, s'appeler, se coucher…", desc_en:"Se lever, s'appeler, se coucher…",
+    content:`<h2>🔄 Les verbes pronominaux</h2>
+<p>Les verbes pronominaux sont accompagnés d'un <strong>pronom réfléchi</strong> (me, te, se, nous, vous, se). Ils expriment souvent une action que le sujet fait sur lui-même.</p>
+<h3>Conjugaison de "se lever" (présent)</h3>
+<table class="vocab-table">
+<tr><td>je me lève</td><td>I get up</td></tr>
+<tr><td>tu te lèves</td><td>you get up</td></tr>
+<tr><td>il/elle se lève</td><td>he/she gets up</td></tr>
+<tr><td>nous nous levons</td><td>we get up</td></tr>
+<tr><td>vous vous levez</td><td>you get up</td></tr>
+<tr><td>ils/elles se lèvent</td><td>they get up</td></tr>
+</table>
+<h3>Verbes pronominaux courants</h3>
+<table class="vocab-table">
+<tr><td>s'appeler</td><td>to be called</td></tr>
+<tr><td>se lever</td><td>to get up</td></tr>
+<tr><td>se coucher</td><td>to go to bed</td></tr>
+<tr><td>se laver</td><td>to wash (oneself)</td></tr>
+<tr><td>s'habiller</td><td>to get dressed</td></tr>
+<tr><td>se reposer</td><td>to rest</td></tr>
+<tr><td>se souvenir</td><td>to remember</td></tr>
+<tr><td>se promener</td><td>to go for a walk</td></tr>
+</table>
+<h3>À la forme négative</h3>
+<p>Le <strong>ne</strong> se place avant le pronom réfléchi :</p>
+<table class="vocab-table">
+<tr><td>Je ne me lève pas tôt.</td><td>I don't get up early.</td></tr>
+<tr><td>Elle ne se souvient pas.</td><td>She doesn't remember.</td></tr>
+</table>
+<h3>Au passé composé</h3>
+<p>Les verbes pronominaux se conjuguent avec <strong>être</strong> au passé composé :</p>
+<table class="vocab-table">
+<tr><td>Je me suis levé(e).</td><td>I got up.</td></tr>
+<tr><td>Elle s'est couchée.</td><td>She went to bed.</td></tr>
+<tr><td>Ils se sont promenés.</td><td>They went for a walk.</td></tr>
+</table>
+<p>💡 Le participe passé s'accorde avec le sujet !</p>`,
+    quiz:[
+      {q:'Quelle est la bonne conjugaison de "se laver" à la 1ère personne du singulier ?', opts:["je se lave","je me lave","je te lave","je lève"], ans:1},
+      {q:'Comment dit-on "She goes to bed" ?', opts:["Elle couche","Elle se couche","Elle te couche","Elle nous couche"], ans:1},
+      {q:'Quelle forme négative est correcte ?', opts:["Je me ne lève pas","Je ne me lève pas","Je ne lève me pas","Je ne pas me lève"], ans:1},
+      {q:'Au passé composé, les verbes pronominaux se conjuguent avec :', opts:["avoir","être","faire","aller"], ans:1},
+      {q:'Quelle phrase est correcte au passé composé ?', opts:["Elle a se couchée","Elle s'est couché","Elle s'est couchée","Elle est se couchée"], ans:2},
+    ]
+  },
+  /* ─── 63 ─── */
+  {
+    id:63, level:'intermediate',
+    title:'Les adverbes', title_en:'Adverbs',
+    desc:"Former et utiliser les adverbes en français.", desc_en:'Forming and using French adverbs.',
+    content:`<h2>⚡ Les adverbes</h2>
+<p>Les adverbes modifient un verbe, un adjectif ou un autre adverbe. Ils sont <strong>invariables</strong> (ils ne s'accordent pas).</p>
+<h3>Formation des adverbes en -ment</h3>
+<p>On ajoute <strong>-ment</strong> à la forme féminine de l'adjectif :</p>
+<table class="vocab-table">
+<tr><th>Adjectif (masc.)</th><th>Adjectif (fém.)</th><th>Adverbe</th><th>Sens</th></tr>
+<tr><td>lent</td><td>lente</td><td>lentement</td><td>slowly</td></tr>
+<tr><td>rapide</td><td>rapide</td><td>rapidement</td><td>quickly</td></tr>
+<tr><td>doux</td><td>douce</td><td>doucement</td><td>gently</td></tr>
+<tr><td>heureux</td><td>heureuse</td><td>heureusement</td><td>fortunately</td></tr>
+<tr><td>certain</td><td>certaine</td><td>certainement</td><td>certainly</td></tr>
+</table>
+<h3>Adverbes fréquents (à mémoriser)</h3>
+<table class="vocab-table">
+<tr><td>bien</td><td>well</td></tr>
+<tr><td>mal</td><td>badly</td></tr>
+<tr><td>très</td><td>very</td></tr>
+<tr><td>beaucoup</td><td>a lot</td></tr>
+<tr><td>peu</td><td>little / few</td></tr>
+<tr><td>souvent</td><td>often</td></tr>
+<tr><td>toujours</td><td>always</td></tr>
+<tr><td>jamais</td><td>never</td></tr>
+<tr><td>déjà</td><td>already</td></tr>
+<tr><td>encore</td><td>still / again</td></tr>
+<tr><td>vite</td><td>fast / quickly</td></tr>
+</table>
+<h3>Place de l'adverbe</h3>
+<table class="vocab-table">
+<tr><td>Elle parle <strong>bien</strong> français.</td><td>She speaks French well.</td></tr>
+<tr><td>Il mange <strong>beaucoup</strong>.</td><td>He eats a lot.</td></tr>
+<tr><td>Nous allons <strong>souvent</strong> au cinéma.</td><td>We often go to the cinema.</td></tr>
+</table>
+<p>💡 Au passé composé, l'adverbe court se place entre l'auxiliaire et le participe : <em>J'ai bien dormi.</em></p>`,
+    quiz:[
+      {q:'Quel est l\'adverbe formé à partir de "heureux" ?', opts:["heureuxement","heureusement","heurément","heureusment"], ans:1},
+      {q:'Que signifie "souvent" ?', opts:["never","sometimes","often","always"], ans:2},
+      {q:'Quelle phrase est correcte ?', opts:["Elle parle française bien","Elle bien parle français","Elle parle bien français","Elle parle français bien"], ans:2},
+      {q:'Les adverbes sont :', opts:["variables en genre","variables en nombre","invariables","accordés avec le sujet"], ans:2},
+      {q:'Au passé composé, où se place l\'adverbe court "bien" ?', opts:["Avant l\'auxiliaire","Après le participe","Entre l\'auxiliaire et le participe","En fin de phrase"], ans:2},
+    ]
+  },
+  /* ─── 64 ─── */
+  {
+    id:64, level:'intermediate',
+    title:'Pouvoir, Vouloir, Devoir', title_en:'Modal verbs: can, want, must',
+    desc:"Les trois verbes modaux essentiels en français.", desc_en:'The three essential French modal verbs.',
+    content:`<h2>💪 Pouvoir, Vouloir, Devoir</h2>
+<p>Ces trois verbes modaux sont indispensables. Ils expriment la <strong>capacité</strong>, le <strong>désir</strong> et l'<strong>obligation</strong>.</p>
+<h3>POUVOIR (can / to be able to)</h3>
+<table class="vocab-table">
+<tr><td>je peux</td><td>tu peux</td></tr>
+<tr><td>il/elle peut</td><td>nous pouvons</td></tr>
+<tr><td>vous pouvez</td><td>ils/elles peuvent</td></tr>
+</table>
+<p>→ <em>Je peux venir demain.</em> (I can come tomorrow.)</p>
+<h3>VOULOIR (to want)</h3>
+<table class="vocab-table">
+<tr><td>je veux</td><td>tu veux</td></tr>
+<tr><td>il/elle veut</td><td>nous voulons</td></tr>
+<tr><td>vous voulez</td><td>ils/elles veulent</td></tr>
+</table>
+<p>→ <em>Elle veut apprendre le français.</em> (She wants to learn French.)</p>
+<p>💡 Pour être poli, utilisez le conditionnel : <em>Je voudrais un café.</em> (I would like a coffee.)</p>
+<h3>DEVOIR (must / to have to)</h3>
+<table class="vocab-table">
+<tr><td>je dois</td><td>tu dois</td></tr>
+<tr><td>il/elle doit</td><td>nous devons</td></tr>
+<tr><td>vous devez</td><td>ils/elles doivent</td></tr>
+</table>
+<p>→ <em>Tu dois étudier.</em> (You must study.)</p>
+<h3>Constructions utiles</h3>
+<table class="vocab-table">
+<tr><td>Je peux vous aider ?</td><td>Can I help you?</td></tr>
+<tr><td>Je voudrais réserver.</td><td>I would like to book.</td></tr>
+<tr><td>Vous devez remplir ce formulaire.</td><td>You must fill in this form.</td></tr>
+<tr><td>On peut y aller à pied.</td><td>We can walk there.</td></tr>
+</table>`,
+    quiz:[
+      {q:'Quelle est la bonne conjugaison de "pouvoir" à la 3ème personne du pluriel ?', opts:["ils pouvent","ils peuvent","ils pouvoir","ils peuvent"], ans:1},
+      {q:'"Tu dois partir" signifie :', opts:["You want to leave","You can leave","You must leave","You are leaving"], ans:2},
+      {q:'Quelle phrase est la plus polie pour commander ?', opts:["Je veux un café.","Je dois un café.","Je voudrais un café.","Je peux un café."], ans:2},
+      {q:'Comment dit-on "She can speak French" ?', opts:["Elle veut parler français","Elle doit parler français","Elle peut parler français","Elle parle pouvoir français"], ans:2},
+      {q:'Quelle conjugaison de "vouloir" est correcte ?', opts:["nous voulons","nous voulez","nous veulent","nous voulont"], ans:0},
+    ]
+  },
 ];
 
 /* ══════════════════════════════════════
@@ -6715,7 +7133,7 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'🔓 Unlock all 49 premium lessons':lang==='zh'?'🔓 解锁全部49节高级课程':'🔓 Débloquer les 49 leçons premium';
+      const promoTitle = lang==='en'?'🔓 Unlock all 50 premium lessons':lang==='zh'?'🔓 解锁全部50节高级课程':'🔓 Débloquer les 50 leçons premium';
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
       const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
       unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
@@ -7125,7 +7543,7 @@ function openPrivacy() {
 function openPaywall() {
   const modal = document.getElementById('paywall-modal');
   if (!modal) return;
-  modal.classList.add('active');
+  modal.classList.add('show');
   const mm = document.getElementById('modal-mascot');
   if (mm) mm.innerHTML = getMascotSVG('happy', 70);
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
@@ -7133,8 +7551,8 @@ function openPaywall() {
   if (lang==='en') {
     set('modal-title','Premium Content 🔓');
     set('modal-sub','Unlock 49 advanced lessons and progress quickly in French.');
-    set('mf1','49 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
-    set('mf2','245 interactive quiz exercises');
+    set('mf1','50 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
+    set('mf2','300 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
     set('modal-price-label','Full access — one-time payment');
@@ -7144,8 +7562,8 @@ function openPaywall() {
   } else if (lang==='zh') {
     set('modal-title','高级内容 🔓');
     set('modal-sub','解锁49节高级课程，快速提升法语水平。');
-    set('mf1','49节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
-    set('mf2','245道互动测验');
+    set('mf1','50节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
+    set('mf2','300道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
     set('modal-price-label','完整访问 — 一次性付款');
@@ -7155,8 +7573,8 @@ function openPaywall() {
   } else {
     set('modal-title','Contenu Premium 🔓');
     set('modal-sub','Débloquez les 49 leçons avancées et progressez rapidement en français.');
-    set('mf1','49 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
-    set('mf2','245 exercices de quiz interactifs');
+    set('mf1','50 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
+    set('mf2','300 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
     set('modal-price-label','Accès complet — paiement unique');
@@ -7171,10 +7589,10 @@ function openPaywall() {
 }
 function closePaywall() {
   const modal = document.getElementById('paywall-modal');
-  if (modal) modal.classList.remove('active');
+  if (modal) modal.classList.remove('show');
 }
 function closePaywallOnBg(e) {
-  if (e.target === document.getElementById('paywall-modal')) closePaywall();
+  if (e.target.id === 'paywall-modal') closePaywall();
 }
 function toggleCodeInput() {
   const ca = document.getElementById('code-area');
