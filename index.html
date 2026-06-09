@@ -6805,8 +6805,8 @@ function openLesson(id) {
   if (isPremium(id) && !isUnlocked()) { openPaywall(); return; }
   currentLesson = LESSONS.find(l => l.id===id);
   if (!currentLesson) return;
-  const rawPages = (lang==='zh' && CONTENT_ZH[id]) ? CONTENT_ZH[id] : currentLesson.pages;
-  lessonPages = Array.isArray(rawPages) ? rawPages : [rawPages];
+  const rawContent = (lang==='zh' && CONTENT_ZH[id]) ? CONTENT_ZH[id] : currentLesson.content;
+  lessonPages = Array.isArray(rawContent) ? rawContent : [rawContent];
   currentLessonPageIdx = 0;
   document.getElementById('lesson-view').classList.add('active');
   renderLessonPage();
@@ -7268,8 +7268,7 @@ function initApp() {
   buildFCDeck();
   applyDarkMode();
   updateXPDisplay();
-  const logoEl = document.getElementById('header-logo');
-  if (logoEl) logoEl.innerHTML = getLogoSVG();
+  initMascot();
   showTab('home');
   updateNav();
   hideSplash();
@@ -7284,17 +7283,14 @@ function initApp() {
    BOOT
 ══════════════════════════════════════ */
 (function() {
+  // Always init the app so home page is populated
+  initApp();
   const onboarded = localStorage.getItem('ff_onboarded');
   if (!onboarded) {
-    // Show onboarding, hide main
+    // Show onboarding overlay on top of the app
     const ob = document.getElementById('onboarding');
-    if (ob) ob.style.display='';
+    if (ob) ob.classList.remove('hidden');
     obUpdateLang(lang);
-    hideSplash();
-  } else {
-    const ob = document.getElementById('onboarding');
-    if (ob) ob.style.display='none';
-    initApp();
   }
 })();
 </script>
