@@ -9395,7 +9395,7 @@ function validateCode() {
     showStreakToast('🔓 '+(lang==='en'?'Premium unlocked!':lang==='zh'?'高级已解锁！':'Premium débloqué !'));
   } else {
     if (errEl) {
-      errEl.textContent = lang==='en'?'Incorrect code. Check your purchase email.':lang==='zh'?'码不正确，请检查您的购买邮件。':'Code incorrect. Vérifiez votre email d'achat.';
+      errEl.textContent = lang==='en'?'Incorrect code. Check your purchase email.':lang==='zh'?'码不正确，请检查您的购买邮件。':'Code incorrect. Vérifiez votre email d\'achat.';
       errEl.style.display='block';
     }
     input.style.borderColor='#EF4444';
