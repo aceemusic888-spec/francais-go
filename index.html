@@ -7333,6 +7333,21 @@ function speakCurrentCard() {
   const card = fcDeck[fcIndex];
   if (card) speak(card.fr);
 }
+function addVocabSpeakBtns(container) {
+  if (!container) return;
+  container.querySelectorAll('table.vocab-table tr').forEach(row => {
+    const td = row.querySelector('td:first-child');
+    if (!td || td.querySelector('.speak-btn')) return;
+    const text = td.textContent.trim();
+    if (!text) return;
+    const btn = document.createElement('button');
+    btn.className = 'speak-btn';
+    btn.textContent = '🔊';
+    btn.title = 'Écouter';
+    btn.onclick = e => { e.stopPropagation(); speak(text); };
+    td.appendChild(btn);
+  });
+}
 
 /* ══════════════════════════════════════
    STREAK
@@ -7613,6 +7628,7 @@ function renderLessonPage() {
     ).join('');
   }
   set('lesson-body', lessonPages[idx]);
+  addVocabSpeakBtns(document.getElementById('lesson-body'));
   // prev/next buttons
   const prevBtn = document.getElementById('btn-prev-page');
   const nextBtn = document.getElementById('btn-next-page');
@@ -7689,7 +7705,8 @@ function renderQuestion() {
     ).join('');
   }
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
-  setText('q-text', qText);
+  const qTextEl = document.getElementById('q-text');
+  if (qTextEl) { qTextEl.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speak(this.parentElement.textContent.slice(0,-1).trim())" title="Écouter">🔊</button>'; }
   const fb = document.getElementById('q-feedback');
   if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
@@ -7841,7 +7858,8 @@ function renderQuestionFromList(quizList) {
     ).join('');
   }
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
-  setText('q-text', qText);
+  const qTextEl3 = document.getElementById('q-text');
+  if (qTextEl3) { qTextEl3.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speak(this.parentElement.textContent.slice(0,-1).trim())" title="Écouter">🔊</button>'; }
   const fb = document.getElementById('q-feedback');
   if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
