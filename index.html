@@ -999,13 +999,13 @@
 
     <!-- Compte -->
     <div class="settings-group">
-      <div class="settings-group-title">Compte</div>
+      <div class="settings-group-title" id="set-lbl-account">Compte</div>
       <div id="account-logged-out" class="settings-row" onclick="openAuthModal()" style="cursor:pointer;">
         <div class="settings-row-left">
           <span class="settings-row-icon">👤</span>
           <div>
-            <div class="settings-row-label">Se connecter</div>
-            <div class="settings-row-sub">Sauvegarder ta progression</div>
+            <div class="settings-row-label" id="set-lbl-signin">Se connecter</div>
+            <div class="settings-row-sub" id="set-lbl-signin-sub">Sauvegarder ta progression</div>
           </div>
         </div>
         <span class="settings-chevron">›</span>
@@ -1026,7 +1026,7 @@
         <div class="settings-row" onclick="signOutUser()" style="cursor:pointer;">
           <div class="settings-row-left">
             <span class="settings-row-icon">🚪</span>
-            <span class="settings-row-label" style="color:#EF4444;">Se déconnecter</span>
+            <span class="settings-row-label" id="set-lbl-signout" style="color:#EF4444;">Se déconnecter</span>
           </div>
         </div>
       </div>
@@ -1227,7 +1227,7 @@
     <button class="btn-unlock-code" onclick="toggleCodeInput()" id="modal-code-btn">🔑 J'ai déjà un code d'accès</button>
     <div class="code-input-area" id="code-area">
       <input class="code-input" id="code-input" type="text" placeholder="XXXXXXXXX" maxlength="20" oninput="this.value=this.value.toUpperCase()" />
-      <div class="code-error" id="code-error" id="modal-code-error">Code incorrect. Vérifiez votre email d'achat.</div>
+      <div class="code-error" id="code-error"></div>
       <button class="btn-validate" onclick="validateCode()" id="modal-validate-btn">✓ Valider</button>
     </div>
     <button class="btn-close-modal" onclick="closePaywall()" id="modal-close-btn">Plus tard</button>
@@ -8065,6 +8065,15 @@ function updateNav() {
 function renderCurrentView() {
   updateLangBtn();
   updateNav();
+  // Header tagline
+  var ht = document.getElementById('header-tagline');
+  if (ht) ht.textContent = lang==='en'?'Learn French':lang==='zh'?'学法语':'Apprenez le français';
+  // Lesson search placeholder
+  var ls = document.getElementById('lesson-search');
+  if (ls) ls.placeholder = lang==='en'?'Search a lesson…':lang==='zh'?'搜索课程…':'Rechercher une leçon…';
+  // Vocab search placeholder
+  var vs = document.getElementById('vocab-search');
+  if (vs) vs.placeholder = lang==='en'?'Search a word…':lang==='zh'?'搜索词语…':'Rechercher un mot…';
   if (currentTab==='home')       renderHome();
   if (currentTab==='lessons')    renderLessonsList();
   if (currentTab==='progress')   renderProgress();
@@ -9289,6 +9298,11 @@ function renderSettings() {
   set('set-lbl-about-desc', lang==='en'?'Learning French has never been easier.':lang==='zh'?'学法语从未如此简单。':'Apprendre le français n\'a jamais été aussi simple.');
   set('set-ver', 'v2.1');
   // Daily goal
+  // Account section
+  set('set-lbl-account',    lang==='en'?'Account':lang==='zh'?'账户':'Compte');
+  set('set-lbl-signin',     lang==='en'?'Sign in':lang==='zh'?'登录':'Se connecter');
+  set('set-lbl-signin-sub', lang==='en'?'Save your progress':lang==='zh'?'保存你的进度':'Sauvegarder ta progression');
+  set('set-lbl-signout',    lang==='en'?'Sign out':lang==='zh'?'退出登录':'Se déconnecter');
   set('set-lbl-goal-title', lang==='en'?'Daily goal':lang==='zh'?'每日目标':'Objectif quotidien');
   set('set-lbl-goal', lang==='en'?'XP per day':lang==='zh'?'每日XP':'XP par jour');
   set('set-lbl-goal-sub', lang==='en'?'Choose your daily target':lang==='zh'?'选择每日目标':'Choisir ton objectif quotidien');
@@ -9328,6 +9342,7 @@ function openPaywall() {
     setH('btn-gumroad','🛒 Buy now');
     set('modal-validate-btn','✓ Validate');
     set('modal-close-btn','Later');
+    set('modal-code-btn','🔑 I already have an access code');
   } else if (lang==='zh') {
     set('modal-title','高级内容 🔓');
     set('modal-sub','解锁49节高级课程，快速提升法语水平。');
@@ -9339,6 +9354,7 @@ function openPaywall() {
     setH('btn-gumroad','🛒 立即购买');
     set('modal-validate-btn','✓ 验证');
     set('modal-close-btn','稍后');
+    set('modal-code-btn','🔑 我已有访问码');
   } else {
     set('modal-title','Contenu Premium 🔓');
     set('modal-sub','Débloquez les 49 leçons avancées et progressez rapidement en français.');
@@ -9350,6 +9366,7 @@ function openPaywall() {
     setH('btn-gumroad','🛒 Acheter maintenant');
     set('modal-validate-btn','✓ Valider');
     set('modal-close-btn','Plus tard');
+    set('modal-code-btn',"🔑 J'ai déjà un code d'accès");
   }
   const ca = document.getElementById('code-area');
   if (ca) ca.style.display='none';
@@ -9377,7 +9394,10 @@ function validateCode() {
     renderCurrentView();
     showStreakToast('🔓 '+(lang==='en'?'Premium unlocked!':lang==='zh'?'高级已解锁！':'Premium débloqué !'));
   } else {
-    if (errEl) errEl.style.display='block';
+    if (errEl) {
+      errEl.textContent = lang==='en'?'Incorrect code. Check your purchase email.':lang==='zh'?'码不正确，请检查您的购买邮件。':'Code incorrect. Vérifiez votre email d'achat.';
+      errEl.style.display='block';
+    }
     input.style.borderColor='#EF4444';
     setTimeout(()=>{ if(errEl) errEl.style.display='none'; input.style.borderColor=''; }, 3000);
   }
@@ -9681,6 +9701,7 @@ function updateAuthUI(user) {
 }
 
 function openAuthModal() {
+  updateAuthModalLabels();
   const m = document.getElementById('auth-modal');
   if (m) { m.style.display = 'flex'; _authMode = 'login'; updateAuthModalLabels(); }
 }
@@ -9691,17 +9712,24 @@ function closeAuthModal() {
   if (err) err.textContent = '';
 }
 function updateAuthModalLabels() {
-  const title = document.getElementById('auth-title');
+  const title  = document.getElementById('auth-title');
   const submit = document.getElementById('auth-submit-btn');
   const toggle = document.getElementById('auth-toggle-btn');
+  const pwdIn  = document.getElementById('auth-password');
+  if (pwdIn) pwdIn.placeholder = lang==='en'?'Password':lang==='zh'?'密码':'Mot de passe';
   if (_authMode === 'login') {
-    if (title) title.textContent = 'Se connecter';
-    if (submit) submit.textContent = 'Se connecter';
-    if (toggle) toggle.textContent = "Pas de compte ? S'inscrire";
+    var lbl = lang==='en'?'Sign in':lang==='zh'?'登录':'Se connecter';
+    var tog = lang==='en'?"No account? Sign up":lang==='zh'?"没有账户？注册":"Pas de compte ? S'inscrire";
+    if (title)  title.textContent  = lbl;
+    if (submit) submit.textContent = lbl;
+    if (toggle) toggle.textContent = tog;
   } else {
-    if (title) title.textContent = "S'inscrire";
-    if (submit) submit.textContent = "Créer un compte";
-    if (toggle) toggle.textContent = "Déjà un compte ? Se connecter";
+    var lbl2 = lang==='en'?'Sign up':lang==='zh'?'注册':"S'inscrire";
+    var sub2 = lang==='en'?'Create account':lang==='zh'?'创建账户':'Créer un compte';
+    var tog2 = lang==='en'?'Already have an account? Sign in':lang==='zh'?'已有账户？登录':"Déjà un compte ? Se connecter";
+    if (title)  title.textContent  = lbl2;
+    if (submit) submit.textContent = sub2;
+    if (toggle) toggle.textContent = tog2;
   }
 }
 function toggleAuthMode() {
@@ -9733,14 +9761,26 @@ function submitEmailAuth() {
   const email = document.getElementById('auth-email').value.trim();
   const pwd = document.getElementById('auth-password').value;
   const errEl = document.getElementById('auth-error');
-  if (!email || !pwd) { if(errEl) errEl.textContent = 'Remplis tous les champs.'; return; }
+  if (!email || !pwd) { if(errEl) errEl.textContent = lang==='en'?'Please fill all fields.':lang==='zh'?'请填写所有字段。':'Remplis tous les champs.'; return; }
   const fn = _authMode === 'register'
     ? window._fbAuth.createUserWithEmailAndPassword.bind(window._fbAuth)
     : window._fbAuth.signInWithEmailAndPassword.bind(window._fbAuth);
   fn(email, pwd)
     .then(() => closeAuthModal())
     .catch(err => {
-      const msgs = {
+      const msgs = lang==='en' ? {
+        'auth/email-already-in-use': 'Email already in use.',
+        'auth/weak-password': 'Password too short (min 6 chars).',
+        'auth/user-not-found': 'Account not found.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/invalid-email': 'Invalid email.'
+      } : lang==='zh' ? {
+        'auth/email-already-in-use': '邮箱已被使用。',
+        'auth/weak-password': '密码太短（至少6位）。',
+        'auth/user-not-found': '账户不存在。',
+        'auth/wrong-password': '密码错误。',
+        'auth/invalid-email': '邮箱无效。'
+      } : {
         'auth/email-already-in-use': 'Email déjà utilisé.',
         'auth/weak-password': 'Mot de passe trop court (6 car. min).',
         'auth/user-not-found': 'Compte introuvable.',
@@ -9760,7 +9800,7 @@ function signOutUser() {
   <div style="background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;animation:slideUp 0.3s ease;">
     <div style="text-align:center;margin-bottom:22px;">
       <div style="font-size:36px">🦊</div>
-      <div id="auth-title" style="font-size:20px;font-weight:900;margin-top:8px;color:var(--text);">Se connecter</div>
+      <div id="auth-title" style="font-size:20px;font-weight:900;margin-top:8px;color:var(--text);"></div>
       <div style="font-size:13px;color:var(--muted);margin-top:4px;">Sauvegarde ta progression sur tous tes appareils</div>
     </div>
     <button onclick="signInWithGoogle()" style="width:100%;padding:14px;border:2px solid var(--border);border-radius:14px;background:white;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;color:#1a1a2e;">
@@ -9769,10 +9809,10 @@ function signOutUser() {
     </button>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:12px;color:var(--muted)">ou</span><div style="flex:1;height:1px;background:var(--border)"></div></div>
     <input id="auth-email" type="email" placeholder="Email" style="width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;margin-bottom:10px;background:var(--bg);color:var(--text);box-sizing:border-box;outline:none;" />
-    <input id="auth-password" type="password" placeholder="Mot de passe" style="width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;margin-bottom:6px;background:var(--bg);color:var(--text);box-sizing:border-box;outline:none;" />
+    <input id="auth-password" type="password" placeholder="" style="width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;margin-bottom:6px;background:var(--bg);color:var(--text);box-sizing:border-box;outline:none;" />
     <div id="auth-error" style="font-size:12px;color:#EF4444;margin-bottom:10px;min-height:16px;padding:0 2px;"></div>
-    <button id="auth-submit-btn" onclick="submitEmailAuth()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px;">Se connecter</button>
-    <button onclick="toggleAuthMode()" id="auth-toggle-btn" style="width:100%;padding:10px;background:none;border:none;font-size:13px;color:var(--indigo);cursor:pointer;font-weight:600;">Pas de compte ? S'inscrire</button>
+    <button id="auth-submit-btn" onclick="submitEmailAuth()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px;"></button>
+    <button onclick="toggleAuthMode()" id="auth-toggle-btn" style="width:100%;padding:10px;background:none;border:none;font-size:13px;color:var(--indigo);cursor:pointer;font-weight:600;"></button>
     <button onclick="closeAuthModal()" style="display:block;margin:6px auto 0;background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;">Fermer</button>
   </div>
 </div>
