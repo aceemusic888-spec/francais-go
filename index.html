@@ -7366,11 +7366,27 @@ function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*
 function speak(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(text);
-  u.lang  = 'fr-FR';
-  u.rate  = 0.88;
-  u.pitch = 1;
-  window.speechSynthesis.speak(u);
+  function doSpeak() {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang  = 'fr-FR';
+    u.rate  = 0.88;
+    u.pitch = 1;
+    var voices = window.speechSynthesis.getVoices();
+    var frVoice = voices.find(function(v){ return v.lang === 'fr-FR'; }) ||
+                  voices.find(function(v){ return v.lang.startsWith('fr'); });
+    if (frVoice) u.voice = frVoice;
+    window.speechSynthesis.speak(u);
+  }
+  var voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    doSpeak();
+  } else {
+    window.speechSynthesis.onvoiceschanged = function() {
+      window.speechSynthesis.onvoiceschanged = null;
+      doSpeak();
+    };
+    setTimeout(doSpeak, 500);
+  }
 }
 function speakCurrentCard() {
   const card = fcDeck[fcIndex];
