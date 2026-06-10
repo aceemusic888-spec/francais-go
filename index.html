@@ -231,6 +231,15 @@
     .btn-share { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; padding:13px; border-radius:14px; border:2px solid var(--indigo); background:transparent; color:var(--indigo); font-size:15px; font-weight:800; cursor:pointer; margin-top:10px; transition:background 0.18s; }
     .btn-share:hover { background:#EEF2FF; }
     body.dark .btn-share:hover { background:#1E1B4B; }
+    .share-panel { display:none; flex-direction:row; justify-content:center; gap:10px; margin-top:10px; flex-wrap:wrap; }
+    .share-panel.open { display:flex; }
+    .share-social-btn { display:flex; flex-direction:column; align-items:center; gap:4px; background:none; border:none; cursor:pointer; font-size:11px; font-weight:700; color:var(--text); padding:6px 10px; border-radius:12px; transition:background 0.15s; }
+    .share-social-btn:hover { background:var(--card-bg); }
+    .share-social-btn .share-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+    .si-wa { background:#25D366; }
+    .si-x  { background:#000; }
+    .si-fb { background:#1877F2; }
+    .si-cp { background:var(--indigo); }
     /* Wrong answers review */
     .btn-review-wrong { display:none; width:100%; padding:13px; border-radius:14px; border:none; background:linear-gradient(135deg,#EF4444,#F87171); color:white; font-size:15px; font-weight:800; cursor:pointer; margin-top:8px; }
     .feedback-box.show { display: flex; align-items: flex-start; gap: 8px; }
@@ -525,6 +534,123 @@
     .fc-stat-lbl { font-size:11px; font-weight:700; margin-top:2px; display:block; }
     .fc-stat-box.known .fc-stat-lbl { color:#15803D; }
     .fc-stat-box.review .fc-stat-lbl { color:#B91C1C; }
+
+    /* ── PROGRESS MAP ───────────────────────────────────── */
+    .map-view-toggle { display:flex; gap:8px; margin-bottom:14px; }
+    .map-toggle-btn  { flex:1; padding:9px 0; border-radius:14px; border:2px solid var(--border);
+                       background:var(--card-bg); color:var(--muted); font-size:13px; font-weight:800;
+                       cursor:pointer; transition:all 0.2s; display:flex; align-items:center;
+                       justify-content:center; gap:6px; }
+    .map-toggle-btn.active { background:var(--indigo); border-color:var(--indigo); color:#fff; }
+    #map-view-section  { display:none; }
+    #map-view-section.active { display:block; }
+    #list-view-section.hidden { display:none; }
+
+    .map-outer { position:relative; width:100%; overflow:hidden; border-radius:20px; }
+    .map-svg-layer { position:absolute; top:0; left:0; pointer-events:none; }
+    .map-nodes-layer { position:relative; }
+
+    /* Zone backgrounds */
+    .map-zone { position:absolute; left:0; right:0; }
+    .mz-beginner     { background:linear-gradient(180deg,#F0FDF4,#DCFCE7); }
+    .mz-intermediate { background:linear-gradient(180deg,#FFFBEB,#FEF3C7); }
+    .mz-advanced     { background:linear-gradient(180deg,#FFF1F2,#FFE4E6); }
+    .mz-tcf          { background:linear-gradient(180deg,#F0F9FF,#E0F2FE); }
+    body.dark .mz-beginner     { background:linear-gradient(180deg,#052e16,#14532d); }
+    body.dark .mz-intermediate { background:linear-gradient(180deg,#1c1400,#3d2e00); }
+    body.dark .mz-advanced     { background:linear-gradient(180deg,#200010,#450020); }
+    body.dark .mz-tcf          { background:linear-gradient(180deg,#001825,#003050); }
+
+    /* Level banner */
+    .map-lvl-banner { position:absolute; left:50%; transform:translateX(-50%);
+                      display:flex; align-items:center; gap:6px; padding:5px 14px;
+                      border-radius:20px; font-size:12px; font-weight:800; color:#fff;
+                      z-index:4; white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,0.18); }
+    .mlb-beginner     { background:#10B981; }
+    .mlb-intermediate { background:#F59E0B; }
+    .mlb-advanced     { background:#DC2626; }
+    .mlb-tcf          { background:#0EA5E9; }
+
+    /* Nodes */
+    .map-node-wrap { position:absolute; transform:translate(-50%,-50%);
+                     display:flex; flex-direction:column; align-items:center; gap:4px; z-index:3; }
+    .map-node { width:54px; height:54px; border-radius:50%; display:flex; align-items:center;
+                justify-content:center; font-size:19px; cursor:pointer; position:relative;
+                transition:transform 0.18s; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
+    .map-node:active { transform:scale(0.94); }
+    .map-node.completed { background:linear-gradient(135deg,#10B981,#059669); border:3px solid #D1FAE5;
+                          color:#fff; font-size:22px; }
+    .map-node.current   { background:linear-gradient(135deg,#4F46E5,#7C3AED); border:3px solid #fff;
+                          color:#fff; animation:mapNodePulse 2.2s ease-in-out infinite;
+                          box-shadow:0 0 0 0 rgba(79,70,229,0.5),0 4px 14px rgba(0,0,0,0.2); }
+    .map-node.available { background:linear-gradient(135deg,#fff,#F8FAFF); border:3px solid var(--indigo);
+                          color:var(--indigo); font-weight:900; font-size:15px; }
+    .map-node.locked    { background:linear-gradient(135deg,#9CA3AF,#6B7280); border:3px solid #D1D5DB;
+                          color:#fff; cursor:default; }
+    body.dark .map-node.available { background:linear-gradient(135deg,#1e1b4b,#312e81); color:#a5b4fc; border-color:#6366F1; }
+    .map-node-lbl { font-size:10px; font-weight:800; color:#111827; text-align:center;
+                    max-width:76px; line-height:1.2; background:rgba(255,255,255,0.97);
+                    border-radius:8px; padding:3px 7px;
+                    box-shadow:0 2px 8px rgba(0,0,0,0.28); white-space:nowrap;
+                    overflow:hidden; text-overflow:ellipsis; }
+    body.dark .map-node-lbl { background:rgba(17,17,40,0.96); color:#e0e7ff; }
+
+    @keyframes mapNodePulse {
+      0%,100% { box-shadow:0 0 0 0 rgba(79,70,229,0.45),0 4px 14px rgba(0,0,0,0.2); }
+      50%      { box-shadow:0 0 0 14px rgba(79,70,229,0),0 4px 14px rgba(0,0,0,0.2); }
+    }
+
+    /* Car */
+    .map-car { position:absolute; z-index:10; pointer-events:none;
+               animation:mapCarBounce 1.8s ease-in-out infinite; }
+    @keyframes mapCarBounce {
+      0%,100% { transform:translate(-50%,-110%); filter:drop-shadow(0 8px 12px rgba(0,0,0,0.28)); }
+      50%      { transform:translate(-50%,-122%); filter:drop-shadow(0 14px 20px rgba(0,0,0,0.16)); }
+    }
+    .map-car.flipped { animation:mapCarBounceFlip 1.8s ease-in-out infinite; }
+    @keyframes mapCarBounceFlip {
+      0%,100% { transform:translate(-50%,-110%) scaleX(-1); filter:drop-shadow(0 8px 12px rgba(0,0,0,0.28)); }
+      50%      { transform:translate(-50%,-122%) scaleX(-1); filter:drop-shadow(0 14px 20px rgba(0,0,0,0.16)); }
+    }
+
+    /* ── BADGES / TROPHÉES ───────────────────────────────────── */
+    .badge-cat-title { font-size:12px; font-weight:900; color:var(--muted);
+                       text-transform:uppercase; letter-spacing:1px;
+                       margin:18px 0 8px; }
+    .badge-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:4px; }
+    .badge-card { border-radius:16px; padding:12px 10px; display:flex;
+                  flex-direction:column; align-items:center; gap:6px;
+                  text-align:center; position:relative; transition:transform 0.18s;
+                  cursor:default; overflow:hidden; }
+    .badge-card.earned { background:var(--card-bg);
+                         box-shadow:0 2px 12px rgba(79,70,229,0.15);
+                         border:2px solid rgba(79,70,229,0.25); }
+    .badge-card.locked { background:var(--card-bg); opacity:0.38;
+                         border:2px solid var(--border); filter:grayscale(1); }
+    .badge-card.earned:active { transform:scale(0.96); }
+    .badge-glow { position:absolute; inset:0; border-radius:14px;
+                  background:linear-gradient(135deg,rgba(79,70,229,0.08),rgba(124,58,237,0.08));
+                  pointer-events:none; }
+    .badge-emoji { font-size:34px; line-height:1; }
+    .badge-name  { font-size:12px; font-weight:800; color:var(--text); }
+    .badge-desc  { font-size:10px; color:var(--muted); line-height:1.3; }
+    .badge-check { position:absolute; top:7px; right:8px; font-size:13px;
+                   color:#10B981; font-weight:900; }
+
+    /* ── BADGE TOAST ─────────────────────────────────────────── */
+    #badge-toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-120px);
+                   z-index:9999; background:linear-gradient(135deg,#4F46E5,#7C3AED);
+                   color:#fff; border-radius:20px; padding:14px 22px;
+                   display:flex; align-items:center; gap:12px; min-width:260px;
+                   box-shadow:0 8px 32px rgba(79,70,229,0.45);
+                   transition:transform 0.42s cubic-bezier(0.34,1.56,0.64,1); pointer-events:none; }
+    #badge-toast.show { transform:translateX(-50%) translateY(0); }
+    .badge-toast-emoji { font-size:32px; }
+    .badge-toast-label { font-size:10px; font-weight:700; opacity:0.8;
+                         text-transform:uppercase; letter-spacing:1px; }
+    .badge-toast-name  { font-size:16px; font-weight:900; }
+    .badge-toast-desc  { font-size:11px; opacity:0.75; margin-top:1px; }
+    .badge-toast-stars { font-size:12px; letter-spacing:2px; margin-top:2px; }
   </style>
 </head>
 <body>
@@ -626,11 +752,11 @@
 </div>
 
 <header>
-  <div class="app-logo">
+  <div class="app-logo" onclick="showTab('home')" style="cursor:pointer;">
     <div id="header-logo"></div>
     <div>
       <span class="app-logo-text">FrenchGo</span>
-      <span class="app-logo-sub">Apprenez le français</span>
+      <span class="app-logo-sub" id="header-tagline">Apprenez le français</span>
     </div>
   </div>
   <div class="header-right">
@@ -692,6 +818,31 @@
 
   <!-- LESSONS -->
   <div id="tab-lessons" class="section">
+    <div class="map-view-toggle">
+      <button class="map-toggle-btn active" id="btn-list-view" onclick="switchLessonView('list')">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <rect x="0" y="1" width="16" height="2.5" rx="1.2"/><rect x="0" y="6.5" width="16" height="2.5" rx="1.2"/><rect x="0" y="12" width="16" height="2.5" rx="1.2"/>
+        </svg>
+        <span id="lbl-list-view">Liste</span>
+      </button>
+      <button class="map-toggle-btn" id="btn-map-view" onclick="switchLessonView('map')">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 1.5C5.5 1.5 2 5 2 8.5C2 11.5 4.5 14.5 8 14.5C11.5 14.5 14 11.5 14 8.5C14 5 10.5 1.5 8 1.5Z" fill-opacity="0.25"/>
+          <circle cx="8" cy="4.5" r="1.2"/><circle cx="4.5" cy="9" r="1.2"/><circle cx="11.5" cy="9" r="1.2"/><circle cx="8" cy="13" r="1.2"/>
+          <line x1="8" y1="4.5" x2="4.5" y2="9" stroke="currentColor" stroke-width="1.2"/><line x1="4.5" y1="9" x2="8" y2="13" stroke="currentColor" stroke-width="1.2"/><line x1="8" y1="4.5" x2="11.5" y2="9" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span id="lbl-map-view">Parcours</span>
+      </button>
+    </div>
+    <!-- MAP VIEW -->
+    <div id="map-view-section">
+      <div id="map-outer" class="map-outer">
+        <svg id="map-svg" class="map-svg-layer"></svg>
+        <div id="map-nodes-layer" class="map-nodes-layer"></div>
+      </div>
+    </div>
+    <!-- LIST VIEW -->
+    <div id="list-view-section">
     <div class="lesson-search-wrap">
       <span class="lesson-search-icon">🔍</span>
       <input class="lesson-search-input" id="lesson-search" type="text" placeholder="Rechercher une leçon…" oninput="filterLessons(this.value)" />
@@ -721,6 +872,7 @@
       <div class="section-title" id="list-title-tcf"></div>
       <div id="list-tcf"></div>
     </div>
+    </div><!-- /list-view-section -->
   </div>
 
   <!-- PROGRESS -->
@@ -888,6 +1040,22 @@
         <button class="btn-secondary" id="btn-back-lessons" onclick="backToLessons()"></button>
       </div>
       <button class="btn-share" id="btn-share" onclick="shareResult()">📤 <span id="btn-share-lbl">Partager mon score</span></button>
+      <div class="share-panel" id="share-panel">
+        <button class="share-social-btn" onclick="shareTo('wa')"><div class="share-icon si-wa">🟢</div><span id="sh-wa">WhatsApp</span></button>
+        <button class="share-social-btn" onclick="shareTo('x')"><div class="share-icon si-x" style="color:#fff;font-weight:900;font-size:16px;">𝕏</div><span>X</span></button>
+        <button class="share-social-btn" onclick="shareTo('fb')"><div class="share-icon si-fb" style="color:#fff;font-size:18px;font-weight:900;">f</div><span>Facebook</span></button>
+        <button class="share-social-btn" onclick="shareTo('copy')"><div class="share-icon si-cp" style="font-size:18px;">📋</div><span id="sh-cp">Copier</span></button>
+      </div>
+    </div>
+  </div>
+  <!-- BADGE TOAST -->
+  <div id="badge-toast">
+    <div class="badge-toast-emoji" id="bt-emoji">🏆</div>
+    <div>
+      <div class="badge-toast-label" id="bt-label">Badge débloqué !</div>
+      <div class="badge-toast-name" id="bt-name">Premier pas</div>
+      <div class="badge-toast-desc" id="bt-desc">Compléter 1 leçon</div>
+      <div class="badge-toast-stars">⭐⭐⭐</div>
     </div>
   </div>
 </main>
@@ -1195,13 +1363,25 @@ const T = {
     r100sub:'Vous maîtrisez complètement cette leçon.', r80sub:'Leçon validée ! Passez à la suivante.',
     r60sub:'Encore un peu de pratique pour consolider.', r0sub:'Relisez la leçon et réessayez.',
     xpLbl:'XP gagnés', doneLbl:'Leçons complètes', quizLbl:'Quiz réussis', pctLbl:'Progression',
-    achievements:'Succès',
+    achievements:'Trophées',
+    achCats:['📈 Progression','🎯 Performance','🔥 Série','⚡ XP','✨ Spécial'],
     ach:[
-      ['🌟','Premier pas','Compléter votre 1ère leçon'],
-      ['🔥','En feu !','Compléter 3 leçons'],
-      ['🏆','Champion','Compléter toutes les leçons'],
-      ['⚡','100 XP',"Gagner 100 points d'expérience"],
-      ['🎯','Score parfait','Obtenir 5/5 dans un quiz'],
+      ['🌱','Premier pas','Compléter 1 leçon','progression'],
+      ['📚','Apprenti','Compléter 5 leçons','progression'],
+      ['🎓','Studieux','Compléter 10 leçons','progression'],
+      ['🏅','Expert','Compléter 25 leçons','progression'],
+      ['👑','Maître','Finir les 10 leçons gratuites','progression'],
+      ['⭐','Première étoile','Obtenir 100% dans un quiz','performance'],
+      ['🎯','Perfectionniste','Obtenir 100% dans 3 quiz','performance'],
+      ['💯','Sans faute','Obtenir 100% dans 5 quiz','performance'],
+      ['🔥','En feu','Streak de 3 jours','streak'],
+      ['🏃','Régulier','Streak de 7 jours','streak'],
+      ['🌟','Légendaire','Streak de 30 jours','streak'],
+      ['⚡','Étincelle','Gagner 100 XP','xp'],
+      ['💎','Diamant','Gagner 500 XP','xp'],
+      ['🚀','Fusée','Gagner 1000 XP','xp'],
+      ['🌍','Polyglotte',"Changer la langue de l'app",'special'],
+      ['🍁','TCF Champion','Compléter une leçon TCF/TEF','special'],
     ],
     back:'← Retour', quit:'← Quitter',
     allDone:'🎉 Toutes les leçons commencées !',
@@ -1226,13 +1406,25 @@ const T = {
     r100sub:'You have fully mastered this lesson.', r80sub:'Lesson passed! Move to the next one.',
     r60sub:'A little more practice to consolidate.', r0sub:'Re-read the lesson and try again.',
     xpLbl:'XP earned', doneLbl:'Lessons complete', quizLbl:'Quizzes passed', pctLbl:'Progress',
-    achievements:'Achievements',
+    achievements:'Trophies',
+    achCats:['📈 Progress','🎯 Performance','🔥 Streak','⚡ XP','✨ Special'],
     ach:[
-      ['🌟','First step','Complete your 1st lesson'],
-      ['🔥','On fire!','Complete 3 lessons'],
-      ['🏆','Champion','Complete all lessons'],
-      ['⚡','100 XP','Earn 100 experience points'],
-      ['🎯','Perfect score','Get 5/5 in a quiz'],
+      ['🌱','First Step','Complete 1 lesson','progression'],
+      ['📚','Apprentice','Complete 5 lessons','progression'],
+      ['🎓','Studious','Complete 10 lessons','progression'],
+      ['🏅','Expert','Complete 25 lessons','progression'],
+      ['👑','Master','Finish all 10 free lessons','progression'],
+      ['⭐','First Star','Get 100% on 1 quiz','performance'],
+      ['🎯','Perfectionist','Get 100% on 3 quizzes','performance'],
+      ['💯','Flawless','Get 100% on 5 quizzes','performance'],
+      ['🔥','On Fire','3-day streak','streak'],
+      ['🏃','Consistent','7-day streak','streak'],
+      ['🌟','Legendary','30-day streak','streak'],
+      ['⚡','Spark','Earn 100 XP','xp'],
+      ['💎','Diamond','Earn 500 XP','xp'],
+      ['🚀','Rocket','Earn 1000 XP','xp'],
+      ['🌍','Polyglot','Change the app language','special'],
+      ['🍁','TCF Champion','Complete a TCF/TEF lesson','special'],
     ],
     back:'← Back', quit:'← Quit',
     allDone:'🎉 All lessons started!',
@@ -1257,13 +1449,25 @@ const T = {
     r100sub:'你已完全掌握这节课！', r80sub:'课程通过！继续下一课。',
     r60sub:'再多练习一下会更好。', r0sub:'重新阅读课程后再试。',
     xpLbl:'已获经验值', doneLbl:'已完成课程', quizLbl:'已通过测验', pctLbl:'总进度',
-    achievements:'成就',
+    achievements:'成就徽章',
+    achCats:['📈 进度','🎯 表现','🔥 连续','⚡ 经验','✨ 特殊'],
     ach:[
-      ['🌟','第一步','完成第1节课'],
-      ['🔥','势不可挡！','完成3节课'],
-      ['🏆','冠军','完成所有课程'],
-      ['⚡','100经验值','获得100经验值'],
-      ['🎯','满分','测验获得5/5'],
+      ['🌱','第一步','完成1节课','progression'],
+      ['📚','学徒','完成5节课','progression'],
+      ['🎓','勤奋好学','完成10节课','progression'],
+      ['🏅','专家','完成25节课','progression'],
+      ['👑','大师','完成全部10节免费课','progression'],
+      ['⭐','第一颗星','测验获得100%','performance'],
+      ['🎯','完美主义','3次测验100%','performance'],
+      ['💯','无懈可击','5次测验100%','performance'],
+      ['🔥','热情高涨','连续3天','streak'],
+      ['🏃','坚持不懈','连续7天','streak'],
+      ['🌟','传奇','连续30天','streak'],
+      ['⚡','火花','获得100经验','xp'],
+      ['💎','钻石','获得500经验','xp'],
+      ['🚀','火箭','获得1000经验','xp'],
+      ['🌍','多语者','切换应用语言','special'],
+      ['🍁','TCF达人','完成TCF/TEF课程','special'],
     ],
     back:'← 返回', quit:'← 退出',
     allDone:'🎉 所有课程已开始！',
@@ -7196,6 +7400,7 @@ function toggleLang() {
   renderCurrentView();
 }
 function setLang(l) {
+  if (l !== lang) localStorage.setItem('ff_lang_changed', '1');
   lang = l;
   localStorage.setItem('ff_lang', l);
   updateLangBtn();
@@ -7311,11 +7516,20 @@ function lessonCardHTML(l, pct) {
   else if (lang==='zh' && TITLES_ZH[l.id]) { titleText=TITLES_ZH[l.id].title; descText=TITLES_ZH[l.id].desc; }
   else { titleText=l.title; descText=l.desc; }
   const progLabel = s.completed ? t('completed') : (pct>0 ? t('pctDone')(pct) : t('notStarted'));
+  // Extract emoji from lesson content h2
+  const rawC = Array.isArray(l.content) ? l.content[0] : l.content;
+  const emojiMatch = rawC && rawC.match(/^<h2>(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[\u2600-\u27BF])/u);
+  const cardEmoji = emojiMatch ? emojiMatch[1] : '';
   return `<div class="card lesson-card lv-${l.level}${isPrem?' locked':''}" onclick="openLesson(${l.id})">
-    <span class="level-tag ${l.level}">${lvlLabel}</span>
-    ${isPrem?'<span class="done-icon">🔒</span>':''}
-    ${s.completed?'<span class="done-icon">✅</span>':''}
-    <h3>${titleText}</h3><p>${descText}</p>
+    <div class="card-header">
+      <span class="level-tag ${l.level}">${lvlLabel}</span>
+      ${s.completed?'<span class="done-icon">✅</span>':isPrem?'<span class="done-icon">🔒</span>':''}
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin:4px 0 3px;">
+      ${cardEmoji ? `<span style="font-size:26px;line-height:1;flex-shrink:0;">${cardEmoji}</span>` : ''}
+      <h3 style="margin:0;">${titleText}</h3>
+    </div>
+    <p>${descText}</p>
     <div class="progress-bar"><div class="progress-fill" style="width:${s.completed?100:pct}%"></div></div>
     <div class="progress-label">${progLabel}</div>
   </div>`;
@@ -7331,6 +7545,13 @@ function setLevelFilter(level) {
   });
 }
 function renderLessonsList() {
+  // Map toggle labels
+  const listLbl = document.getElementById('lbl-list-view');
+  const mapLbl  = document.getElementById('lbl-map-view');
+  if (listLbl) listLbl.textContent = lang==='en'?'List':lang==='zh'?'列表':'Liste';
+  if (mapLbl)  mapLbl.textContent  = lang==='en'?'Path':lang==='zh'?'路线':'Parcours';
+  // Re-render map if visible
+  if (_mapView === 'map') setTimeout(renderProgressMap, 30);
   const allLabel = lang==='en'?'All':lang==='zh'?'全部':'Tout';
   const tcfShort = '🍁 TCF/TEF';
   const filterBtns = document.querySelectorAll('.level-filter-btn');
@@ -7537,6 +7758,7 @@ function showResult() {
   state[l.id].completed = pct >= 60;
   saveState();
   updateStreak();
+  setTimeout(checkBadges, 800);
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('result-view').classList.add('active');
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
@@ -7558,9 +7780,15 @@ function showResult() {
   if (backBtn)  backBtn.textContent  = t('backLessons');
   updateXPDisplay();
   if (pct>=80) launchConfetti();
-  // Share button label
+  // Share button label + reset share panel
   const shareBtn = document.getElementById('btn-share-lbl');
   if (shareBtn) shareBtn.textContent = lang==='en'?'Share my score':lang==='zh'?'分享我的成绩':'Partager mon score';
+  const sharePanel = document.getElementById('share-panel');
+  if (sharePanel) sharePanel.classList.remove('open');
+  const shWa = document.getElementById('sh-wa');
+  if (shWa) shWa.textContent = lang==='en'?'WhatsApp':lang==='zh'?'WhatsApp':'WhatsApp';
+  const shCp = document.getElementById('sh-cp');
+  if (shCp) shCp.textContent = lang==='en'?'Copy':lang==='zh'?'复制':'Copier';
   // Review wrong answers button
   const reviewBtn = document.getElementById('btn-review-wrong');
   if (reviewBtn) {
@@ -7666,26 +7894,382 @@ function selectAnswerWrong(i) {
   if (correct) speak(q.opts[q.ans]);
 }
 
-function shareResult() {
-  if (!currentLesson) return;
-  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[currentLesson.id]) ? QUIZ_EN[currentLesson.id] :
-                 currentLesson.quiz;
+function _getShareText() {
+  if (!currentLesson) return '';
+  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[currentLesson.id]) ? QUIZ_EN[currentLesson.id] : currentLesson.quiz;
   const total = rawQuiz.length;
   const pct = Math.round(quizScore/total*100);
   const titleText = lang==='en' ? currentLesson.title_en : currentLesson.title;
   const stars = pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
-  const text = lang==='en'
+  return lang==='en'
     ? `I scored ${quizScore}/${total} (${pct}%) ${stars} on "${titleText}" in FrenchGo! 🦊 Learn French: https://francaisgo.netlify.app`
     : lang==='zh'
     ? `我在FrenchGo"${titleText}"课程中获得了${quizScore}/${total} (${pct}%) ${stars}！🦊 学法语：https://francaisgo.netlify.app`
     : `J'ai obtenu ${quizScore}/${total} (${pct}%) ${stars} à la leçon "${titleText}" sur FrenchGo ! 🦊 Apprends le français : https://francaisgo.netlify.app`;
-  if (navigator.share) {
-    navigator.share({ text }).catch(()=>{});
+}
+function shareResult() {
+  if (!currentLesson) return;
+  // On mobile use native share sheet; on desktop toggle the panel
+  if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+    navigator.share({ text: _getShareText() }).catch(()=>{});
   } else {
+    const panel = document.getElementById('share-panel');
+    if (panel) panel.classList.toggle('open');
+  }
+}
+function shareTo(network) {
+  const text = _getShareText();
+  const url = 'https://francaisgo.netlify.app';
+  const enc = encodeURIComponent(text);
+  const encUrl = encodeURIComponent(url);
+  if (network === 'wa') {
+    window.open('https://wa.me/?text='+enc, '_blank');
+  } else if (network === 'x') {
+    window.open('https://x.com/intent/tweet?text='+enc, '_blank');
+  } else if (network === 'fb') {
+    window.open('https://www.facebook.com/sharer/sharer.php?u='+encUrl, '_blank');
+  } else if (network === 'copy') {
     navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('btn-share-lbl');
-      if (btn) { btn.textContent = lang==='en'?'Copied!':lang==='zh'?'已复制！':'Copié !'; setTimeout(()=>{ btn.textContent = lang==='en'?'Share my score':lang==='zh'?'分享我的成绩':'Partager mon score'; }, 2000); }
+      const cp = document.getElementById('sh-cp');
+      if (cp) { cp.textContent = lang==='en'?'Copied!':lang==='zh'?'已复制！':'Copié !'; setTimeout(()=>{ cp.textContent = lang==='en'?'Copy':lang==='zh'?'复制':'Copier'; },2000); }
     });
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   PROGRESS MAP
+═══════════════════════════════════════════════════════════ */
+let _mapView = 'list';
+
+function switchLessonView(mode) {
+  _mapView = mode;
+  document.getElementById('list-view-section').classList.toggle('hidden', mode !== 'list');
+  const mapSec = document.getElementById('map-view-section');
+  mapSec.classList.toggle('active', mode === 'map');
+  document.getElementById('btn-list-view').classList.toggle('active', mode === 'list');
+  document.getElementById('btn-map-view').classList.toggle('active', mode === 'map');
+  if (mode === 'map') {
+    setTimeout(() => { renderProgressMap(); scrollToCurrentNode(); }, 60);
+  }
+}
+
+function scrollToCurrentNode() {
+  const car = document.getElementById('map-car-el');
+  if (car) car.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function getNodeState(lesson) {
+  if (state[lesson.id] && state[lesson.id].completed) return 'completed';
+  if (!FREE_LESSONS.includes(lesson.id) && !isUnlocked()) return 'locked';
+  return 'available';
+}
+
+function renderProgressMap() {
+  const outer = document.getElementById('map-outer');
+  const nodesLayer = document.getElementById('map-nodes-layer');
+  const svgEl = document.getElementById('map-svg');
+  if (!outer || !nodesLayer || !svgEl) return;
+
+  const W = outer.clientWidth || 360;
+  const COLS = 3;
+  const ROW_H = 140;
+  const NODE_R = 27;
+  const PAD_TOP = 52;
+  const PAD_BOT = 60;
+  const colX = [Math.round(W * 0.17), Math.round(W * 0.5), Math.round(W * 0.83)];
+  const midYOff = -18; // middle col slightly higher → wavy feel
+
+  // Assign states
+  const nodes = LESSONS.map((l, i) => {
+    const row = Math.floor(i / COLS);
+    const col = i % COLS;
+    const ltr = row % 2 === 0;
+    const xIdx = ltr ? col : (COLS - 1 - col);
+    const x = colX[xIdx];
+    const yBase = PAD_TOP + row * ROW_H + ROW_H / 2;
+    const y = yBase + (xIdx === 1 ? midYOff : 0);
+    return { x, y, lesson: l, state: getNodeState(l), index: i, row, col: xIdx };
+  });
+
+  // Mark first non-completed available as 'current'
+  let currentNode = null;
+  for (const n of nodes) {
+    if (n.state === 'available') { n.state = 'current'; currentNode = n; break; }
+  }
+  // If all done, last completed is current position
+  if (!currentNode) {
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      if (nodes[i].state === 'completed') { currentNode = nodes[i]; break; }
+    }
+  }
+
+  const totalH = PAD_TOP + Math.ceil(LESSONS.length / COLS) * ROW_H + PAD_BOT;
+
+  // ── Level zones ────────────────────────────────────────────────
+  const levelOrder = ['beginner','intermediate','advanced','tcf'];
+  const levelNames = {
+    beginner:     { fr:'Débutant', en:'Beginner', zh:'初级' },
+    intermediate: { fr:'Intermédiaire', en:'Intermediate', zh:'中级' },
+    advanced:     { fr:'Avancé', en:'Advanced', zh:'高级' },
+    tcf:          { fr:'TCF/TEF', en:'TCF/TEF', zh:'TCF/TEF' }
+  };
+  const levelEmoji = { beginner:'🌱', intermediate:'📘', advanced:'🎓', tcf:'🍁' };
+
+  // Find y ranges per level
+  const zoneMap = {};
+  for (const n of nodes) {
+    const lv = n.lesson.level;
+    if (!zoneMap[lv]) zoneMap[lv] = { minY: Infinity, maxY: -Infinity };
+    zoneMap[lv].minY = Math.min(zoneMap[lv].minY, n.y);
+    zoneMap[lv].maxY = Math.max(zoneMap[lv].maxY, n.y);
+  }
+
+  // ── Build SVG ──────────────────────────────────────────────────
+  svgEl.setAttribute('width', W);
+  svgEl.setAttribute('height', totalH);
+  svgEl.setAttribute('viewBox', `0 0 ${W} ${totalH}`);
+  svgEl.innerHTML = '';
+
+  // Zone backgrounds
+  const ZONE_PAD = 52;
+  for (const lv of levelOrder) {
+    if (!zoneMap[lv]) continue;
+    const zy = zoneMap[lv].minY - ZONE_PAD;
+    const zh = zoneMap[lv].maxY - zoneMap[lv].minY + ZONE_PAD * 2;
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', 0); rect.setAttribute('y', zy);
+    rect.setAttribute('width', W); rect.setAttribute('height', zh);
+    rect.setAttribute('class', 'map-zone mz-' + lv);
+    svgEl.appendChild(rect);
+  }
+
+  // Road path (smooth bezier through all nodes)
+  let roadD = `M ${nodes[0].x} ${nodes[0].y}`;
+  for (let i = 1; i < nodes.length; i++) {
+    const p = nodes[i - 1], c = nodes[i];
+    const midY = (p.y + c.y) / 2;
+    roadD += ` C ${p.x} ${midY}, ${c.x} ${midY}, ${c.x} ${c.y}`;
+  }
+
+  // Road shadow
+  const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  shadow.setAttribute('d', roadD);
+  shadow.setAttribute('stroke', 'rgba(0,0,0,0.12)');
+  shadow.setAttribute('stroke-width', 50);
+  shadow.setAttribute('stroke-linecap', 'round');
+  shadow.setAttribute('fill', 'none');
+  svgEl.appendChild(shadow);
+
+  // Road surface
+  const road = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  road.setAttribute('d', roadD);
+  road.setAttribute('stroke', '#374151');
+  road.setAttribute('stroke-width', 42);
+  road.setAttribute('stroke-linecap', 'round');
+  road.setAttribute('fill', 'none');
+  svgEl.appendChild(road);
+
+  // Road edges (lighter gray)
+  const roadEdge = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  roadEdge.setAttribute('d', roadD);
+  roadEdge.setAttribute('stroke', '#4B5563');
+  roadEdge.setAttribute('stroke-width', 38);
+  roadEdge.setAttribute('stroke-linecap', 'round');
+  roadEdge.setAttribute('fill', 'none');
+  svgEl.appendChild(roadEdge);
+
+  // Dashed center line
+  const center = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  center.setAttribute('d', roadD);
+  center.setAttribute('stroke', '#F9FAFB');
+  center.setAttribute('stroke-width', 2.5);
+  center.setAttribute('stroke-dasharray', '12 18');
+  center.setAttribute('stroke-linecap', 'round');
+  center.setAttribute('fill', 'none');
+  center.setAttribute('opacity', '0.55');
+  svgEl.appendChild(center);
+
+  // Level banners — HTML divs for crisp rendering
+  const lvColors = { beginner:'#10B981', intermediate:'#F59E0B', advanced:'#DC2626', tcf:'#0EA5E9' };
+  const _bannerEls = [];
+  for (const lv of levelOrder) {
+    if (!zoneMap[lv]) continue;
+    const bannerY = zoneMap[lv].minY - ZONE_PAD + 10;
+    const nm = lang === 'en' ? levelNames[lv].en : lang === 'zh' ? levelNames[lv].zh : levelNames[lv].fr;
+    const banner = document.createElement('div');
+    banner.style.cssText = [
+      'position:absolute',
+      'left:50%',
+      'transform:translateX(-50%)',
+      'top:' + bannerY + 'px',
+      'background:' + lvColors[lv],
+      'color:#fff',
+      'font-size:13px',
+      'font-weight:900',
+      'padding:5px 16px',
+      'border-radius:20px',
+      'white-space:nowrap',
+      'z-index:5',
+      'box-shadow:0 3px 12px rgba(0,0,0,0.3)',
+      'letter-spacing:0.3px',
+      'border:2.5px solid rgba(255,255,255,0.5)'
+    ].join(';');
+    banner.textContent = levelEmoji[lv] + ' ' + nm.toUpperCase();
+    _bannerEls.push(banner);
+  }
+
+  // ── Nodes layer ────────────────────────────────────────────────
+  nodesLayer.innerHTML = '';
+  nodesLayer.style.height = totalH + 'px';
+  nodesLayer.style.position = 'relative';
+  // Append pre-built banners
+  _bannerEls.forEach(b => nodesLayer.appendChild(b));
+
+  // Car SVG — clearly faces RIGHT. Headlight=right, tail=left, long hood right, windshield slopes right.
+  const carSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 0 124 62" width="100" height="50">
+    <!-- Smoke from exhaust (rear = left when facing right) -->
+    <circle fill="rgba(170,175,195,0.85)" r="3.5">
+      <animate attributeName="cx" values="9;2;-6"  dur="1.9s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="46;37;26" dur="1.9s" repeatCount="indefinite"/>
+      <animate attributeName="r"  values="3.5;6;9"  dur="1.9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.85;0.45;0" dur="1.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle fill="rgba(170,175,195,0.75)" r="3">
+      <animate attributeName="cx" values="9;2;-6"  dur="1.9s" begin="0.63s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="46;37;26" dur="1.9s" begin="0.63s" repeatCount="indefinite"/>
+      <animate attributeName="r"  values="3;5.5;8.5" dur="1.9s" begin="0.63s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.75;0.35;0" dur="1.9s" begin="0.63s" repeatCount="indefinite"/>
+    </circle>
+    <circle fill="rgba(170,175,195,0.65)" r="2.5">
+      <animate attributeName="cx" values="9;2;-6"  dur="1.9s" begin="1.26s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="46;37;26" dur="1.9s" begin="1.26s" repeatCount="indefinite"/>
+      <animate attributeName="r"  values="2.5;5;8"  dur="1.9s" begin="1.26s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.65;0.3;0" dur="1.9s" begin="1.26s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Drop shadow -->
+    <ellipse cx="60" cy="59" rx="48" ry="4" fill="rgba(0,0,0,0.16)"/>
+
+    <!-- ── CAR BODY ──────────────────────────────────────────────────
+         Silhouette: flat rear (left), long hood (right), rounded front
+         Path clockwise from rear-bottom:
+    ──────────────────────────────────────────────────────────────── -->
+    <path d="
+      M 12 48
+      L 12 34 Q 12 28 18 28
+      L 24 28
+      L 30 14
+      L 76 14
+      L 94 28
+      L 112 28 Q 118 28 118 36
+      L 118 48 Z"
+      fill="#4F46E5"/>
+
+    <!-- Hood top surface (lighter shade = depth) -->
+    <path d="M 94 28 L 112 28 Q 116 28 116 34 L 116 29 Q 112 24 96 26 Z"
+          fill="rgba(255,255,255,0.08)"/>
+
+    <!-- Cabin roof highlight -->
+    <rect x="31" y="14" width="44" height="5" rx="2.5" fill="rgba(255,255,255,0.12)"/>
+
+    <!-- ── REAR WINDOW (left side of cabin, slight backward lean) ── -->
+    <path d="M 32 14 L 54 14 L 52 28 L 28 28 Z" fill="#BFDBFE" opacity="0.88"/>
+
+    <!-- ── B-PILLAR (center post) ── -->
+    <rect x="52" y="14" width="5" height="14" fill="#3730A3"/>
+
+    <!-- ── FRONT WINDOW / WINDSHIELD (right side, steep forward lean) ── -->
+    <path d="M 58 14 L 76 14 L 93 28 L 56 28 Z" fill="#BFDBFE" opacity="0.93"/>
+    <!-- Windshield glare -->
+    <path d="M 72 15 L 76 14 L 90 27 L 86 27 Z" fill="rgba(255,255,255,0.32)"/>
+
+    <!-- ── BODY SIDE HIGHLIGHT ── -->
+    <rect x="13" y="29" width="103" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+
+    <!-- ── DOOR LINE ── -->
+    <line x1="51" y1="28" x2="50" y2="48" stroke="#3730A3" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- ── HEADLIGHT (RIGHT = front) — large, bright, unmistakable ── -->
+    <ellipse cx="114" cy="36" rx="5" ry="7" fill="#FEF3C7"/>
+    <ellipse cx="114" cy="36" rx="3.5" ry="5" fill="#FDE047"/>
+    <ellipse cx="113" cy="34" rx="1.5" ry="2" fill="rgba(255,255,255,0.85)"/>
+
+    <!-- ── TAIL LIGHT (LEFT = rear) — red ── -->
+    <ellipse cx="12" cy="36" rx="3" ry="6" fill="#EF4444"/>
+    <ellipse cx="12" cy="36" rx="1.8" ry="4" fill="#FCA5A5"/>
+
+    <!-- ── EXHAUST (bottom-left rear) ── -->
+    <rect x="11" y="45" width="11" height="3.5" rx="1.8" fill="#374151"/>
+    <rect x="10" y="45.5" width="3" height="2.5" rx="1" fill="#6B7280"/>
+
+    <!-- ── WHEEL ARCH CUTOUTS ── -->
+    <ellipse cx="32" cy="48" rx="17" ry="6" fill="#3730A3"/>
+    <ellipse cx="92" cy="48" rx="17" ry="6" fill="#3730A3"/>
+
+    <!-- ── REAR WHEEL (LEFT) ── -->
+    <circle cx="32" cy="48" r="13" fill="#111827"/>
+    <circle cx="32" cy="48" r="9"  fill="#1F2937"/>
+    <circle cx="32" cy="48" r="5"  fill="#6B7280"/>
+    <circle cx="32" cy="48" r="2"  fill="#D1D5DB"/>
+    <circle cx="30" cy="46" r="1.2" fill="#9CA3AF"/>
+
+    <!-- ── FRONT WHEEL (RIGHT) ── -->
+    <circle cx="92" cy="48" r="13" fill="#111827"/>
+    <circle cx="92" cy="48" r="9"  fill="#1F2937"/>
+    <circle cx="92" cy="48" r="5"  fill="#6B7280"/>
+    <circle cx="92" cy="48" r="2"  fill="#D1D5DB"/>
+    <circle cx="90" cy="46" r="1.2" fill="#9CA3AF"/>
+  </svg>`;
+
+  nodes.forEach(n => {
+    const wrap = document.createElement('div');
+    wrap.className = 'map-node-wrap';
+    wrap.style.left = n.x + 'px';
+    wrap.style.top  = n.y + 'px';
+
+    // Emoji from lesson title
+    const titleMatch = n.lesson.title.match(/^(\p{Emoji}|[\u2600-\u27BF])/u);
+    const lessonEmoji = titleMatch ? titleMatch[0] : '';
+
+    const circle = document.createElement('div');
+    circle.className = 'map-node ' + n.state;
+    if (n.state === 'completed') {
+      circle.textContent = '✓';
+    } else if (n.state === 'current') {
+      circle.textContent = lessonEmoji || '★';
+      circle.id = 'map-current-node';
+    } else if (n.state === 'available') {
+      circle.textContent = lessonEmoji || String(n.index + 1);
+    } else {
+      circle.innerHTML = '<span style="font-size:16px">🔒</span>';
+    }
+
+    if (n.state !== 'locked') {
+      wrap.onclick = () => openLesson(n.lesson.id);
+      circle.style.cursor = 'pointer';
+    }
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'map-node-lbl';
+    titleEl.textContent = (lang === 'en' && n.lesson.title_en) ? n.lesson.title_en : n.lesson.title;
+
+    wrap.appendChild(circle);
+    wrap.appendChild(titleEl);
+    nodesLayer.appendChild(wrap);
+  });
+
+  // Place car at current node
+  if (currentNode) {
+    // Determine facing direction: if this row goes LTR, face right; RTL, face left
+    const ltr = currentNode.row % 2 === 0;
+    const car = document.createElement('div');
+    car.id = 'map-car-el';
+    car.className = 'map-car' + (ltr ? '' : ' flipped');
+    car.style.left = currentNode.x + 'px';
+    car.style.top  = currentNode.y + 'px';
+    car.innerHTML  = carSVG;
+    nodesLayer.appendChild(car);
   }
 }
 
@@ -7808,6 +8392,66 @@ function fcPrev() {
 /* ══════════════════════════════════════
    PROGRESS
 ══════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════
+   BADGES / TROPHÉES
+══════════════════════════════════════════════════════════ */
+function getEarnedBadges() {
+  try { return JSON.parse(localStorage.getItem('ff_badges') || '[]'); } catch(e) { return []; }
+}
+function saveEarnedBadges(arr) {
+  localStorage.setItem('ff_badges', JSON.stringify(arr));
+}
+
+function getBadgeConditions() {
+  const done    = Object.values(state).filter(s => s.completed).length;
+  const xp      = getXP();
+  const streak  = parseInt(localStorage.getItem('ff_streak') || '0', 10);
+  const perfects = Object.entries(state).filter(([id, s]) => {
+    const l = LESSONS.find(x => x.id === parseInt(id));
+    return l && s.score === l.quiz.length;
+  }).length;
+  const freeDone = FREE_LESSONS.every(id => state[id] && state[id].completed);
+  const tcfDone  = LESSONS.filter(l => l.level === 'tcf').some(l => state[l.id] && state[l.id].completed);
+  const langChanged = !!localStorage.getItem('ff_lang_changed');
+  return [
+    done >= 1, done >= 5, done >= 10, done >= 25, freeDone,
+    perfects >= 1, perfects >= 3, perfects >= 5,
+    streak >= 3, streak >= 7, streak >= 30,
+    xp >= 100, xp >= 500, xp >= 1000,
+    langChanged, tcfDone,
+  ];
+}
+
+let _toastTimer = null;
+function showBadgeToast(badge) {
+  const toast = document.getElementById('badge-toast');
+  if (!toast) return;
+  const toastLabel = lang === 'en' ? 'Trophy unlocked!' : lang === 'zh' ? '获得成就！' : 'Trophée débloqué !';
+  document.getElementById('bt-emoji').textContent  = badge[0];
+  document.getElementById('bt-label').textContent  = toastLabel;
+  document.getElementById('bt-name').textContent   = badge[1];
+  document.getElementById('bt-desc').textContent   = badge[2];
+  toast.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+function checkBadges() {
+  const earned   = getEarnedBadges();
+  const ach      = t('ach') || [];
+  const conds    = getBadgeConditions();
+  let newlyEarned = null;
+  conds.forEach((met, i) => {
+    if (met && !earned.includes(i)) {
+      earned.push(i);
+      if (!newlyEarned) newlyEarned = ach[i]; // show first new badge
+    }
+  });
+  saveEarnedBadges(earned);
+  if (newlyEarned) showBadgeToast(newlyEarned);
+}
+
 function renderProgress() {
   updateXPDisplay();
   const xp     = getXP();
@@ -7846,23 +8490,31 @@ function renderProgress() {
                                   :lv==='advanced'?(lang==='en'?'Advanced':lang==='zh'?'高级':'Avancé')
                                   :'TCF/TEF';
   });
-  set('lbl-achievements', t('achievements'));
-  const ach = t('ach') || [];
-  const earned = [
-    done>=1, done>=3, done>=LESSONS.length, xp>=100,
-    Object.values(state).some(s=>s.score===5)
-  ];
+  const achTitle = lang==='en'?'Trophies':lang==='zh'?'成就徽章':'Trophées';
+  set('lbl-achievements', achTitle + ' ' + getEarnedBadges().length + '/16');
+  const ach    = t('ach') || [];
+  const cats   = t('achCats') || [];
+  const conds  = getBadgeConditions();
+  const earned = getEarnedBadges();
+  const catKeys = ['progression','performance','streak','xp','special'];
   const achEl = document.getElementById('achievements');
   if (achEl) {
-    achEl.innerHTML = ach.map((a,i) => `
-      <div class="card" style="display:flex;align-items:center;gap:14px;padding:14px;opacity:${earned[i]?1:0.4}">
-        <span style="font-size:28px;">${a[0]}</span>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:var(--text);">${a[1]}</div>
-          <div style="font-size:12px;color:var(--muted);">${a[2]}</div>
-        </div>
-        ${earned[i]?'<span style="margin-left:auto;color:#10B981;font-size:18px;">✓</span>':''}
-      </div>`).join('');
+    let html = '';
+    catKeys.forEach((cat, ci) => {
+      const catBadges = ach.map((a,i) => ({a,i})).filter(({a}) => a[3] === cat);
+      html += `<div class="badge-cat-title">${cats[ci] || cat}</div><div class="badge-grid">`;
+      catBadges.forEach(({a, i}) => {
+        const isEarned = conds[i];
+        html += `<div class="badge-card ${isEarned ? 'earned' : 'locked'}">
+          ${isEarned ? '<div class="badge-glow"></div><div class="badge-check">✓</div>' : ''}
+          <div class="badge-emoji">${a[0]}</div>
+          <div class="badge-name">${a[1]}</div>
+          <div class="badge-desc">${a[2]}</div>
+        </div>`;
+      });
+      html += '</div>';
+    });
+    achEl.innerHTML = html;
   }
 }
 
@@ -8108,6 +8760,7 @@ function finishOnboarding() {
 function initApp() {
   buildFCDeck();
   applyDarkMode();
+  updateLangBtn();
   updateXPDisplay();
   initMascot();
   showTab('home');
