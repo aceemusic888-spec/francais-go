@@ -765,6 +765,10 @@
   </div>
   <div class="header-right">
     <button class="lang-btn" id="lang-btn" onclick="toggleLang()">🇬🇧 EN</button>
+    <button id="header-avatar-btn" onclick="handleAvatarClick()" style="background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.35);border-radius:50%;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;padding:0;overflow:hidden;transition:transform 0.18s;" title="Compte">
+      <img id="header-avatar-img" src="" style="width:34px;height:34px;object-fit:cover;border-radius:50%;display:none;" />
+      <span id="header-avatar-icon">👤</span>
+    </button>
     <div class="xp-badge" id="xp-display">⚡ 0 XP</div>
   </div>
 </header>
@@ -8949,10 +8953,17 @@ window._fbAuth.onAuthStateChanged(user => {
   if (user) loadFromCloud(user.uid);
 });
 
+function handleAvatarClick() {
+  const user = window._fbAuth && window._fbAuth.currentUser;
+  if (user) { showTab('settings'); }
+  else { openAuthModal(); }
+}
 function updateAuthUI(user) {
   const out = document.getElementById('account-logged-out');
   const inn = document.getElementById('account-logged-in');
   if (!out || !inn) return;
+  const hImg = document.getElementById('header-avatar-img');
+  const hIcon = document.getElementById('header-avatar-icon');
   if (user) {
     out.style.display = 'none'; inn.style.display = '';
     const nameEl = document.getElementById('account-name');
@@ -8961,12 +8972,19 @@ function updateAuthUI(user) {
     const avatarPh = document.getElementById('account-avatar-ph');
     if (nameEl) nameEl.textContent = user.displayName || user.email.split('@')[0];
     if (emailEl) emailEl.textContent = user.email;
-    if (user.photoURL && avatarEl) {
-      avatarEl.src = user.photoURL; avatarEl.style.display = '';
+    if (user.photoURL) {
+      if (avatarEl) { avatarEl.src = user.photoURL; avatarEl.style.display = ''; }
       if (avatarPh) avatarPh.style.display = 'none';
+      if (hImg) { hImg.src = user.photoURL; hImg.style.display = ''; }
+      if (hIcon) hIcon.style.display = 'none';
+    } else {
+      const initials = (user.displayName || user.email)[0].toUpperCase();
+      if (hIcon) { hIcon.style.display = ''; hIcon.textContent = initials; }
     }
   } else {
     out.style.display = ''; inn.style.display = 'none';
+    if (hImg) hImg.style.display = 'none';
+    if (hIcon) { hIcon.style.display = ''; hIcon.textContent = '👤'; }
   }
 }
 
