@@ -8861,7 +8861,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
-
+<script>
 /* ══════════════════════════════════════
    FIREBASE AUTH & CLOUD SYNC
 ══════════════════════════════════════ */
@@ -9031,6 +9031,7 @@ function signOutUser() {
   window._fbAuth.signOut().then(() => updateAuthUI(null));
 }
 
+</script>
 <!-- AUTH MODAL -->
 <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeAuthModal()">
   <div style="background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;animation:slideUp 0.3s ease;">
