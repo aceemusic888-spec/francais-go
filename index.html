@@ -218,6 +218,12 @@
     .quiz-option.wrong { border-color: var(--red); background: #FFF1F2; color: #B91C1C; }
     .quiz-option.wrong .opt-letter { background: var(--red); color: white; }
     .quiz-option:disabled { cursor: default; transform: none !important; }
+    /* Duolingo-style exercise variations */
+    .quiz-options.bubbles-mode { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .quiz-options.bubbles-mode .quiz-option { flex: 0 1 auto; padding: 10px 20px; border-radius: 99px; font-size: 15px; font-weight: 700; min-width: 80px; justify-content: center; }
+    .quiz-options.bubbles-mode .quiz-option:hover:not(:disabled) { transform: scale(1.06) !important; }
+    .fill-blank { display: inline-block; min-width: 80px; height: 26px; line-height: 26px; border-bottom: 3px solid var(--indigo); background: #EEF2FF; border-radius: 6px; margin: 0 4px; padding: 0 8px; vertical-align: middle; transition: all 0.2s; font-weight: 700; color: var(--indigo); }
+    body.dark .fill-blank { background: #1E1E38; border-bottom-color: #818CF8; color: #818CF8; }
     .feedback-box { margin-top: 14px; padding: 14px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; display: none; line-height: 1.5; }
     .feedback-answer { font-size:15px; font-weight:800; margin-bottom:4px; }
     .feedback-exp { font-size:13px; font-weight:500; opacity:0.85; margin-top:4px; }
@@ -7757,152 +7763,182 @@ function closeLessonView() {
 }
 
 /* ══════════════════════════════════════
-   QUIZ
+   QUIZ  (Duolingo-style overhaul)
 ══════════════════════════════════════ */
+var _quizData = [];
+
+function _shuffle(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+  return arr;
+}
+
+function _buildQuizData(rawQuiz) {
+  var indices = _shuffle(Array.from({length: rawQuiz.length}, function(_, k){ return k; }));
+  return indices.map(function(origIdx) {
+    var q = rawQuiz[origIdx];
+    var opts = q.opts.slice();
+    var ansVal = opts[q.ans];
+    _shuffle(opts);
+    var newAns = opts.indexOf(ansVal);
+    var qText = (lang==='zh' && typeof QUIZ_ZH !== 'undefined' && QUIZ_ZH[currentLesson.id])
+      ? QUIZ_ZH[currentLesson.id][origIdx]
+      : (lang==='en' && q.q_en) ? q.q_en : q.q;
+    var type = _pickExType(qText, opts);
+    return {origIdx: origIdx, q: q, qText: qText, opts: opts, ans: newAns, type: type};
+  });
+}
+
+function _pickExType(qText, opts) {
+  if (/___/.test(qText)) return 'fill';
+  if (/…\s*$/.test(qText.trim()) || /\.{3}\s*$/.test(qText.trim())) return 'fill';
+  var avgLen = opts.reduce(function(s, o){ return s + o.length; }, 0) / opts.length;
+  if (avgLen <= 11) return 'bubbles';
+  return 'mcq';
+}
+
 function startQuiz() {
   if (!currentLesson) return;
+  var l = currentLesson;
+  var rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] : l.quiz;
   quizIndex = 0; quizScore = 0; quizAnswered = false; window.wrongAnswersList = [];
+  _quizData = _buildQuizData(rawQuiz);
   document.getElementById('lesson-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
-  renderQuestion();
+  _renderQD(_quizData);
 }
-function renderQuestion() {
-  const l = currentLesson;
-  // ZH uses question strings only — always take opts/ans from l.quiz
-  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
-                 l.quiz;
-  const q = rawQuiz[quizIndex];
-  const total = rawQuiz.length;
-  // resolve question text per language
-  const qText = (lang==='zh' && QUIZ_ZH[l.id]) ? QUIZ_ZH[l.id][quizIndex] :
-                (lang==='en' && q.q_en) ? q.q_en : q.q;
+
+function _renderQD(dataArr) {
+  var d = dataArr[quizIndex];
+  var total = dataArr.length;
   quizAnswered = false;
-  const set = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
-  const setText = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-  // dots
-  const dotsEl = document.getElementById('quiz-dots');
+  var dotsEl = document.getElementById('quiz-dots');
   if (dotsEl) {
-    dotsEl.innerHTML = rawQuiz.map((_,i) =>
-      `<div style="width:${i===quizIndex?22:8}px;height:8px;border-radius:4px;background:${i===quizIndex?'var(--indigo)':'var(--border)'};transition:all .2s"></div>`
-    ).join('');
+    dotsEl.innerHTML = dataArr.map(function(_, i) {
+      var cls = i < quizIndex ? 'done' : i === quizIndex ? 'current' : '';
+      return '<div class="quiz-progress-dot ' + cls + '"></div>';
+    }).join('');
   }
-  setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
-  const qTextEl = document.getElementById('q-text');
-  if (qTextEl) { qTextEl.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>'; }
-  const fb = document.getElementById('q-feedback');
-  if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
-  const nextBtn = document.getElementById('next-btn');
+  var qNumEl = document.getElementById('q-num');
+  if (qNumEl) qNumEl.textContent = t('question') + ' ' + (quizIndex + 1) + ' ' + t('of') + ' ' + total;
+  var fb = document.getElementById('q-feedback');
+  if (fb) { fb.innerHTML = ''; fb.className = 'feedback-box'; }
+  var nextBtn = document.getElementById('next-btn');
   if (nextBtn) { nextBtn.classList.remove('show'); nextBtn.onclick = nextQuestion; }
-  const opts = document.getElementById('q-options');
-  if (opts) {
-    opts.innerHTML = q.opts.map((o,i) =>
-      `<button class="quiz-option" onclick="selectAnswer(${i})">${o}</button>`
-    ).join('');
-  }
-  const backBtn = document.getElementById('quiz-back-btn');
+  var backBtn = document.getElementById('quiz-back-btn');
   if (backBtn) backBtn.textContent = t('quit');
+  if (d.type === 'fill') _renderFill(d);
+  else if (d.type === 'bubbles') _renderBubbles(d);
+  else _renderMCQ(d);
 }
-function selectAnswer(i) {
+
+function _esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function _renderMCQ(d) {
+  var labels = ['A','B','C','D'];
+  var qTextEl = document.getElementById('q-text');
+  if (qTextEl) qTextEl.innerHTML = _esc(d.qText) + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>';
+  var optsEl = document.getElementById('q-options');
+  if (optsEl) {
+    optsEl.className = 'quiz-options';
+    optsEl.innerHTML = d.opts.map(function(o, i) {
+      return '<button class="quiz-option" onclick="_selectAnswer(' + i + ')">'
+        + '<span class="opt-letter">' + labels[i] + '</span>' + _esc(o) + '</button>';
+    }).join('');
+  }
+}
+
+function _renderBubbles(d) {
+  var qTextEl = document.getElementById('q-text');
+  if (qTextEl) qTextEl.innerHTML = _esc(d.qText) + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>';
+  var optsEl = document.getElementById('q-options');
+  if (optsEl) {
+    optsEl.className = 'quiz-options bubbles-mode';
+    optsEl.innerHTML = d.opts.map(function(o, i) {
+      return '<button class="quiz-option" onclick="_selectAnswer(' + i + ')">' + _esc(o) + '</button>';
+    }).join('');
+  }
+}
+
+function _renderFill(d) {
+  var qTextEl = document.getElementById('q-text');
+  if (qTextEl) {
+    var displayQ = _esc(d.qText);
+    var blankHtml = '<span class="fill-blank" id="fill-blank-span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+    if (displayQ.indexOf('___') !== -1) {
+      displayQ = displayQ.replace('___', blankHtml);
+    } else {
+      displayQ = displayQ.replace(/(…|\.{3})\s*$/, ' ' + blankHtml);
+    }
+    qTextEl.innerHTML = displayQ + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>';
+  }
+  var optsEl = document.getElementById('q-options');
+  if (optsEl) {
+    optsEl.className = 'quiz-options bubbles-mode';
+    optsEl.innerHTML = d.opts.map(function(o, i) {
+      return '<button class="quiz-option" onclick="_selectAnswer(' + i + ')">' + _esc(o) + '</button>';
+    }).join('');
+  }
+}
+
+function _selectAnswer(i) {
+  var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
   if (quizAnswered) return;
   quizAnswered = true;
-  const l = currentLesson;
-  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
-                 l.quiz;
-  const q = rawQuiz[quizIndex];
-  const correct = i === q.ans;
+  var d = dataArr[quizIndex];
+  var correct = i === d.ans;
   if (correct) quizScore++;
-  else { if (!window.wrongAnswersList) window.wrongAnswersList=[]; window.wrongAnswersList.push(quizIndex); }
-  const opts = document.querySelectorAll('.quiz-option');
-  opts.forEach((btn,j) => {
+  else { if (!window.wrongAnswersList) window.wrongAnswersList = []; window.wrongAnswersList.push(quizIndex); }
+  var opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(function(btn, j) {
     btn.disabled = true;
-    if (j===q.ans) btn.style.background='#10B981';
-    else if (j===i && !correct) btn.style.background='#EF4444';
-    btn.style.color='white';
+    if (j === d.ans) { btn.style.background='#10B981'; btn.style.borderColor='#10B981'; btn.style.color='white'; }
+    else if (j === i && !correct) { btn.style.background='#EF4444'; btn.style.borderColor='#EF4444'; btn.style.color='white'; }
   });
-  const fb = document.getElementById('q-feedback');
+  var blankSpan = document.getElementById('fill-blank-span');
+  if (blankSpan) {
+    blankSpan.textContent = d.opts[i];
+    blankSpan.style.background = correct ? '#BBF7D0' : '#FECDD3';
+    blankSpan.style.color = correct ? '#15803D' : '#B91C1C';
+    blankSpan.style.borderBottomColor = correct ? '#10B981' : '#EF4444';
+  }
+  var fb = document.getElementById('q-feedback');
   if (fb) {
     fb.className = 'feedback-box show ' + (correct ? 'correct' : 'wrong');
     if (correct) {
-      fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
+      fb.innerHTML = '<div>' + t('correctMsg') + '</div>';
     } else {
-      const expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
-      const expText = expLang ? ('<div class="feedback-exp">💡 '+expLang+'</div>') : '';
-      fb.innerHTML = '<div><div class="feedback-answer">'+t('wrongMsg')+' <strong>'+q.opts[q.ans]+'</strong></div>'+expText+'</div>';
+      var q = d.q;
+      var expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
+      var expText = expLang ? ('<div class="feedback-exp">\u{1F4A1} ' + expLang + '</div>') : '';
+      fb.innerHTML = '<div><div class="feedback-answer">' + t('wrongMsg') + ' <strong>' + _esc(d.opts[d.ans]) + '</strong></div>' + expText + '</div>';
     }
   }
-  const nextBtn = document.getElementById('next-btn');
+  var nextBtn = document.getElementById('next-btn');
   if (nextBtn) {
     nextBtn.classList.add('show');
-    nextBtn.textContent = quizIndex < rawQuiz.length-1 ? t('next') : t('seeResults');
+    nextBtn.textContent = quizIndex < dataArr.length - 1 ? t('next') : t('seeResults');
   }
-  if (correct) speak(q.opts[q.ans], _detectLangCode(q.opts[q.ans]) || 'fr-FR');
+  if (correct) speak(d.opts[d.ans], _detectLangCode(d.opts[d.ans]) || 'fr-FR');
 }
+
+/* Compat stubs */
+function renderQuestion() { _renderQD(_quizData); }
+function selectAnswer(i) { _selectAnswer(i); }
+
 function nextQuestion() {
-  const l = currentLesson;
-  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
-                 l.quiz;
-  if (quizIndex < rawQuiz.length-1) {
+  var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
+  if (quizIndex < dataArr.length - 1) {
     quizIndex++;
-    renderQuestion();
+    _renderQD(dataArr);
   } else {
+    if (window._wrongMode) window._wrongMode = false;
     showResult();
   }
 }
-function showResult() {
-  const l = currentLesson;
-  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
-                 l.quiz;
-  const total = rawQuiz.length;
-  const pct = Math.round(quizScore/total*100);
-  const prevScore = state[l.id] ? (state[l.id].score||0) : 0;
-  const newXP = quizScore*10;
-  if (!state[l.id]) state[l.id] = {};
-  state[l.id].score = Math.max(quizScore, prevScore);
-  state[l.id].completed = pct >= 60;
-  saveState();
-  updateStreak();
-  setTimeout(checkBadges, 800);
-  document.getElementById('quiz-view').classList.remove('active');
-  document.getElementById('result-view').classList.add('active');
-  const set = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
-  const setText = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-  const mascot = document.getElementById('result-mascot');
-  if (mascot) mascot.innerHTML = getMascotSVG(pct>=80?'happy':pct>=60?'neutral':'sad', 80);
-  const stars = pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
-  set('result-stars', stars);
-  setText('result-score', quizScore+'/'+total);
-  setText('result-label', pct+'% '+t('pctLabel'));
-  const msgs = { 100:[t('r100msg'),t('r100sub')], 80:[t('r80msg'),t('r80sub')], 60:[t('r60msg'),t('r60sub')], 0:[t('r0msg'),t('r0sub')] };
-  const key = pct>=100?100:pct>=80?80:pct>=60?60:0;
-  setText('result-msg', msgs[key][0]);
-  setText('result-sub', msgs[key][1]);
-  set('xp-gained', '+'+newXP+' '+t('xpLbl')+' ⚡');
-  const retryBtn = document.getElementById('btn-retry');
-  const backBtn  = document.getElementById('btn-back-lessons');
-  if (retryBtn) retryBtn.textContent = t('retry');
-  if (backBtn)  backBtn.textContent  = t('backLessons');
-  updateXPDisplay();
-  if (pct>=80) launchConfetti();
-  // Share button label + reset share panel
-  const shareBtn = document.getElementById('btn-share-lbl');
-  if (shareBtn) shareBtn.textContent = lang==='en'?'Share my score':lang==='zh'?'分享我的成绩':'Partager mon score';
-  const sharePanel = document.getElementById('share-panel');
-  if (sharePanel) sharePanel.classList.remove('open');
-  const shWa = document.getElementById('sh-wa');
-  if (shWa) shWa.textContent = lang==='en'?'WhatsApp':lang==='zh'?'WhatsApp':'WhatsApp';
-  const shCp = document.getElementById('sh-cp');
-  if (shCp) shCp.textContent = lang==='en'?'Copy':lang==='zh'?'复制':'Copier';
-  // Review wrong answers button
-  const reviewBtn = document.getElementById('btn-review-wrong');
-  if (reviewBtn) {
-    if (window.wrongAnswersList && window.wrongAnswersList.length > 0 && pct < 100) {
-      reviewBtn.style.display = 'block';
-      reviewBtn.textContent = lang==='en'?`Retry ${window.wrongAnswersList.length} wrong answer(s) 🔁`:lang==='zh'?`重做 ${window.wrongAnswersList.length} 道错题 🔁`:`Revoir ${window.wrongAnswersList.length} mauvaise(s) réponse(s) 🔁`;
-    } else {
-      reviewBtn.style.display = 'none';
-    }
-  }
-}
+
 function retryQuiz() {
   window.wrongAnswersList = [];
   document.getElementById('result-view').classList.remove('active');
@@ -7912,92 +7948,19 @@ function retryQuiz() {
 
 function retryWrongAnswers() {
   if (!window.wrongAnswersList || window.wrongAnswersList.length === 0) return;
-  const l = currentLesson;
-  const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] :
-                 l.quiz;
-  // Build a mini-quiz with only wrong answers
-  window._wrongOnlyQuiz = window.wrongAnswersList.map(i => rawQuiz[i]);
-  window._origQuiz = rawQuiz;
-  // Temporarily replace quiz
+  window._wrongOnlyQuizData = window.wrongAnswersList.map(function(i){ return _quizData[i]; });
   window._wrongMode = true;
   quizIndex = 0; quizScore = 0; quizAnswered = false; window.wrongAnswersList = [];
   document.getElementById('result-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
-  renderQuestionFromList(window._wrongOnlyQuiz);
+  _renderQD(window._wrongOnlyQuizData);
 }
 
 function renderQuestionFromList(quizList) {
-  const q = quizList[quizIndex];
-  const total = quizList.length;
-  const qText = (lang==='en' && q.q_en) ? q.q_en : q.q;
-  quizAnswered = false;
-  const set = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
-  const setText = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-  const dotsEl = document.getElementById('quiz-dots');
-  if (dotsEl) {
-    dotsEl.innerHTML = quizList.map((_,i) =>
-      `<div style="width:${i===quizIndex?22:8}px;height:8px;border-radius:4px;background:${i===quizIndex?'#EF4444':'var(--border)'};transition:all .2s"></div>`
-    ).join('');
-  }
-  setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
-  const qTextEl3 = document.getElementById('q-text');
-  if (qTextEl3) { qTextEl3.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>'; }
-  const fb = document.getElementById('q-feedback');
-  if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
-  const nextBtn = document.getElementById('next-btn');
-  if (nextBtn) { nextBtn.classList.remove('show'); }
-  const opts = document.getElementById('q-options');
-  if (opts) {
-    opts.innerHTML = q.opts.map((o,i) =>
-      `<button class="quiz-option" onclick="selectAnswerWrong(${i})">${o}</button>`
-    ).join('');
-  }
-  const backBtn = document.getElementById('quiz-back-btn');
-  if (backBtn) backBtn.textContent = t('quit');
+  _renderQD(window._wrongMode ? window._wrongOnlyQuizData : _quizData);
 }
 
-function selectAnswerWrong(i) {
-  if (quizAnswered) return;
-  quizAnswered = true;
-  const q = window._wrongOnlyQuiz[quizIndex];
-  const correct = i === q.ans;
-  if (correct) quizScore++;
-  else { if (!window.wrongAnswersList) window.wrongAnswersList=[]; window.wrongAnswersList.push(quizIndex); }
-  const opts = document.querySelectorAll('.quiz-option');
-  opts.forEach((btn,j) => {
-    btn.disabled = true;
-    if (j===q.ans) btn.style.background='#10B981';
-    else if (j===i && !correct) btn.style.background='#EF4444';
-    btn.style.color='white';
-  });
-  const fb = document.getElementById('q-feedback');
-  if (fb) {
-    fb.className = 'feedback-box show ' + (correct ? 'correct' : 'wrong');
-    if (correct) {
-      fb.innerHTML = '<div>'+t('correctMsg')+'</div>';
-    } else {
-      const expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
-      const expText = expLang ? ('<div class="feedback-exp">💡 '+expLang+'</div>') : '';
-      fb.innerHTML = '<div><div class="feedback-answer">'+t('wrongMsg')+' <strong>'+q.opts[q.ans]+'</strong></div>'+expText+'</div>';
-    }
-  }
-  const nextBtn = document.getElementById('next-btn');
-  if (nextBtn) {
-    nextBtn.classList.add('show');
-    nextBtn.textContent = quizIndex < window._wrongOnlyQuiz.length-1 ? t('next') : t('seeResults');
-    nextBtn.onclick = function() {
-      if (quizIndex < window._wrongOnlyQuiz.length-1) {
-        quizIndex++;
-        renderQuestionFromList(window._wrongOnlyQuiz);
-      } else {
-        window._wrongMode = false;
-        showResult();
-      }
-    };
-  }
-  if (correct) speak(q.opts[q.ans], _detectLangCode(q.opts[q.ans]) || 'fr-FR');
-}
-
+function selectAnswerWrong(i) { _selectAnswer(i); }
 function _getShareText() {
   if (!currentLesson) return '';
   const rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[currentLesson.id]) ? QUIZ_EN[currentLesson.id] : currentLesson.quiz;
