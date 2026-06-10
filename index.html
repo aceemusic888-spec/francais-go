@@ -8948,11 +8948,6 @@ function setSyncIndicator(ok) {
   if (el) { el.textContent = ok ? '✓ Sync' : '⚠ Erreur'; el.style.color = ok ? '#10B981' : '#EF4444'; }
 }
 
-// Handle redirect result after Google sign-in
-window._fbAuth.getRedirectResult().catch(err => {
-  console.warn('Redirect result error:', err.message);
-});
-
 window._fbAuth.onAuthStateChanged(user => {
   updateAuthUI(user);
   if (user) loadFromCloud(user.uid);
@@ -9024,14 +9019,23 @@ function toggleAuthMode() {
   if (err) err.textContent = '';
 }
 function signInWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  window._fbAuth.signInWithPopup(provider)
-    .then(() => closeAuthModal())
-    .catch(err => {
-      const e = document.getElementById('auth-error');
-      if(e) e.textContent = '[' + err.code + '] ' + err.message;
-      openAuthModal();
-    });
+  try {
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('email');
+    provider.addScope('profile');
+    auth.signInWithPopup(provider)
+      .then(() => closeAuthModal())
+      .catch(err => {
+        const e = document.getElementById('auth-error');
+        if (e) e.textContent = (err.code || '') + ' ' + err.message;
+        openAuthModal();
+      });
+  } catch(err) {
+    const e = document.getElementById('auth-error');
+    if (e) e.textContent = 'Init error: ' + err.message;
+    openAuthModal();
+  }
 }
 function submitEmailAuth() {
   const email = document.getElementById('auth-email').value.trim();
