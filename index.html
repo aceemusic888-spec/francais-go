@@ -242,6 +242,23 @@
     .vocab-ex-trans { font-size: 12px; color: var(--muted); opacity: 0.8; margin-top: 2px; }
     .vocab-empty { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 15px; }
     body.dark .vocab-search { background: #1E1E38; border-color: #2D3748; }
+    /* Vocab quiz button */
+    .vocab-train-btn { display:block; width:100%; padding:14px; margin-bottom:16px; background:linear-gradient(135deg,var(--indigo),var(--purple)); color:white; border:none; border-radius:16px; font-size:15px; font-weight:800; cursor:pointer; text-align:center; transition:opacity 0.15s; }
+    .vocab-train-btn:hover { opacity:0.9; }
+    /* Vocab quiz view */
+    #vocab-quiz-view { display:none; padding:16px 16px 90px; }
+    #vocab-quiz-view.active { display:block; }
+    /* SRS rating buttons */
+    .fc-srs-btns { display:flex; gap:10px; margin-top:16px; justify-content:center; }
+    .fc-srs-btn { flex:1; max-width:120px; padding:12px 8px; border-radius:16px; border:2px solid var(--border); background:var(--card); cursor:pointer; font-size:13px; font-weight:700; text-align:center; line-height:1.5; transition:all 0.15s; color:var(--text); }
+    .fc-srs-btn:hover { transform:translateY(-2px); }
+    .fc-srs-again:hover { border-color:#EF4444; background:#FFF1F2; color:#B91C1C; }
+    .fc-srs-hard:hover  { border-color:#F59E0B; background:#FFFBEB; color:#92400E; }
+    .fc-srs-easy:hover  { border-color:#10B981; background:#F0FDF4; color:#15803D; }
+    /* SRS toggle btn */
+    .fc-srs-toggle { padding:6px 12px; border-radius:99px; border:2px solid var(--border); background:var(--card); font-size:11px; font-weight:700; cursor:pointer; color:var(--muted); transition:all 0.15s; }
+    .fc-srs-toggle.active { background:var(--indigo); border-color:var(--indigo); color:white; }
+    body.dark .fc-srs-btn { background:#1E1E38; }
     /* Duolingo-style exercise variations */
     .quiz-options.bubbles-mode { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .quiz-options.bubbles-mode .quiz-option { flex: 0 1 auto; padding: 10px 20px; border-radius: 99px; font-size: 15px; font-weight: 700; min-width: 80px; justify-content: center; }
@@ -958,8 +975,9 @@
       <button class="fc-filter-btn" data-level="advanced" onclick="setFCFilter('advanced')">Avancé</button>
       <button class="fc-filter-btn" data-level="tcf" onclick="setFCFilter('tcf')">🍁 TCF/TEF</button>
     </div>
-    <div class="fc-header">
+    <div class="fc-header" style="flex-wrap:wrap;gap:8px;">
       <span class="fc-counter" id="fc-counter">1 / 100</span>
+      <button class="fc-srs-toggle" id="fc-srs-btn" onclick="toggleFCSRS()">⏰ SRS</button>
       <button class="fc-reset-btn" id="fc-reset-btn" onclick="fcReset()">↺ Recommencer</button>
     </div>
     <div class="fc-progress-bar"><div class="fc-progress-fill" id="fc-progress-fill" style="width:0%"></div></div>
@@ -1134,12 +1152,26 @@
   </div>
 </main>
 
+<!-- VOCAB QUIZ -->
+  <div id="vocab-quiz-view">
+    <button class="back-btn" id="vq-back-btn" onclick="closeVocabQuiz()">←</button>
+    <div class="card" id="vq-card">
+      <div class="quiz-progress" id="vq-dots"></div>
+      <div class="quiz-question-num" id="vq-num"></div>
+      <div class="quiz-question" id="vq-question"></div>
+      <div class="quiz-options" id="vq-options"></div>
+      <div class="feedback-box" id="vq-feedback"></div>
+      <button class="next-btn" id="vq-next-btn"></button>
+    </div>
+  </div>
+
 <!-- VOCABULARY -->
   <div id="tab-vocab">
     <div class="vocab-search-wrap">
       <span class="vocab-search-icon">🔍</span>
       <input type="text" class="vocab-search" id="vocab-search" oninput="renderVocab()" placeholder="Rechercher un mot...">
     </div>
+    <button class="vocab-train-btn" id="vocab-train-btn" onclick="startVocabQuiz()">&#x26A1; S'entraîner</button>
     <div class="vocab-themes" id="vocab-theme-tabs"></div>
     <div class="vocab-count" id="vocab-count"></div>
     <div class="vocab-list-inner" id="vocab-list"></div>
@@ -7615,7 +7647,126 @@ const VOCAB = [
   {fr:'le week-end',  en:'the weekend',    zh:'周末',  pos:'n.', theme:'sports', ex:"Que fais-tu ce week-end ?",           ex_en:"What are you doing this weekend?"},
 ];
 
+/* ── VOCAB QUIZ ── */
 var vocabTheme = 'all';
+var _vqWords = [], _vqIndex = 0, _vqScore = 0, _vqAnswered = false;
+
+function startVocabQuiz() {
+  var pool = vocabTheme === 'all' ? VOCAB : VOCAB.filter(function(w){ return w.theme === vocabTheme; });
+  if (pool.length < 4) {
+    showStreakToast(lang==='en'?'Not enough words in this theme':lang==='zh'?'该主题词汇不足':'Pas assez de mots dans ce thème');
+    return;
+  }
+  var shuffled = pool.slice();
+  for (var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=tmp;}
+  _vqWords = shuffled.slice(0, Math.min(10, shuffled.length));
+  _vqIndex = 0; _vqScore = 0; _vqAnswered = false;
+  document.getElementById('tab-vocab').classList.remove('active');
+  document.getElementById('vocab-quiz-view').classList.add('active');
+  _renderVQ();
+}
+
+function closeVocabQuiz() {
+  document.getElementById('vocab-quiz-view').classList.remove('active');
+  document.getElementById('tab-vocab').classList.add('active');
+  renderVocab();
+}
+
+function _renderVQ() {
+  var w = _vqWords[_vqIndex];
+  var total = _vqWords.length;
+  _vqAnswered = false;
+  var dotsEl = document.getElementById('vq-dots');
+  if (dotsEl) dotsEl.innerHTML = _vqWords.map(function(_,i){
+    var cls = i < _vqIndex ? 'done' : i === _vqIndex ? 'current' : '';
+    return '<div class="quiz-progress-dot '+cls+'"></div>';
+  }).join('');
+  var numEl = document.getElementById('vq-num');
+  if (numEl) numEl.textContent = 'Question '+(_vqIndex+1)+' / '+total;
+  var qEl = document.getElementById('vq-question');
+  var questionText = (lang==='zh' && w.zh) ? w.zh : w.en;
+  if (qEl) qEl.textContent = questionText;
+  var backBtn = document.getElementById('vq-back-btn');
+  if (backBtn) backBtn.textContent = '← '+(lang==='en'?'Vocab':lang==='zh'?'词汇':'Vocab');
+  var fb = document.getElementById('vq-feedback');
+  if (fb) { fb.innerHTML = ''; fb.className = 'feedback-box'; }
+  var nb = document.getElementById('vq-next-btn');
+  if (nb) nb.classList.remove('show');
+  var distractors = VOCAB.filter(function(v){ return v.fr !== w.fr; });
+  for (var i=distractors.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=distractors[i];distractors[i]=distractors[j];distractors[j]=tmp;}
+  var opts = [w].concat(distractors.slice(0, 3));
+  for (var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;}
+  var correctIdx = opts.indexOf(w);
+  var optsEl = document.getElementById('vq-options');
+  if (optsEl) {
+    optsEl.className = 'quiz-options';
+    var html = '';
+    var correctFrSafe = w.fr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    for (var i=0;i<opts.length;i++) {
+      var safeFr = opts[i].fr.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      html += '<button class="quiz-option" onclick="_vqAnswer('+i+','+correctIdx+',\''+correctFrSafe+'\')">'+safeFr+'</button>';
+    }
+    optsEl.innerHTML = html;
+  }
+}
+
+function _vqAnswer(i, correctIdx, correctFr) {
+  if (_vqAnswered) return;
+  _vqAnswered = true;
+  var correct = i === correctIdx;
+  if (correct) _vqScore++;
+  var opts = document.querySelectorAll('#vq-options .quiz-option');
+  opts.forEach(function(btn, j) {
+    btn.disabled = true;
+    if (j === correctIdx) { btn.style.background='#10B981'; btn.style.borderColor='#10B981'; btn.style.color='white'; }
+    else if (j === i && !correct) { btn.style.background='#EF4444'; btn.style.borderColor='#EF4444'; btn.style.color='white'; }
+  });
+  var fb = document.getElementById('vq-feedback');
+  if (fb) {
+    fb.className = 'feedback-box show '+(correct?'correct':'wrong');
+    if (correct) {
+      fb.innerHTML = '<div>'+(lang==='en'?'Correct! 🎉':lang==='zh'?'正确！🎉':'Correct ! 🎉')+'</div>';
+    } else {
+      var ans = '<strong>'+correctFr.replace(/&/g,'&amp;')+'</strong>';
+      fb.innerHTML = '<div><div class="feedback-answer">'+(lang==='en'?'Answer: ':lang==='zh'?'答案：':'Réponse : ')+ans+'</div></div>';
+    }
+  }
+  // Toujours fr-FR pour le TTS — jamais la langue de l'interface
+  speak(correctFr, 'fr-FR');
+  var nb = document.getElementById('vq-next-btn');
+  if (nb) {
+    nb.classList.add('show');
+    nb.textContent = _vqIndex < _vqWords.length-1
+      ? (lang==='en'?'Next →':lang==='zh'?'下一题 →':'Suivant →')
+      : (lang==='en'?'See results':lang==='zh'?'查看结果':'Voir les résultats');
+    nb.onclick = function() {
+      if (_vqIndex < _vqWords.length-1) { _vqIndex++; _renderVQ(); }
+      else { _vqShowResult(); }
+    };
+  }
+}
+
+function _vqShowResult() {
+  var pct = Math.round(_vqScore / _vqWords.length * 100);
+  var stars = pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':'⭐';
+  var theme = VOCAB_THEMES.find(function(th){ return th.id===vocabTheme; });
+  var themeName = theme ? (lang==='zh'?theme.zh:lang==='en'?theme.en:theme.fr) : '';
+  var card = document.getElementById('vq-card');
+  if (card) {
+    var retryLbl = lang==='en'?'Retry':lang==='zh'?'重试':'Recommencer';
+    var backLbl  = lang==='en'?'Back to Vocab':lang==='zh'?'返回词汇':'Retour au Vocab';
+    card.innerHTML = '<div style="text-align:center;padding:24px 8px;">'
+      +'<div style="font-size:52px;margin-bottom:12px;">'+stars+'</div>'
+      +'<div style="font-size:28px;font-weight:900;color:var(--indigo);">'+_vqScore+'/'+_vqWords.length+'</div>'
+      +'<div style="font-size:15px;color:var(--muted);margin:6px 0 20px;">'+pct+'% · '+themeName+'</div>'
+      +'<button onclick="startVocabQuiz()" style="display:block;width:100%;padding:14px;margin-bottom:10px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;">↺ '+retryLbl+'</button>'
+      +'<button onclick="closeVocabQuiz()" style="display:block;width:100%;padding:12px;border:2px solid var(--border);border-radius:14px;background:var(--card);font-size:14px;font-weight:700;cursor:pointer;color:var(--text);">'+backLbl+'</button>'
+      +'</div>';
+  }
+  if (pct >= 80) { try { launchConfetti(); } catch(e) {} }
+}
+
+
 
 function renderVocab() {
   var search = '';
@@ -7640,6 +7791,10 @@ function renderVocab() {
         || w.zh.indexOf(search) !== -1;
   });
 
+  var trainBtn = document.getElementById('vocab-train-btn');
+  if (trainBtn) {
+    trainBtn.textContent = lang==='en'?'\u26A1 Practice Quiz':lang==='zh'?'\u26A1 \u7EC3\u4E60\u6D4B\u9A8C':'\u26A1 S\'entra\xEEner';
+  }
   var countEl = document.getElementById('vocab-count');
   if (countEl) {
     var unit = lang==='en' ? (filtered.length!==1?'words':'word') : lang==='zh' ? '个词' : (filtered.length!==1?'mots':'mot');
@@ -7680,6 +7835,7 @@ let fcFilter = 'all';
 let fcDeck   = [];
 let fcIndex  = 0;
 let fcFlipped = false;
+let fcSRSMode = false;
 let obSlide  = 0;
 
 /* ══════════════════════════════════════
@@ -7743,7 +7899,7 @@ function speakQuestion() {
 }
 function speakCurrentCard() {
   const card = fcDeck[fcIndex];
-  if (card) speak(card.fr);
+  if (card) speak(card.fr, 'fr-FR');
 }
 function addVocabSpeakBtns(container) {
   if (!container) return;
@@ -7844,6 +8000,8 @@ function setLang(l) {
 ══════════════════════════════════════ */
 function showTab(tab) {
   currentTab = tab;
+  var vqv = document.getElementById('vocab-quiz-view');
+  if (vqv) vqv.classList.remove('active');
   ['home','lessons','progress','flashcards','settings','vocab'].forEach(id => {
     const sec = document.getElementById('tab-'+id);
     const btn = document.getElementById('nav-'+id);
@@ -8732,9 +8890,28 @@ function setFCFilter(level) {
   buildFCDeck();
   renderFlashcard();
 }
+function getSRSData() {
+  try { return JSON.parse(localStorage.getItem('ff_srs') || '{}'); } catch(e) { return {}; }
+}
+function saveSRSData(d) { localStorage.setItem('ff_srs', JSON.stringify(d)); }
+function getFCDueCount() {
+  var data = getSRSData(); var now = Date.now();
+  var pool = fcFilter==='all' ? FLASHCARDS : FLASHCARDS.filter(function(c){ return c.level===fcFilter; });
+  return pool.filter(function(c){ var s=data[c.fr]; return !s||s.due<=now; }).length;
+}
 function buildFCDeck() {
-  fcDeck = fcFilter==='all' ? [...FLASHCARDS] : FLASHCARDS.filter(c => c.level===fcFilter);
-  fcIndex = 0; fcFlipped = false;
+  var pool = fcFilter==='all' ? FLASHCARDS.slice() : FLASHCARDS.filter(function(c){ return c.level===fcFilter; });
+  if (fcSRSMode) {
+    var data = getSRSData(); var now = Date.now();
+    pool.sort(function(a,b){
+      var da = data[a.fr]?data[a.fr].due:0;
+      var db = data[b.fr]?data[b.fr].due:0;
+      if (da<=now && db>now) return -1;
+      if (da>now && db<=now) return 1;
+      return da-db;
+    });
+  }
+  fcDeck = pool; fcIndex = 0; fcFlipped = false;
 }
 function fcReset() {
   fcIndex = 0; fcFlipped = false;
@@ -8742,40 +8919,72 @@ function fcReset() {
 }
 function renderFlashcard() {
   if (!fcDeck.length) buildFCDeck();
-  const counter  = document.getElementById('fc-counter');
-  const fill     = document.getElementById('fc-progress-fill');
-  const area     = document.getElementById('fc-card-area');
-  const resetBtn = document.getElementById('fc-reset-btn');
-  const total = fcDeck.length;
-  if (counter) counter.textContent = (fcIndex+1)+' / '+total;
+  var counter  = document.getElementById('fc-counter');
+  var fill     = document.getElementById('fc-progress-fill');
+  var area     = document.getElementById('fc-card-area');
+  var resetBtn = document.getElementById('fc-reset-btn');
+  var srsBtn   = document.getElementById('fc-srs-btn');
+  var total = fcDeck.length;
+  if (srsBtn) srsBtn.classList.toggle('active', fcSRSMode);
+  if (fcSRSMode) {
+    var due = getFCDueCount();
+    var dueStr = lang==='en'?due+' to review':lang==='zh'?due+'待复习':due+' à réviser';
+    if (counter) counter.textContent = (fcIndex+1)+' / '+total+' · '+dueStr;
+  } else {
+    if (counter) counter.textContent = (fcIndex+1)+' / '+total;
+  }
   if (fill) fill.style.width = Math.round((fcIndex+1)/total*100)+'%';
   if (resetBtn) resetBtn.textContent = lang==='en'?'↺ Restart':lang==='zh'?'↺ 重新开始':'↺ Recommencer';
   if (!area) return;
-  if (total===0) { area.innerHTML='<div class="card" style="text-align:center;color:var(--muted);">No cards</div>'; return; }
-  const card = fcDeck[fcIndex];
-  const front = lang==='en'?card.fr:lang==='zh'?card.fr:card.fr;
-  const back  = lang==='en'?card.en:lang==='zh'?card.zh:card.en;
-  const exampleLine = card.example ? `<div style="font-size:13px;color:var(--muted);font-style:italic;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">${card.example}</div>` : '';
-  area.innerHTML = `
-    <div class="fc-card${fcFlipped?' flipped':''}" onclick="fcFlip()" style="cursor:pointer;">
-      <div class="fc-card-inner">
-        <div class="fc-front">
-          <div class="fc-word">${front}</div>
-          <button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>
-          <div class="fc-tap-hint">${lang==='en'?'Tap to reveal':lang==='zh'?'点击翻转':'Appuyez pour révéler'}</div>
-        </div>
-        <div class="fc-back">
-          <div class="fc-word">${back}</div>
-          <button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>
-          ${exampleLine}
-        </div>
-      </div>
-    </div>
-    <div class="fc-actions" style="display:flex;gap:12px;margin-top:16px;justify-content:center;position:relative;z-index:10;">
-      <button onclick="fcPrev()" style="flex:1;max-width:140px;padding:12px;border:2px solid var(--border);border-radius:14px;background:white;font-size:14px;font-weight:700;cursor:pointer;color:var(--text);">${lang==='en'?'← Prev':lang==='zh'?'← 上一张':'← Préc.'}</button>
-      <button onclick="fcNext()" style="flex:1;max-width:140px;padding:12px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;">${lang==='en'?'Next →':lang==='zh'?'下一张 →':'Suiv. →'}</button>
-    </div>`;
+  if (total===0) { area.innerHTML='<div class="card" style="text-align:center;color:var(--muted);">Aucune carte</div>'; return; }
+  var card = fcDeck[fcIndex];
+  var back = lang==='zh' ? card.zh : card.en;
+  var exLine = card.example
+    ? '<div style="font-size:13px;color:var(--muted);font-style:italic;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">'+card.example+'</div>'
+    : '';
+  var tapHint = lang==='en'?'Tap to reveal':lang==='zh'?'点击翻转':'Appuyez pour révéler';
+  var bottomBtns;
+  if (fcSRSMode) {
+    if (fcFlipped) {
+      var la=lang==='en'?'Again':lang==='zh'?'再来':'Difficile';
+      var lh=lang==='en'?'Hard':lang==='zh'?'一般':'Moyen';
+      var le=lang==='en'?'Easy':lang==='zh'?'容易':'Facile';
+      bottomBtns = '<div class="fc-srs-btns">'
+        +'<button class="fc-srs-btn fc-srs-again" onclick="rateCard(0)">🔴<br>'+la+'<br><small>1j</small></button>'
+        +'<button class="fc-srs-btn fc-srs-hard"  onclick="rateCard(1)">🟡<br>'+lh+'</button>'
+        +'<button class="fc-srs-btn fc-srs-easy"  onclick="rateCard(2)">🟢<br>'+le+'</button>'
+        +'</div>';
+    } else {
+      var revLbl = lang==='en'?'Reveal answer':lang==='zh'?'显示答案':'Voir la réponse';
+      bottomBtns = '<div style="margin-top:16px;text-align:center;">'
+        +'<button onclick="fcFlip()" style="padding:13px 32px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;">'+revLbl+'</button>'
+        +'</div>';
+    }
+  } else {
+    var pLbl = lang==='en'?'← Prev':lang==='zh'?'← 上一张':'← Préc.';
+    var nLbl = lang==='en'?'Next →':lang==='zh'?'下一张 →':'Suiv. →';
+    bottomBtns = '<div class="fc-actions" style="display:flex;gap:12px;margin-top:16px;justify-content:center;">'
+      +'<button onclick="fcPrev()" style="flex:1;max-width:140px;padding:12px;border:2px solid var(--border);border-radius:14px;background:var(--card);font-size:14px;font-weight:700;cursor:pointer;color:var(--text);">'+pLbl+'</button>'
+      +'<button onclick="fcNext()" style="flex:1;max-width:140px;padding:12px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;">'+nLbl+'</button>'
+      +'</div>';
+  }
+  area.innerHTML = '<div class="fc-card'+(fcFlipped?' flipped':'')+'" onclick="fcFlip()" style="cursor:pointer;">'
+    +'<div class="fc-card-inner">'
+    +'<div class="fc-front">'
+    +'<div class="fc-word">'+card.fr+'</div>'
+    +'<button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>'
+    +'<div class="fc-tap-hint">'+tapHint+'</div>'
+    +'</div>'
+    +'<div class="fc-back">'
+    +'<div class="fc-word">'+back+'</div>'
+    +'<button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>'
+    +exLine
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    +bottomBtns;
 }
+
 function fcFlip() {
   fcFlipped = !fcFlipped;
   renderFlashcard();
@@ -8786,6 +8995,36 @@ function fcNext() {
 }
 function fcPrev() {
   if (fcIndex > 0) { fcIndex--; fcFlipped=false; renderFlashcard(); }
+}
+function toggleFCSRS() {
+  fcSRSMode = !fcSRSMode;
+  buildFCDeck();
+  renderFlashcard();
+}
+function rateCard(rating) {
+  var card = fcDeck[fcIndex];
+  if (!card) return;
+  var data = getSRSData();
+  var s = data[card.fr] || {interval:1, ease:2.5, due:0, reps:0};
+  s.reps++;
+  if (rating === 0) {
+    s.interval = 1;
+    s.ease = Math.max(1.3, s.ease - 0.2);
+  } else if (rating === 1) {
+    s.interval = Math.max(1, Math.round(s.interval * 1.2));
+    s.ease = Math.max(1.3, s.ease - 0.1);
+  } else {
+    s.interval = Math.max(1, Math.round(s.interval * s.ease));
+    s.ease = Math.min(2.5, s.ease + 0.15);
+  }
+  s.due = Date.now() + s.interval * 24 * 3600 * 1000;
+  data[card.fr] = s;
+  saveSRSData(data);
+  if (fcIndex < fcDeck.length - 1) {
+    fcIndex++; fcFlipped = false; renderFlashcard();
+  } else {
+    buildFCDeck(); renderFlashcard();
+  }
 }
 
 /* ══════════════════════════════════════
