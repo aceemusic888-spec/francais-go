@@ -7655,7 +7655,7 @@ function renderVocab() {
 
   listEl.innerHTML = filtered.map(function(w) {
     var trans = lang==='zh' ? w.zh : w.en;
-    var exText = (lang==='en' && w.ex_en) ? w.ex_en : w.ex;
+    var exText = w.ex; // toujours l'exemple en français
     function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     var speakFr = w.fr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return '<div class="vocab-card">'
@@ -7666,7 +7666,7 @@ function renderVocab() {
       + '</div>'
       + '<div class="vocab-trans">' + esc(trans) + '</div>'
       + '<div class="vocab-ex">' + esc(exText)
-      + (lang==='fr' && w.ex_en ? '<div class="vocab-ex-trans">' + esc(w.ex_en) + '</div>' : '')
+      + ((lang !== 'fr' && w.ex_en) ? '<div class="vocab-ex-trans">' + esc(w.ex_en) + '</div>' : '')
       + '</div>'
       + '</div>';
   }).join('');
