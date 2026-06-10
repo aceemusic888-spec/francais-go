@@ -7329,6 +7329,10 @@ function speak(text) {
   u.pitch = 1;
   window.speechSynthesis.speak(u);
 }
+function speakCurrentCard() {
+  const card = fcDeck[fcIndex];
+  if (card) speak(card.fr);
+}
 
 /* ══════════════════════════════════════
    STREAK
@@ -8364,10 +8368,12 @@ function renderFlashcard() {
       <div class="fc-card-inner">
         <div class="fc-front">
           <div class="fc-word">${front}</div>
+          <button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>
           <div class="fc-tap-hint">${lang==='en'?'Tap to reveal':lang==='zh'?'点击翻转':'Appuyez pour révéler'}</div>
         </div>
         <div class="fc-back">
           <div class="fc-word">${back}</div>
+          <button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>
           ${exampleLine}
         </div>
       </div>
