@@ -259,6 +259,14 @@
     .fc-srs-toggle { padding:6px 12px; border-radius:99px; border:2px solid var(--border); background:var(--card); font-size:11px; font-weight:700; cursor:pointer; color:var(--muted); transition:all 0.15s; }
     .fc-srs-toggle.active { background:var(--indigo); border-color:var(--indigo); color:white; }
     body.dark .fc-srs-btn { background:#1E1E38; }
+    /* XP float */
+    .xp-float { position:fixed; left:50%; transform:translateX(-50%); font-size:15px; font-weight:900; color:var(--indigo); pointer-events:none; z-index:9999; animation:xpFloat 1.4s ease-out forwards; text-shadow:0 1px 4px rgba(0,0,0,0.12); }
+    @keyframes xpFloat { 0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1.3);} 60%{opacity:1;transform:translateX(-50%) translateY(-40px) scale(1);} 100%{opacity:0;transform:translateX(-50%) translateY(-70px) scale(0.9);} }
+    /* Level badge */
+    .level-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.22); color:white; font-size:12px; font-weight:800; padding:4px 14px; border-radius:99px; backdrop-filter:blur(4px); }
+    /* Goal buttons in settings */
+    .goal-btn { padding:6px 13px; border-radius:99px; border:2px solid var(--border); background:var(--card); font-size:12px; font-weight:800; cursor:pointer; color:var(--muted); transition:all 0.15s; }
+    .goal-btn.active { background:var(--indigo); border-color:var(--indigo); color:white; }
     /* Duolingo-style exercise variations */
     .quiz-options.bubbles-mode { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .quiz-options.bubbles-mode .quiz-option { flex: 0 1 auto; padding: 10px 20px; border-radius: 99px; font-size: 15px; font-weight: 700; min-width: 80px; justify-content: center; }
@@ -852,6 +860,8 @@
           <span class="hero-stat-lbl" id="hero-streak-lbl">🔥 série</span>
         </div>
       </div>
+      <div id="hero-level-wrap" style="text-align:center;margin:8px 0 2px;"></div>
+      <div id="hero-daily-goal-wrap" style="margin:4px 0 6px;padding:0 4px;"></div>
       <div class="hero-prog-wrap">
         <div class="hero-prog-bar"><div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div></div>
         <span class="hero-prog-pct" id="hero-prog-pct">0%</span>
@@ -1051,6 +1061,25 @@
         </div>
         <div class="settings-toggle" id="dark-toggle">
           <div class="settings-toggle-thumb"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Objectif quotidien -->
+    <div class="settings-group">
+      <div class="settings-group-title" id="set-lbl-goal-title">Objectif quotidien</div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">🎯</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-goal">XP par jour</div>
+            <div class="settings-row-sub" id="set-lbl-goal-sub">Choisir ton objectif quotidien</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="goal-btn" id="goal-btn-20" onclick="setDailyGoal(20)">20</button>
+          <button class="goal-btn" id="goal-btn-40" onclick="setDailyGoal(40)">40</button>
+          <button class="goal-btn" id="goal-btn-80" onclick="setDailyGoal(80)">80</button>
         </div>
       </div>
     </div>
@@ -7733,6 +7762,7 @@ function _vqAnswer(i, correctIdx, correctFr) {
   }
   // Toujours fr-FR pour le TTS — jamais la langue de l'interface
   speak(correctFr, 'fr-FR');
+  if (correct) addBonusXP(5);
   var nb = document.getElementById('vq-next-btn');
   if (nb) {
     nb.classList.add('show');
@@ -7845,7 +7875,8 @@ function t(key) {
   return (T[lang] && T[lang][key] !== undefined) ? T[lang][key] : (T.fr[key] || key);
 }
 function saveState() { localStorage.setItem('ff_state', JSON.stringify(state)); scheduleCloudSync(); }
-function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*10, 0); }
+function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*10, 0) + getBonusXP(); }
+function getBonusXP() { return parseInt(localStorage.getItem('ff_xp_bonus')||'0',10); }
 
 /* ══════════════════════════════════════
    TTS
@@ -8057,6 +8088,23 @@ function renderHome() {
   set('hero-streak-num', streak);
   set('hero-streak-lbl', lang==='en'?'🔥 streak':lang==='zh'?'🔥 连续':'🔥 série');
   set('hero-lessons-lbl', lang==='en'?'lessons':lang==='zh'?'课程':'leçons');
+  // Level badge
+  var lvlWrap = document.getElementById('hero-level-wrap');
+  if (lvlWrap) {
+    var lvlInfo = getLevelInfo(xp);
+    var nextStr = lvlInfo.nextXP ? ' · '+lvlInfo.pct+'% → '+lvlInfo.nextXP+' XP' : ' · MAX';
+    lvlWrap.innerHTML = '<span class="level-badge">'+lvlInfo.icon+' '+lvlInfo.label+nextStr+'</span>';
+  }
+  // Daily goal bar
+  var dgWrap = document.getElementById('hero-daily-goal-wrap');
+  if (dgWrap) {
+    var dxp=getDailyXP(); var dgoal=getDailyGoal(); var dpct=Math.min(100,Math.round(dxp/dgoal*100));
+    var goalLbl=lang==='en'?'Daily goal':lang==='zh'?'今日目标':'Objectif du jour';
+    dgWrap.innerHTML='<div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;opacity:0.75;margin-bottom:4px;">'
+      +'<span>🎯 '+goalLbl+'</span><span>'+dxp+' / '+dgoal+' XP</span></div>'
+      +'<div style="background:rgba(255,255,255,0.22);border-radius:99px;height:6px;overflow:hidden;">'
+      +'<div style="background:white;border-radius:99px;height:6px;width:'+dpct+'%;transition:width 0.6s;"></div></div>';
+  }
   const fill = document.getElementById('hero-prog-fill');
   if (fill) fill.style.width = pct+'%';
   set('hero-prog-pct', pct+'%');
@@ -8409,7 +8457,10 @@ function _selectAnswer(i) {
     nextBtn.classList.add('show');
     nextBtn.textContent = quizIndex < dataArr.length - 1 ? t('next') : t('seeResults');
   }
-  if (correct) speak(d.opts[d.ans], _detectLangCode(d.opts[d.ans]) || 'fr-FR');
+  if (correct) {
+    speak(d.opts[d.ans], _detectLangCode(d.opts[d.ans]) || 'fr-FR');
+    addBonusXP(10);
+  }
 }
 
 /* Compat stubs */
@@ -9020,6 +9071,7 @@ function rateCard(rating) {
   s.due = Date.now() + s.interval * 24 * 3600 * 1000;
   data[card.fr] = s;
   saveSRSData(data);
+  addBonusXP(rating===2?5:rating===1?3:1);
   if (fcIndex < fcDeck.length - 1) {
     fcIndex++; fcFlipped = false; renderFlashcard();
   } else {
@@ -9235,7 +9287,15 @@ function renderSettings() {
   set('set-lbl-info', lang==='en'?'Information':lang==='zh'?'信息':'Informations');
   set('set-lbl-privacy', lang==='en'?'Privacy policy':lang==='zh'?'隐私政策':'Politique de confidentialité');
   set('set-lbl-about-desc', lang==='en'?'Learning French has never been easier.':lang==='zh'?'学法语从未如此简单。':'Apprendre le français n\'a jamais été aussi simple.');
-  set('set-ver', 'v1.3');
+  set('set-ver', 'v2.1');
+  // Daily goal
+  set('set-lbl-goal-title', lang==='en'?'Daily goal':lang==='zh'?'每日目标':'Objectif quotidien');
+  set('set-lbl-goal', lang==='en'?'XP per day':lang==='zh'?'每日XP':'XP par jour');
+  set('set-lbl-goal-sub', lang==='en'?'Choose your daily target':lang==='zh'?'选择每日目标':'Choisir ton objectif quotidien');
+  var dg = getDailyGoal();
+  [20,40,80].forEach(function(v){
+    var b=document.getElementById('goal-btn-'+v); if(b) b.classList.toggle('active',v===dg);
+  });
   set('set-lbl-notif', lang==='en'?'Notifications':lang==='zh'?'通知':'Notifications');
   set('set-lbl-notif-sub', lang==='en'?'Daily practice reminder':lang==='zh'?'每日练习提醒':'Rappel quotidien de pratiquer');
   initNotifications();
@@ -9324,12 +9384,74 @@ function validateCode() {
 }
 
 /* ══════════════════════════════════════
-   XP DISPLAY & CONFETTI
+   XP / LEVELS / DAILY GOAL / ENGAGEMENT
 ══════════════════════════════════════ */
+function getLevelInfo(xp) {
+  var levels = [
+    {min:0,    icon:'🌱', fr:'Débutant',      en:'Beginner',     zh:'初学者'},
+    {min:200,  icon:'📖', fr:'Apprenti',      en:'Apprentice',   zh:'学徒'},
+    {min:500,  icon:'⭐', fr:'Intermédiaire', en:'Intermediate', zh:'中级'},
+    {min:1000, icon:'🔥', fr:'Avancé',        en:'Advanced',     zh:'高级'},
+    {min:2000, icon:'🏆', fr:'Expert',        en:'Expert',       zh:'专家'},
+  ];
+  var idx = 0;
+  for (var i=levels.length-1;i>=0;i--) { if (xp>=levels[i].min) { idx=i; break; } }
+  var lvl = levels[idx];
+  var next = levels[idx+1] || null;
+  var label = lang==='en'?lvl.en:lang==='zh'?lvl.zh:lvl.fr;
+  var pct = next ? Math.min(100,Math.round((xp-lvl.min)/(next.min-lvl.min)*100)) : 100;
+  return {icon:lvl.icon, label:label, pct:pct, nextXP:next?next.min:null, idx:idx};
+}
+function getDailyGoal() { return parseInt(localStorage.getItem('ff_daily_goal')||'40',10); }
+function setDailyGoal(n) {
+  localStorage.setItem('ff_daily_goal', n);
+  [20,40,80].forEach(function(v){
+    var b=document.getElementById('goal-btn-'+v); if(b) b.classList.toggle('active',v===n);
+  });
+  if (typeof renderHome==='function' && currentTab==='home') renderHome();
+}
+function getDailyXP() {
+  var today=new Date().toISOString().slice(0,10);
+  try { var s=JSON.parse(localStorage.getItem('ff_daily_xp')||'{}'); return s.date===today?(s.xp||0):0; } catch(e){return 0;}
+}
+function _addDailyXP(amount) {
+  var today=new Date().toISOString().slice(0,10);
+  try {
+    var s=JSON.parse(localStorage.getItem('ff_daily_xp')||'{}');
+    var cur=s.date===today?(s.xp||0):0;
+    var nv=cur+amount; var goal=getDailyGoal();
+    localStorage.setItem('ff_daily_xp',JSON.stringify({date:today,xp:nv}));
+    if (cur<goal && nv>=goal) {
+      showStreakToast('🎯 '+(lang==='en'?'Daily goal reached!':lang==='zh'?'今日目标达成！':'Objectif du jour atteint !'));
+      try{launchConfetti();}catch(e){}
+    }
+  } catch(e) {}
+}
+function showXPFloat(amount) {
+  var el=document.createElement('div');
+  el.className='xp-float'; el.textContent='+'+amount+' XP';
+  el.style.top='55vh'; document.body.appendChild(el);
+  el.addEventListener('animationend',function(){el.remove();});
+}
+function addBonusXP(amount) {
+  var total=getBonusXP()+amount;
+  localStorage.setItem('ff_xp_bonus',total);
+  showXPFloat(amount);
+  _addDailyXP(amount);
+  updateXPDisplay();
+  if (typeof renderHome==='function' && currentTab==='home') renderHome();
+  // Level up check
+  var xp=getXP(); var lvl=getLevelInfo(xp); var prev=getLevelInfo(xp-amount);
+  if (lvl.idx > prev.idx) {
+    var lbl=lang==='en'?'Level up! '+lvl.icon+' '+lvl.label:lang==='zh'?'升级！'+lvl.icon+' '+lvl.label:'Niveau suivant ! '+lvl.icon+' '+lvl.label;
+    setTimeout(function(){showStreakToast('🎉 '+lbl);},600);
+  }
+}
 function updateXPDisplay() {
-  const xp = getXP();
-  const el = document.getElementById('xp-display');
-  if (el) el.textContent = '⚡ '+xp+' XP';
+  var xp = getXP();
+  var lvl = getLevelInfo(xp);
+  var el = document.getElementById('xp-display');
+  if (el) el.textContent = lvl.icon+' '+xp+' XP · '+lvl.label;
 }
 function launchConfetti() {
   const colors = ['#6366F1','#8B5CF6','#EC4899','#10B981','#F59E0B','#3B82F6'];
