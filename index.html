@@ -462,7 +462,7 @@
     .lesson-card:hover { transform:translateY(-3px) scale(1.008); box-shadow:0 10px 32px rgba(99,102,241,0.16); }
     .lesson-card:active { transform:scale(0.98); }
     nav button .nav-icon { transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1); display:inline-block; }
-    nav button.active .nav-icon { transform:scale(1.25) translateY(-3px); }
+    /* nav bounce now handled by navBounce keyframe */
     .quiz-option { transition:all 0.18s cubic-bezier(0.34,1.2,0.64,1); }
     .quiz-option:hover:not(:disabled) { transform:translateX(6px) scale(1.01); }
     .level-tag.beginner { box-shadow:0 0 10px rgba(16,185,129,0.4); }
@@ -706,6 +706,62 @@
     .badge-toast-name  { font-size:16px; font-weight:900; }
     .badge-toast-desc  { font-size:11px; opacity:0.75; margin-top:1px; }
     .badge-toast-stars { font-size:12px; letter-spacing:2px; margin-top:2px; }
+
+    /* ── HERO ANIMATED GRADIENT ── */
+    @keyframes heroGradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .hero-card {
+      background: linear-gradient(-45deg, #3730A3, #4F46E5, #7C3AED, #5B21B6, #4338CA, #6D28D9) !important;
+      background-size: 350% 350% !important;
+      animation: heroIn 0.55s cubic-bezier(0.34,1,0.64,1), heroGradientShift 9s ease infinite !important;
+    }
+    body.dark .hero-card {
+      background: linear-gradient(-45deg, #1E1B4B, #2D2B6B, #3B1F6B, #2E1065, #312e81, #4C1D95) !important;
+      background-size: 350% 350% !important;
+      animation: heroIn 0.55s cubic-bezier(0.34,1,0.64,1), heroGradientShift 9s ease infinite !important;
+    }
+
+    /* ── LESSON CARD EMOJI BG ── */
+    .lesson-card { position: relative; overflow: hidden; }
+    .lesson-card-emoji-bg {
+      position: absolute;
+      right: -4px;
+      bottom: -10px;
+      font-size: 78px;
+      line-height: 1;
+      opacity: 0.07;
+      pointer-events: none;
+      user-select: none;
+      transform: rotate(-8deg);
+      transition: opacity 0.2s, transform 0.3s;
+    }
+    .lesson-card:hover .lesson-card-emoji-bg { opacity: 0.13; transform: rotate(-4deg) scale(1.08); }
+
+    /* ── BOTTOM NAV PILL ── */
+    @keyframes navBounce {
+      0%   { transform: scale(1)    translateY(0); }
+      30%  { transform: scale(1.45) translateY(-6px); }
+      60%  { transform: scale(1.1)  translateY(-2px); }
+      80%  { transform: scale(1.3)  translateY(-4px); }
+      100% { transform: scale(1.25) translateY(-3px); }
+    }
+    nav button { position: relative; border-top: 3px solid transparent !important; }
+    nav button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 26px; height: 3px;
+      background: var(--indigo);
+      border-radius: 0 0 6px 6px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    nav button.active { border-top-color: transparent !important; }
+    nav button.active::before { transform: translateX(-50%) scaleX(1); }
+    nav button.active .nav-icon { animation: navBounce 0.42s cubic-bezier(0.34,1.56,0.64,1) forwards; }
   </style>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -8173,6 +8229,7 @@ function lessonCardHTML(l, pct) {
   const emojiMatch = rawC && rawC.match(/^<h2>(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[\u2600-\u27BF])/u);
   const cardEmoji = emojiMatch ? emojiMatch[1] : '';
   return `<div class="card lesson-card lv-${l.level}${isPrem?' locked':''}" onclick="openLesson(${l.id})">
+    ${cardEmoji ? `<span class="lesson-card-emoji-bg" aria-hidden="true">${cardEmoji}</span>` : ''}
     <div class="card-header">
       <span class="level-tag ${l.level}">${lvlLabel}</span>
       ${s.completed?'<span class="done-icon">✅</span>':isPrem?'<span class="done-icon">🔒</span>':''}
