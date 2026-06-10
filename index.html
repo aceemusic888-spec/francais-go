@@ -219,7 +219,8 @@
     .quiz-option.wrong .opt-letter { background: var(--red); color: white; }
     .quiz-option:disabled { cursor: default; transform: none !important; }
     /* Vocabulary tab */
-    #tab-vocab { padding: 16px 16px 90px; }
+    #tab-vocab { display: none; padding: 16px 16px 90px; }
+    #tab-vocab.active { display: block; }
     .vocab-search-wrap { position: relative; margin-bottom: 14px; }
     .vocab-search { width: 100%; padding: 12px 16px 12px 42px; border: 2px solid var(--border); border-radius: 14px; background: var(--card); color: var(--text); font-size: 15px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
     .vocab-search:focus { border-color: var(--indigo); }
@@ -8087,6 +8088,10 @@ function setLang(l) {
 ══════════════════════════════════════ */
 function showTab(tab) {
   currentTab = tab;
+  // Reset scroll position to top
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   var vqv = document.getElementById('vocab-quiz-view');
   if (vqv) vqv.classList.remove('active');
   ['home','lessons','progress','flashcards','settings','vocab'].forEach(id => {
