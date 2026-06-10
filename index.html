@@ -9025,9 +9025,13 @@ function toggleAuthMode() {
 }
 function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  closeAuthModal();
-  window._fbAuth.signInWithRedirect(provider)
-    .catch(err => { const e = document.getElementById('auth-error'); if(e) e.textContent = err.message; });
+  window._fbAuth.signInWithPopup(provider)
+    .then(() => closeAuthModal())
+    .catch(err => {
+      const e = document.getElementById('auth-error');
+      if(e) e.textContent = '[' + err.code + '] ' + err.message;
+      openAuthModal();
+    });
 }
 function submitEmailAuth() {
   const email = document.getElementById('auth-email').value.trim();
