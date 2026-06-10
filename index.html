@@ -7363,30 +7363,52 @@ function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*
 /* ══════════════════════════════════════
    TTS
 ══════════════════════════════════════ */
-function speak(text) {
-  if (!window.speechSynthesis) return;
+/* ── TTS helpers ────────────────────── */
+var _cachedVoices = [];
+function _getVoices(cb) {
+  var v = window.speechSynthesis.getVoices();
+  if (v.length > 0) { _cachedVoices = v; cb(v); return; }
+  if (_cachedVoices.length > 0) { cb(_cachedVoices); return; }
+  window.speechSynthesis.onvoiceschanged = function() {
+    _cachedVoices = window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = null;
+    cb(_cachedVoices);
+  };
+  setTimeout(function(){ cb(window.speechSynthesis.getVoices()); }, 600);
+}
+function _pickVoice(voices, langCode) {
+  // exact match first, then prefix match, then any match
+  return voices.find(function(v){ return v.lang === langCode; }) ||
+         voices.find(function(v){ return v.lang.startsWith(langCode.split('-')[0]); }) ||
+         null;
+}
+function _detectLangCode(text) {
+  if (/[\u4e00-\u9fa5]/.test(text)) return 'zh-CN';
+  if (/[éèêëàâùûîïôçœæ]/i.test(text)) return 'fr-FR';
+  return null; // caller decides
+}
+function speak(text, forceLang) {
+  if (!window.speechSynthesis || !text) return;
   window.speechSynthesis.cancel();
-  function doSpeak() {
+  var langCode = forceLang || _detectLangCode(text) || 'fr-FR';
+  _getVoices(function(voices) {
     var u = new SpeechSynthesisUtterance(text);
-    u.lang  = 'fr-FR';
-    u.rate  = 0.88;
+    u.lang  = langCode;
+    u.rate  = langCode.startsWith('zh') ? 0.85 : 0.88;
     u.pitch = 1;
-    var voices = window.speechSynthesis.getVoices();
-    var frVoice = voices.find(function(v){ return v.lang === 'fr-FR'; }) ||
-                  voices.find(function(v){ return v.lang.startsWith('fr'); });
-    if (frVoice) u.voice = frVoice;
+    var voice = _pickVoice(voices, langCode);
+    if (voice) u.voice = voice;
     window.speechSynthesis.speak(u);
-  }
-  var voices = window.speechSynthesis.getVoices();
-  if (voices.length > 0) {
-    doSpeak();
-  } else {
-    window.speechSynthesis.onvoiceschanged = function() {
-      window.speechSynthesis.onvoiceschanged = null;
-      doSpeak();
-    };
-    setTimeout(doSpeak, 500);
-  }
+  });
+}
+function speakQuestion() {
+  var el = document.getElementById('q-text') || document.getElementById('q-text3');
+  if (!el) return;
+  var text = '';
+  el.childNodes.forEach(function(n){ if (n.nodeType===3) text += n.textContent; });
+  text = text.trim();
+  var langCode = lang === 'en' ? 'en-US' : lang === 'zh' ? 'zh-CN' : 'fr-FR';
+  speak(text, langCode);
 }
 function speakCurrentCard() {
   const card = fcDeck[fcIndex];
@@ -7766,7 +7788,7 @@ function renderQuestion() {
   }
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
   const qTextEl = document.getElementById('q-text');
-  if (qTextEl) { qTextEl.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speak(this.parentElement.textContent.slice(0,-1).trim())" title="Écouter">🔊</button>'; }
+  if (qTextEl) { qTextEl.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>'; }
   const fb = document.getElementById('q-feedback');
   if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
@@ -7813,7 +7835,7 @@ function selectAnswer(i) {
     nextBtn.classList.add('show');
     nextBtn.textContent = quizIndex < rawQuiz.length-1 ? t('next') : t('seeResults');
   }
-  if (correct) speak(q.opts[q.ans]);
+  if (correct) speak(q.opts[q.ans], _detectLangCode(q.opts[q.ans]) || 'fr-FR');
 }
 function nextQuestion() {
   const l = currentLesson;
@@ -7919,7 +7941,7 @@ function renderQuestionFromList(quizList) {
   }
   setText('q-num', t('question')+' '+(quizIndex+1)+' '+t('of')+' '+total);
   const qTextEl3 = document.getElementById('q-text');
-  if (qTextEl3) { qTextEl3.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speak(this.parentElement.textContent.slice(0,-1).trim())" title="Écouter">🔊</button>'; }
+  if (qTextEl3) { qTextEl3.innerHTML = qText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' <button class="quiz-speak-btn" onclick="speakQuestion()" title="Écouter">🔊</button>'; }
   const fb = document.getElementById('q-feedback');
   if (fb) { fb.innerHTML=''; fb.className='feedback-box'; }
   const nextBtn = document.getElementById('next-btn');
@@ -7973,7 +7995,7 @@ function selectAnswerWrong(i) {
       }
     };
   }
-  if (correct) speak(q.opts[q.ans]);
+  if (correct) speak(q.opts[q.ans], _detectLangCode(q.opts[q.ans]) || 'fr-FR');
 }
 
 function _getShareText() {
