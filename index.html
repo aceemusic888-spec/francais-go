@@ -652,6 +652,10 @@
     .badge-toast-desc  { font-size:11px; opacity:0.75; margin-top:1px; }
     .badge-toast-stars { font-size:12px; letter-spacing:2px; margin-top:2px; }
   </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -929,6 +933,41 @@
 
   <!-- SETTINGS -->
   <div id="tab-settings" class="section">
+
+    <!-- Compte -->
+    <div class="settings-group">
+      <div class="settings-group-title">Compte</div>
+      <div id="account-logged-out" class="settings-row" onclick="openAuthModal()" style="cursor:pointer;">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">👤</span>
+          <div>
+            <div class="settings-row-label">Se connecter</div>
+            <div class="settings-row-sub">Sauvegarder ta progression</div>
+          </div>
+        </div>
+        <span class="settings-chevron">›</span>
+      </div>
+      <div id="account-logged-in" style="display:none;">
+        <div class="settings-row">
+          <div class="settings-row-left">
+            <img id="account-avatar" src="" style="width:38px;height:38px;border-radius:50%;object-fit:cover;display:none;margin-right:4px;" />
+            <span id="account-avatar-ph" class="settings-row-icon">👤</span>
+            <div>
+              <div class="settings-row-label" id="account-name">Utilisateur</div>
+              <div class="settings-row-sub" id="account-email-lbl"></div>
+            </div>
+          </div>
+          <div id="sync-indicator" style="font-size:11px;color:#10B981;font-weight:700;white-space:nowrap;">✓ Sync</div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row" onclick="signOutUser()" style="cursor:pointer;">
+          <div class="settings-row-left">
+            <span class="settings-row-icon">🚪</span>
+            <span class="settings-row-label" style="color:#EF4444;">Se déconnecter</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Langue -->
     <div class="settings-group">
@@ -7314,7 +7353,7 @@ let obSlide  = 0;
 function t(key) {
   return (T[lang] && T[lang][key] !== undefined) ? T[lang][key] : (T.fr[key] || key);
 }
-function saveState() { localStorage.setItem('ff_state', JSON.stringify(state)); }
+function saveState() { localStorage.setItem('ff_state', JSON.stringify(state)); scheduleCloudSync(); }
 function getXP() { return Object.values(state).reduce((s,v) => s + (v.score||0)*10, 0); }
 
 /* ══════════════════════════════════════
@@ -7366,6 +7405,7 @@ function updateStreak() {
   if (streak > maxStr) { maxStr = streak; localStorage.setItem('ff_streak_max', maxStr); }
   localStorage.setItem('ff_streak', streak);
   localStorage.setItem('ff_last_active', today);
+  scheduleCloudSync();
   if (streak > 1) showStreakToast(streak);
   return streak;
 }
@@ -8425,6 +8465,7 @@ function getEarnedBadges() {
 }
 function saveEarnedBadges(arr) {
   localStorage.setItem('ff_badges', JSON.stringify(arr));
+  scheduleCloudSync();
 }
 
 function getBadgeConditions() {
@@ -8819,5 +8860,197 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+
+/* ══════════════════════════════════════
+   FIREBASE AUTH & CLOUD SYNC
+══════════════════════════════════════ */
+(function() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGQMrwcY0L9nxXqJL8fB0PWDZGOz-DiMg",
+    authDomain: "frenchgo.firebaseapp.com",
+    projectId: "frenchgo",
+    storageBucket: "frenchgo.firebasestorage.app",
+    messagingSenderId: "798535705126",
+    appId: "1:798535705126:web:fdf97a6f0c4b80379efce7"
+  };
+  try { firebase.initializeApp(firebaseConfig); } catch(e) {}
+  window._fbAuth = firebase.auth();
+  window._fbDb  = firebase.firestore();
+})();
+
+let _syncTimeout = null;
+let _authMode = 'login';
+
+function scheduleCloudSync() {
+  if (!window._fbAuth || !window._fbAuth.currentUser) return;
+  clearTimeout(_syncTimeout);
+  _syncTimeout = setTimeout(saveToCloud, 2500);
+}
+
+function saveToCloud() {
+  const user = window._fbAuth && window._fbAuth.currentUser;
+  if (!user) return;
+  const data = {
+    state: JSON.parse(localStorage.getItem('ff_state') || '{}'),
+    streak: parseInt(localStorage.getItem('ff_streak') || '0'),
+    streakMax: parseInt(localStorage.getItem('ff_streak_max') || '0'),
+    lastActive: localStorage.getItem('ff_last_active') || '',
+    badges: JSON.parse(localStorage.getItem('ff_badges') || '[]'),
+    unlocked: localStorage.getItem('ff_unlocked') === '1',
+    lang: lang || 'fr',
+    goal: localStorage.getItem('ff_goal') || '',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  window._fbDb.collection('users').doc(user.uid).set(data, { merge: true })
+    .then(() => setSyncIndicator(true))
+    .catch(() => setSyncIndicator(false));
+}
+
+function loadFromCloud(uid) {
+  window._fbDb.collection('users').doc(uid).get().then(doc => {
+    if (!doc.exists) { saveToCloud(); return; }
+    const d = doc.data();
+    // Merge state: take best score per lesson
+    const localState = JSON.parse(localStorage.getItem('ff_state') || '{}');
+    const cloudState = d.state || {};
+    const merged = { ...localState };
+    Object.keys(cloudState).forEach(k => {
+      if (!merged[k] || (cloudState[k].score||0) > (merged[k].score||0)) merged[k] = cloudState[k];
+    });
+    localStorage.setItem('ff_state', JSON.stringify(merged));
+    state = merged;
+    // Streak: take max
+    const ls = parseInt(localStorage.getItem('ff_streak') || '0');
+    if ((d.streak||0) > ls) localStorage.setItem('ff_streak', d.streak);
+    if (d.streakMax) localStorage.setItem('ff_streak_max', d.streakMax);
+    if (d.lastActive) localStorage.setItem('ff_last_active', d.lastActive);
+    // Badges: union
+    const lb = JSON.parse(localStorage.getItem('ff_badges') || '[]');
+    const cb = d.badges || [];
+    localStorage.setItem('ff_badges', JSON.stringify([...new Set([...lb, ...cb])]));
+    if (d.unlocked) localStorage.setItem('ff_unlocked', '1');
+    if (d.lang) { lang = d.lang; localStorage.setItem('ff_lang', d.lang); }
+    if (d.goal) localStorage.setItem('ff_goal', d.goal);
+    updateXPDisplay();
+    updateLangBtn();
+    renderCurrentView();
+    setSyncIndicator(true);
+  });
+}
+
+function setSyncIndicator(ok) {
+  const el = document.getElementById('sync-indicator');
+  if (el) { el.textContent = ok ? '✓ Sync' : '⚠ Erreur'; el.style.color = ok ? '#10B981' : '#EF4444'; }
+}
+
+window._fbAuth.onAuthStateChanged(user => {
+  updateAuthUI(user);
+  if (user) loadFromCloud(user.uid);
+});
+
+function updateAuthUI(user) {
+  const out = document.getElementById('account-logged-out');
+  const inn = document.getElementById('account-logged-in');
+  if (!out || !inn) return;
+  if (user) {
+    out.style.display = 'none'; inn.style.display = '';
+    const nameEl = document.getElementById('account-name');
+    const emailEl = document.getElementById('account-email-lbl');
+    const avatarEl = document.getElementById('account-avatar');
+    const avatarPh = document.getElementById('account-avatar-ph');
+    if (nameEl) nameEl.textContent = user.displayName || user.email.split('@')[0];
+    if (emailEl) emailEl.textContent = user.email;
+    if (user.photoURL && avatarEl) {
+      avatarEl.src = user.photoURL; avatarEl.style.display = '';
+      if (avatarPh) avatarPh.style.display = 'none';
+    }
+  } else {
+    out.style.display = ''; inn.style.display = 'none';
+  }
+}
+
+function openAuthModal() {
+  const m = document.getElementById('auth-modal');
+  if (m) { m.style.display = 'flex'; _authMode = 'login'; updateAuthModalLabels(); }
+}
+function closeAuthModal() {
+  const m = document.getElementById('auth-modal');
+  if (m) m.style.display = 'none';
+  const err = document.getElementById('auth-error');
+  if (err) err.textContent = '';
+}
+function updateAuthModalLabels() {
+  const title = document.getElementById('auth-title');
+  const submit = document.getElementById('auth-submit-btn');
+  const toggle = document.getElementById('auth-toggle-btn');
+  if (_authMode === 'login') {
+    if (title) title.textContent = 'Se connecter';
+    if (submit) submit.textContent = 'Se connecter';
+    if (toggle) toggle.textContent = "Pas de compte ? S'inscrire";
+  } else {
+    if (title) title.textContent = "S'inscrire";
+    if (submit) submit.textContent = "Créer un compte";
+    if (toggle) toggle.textContent = "Déjà un compte ? Se connecter";
+  }
+}
+function toggleAuthMode() {
+  _authMode = _authMode === 'login' ? 'register' : 'login';
+  updateAuthModalLabels();
+  const err = document.getElementById('auth-error');
+  if (err) err.textContent = '';
+}
+function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  window._fbAuth.signInWithPopup(provider)
+    .then(() => closeAuthModal())
+    .catch(err => { const e = document.getElementById('auth-error'); if(e) e.textContent = err.message; });
+}
+function submitEmailAuth() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pwd = document.getElementById('auth-password').value;
+  const errEl = document.getElementById('auth-error');
+  if (!email || !pwd) { if(errEl) errEl.textContent = 'Remplis tous les champs.'; return; }
+  const fn = _authMode === 'register'
+    ? window._fbAuth.createUserWithEmailAndPassword.bind(window._fbAuth)
+    : window._fbAuth.signInWithEmailAndPassword.bind(window._fbAuth);
+  fn(email, pwd)
+    .then(() => closeAuthModal())
+    .catch(err => {
+      const msgs = {
+        'auth/email-already-in-use': 'Email déjà utilisé.',
+        'auth/weak-password': 'Mot de passe trop court (6 car. min).',
+        'auth/user-not-found': 'Compte introuvable.',
+        'auth/wrong-password': 'Mot de passe incorrect.',
+        'auth/invalid-email': 'Email invalide.'
+      };
+      if (errEl) errEl.textContent = msgs[err.code] || err.message;
+    });
+}
+function signOutUser() {
+  window._fbAuth.signOut().then(() => updateAuthUI(null));
+}
+
+<!-- AUTH MODAL -->
+<div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeAuthModal()">
+  <div style="background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;animation:slideUp 0.3s ease;">
+    <div style="text-align:center;margin-bottom:22px;">
+      <div style="font-size:36px">🦊</div>
+      <div id="auth-title" style="font-size:20px;font-weight:900;margin-top:8px;color:var(--text);">Se connecter</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;">Sauvegarde ta progression sur tous tes appareils</div>
+    </div>
+    <button onclick="signInWithGoogle()" style="width:100%;padding:14px;border:2px solid var(--border);border-radius:14px;background:white;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;color:#1a1a2e;">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continuer avec Google
+    </button>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:12px;color:var(--muted)">ou</span><div style="flex:1;height:1px;background:var(--border)"></div></div>
+    <input id="auth-email" type="email" placeholder="Email" style="width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;margin-bottom:10px;background:var(--bg);color:var(--text);box-sizing:border-box;outline:none;" />
+    <input id="auth-password" type="password" placeholder="Mot de passe" style="width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;margin-bottom:6px;background:var(--bg);color:var(--text);box-sizing:border-box;outline:none;" />
+    <div id="auth-error" style="font-size:12px;color:#EF4444;margin-bottom:10px;min-height:16px;padding:0 2px;"></div>
+    <button id="auth-submit-btn" onclick="submitEmailAuth()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px;">Se connecter</button>
+    <button onclick="toggleAuthMode()" id="auth-toggle-btn" style="width:100%;padding:10px;background:none;border:none;font-size:13px;color:var(--indigo);cursor:pointer;font-weight:600;">Pas de compte ? S'inscrire</button>
+    <button onclick="closeAuthModal()" style="display:block;margin:6px auto 0;background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;">Fermer</button>
+  </div>
+</div>
 </body>
 </html>
