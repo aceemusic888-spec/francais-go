@@ -218,6 +218,30 @@
     .quiz-option.wrong { border-color: var(--red); background: #FFF1F2; color: #B91C1C; }
     .quiz-option.wrong .opt-letter { background: var(--red); color: white; }
     .quiz-option:disabled { cursor: default; transform: none !important; }
+    /* Vocabulary tab */
+    #tab-vocab { padding: 16px 16px 90px; }
+    .vocab-search-wrap { position: relative; margin-bottom: 14px; }
+    .vocab-search { width: 100%; padding: 12px 16px 12px 42px; border: 2px solid var(--border); border-radius: 14px; background: var(--card); color: var(--text); font-size: 15px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
+    .vocab-search:focus { border-color: var(--indigo); }
+    .vocab-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 17px; pointer-events: none; }
+    .vocab-themes { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 14px; }
+    .vocab-themes::-webkit-scrollbar { display: none; }
+    .vocab-chip { flex-shrink: 0; padding: 7px 14px; border-radius: 99px; border: 2px solid var(--border); background: var(--card); font-size: 12px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
+    .vocab-chip.active { background: var(--indigo); border-color: var(--indigo); color: white; }
+    .vocab-count { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+    .vocab-list-inner { display: flex; flex-direction: column; gap: 10px; }
+    .vocab-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 14px 16px; transition: all 0.15s; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .vocab-card:hover { border-color: var(--indigo); transform: translateY(-1px); }
+    .vocab-card-top { display: flex; align-items: center; gap: 10px; }
+    .vocab-fr { font-size: 18px; font-weight: 800; color: var(--text); flex: 1; }
+    .vocab-pos { font-size: 10px; font-weight: 700; color: white; background: var(--indigo); padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
+    .vocab-speak { background: none; border: none; font-size: 18px; cursor: pointer; opacity: 0.6; padding: 2px 4px; transition: opacity 0.15s, transform 0.15s; flex-shrink: 0; }
+    .vocab-speak:hover { opacity: 1; transform: scale(1.2); }
+    .vocab-trans { font-size: 14px; font-weight: 600; color: var(--muted); margin-top: 4px; }
+    .vocab-ex { font-size: 12.5px; color: var(--muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-style: italic; line-height: 1.5; }
+    .vocab-ex-trans { font-size: 12px; color: var(--muted); opacity: 0.8; margin-top: 2px; }
+    .vocab-empty { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 15px; }
+    body.dark .vocab-search { background: #1E1E38; border-color: #2D3748; }
     /* Duolingo-style exercise variations */
     .quiz-options.bubbles-mode { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .quiz-options.bubbles-mode .quiz-option { flex: 0 1 auto; padding: 10px 20px; border-radius: 99px; font-size: 15px; font-weight: 700; min-width: 80px; justify-content: center; }
@@ -784,6 +808,7 @@
   <button id="nav-lessons" onclick="showTab('lessons')"><span class="nav-icon">📚</span><span class="nav-label" id="nav-lbl-lessons">Leçons</span></button>
   <button id="nav-progress" onclick="showTab('progress')"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
   <button id="nav-flashcards" onclick="showTab('flashcards')"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
+  <button id="nav-vocab" onclick="showTab('vocab')"><span class="nav-icon">📖</span><span class="nav-label" id="nav-lbl-vocab">Vocab</span></button>
   <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
 </nav>
 
@@ -1108,6 +1133,17 @@
     </div>
   </div>
 </main>
+
+<!-- VOCABULARY -->
+  <div id="tab-vocab">
+    <div class="vocab-search-wrap">
+      <span class="vocab-search-icon">🔍</span>
+      <input type="text" class="vocab-search" id="vocab-search" oninput="renderVocab()" placeholder="Rechercher un mot...">
+    </div>
+    <div class="vocab-themes" id="vocab-theme-tabs"></div>
+    <div class="vocab-count" id="vocab-count"></div>
+    <div class="vocab-list-inner" id="vocab-list"></div>
+  </div>
 
 <!-- PAYWALL MODAL -->
 <div class="modal-overlay" id="paywall-modal" onclick="closePaywallOnBg(event)">
@@ -7347,6 +7383,204 @@ let currentTab = 'home';
 let currentLesson = null;
 let currentLessonPageIdx = 0;
 let lessonPages = [];
+/* ══════════════════════════════════════
+   VOCABULARY
+══════════════════════════════════════ */
+const VOCAB_THEMES = [
+  {id:'all',          fr:'Tout',        en:'All',         zh:'全部',    icon:'🌟'},
+  {id:'salutations',  fr:'Salutations', en:'Greetings',   zh:'问候',    icon:'👋'},
+  {id:'chiffres',     fr:'Chiffres',    en:'Numbers',     zh:'数字',    icon:'🔢'},
+  {id:'couleurs',     fr:'Couleurs',    en:'Colors',      zh:'颜色',    icon:'🎨'},
+  {id:'famille',      fr:'Famille',     en:'Family',      zh:'家庭',    icon:'👨‍👩‍👧'},
+  {id:'nourriture',   fr:'Nourriture',  en:'Food',        zh:'食物',    icon:'🍽️'},
+  {id:'corps',        fr:'Corps',       en:'Body',        zh:'身体',    icon:'🧍'},
+  {id:'maison',       fr:'Maison',      en:'Home',        zh:'家',      icon:'🏠'},
+  {id:'vetements',    fr:'Vêtements',   en:'Clothes',     zh:'衣服',    icon:'👕'},
+  {id:'verbes',       fr:'Verbes',      en:'Verbs',       zh:'动词',    icon:'⚡'},
+  {id:'adjectifs',    fr:'Adjectifs',   en:'Adjectives',  zh:'形容词',  icon:'✨'},
+  {id:'voyage',       fr:'Voyage',      en:'Travel',      zh:'旅行',    icon:'✈️'},
+  {id:'animaux',      fr:'Animaux',     en:'Animals',     zh:'动物',    icon:'🐾'},
+];
+const VOCAB = [
+  {fr:'Bonjour',         en:'Hello / Good morning', zh:'你好 / 早上好', pos:'excl.', theme:'salutations', ex:"Bonjour, comment allez-vous ?",         ex_en:"Hello, how are you?"},
+  {fr:'Bonsoir',         en:'Good evening',          zh:'晚上好',        pos:'excl.', theme:'salutations', ex:"Bonsoir, bienvenue !",                  ex_en:"Good evening, welcome!"},
+  {fr:'Bonne nuit',      en:'Good night',            zh:'晚安',          pos:'excl.', theme:'salutations', ex:"Bonne nuit, dormez bien !",             ex_en:"Good night, sleep well!"},
+  {fr:'Au revoir',       en:'Goodbye',               zh:'再见',          pos:'excl.', theme:'salutations', ex:"Au revoir, à demain !",                 ex_en:"Goodbye, see you tomorrow!"},
+  {fr:'Merci',           en:'Thank you',             zh:'谢谢',          pos:'excl.', theme:'salutations', ex:"Merci beaucoup pour votre aide.",        ex_en:"Thank you very much for your help."},
+  {fr:"S'il vous plaît", en:'Please',                zh:'请',            pos:'excl.', theme:'salutations', ex:"Un café, s'il vous plaît.",             ex_en:"A coffee, please."},
+  {fr:'De rien',         en:"You're welcome",        zh:'不客气',        pos:'excl.', theme:'salutations', ex:"Merci ! — De rien.",                    ex_en:"Thank you! — You're welcome."},
+  {fr:'Excusez-moi',     en:'Excuse me',             zh:'打扰一下',      pos:'excl.', theme:'salutations', ex:"Excusez-moi, où est la gare ?",         ex_en:"Excuse me, where is the station?"},
+  {fr:'Comment ça va ?', en:'How are you?',          zh:'你好吗？',      pos:'expr.', theme:'salutations', ex:"Bonjour ! Comment ça va ?",             ex_en:"Hello! How are you?"},
+  {fr:'Oui / Non',       en:'Yes / No',              zh:'是 / 否',       pos:'adv.',  theme:'salutations', ex:"Oui, je comprends. Non, merci.",        ex_en:"Yes, I understand. No, thank you."},
+  {fr:'zéro',            en:'zero',          zh:'零',    pos:'n.', theme:'chiffres', ex:"Il y a zéro problème.",          ex_en:"There is zero problem."},
+  {fr:'un / une',        en:'one',           zh:'一',    pos:'n.', theme:'chiffres', ex:"J'ai un frère et une sœur.",    ex_en:"I have one brother and one sister."},
+  {fr:'deux',            en:'two',           zh:'二',    pos:'n.', theme:'chiffres', ex:"Il y a deux chats ici.",         ex_en:"There are two cats here."},
+  {fr:'cinq',            en:'five',          zh:'五',    pos:'n.', theme:'chiffres', ex:"J'ai cinq livres.",             ex_en:"I have five books."},
+  {fr:'dix',             en:'ten',           zh:'十',    pos:'n.', theme:'chiffres', ex:"Il est dix heures.",             ex_en:"It is ten o'clock."},
+  {fr:'vingt',           en:'twenty',        zh:'二十',  pos:'n.', theme:'chiffres', ex:"J'ai vingt ans.",               ex_en:"I am twenty years old."},
+  {fr:'cent',            en:'one hundred',   zh:'一百',  pos:'n.', theme:'chiffres', ex:"Ça coûte cent euros.",           ex_en:"It costs one hundred euros."},
+  {fr:'mille',           en:'one thousand',  zh:'一千',  pos:'n.', theme:'chiffres', ex:"Il y a mille raisons.",          ex_en:"There are a thousand reasons."},
+  {fr:'premier / première',en:'first',       zh:'第一',  pos:'adj.',theme:'chiffres', ex:"C'est la première fois.",       ex_en:"It's the first time."},
+  {fr:'rouge',           en:'red',           zh:'红色',  pos:'adj.', theme:'couleurs', ex:"La rose est rouge.",            ex_en:"The rose is red."},
+  {fr:'bleu(e)',          en:'blue',          zh:'蓝色',  pos:'adj.', theme:'couleurs', ex:"Le ciel est bleu.",             ex_en:"The sky is blue."},
+  {fr:'vert(e)',          en:'green',         zh:'绿色',  pos:'adj.', theme:'couleurs', ex:"L'herbe est verte.",            ex_en:"The grass is green."},
+  {fr:'jaune',            en:'yellow',        zh:'黄色',  pos:'adj.', theme:'couleurs', ex:"Le soleil est jaune.",          ex_en:"The sun is yellow."},
+  {fr:'noir(e)',          en:'black',         zh:'黑色',  pos:'adj.', theme:'couleurs', ex:"Il porte un manteau noir.",     ex_en:"He wears a black coat."},
+  {fr:'blanc(he)',        en:'white',         zh:'白色',  pos:'adj.', theme:'couleurs', ex:"La neige est blanche.",         ex_en:"The snow is white."},
+  {fr:'rose',             en:'pink',          zh:'粉红色', pos:'adj.', theme:'couleurs', ex:"Elle aime la couleur rose.",   ex_en:"She likes the color pink."},
+  {fr:'orange',           en:'orange',        zh:'橙色',  pos:'adj.', theme:'couleurs', ex:"Le coucher de soleil est orange.",ex_en:"The sunset is orange."},
+  {fr:'violet(te)',       en:'purple',        zh:'紫色',  pos:'adj.', theme:'couleurs', ex:"Le raisin est violet.",         ex_en:"The grape is purple."},
+  {fr:'gris(e)',          en:'grey',          zh:'灰色',  pos:'adj.', theme:'couleurs', ex:"Le ciel est gris aujourd'hui.", ex_en:"The sky is grey today."},
+  {fr:'la famille',      en:'the family',     zh:'家庭',  pos:'n.', theme:'famille', ex:"Ma famille est grande.",          ex_en:"My family is big."},
+  {fr:'le père',         en:'the father',     zh:'父亲',  pos:'n.', theme:'famille', ex:"Mon père s'appelle Paul.",        ex_en:"My father's name is Paul."},
+  {fr:'la mère',         en:'the mother',     zh:'母亲',  pos:'n.', theme:'famille', ex:"Ma mère est médecin.",            ex_en:"My mother is a doctor."},
+  {fr:'le frère',        en:'the brother',    zh:'兄弟',  pos:'n.', theme:'famille', ex:"J'ai un frère plus jeune.",      ex_en:"I have a younger brother."},
+  {fr:'la sœur',         en:'the sister',     zh:'姐妹',  pos:'n.', theme:'famille', ex:"Ma sœur habite à Paris.",        ex_en:"My sister lives in Paris."},
+  {fr:'le fils',         en:'the son',        zh:'儿子',  pos:'n.', theme:'famille', ex:"Leur fils a cinq ans.",           ex_en:"Their son is five years old."},
+  {fr:'la fille',        en:'the daughter',   zh:'女儿',  pos:'n.', theme:'famille', ex:"Sa fille est étudiante.",         ex_en:"His daughter is a student."},
+  {fr:'le mari',         en:'the husband',    zh:'丈夫',  pos:'n.', theme:'famille', ex:"Son mari est très gentil.",       ex_en:"Her husband is very kind."},
+  {fr:'la femme',        en:'the wife/woman', zh:'妻子',  pos:'n.', theme:'famille', ex:"Sa femme est architecte.",        ex_en:"His wife is an architect."},
+  {fr:'les grands-parents',en:'the grandparents',zh:'祖父母',pos:'n.',theme:'famille',ex:"Mes grands-parents habitent à Lyon.",ex_en:"My grandparents live in Lyon."},
+  {fr:'le pain',         en:'the bread',      zh:'面包',   pos:'n.', theme:'nourriture', ex:"Je mange du pain tous les jours.",     ex_en:"I eat bread every day."},
+  {fr:'le fromage',      en:'the cheese',     zh:'奶酪',   pos:'n.', theme:'nourriture', ex:"La France est célèbre pour ses fromages.",ex_en:"France is famous for its cheeses."},
+  {fr:'le vin',          en:'the wine',       zh:'葡萄酒', pos:'n.', theme:'nourriture', ex:"Ce vin rouge est délicieux.",           ex_en:"This red wine is delicious."},
+  {fr:"l'eau",           en:'the water',      zh:'水',     pos:'n.', theme:'nourriture', ex:"Je voudrais un verre d'eau.",           ex_en:"I would like a glass of water."},
+  {fr:'le café',         en:'the coffee',     zh:'咖啡',   pos:'n.', theme:'nourriture', ex:"Je prends un café le matin.",           ex_en:"I have a coffee in the morning."},
+  {fr:'la pomme',        en:'the apple',      zh:'苹果',   pos:'n.', theme:'nourriture', ex:"Une pomme par jour éloigne le médecin.",ex_en:"An apple a day keeps the doctor away."},
+  {fr:'le poulet',       en:'the chicken',    zh:'鸡肉',   pos:'n.', theme:'nourriture', ex:"Je prépare du poulet rôti.",            ex_en:"I am preparing roast chicken."},
+  {fr:'la salade',       en:'the salad',      zh:'沙拉',   pos:'n.', theme:'nourriture', ex:"Je mange une salade pour le déjeuner.",ex_en:"I eat a salad for lunch."},
+  {fr:'le gâteau',       en:'the cake',       zh:'蛋糕',   pos:'n.', theme:'nourriture', ex:"Elle prépare un gâteau au chocolat.",   ex_en:"She is making a chocolate cake."},
+  {fr:'le restaurant',   en:'the restaurant', zh:'餐厅',   pos:'n.', theme:'nourriture', ex:"Allons au restaurant ce soir.",         ex_en:"Let's go to the restaurant tonight."},
+  {fr:'la tête',         en:'the head',   zh:'头',   pos:'n.', theme:'corps', ex:"J'ai mal à la tête.",              ex_en:"I have a headache."},
+  {fr:'les yeux',        en:'the eyes',   zh:'眼睛', pos:'n.', theme:'corps', ex:"Elle a les yeux bleus.",            ex_en:"She has blue eyes."},
+  {fr:'le nez',          en:'the nose',   zh:'鼻子', pos:'n.', theme:'corps', ex:"Mon nez est rouge en hiver.",      ex_en:"My nose is red in winter."},
+  {fr:'la bouche',       en:'the mouth',  zh:'嘴巴', pos:'n.', theme:'corps', ex:"Ouvre la bouche, s'il vous plaît.",ex_en:"Open your mouth, please."},
+  {fr:'les mains',       en:'the hands',  zh:'手',   pos:'n.', theme:'corps', ex:"Lavez-vous les mains avant de manger.",ex_en:"Wash your hands before eating."},
+  {fr:'les pieds',       en:'the feet',   zh:'脚',   pos:'n.', theme:'corps', ex:"J'ai mal aux pieds.",              ex_en:"My feet hurt."},
+  {fr:'le dos',          en:'the back',   zh:'背部', pos:'n.', theme:'corps', ex:"Il a mal au dos.",                  ex_en:"He has back pain."},
+  {fr:'le cœur',         en:'the heart',  zh:'心脏', pos:'n.', theme:'corps', ex:"Mon cœur bat vite.",                ex_en:"My heart beats fast."},
+  {fr:'la maison',       en:'the house',       zh:'房子', pos:'n.', theme:'maison', ex:"J'habite dans une grande maison.",     ex_en:"I live in a big house."},
+  {fr:'la chambre',      en:'the bedroom',     zh:'卧室', pos:'n.', theme:'maison', ex:"Ma chambre est au premier étage.",     ex_en:"My bedroom is on the first floor."},
+  {fr:'la cuisine',      en:'the kitchen',     zh:'厨房', pos:'n.', theme:'maison', ex:"Je cuisine dans ma cuisine moderne.",  ex_en:"I cook in my modern kitchen."},
+  {fr:'le salon',        en:'the living room', zh:'客厅', pos:'n.', theme:'maison', ex:"Nous regardons la télé dans le salon.",ex_en:"We watch TV in the living room."},
+  {fr:'la salle de bain',en:'the bathroom',    zh:'浴室', pos:'n.', theme:'maison', ex:"La salle de bain est à gauche.",       ex_en:"The bathroom is on the left."},
+  {fr:'la porte',        en:'the door',        zh:'门',   pos:'n.', theme:'maison', ex:"Fermez la porte, s'il vous plaît.",   ex_en:"Please close the door."},
+  {fr:'la fenêtre',      en:'the window',      zh:'窗户', pos:'n.', theme:'maison', ex:"Ouvre la fenêtre, il fait chaud.",    ex_en:"Open the window, it's hot."},
+  {fr:'la table',        en:'the table',       zh:'桌子', pos:'n.', theme:'maison', ex:"Le dîner est sur la table.",          ex_en:"Dinner is on the table."},
+  {fr:'le lit',          en:'the bed',         zh:'床',   pos:'n.', theme:'maison', ex:"Mon lit est très confortable.",       ex_en:"My bed is very comfortable."},
+  {fr:'la chemise',      en:'the shirt',      zh:'衬衫',   pos:'n.', theme:'vetements', ex:"Il porte une chemise blanche.",         ex_en:"He wears a white shirt."},
+  {fr:'le pantalon',     en:'the trousers',   zh:'裤子',   pos:'n.', theme:'vetements', ex:"Ce pantalon est trop grand.",           ex_en:"These trousers are too big."},
+  {fr:'la robe',         en:'the dress',      zh:'连衣裙', pos:'n.', theme:'vetements', ex:"Elle porte une belle robe rouge.",      ex_en:"She wears a beautiful red dress."},
+  {fr:'les chaussures',  en:'the shoes',      zh:'鞋子',   pos:'n.', theme:'vetements', ex:"Ces chaussures sont confortables.",     ex_en:"These shoes are comfortable."},
+  {fr:'le manteau',      en:'the coat',       zh:'大衣',   pos:'n.', theme:'vetements', ex:"Prends ton manteau, il fait froid.",    ex_en:"Take your coat, it's cold."},
+  {fr:'le chapeau',      en:'the hat',        zh:'帽子',   pos:'n.', theme:'vetements', ex:"Elle porte un chapeau rouge.",          ex_en:"She wears a red hat."},
+  {fr:'le pull',         en:'the sweater',    zh:'毛衣',   pos:'n.', theme:'vetements', ex:"Ce pull est en laine.",                 ex_en:"This sweater is made of wool."},
+  {fr:'les lunettes',    en:'the glasses',    zh:'眼镜',   pos:'n.', theme:'vetements', ex:"Je porte des lunettes depuis dix ans.", ex_en:"I've been wearing glasses for ten years."},
+  {fr:'être',            en:'to be',            zh:'是/在',   pos:'v.', theme:'verbes', ex:"Je suis étudiant.",               ex_en:"I am a student."},
+  {fr:'avoir',           en:'to have',          zh:'有',      pos:'v.', theme:'verbes', ex:"J'ai une voiture rouge.",         ex_en:"I have a red car."},
+  {fr:'aller',           en:'to go',            zh:'去',      pos:'v.', theme:'verbes', ex:"Je vais à Paris demain.",         ex_en:"I am going to Paris tomorrow."},
+  {fr:'faire',           en:'to do / make',     zh:'做',      pos:'v.', theme:'verbes', ex:"Je fais du sport le matin.",      ex_en:"I do sport in the morning."},
+  {fr:'vouloir',         en:'to want',          zh:'想要',    pos:'v.', theme:'verbes', ex:"Je veux apprendre le français.",  ex_en:"I want to learn French."},
+  {fr:'pouvoir',         en:'to be able to',    zh:'能/可以', pos:'v.', theme:'verbes', ex:"Pouvez-vous m'aider ?",          ex_en:"Can you help me?"},
+  {fr:'parler',          en:'to speak',         zh:'说话',    pos:'v.', theme:'verbes', ex:"Je parle un peu français.",       ex_en:"I speak a little French."},
+  {fr:'manger',          en:'to eat',           zh:'吃',      pos:'v.', theme:'verbes', ex:"Nous mangeons ensemble ce soir.", ex_en:"We are eating together tonight."},
+  {fr:'boire',           en:'to drink',         zh:'喝',      pos:'v.', theme:'verbes', ex:"Il boit de l'eau chaque matin.",  ex_en:"He drinks water every morning."},
+  {fr:'travailler',      en:'to work',          zh:'工作',    pos:'v.', theme:'verbes', ex:"Elle travaille dans un bureau.",  ex_en:"She works in an office."},
+  {fr:'habiter',         en:'to live (somewhere)',zh:'住',    pos:'v.', theme:'verbes', ex:"J'habite à Montréal.",            ex_en:"I live in Montreal."},
+  {fr:'aimer',           en:'to love / like',   zh:'爱/喜欢', pos:'v.', theme:'verbes', ex:"J'aime le chocolat.",            ex_en:"I love chocolate."},
+  {fr:'comprendre',      en:'to understand',    zh:'理解',    pos:'v.', theme:'verbes', ex:"Je ne comprends pas.",            ex_en:"I don't understand."},
+  {fr:'savoir',          en:'to know',          zh:'知道',    pos:'v.', theme:'verbes', ex:"Je sais parler français.",        ex_en:"I know how to speak French."},
+  {fr:'grand(e)',        en:'big / tall',    zh:'大/高',  pos:'adj.', theme:'adjectifs', ex:"C'est un grand immeuble.",    ex_en:"It's a big building."},
+  {fr:'petit(e)',        en:'small / short', zh:'小/矮',  pos:'adj.', theme:'adjectifs', ex:"Elle a un petit chat.",       ex_en:"She has a small cat."},
+  {fr:'beau / belle',    en:'beautiful',     zh:'美丽的', pos:'adj.', theme:'adjectifs', ex:"C'est une belle journée.",    ex_en:"It's a beautiful day."},
+  {fr:'bon(ne)',         en:'good',          zh:'好的',   pos:'adj.', theme:'adjectifs', ex:"Ce plat est très bon.",       ex_en:"This dish is very good."},
+  {fr:'nouveau / nouvelle',en:'new',         zh:'新的',   pos:'adj.', theme:'adjectifs', ex:"J'ai un nouveau téléphone.",  ex_en:"I have a new phone."},
+  {fr:'vieux / vieille', en:'old',           zh:'旧/老的', pos:'adj.', theme:'adjectifs', ex:"C'est un vieux livre.",      ex_en:"It's an old book."},
+  {fr:'chaud(e)',        en:'hot / warm',    zh:'热的',   pos:'adj.', theme:'adjectifs', ex:"Il fait chaud aujourd'hui.",  ex_en:"It's hot today."},
+  {fr:'froid(e)',        en:'cold',          zh:'冷的',   pos:'adj.', theme:'adjectifs', ex:"L'eau est très froide.",      ex_en:"The water is very cold."},
+  {fr:'facile',          en:'easy',          zh:'容易的', pos:'adj.', theme:'adjectifs', ex:"Ce cours est facile.",        ex_en:"This course is easy."},
+  {fr:'difficile',       en:'difficult',     zh:'困难的', pos:'adj.', theme:'adjectifs', ex:"Cet exercice est difficile.", ex_en:"This exercise is difficult."},
+  {fr:'rapide',          en:'fast / quick',  zh:'快速的', pos:'adj.', theme:'adjectifs', ex:"Ce train est très rapide.",   ex_en:"This train is very fast."},
+  {fr:'lent(e)',         en:'slow',          zh:'慢的',   pos:'adj.', theme:'adjectifs', ex:"Il marche lentement.",        ex_en:"He walks slowly."},
+  {fr:"l'aéroport",     en:'the airport',        zh:'机场',   pos:'n.', theme:'voyage', ex:"Nous sommes à l'aéroport CDG.",       ex_en:"We are at CDG airport."},
+  {fr:'le train',        en:'the train',          zh:'火车',   pos:'n.', theme:'voyage', ex:"Le train part à huit heures.",        ex_en:"The train leaves at eight o'clock."},
+  {fr:'la gare',         en:'the train station',  zh:'火车站', pos:'n.', theme:'voyage', ex:"La gare est dans le centre-ville.",   ex_en:"The station is in the city center."},
+  {fr:"l'hôtel",        en:'the hotel',           zh:'酒店',   pos:'n.', theme:'voyage', ex:"Notre hôtel est très confortable.",   ex_en:"Our hotel is very comfortable."},
+  {fr:'la carte',        en:'the map',             zh:'地图',   pos:'n.', theme:'voyage', ex:"Avez-vous une carte de la ville ?",   ex_en:"Do you have a map of the city?"},
+  {fr:'à gauche',        en:'to the left',         zh:'向左',   pos:'adv.',theme:'voyage', ex:"Tournez à gauche au carrefour.",     ex_en:"Turn left at the crossroads."},
+  {fr:'à droite',        en:'to the right',        zh:'向右',   pos:'adv.',theme:'voyage', ex:"L'hôtel est à droite.",             ex_en:"The hotel is on the right."},
+  {fr:'tout droit',      en:'straight ahead',      zh:'直走',   pos:'adv.',theme:'voyage', ex:"Allez tout droit 200 mètres.",       ex_en:"Go straight ahead 200 meters."},
+  {fr:'le passeport',    en:'the passport',         zh:'护照',   pos:'n.', theme:'voyage', ex:"N'oubliez pas votre passeport.",     ex_en:"Don't forget your passport."},
+  {fr:'la valise',       en:'the suitcase',         zh:'行李箱', pos:'n.', theme:'voyage', ex:"Ma valise est très lourde.",         ex_en:"My suitcase is very heavy."},
+  {fr:'le chat',         en:'the cat',      zh:'猫',   pos:'n.', theme:'animaux', ex:"Mon chat s'appelle Minou.",          ex_en:"My cat's name is Minou."},
+  {fr:'le chien',        en:'the dog',      zh:'狗',   pos:'n.', theme:'animaux', ex:"Ce chien est très obéissant.",       ex_en:"This dog is very obedient."},
+  {fr:'le renard',       en:'the fox',      zh:'狐狸', pos:'n.', theme:'animaux', ex:"Le renard est rusé.",                ex_en:"The fox is cunning."},
+  {fr:"l'oiseau",       en:'the bird',     zh:'鸟',   pos:'n.', theme:'animaux', ex:"Un oiseau chante dans le jardin.",   ex_en:"A bird is singing in the garden."},
+  {fr:'le poisson',      en:'the fish',     zh:'鱼',   pos:'n.', theme:'animaux', ex:"Il y a des poissons dans l'aquarium.",ex_en:"There are fish in the aquarium."},
+  {fr:'le cheval',       en:'the horse',    zh:'马',   pos:'n.', theme:'animaux', ex:"Elle monte à cheval le week-end.",   ex_en:"She goes horse riding on weekends."},
+  {fr:'la vache',        en:'the cow',      zh:'牛',   pos:'n.', theme:'animaux', ex:"La vache donne du lait.",            ex_en:"The cow gives milk."},
+  {fr:'le lapin',        en:'the rabbit',   zh:'兔子', pos:'n.', theme:'animaux', ex:"Les lapins mangent des carottes.",  ex_en:"Rabbits eat carrots."},
+  {fr:'le lion',         en:'the lion',     zh:'狮子', pos:'n.', theme:'animaux', ex:"Le lion est le roi de la jungle.",  ex_en:"The lion is the king of the jungle."},
+  {fr:"l'éléphant",     en:'the elephant', zh:'大象', pos:'n.', theme:'animaux', ex:"Les éléphants ont une bonne mémoire.",ex_en:"Elephants have a good memory."},
+];
+
+var vocabTheme = 'all';
+
+function renderVocab() {
+  var search = '';
+  var searchEl = document.getElementById('vocab-search');
+  if (searchEl) search = searchEl.value.toLowerCase().trim();
+
+  var themeTabs = document.getElementById('vocab-theme-tabs');
+  if (themeTabs) {
+    themeTabs.innerHTML = VOCAB_THEMES.map(function(th) {
+      var lbl = lang==='en' ? th.en : lang==='zh' ? th.zh : th.fr;
+      return '<button class="vocab-chip' + (vocabTheme===th.id?' active':'')
+        + '" onclick="vocabTheme=\'' + th.id + '\';renderVocab()">'
+        + th.icon + ' ' + lbl + '</button>';
+    }).join('');
+  }
+
+  var filtered = VOCAB.filter(function(w) {
+    if (vocabTheme !== 'all' && w.theme !== vocabTheme) return false;
+    if (!search) return true;
+    return w.fr.toLowerCase().indexOf(search) !== -1
+        || w.en.toLowerCase().indexOf(search) !== -1
+        || w.zh.indexOf(search) !== -1;
+  });
+
+  var countEl = document.getElementById('vocab-count');
+  if (countEl) {
+    var unit = lang==='en' ? (filtered.length!==1?'words':'word') : lang==='zh' ? '个词' : (filtered.length!==1?'mots':'mot');
+    countEl.textContent = filtered.length + ' ' + unit;
+  }
+
+  var listEl = document.getElementById('vocab-list');
+  if (!listEl) return;
+  if (filtered.length === 0) {
+    listEl.innerHTML = '<div class="vocab-empty">🔍 ' + (lang==='en'?'No words found':lang==='zh'?'没有找到词汇':'Aucun mot trouvé') + '</div>';
+    return;
+  }
+
+  listEl.innerHTML = filtered.map(function(w) {
+    var trans = lang==='zh' ? w.zh : w.en;
+    var exText = (lang==='en' && w.ex_en) ? w.ex_en : w.ex;
+    function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    var speakFr = w.fr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="vocab-card">'
+      + '<div class="vocab-card-top">'
+      + '<span class="vocab-fr">' + esc(w.fr) + '</span>'
+      + '<span class="vocab-pos">' + w.pos + '</span>'
+      + '<button class="vocab-speak" onclick="speak(\'' + speakFr + '\',\'fr-FR\')" title="Écouter">🔊</button>'
+      + '</div>'
+      + '<div class="vocab-trans">' + esc(trans) + '</div>'
+      + '<div class="vocab-ex">' + esc(exText)
+      + (lang==='fr' && w.ex_en ? '<div class="vocab-ex-trans">' + esc(w.ex_en) + '</div>' : '')
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
 let quizIndex   = 0;
 let quizScore   = 0;
 let quizAnswered = false;
@@ -7519,7 +7753,7 @@ function setLang(l) {
 ══════════════════════════════════════ */
 function showTab(tab) {
   currentTab = tab;
-  ['home','lessons','progress','flashcards','settings'].forEach(id => {
+  ['home','lessons','progress','flashcards','settings','vocab'].forEach(id => {
     const sec = document.getElementById('tab-'+id);
     const btn = document.getElementById('nav-'+id);
     if (sec) sec.classList.toggle('active', id===tab);
@@ -7530,6 +7764,7 @@ function showTab(tab) {
   if (tab==='progress')   renderProgress();
   if (tab==='flashcards') renderFlashcard();
   if (tab==='settings')   renderSettings();
+  if (tab==='vocab')      renderVocab();
 }
 function updateNav() {
   const navLabels = t('nav') || [];
@@ -7543,6 +7778,9 @@ function updateNav() {
   const setEl = document.getElementById('nav-lbl-settings');
   if (fcEl)  fcEl.textContent  = fcLbl;
   if (setEl) setEl.textContent = setLbl;
+  var vocabLbl = lang==='en'?'Vocab':lang==='zh'?'词汇':'Vocab';
+  var vocabEl = document.getElementById('nav-lbl-vocab');
+  if (vocabEl) vocabEl.textContent = vocabLbl;
 }
 function renderCurrentView() {
   updateLangBtn();
@@ -7552,6 +7790,7 @@ function renderCurrentView() {
   if (currentTab==='progress')   renderProgress();
   if (currentTab==='flashcards') renderFlashcard();
   if (currentTab==='settings')   renderSettings();
+  if (currentTab==='vocab')      renderVocab();
 }
 
 /* ══════════════════════════════════════

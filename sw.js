@@ -1,4 +1,4 @@
-const CACHE_NAME = 'frenchgo-v1.6';
+const CACHE_NAME = 'frenchgo-v1.7';
 const ASSETS = [
   '/',
   '/index.html',
