@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --indigo: #6366F1; --indigo-dark: #4338CA; --purple: #8B5CF6;
@@ -24,7 +24,7 @@
       --bg: #F0F2FF; --card: #FFFFFF; --text: #1E293B;
       --muted: #64748B; --border: #E8ECF8; --radius: 18px;
     }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
 
     /* ── Dark Mode ── */
     body.dark { --bg:#0F0F1A; --card:#1A1A2E; --text:#E2E8F0; --muted:#94A3B8; --border:#2D3748; }
@@ -88,8 +88,7 @@
     @keyframes nextAppear { from{transform:scale(0.9);opacity:0;} to{transform:scale(1);opacity:1;} }
 
     /* ── Result animations ── */
-    .result-stars { animation: starsBounce 0.5s 0.15s cubic-bezier(0.34,1.56,0.64,1) both; }
-    @keyframes starsBounce { from{transform:scale(0.4) rotate(-15deg);opacity:0;} to{transform:scale(1) rotate(0);opacity:1;} }
+    /* starsBounce retired — replaced by per-star starPop */
     .result-score { animation: scoreIn 0.45s 0.05s cubic-bezier(0.34,1.56,0.64,1) both; }
     @keyframes scoreIn { from{transform:scale(0.5);opacity:0;} to{transform:scale(1);opacity:1;} }
     .xp-gained { animation: pop 0.4s 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
@@ -241,7 +240,7 @@
     .vocab-trans { font-size: 14px; font-weight: 600; color: var(--muted); margin-top: 4px; }
     .vocab-ex { font-size: 12.5px; color: var(--muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-style: italic; line-height: 1.5; }
     .vocab-ex-trans { font-size: 12px; color: var(--muted); opacity: 0.8; margin-top: 2px; }
-    .vocab-empty { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 15px; }
+    .vocab-empty { text-align: center; padding: 40px 24px; } .vocab-empty-icon { font-size: 52px; margin-bottom: 10px; display: block; animation: pop 0.45s cubic-bezier(0.34,1.56,0.64,1); } .vocab-empty-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; } .vocab-empty-sub { font-size: 13px; color: var(--muted); }
     body.dark .vocab-search { background: #1E1E38; border-color: #2D3748; }
     /* Vocab quiz button */
     .vocab-train-btn { display:block; width:100%; padding:14px; margin-bottom:16px; background:linear-gradient(135deg,var(--indigo),var(--purple)); color:white; border:none; border-radius:16px; font-size:15px; font-weight:800; cursor:pointer; text-align:center; transition:opacity 0.15s; }
@@ -308,7 +307,7 @@
     /* ── Result ── */
     #result-view { display: none; }
     #result-view.active { display: block; }
-    .result-inner { text-align: center; background: linear-gradient(160deg, #EEF2FF, #F5F3FF); border-radius: var(--radius); padding: 32px 24px 28px; box-shadow: 0 6px 28px rgba(99,102,241,0.13); }
+    .result-inner { text-align: center; background: linear-gradient(160deg, #EEF2FF 0%, #F5F3FF 50%, #FDF4FF 100%); border-radius: var(--radius); padding: 28px 24px 24px; box-shadow: 0 8px 32px rgba(99,102,241,0.18); overflow: hidden; position: relative; } .result-inner::before { content:""; position:absolute; inset:0; background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(139,92,246,0.12), transparent); pointer-events:none; }
     .result-emoji { font-size: 72px; display: block; margin-bottom: 8px; animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
     .result-mascot { display:flex; justify-content:center; margin-bottom:6px; animation: pop 0.45s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -332,13 +331,19 @@
     .splash-sub { color:rgba(255,255,255,0.75); font-size:14px; font-weight:500; }
     .splash-mascot { animation: bounceIn 0.7s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes bounceIn { from { transform:scale(0.2) translateY(40px); opacity:0; } to { transform:scale(1) translateY(0); opacity:1; } }
-    .result-stars { font-size: 32px; letter-spacing: 6px; margin-bottom: 8px; }
-    .result-score { font-size: 54px; font-weight: 900; background: linear-gradient(135deg, var(--indigo), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
-    .result-label { font-size: 15px; color: var(--muted); margin-top: 5px; font-weight: 500; }
-    .result-msg { font-size: 20px; font-weight: 800; margin: 16px 0 5px; letter-spacing: -0.3px; }
-    .result-sub { font-size: 14px; color: var(--muted); margin-bottom: 6px; line-height: 1.5; }
+        .result-stars { font-size: 44px; letter-spacing: 8px; margin-bottom: 4px; display: flex; justify-content: center; gap: 6px; }
+    .result-stars span { display: inline-block; animation: starPop 0.55s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .result-stars span:nth-child(2) { animation-delay: 0.1s; }
+    .result-stars span:nth-child(3) { animation-delay: 0.2s; }
+    @keyframes starPop { from { transform: scale(0) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+    .result-score { font-size: 72px; font-weight: 900; background: linear-gradient(135deg, var(--indigo), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; letter-spacing: -2px; }
+    .result-score-wrap { position: relative; display: inline-block; }
+    .result-pct-badge { display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, var(--indigo), var(--purple)); color: white; border-radius: 20px; padding: 4px 12px; font-size: 14px; font-weight: 800; margin-top: 6px; animation: pop 0.4s 0.25s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .result-label { font-size: 14px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+    .result-msg { font-size: 22px; font-weight: 900; margin: 14px 0 4px; letter-spacing: -0.4px; }
+    .result-sub { font-size: 14px; color: var(--muted); margin-bottom: 4px; line-height: 1.5; }
     .xp-gained { display: inline-flex; align-items: center; gap: 6px; background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 7px 16px; border-radius: 20px; font-size: 14px; font-weight: 800; margin: 12px 0 22px; }
-    .result-actions { display: flex; flex-direction: column; gap: 10px; }
+    .result-actions { display: flex; flex-direction: column; gap: 10px; } .btn-review-wrong { padding: 13px; background: #FEF3C7; color: #92400E; border: 2px solid #FDE68A; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.15s; } .btn-review-wrong:hover { background: #FDE68A; } .btn-review-wrong[style*="none"] { display: none !important; }
     .btn-primary { padding: 14px; background: linear-gradient(135deg, var(--indigo), var(--purple)); color: white; border: none; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 16px rgba(99,102,241,0.38); transition: opacity 0.2s, transform 0.1s; }
     .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
     .btn-secondary { padding: 13px; background: white; color: var(--indigo); border: 2px solid #C7D2FE; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.15s; }
@@ -7930,7 +7935,7 @@ function renderVocab() {
   var listEl = document.getElementById('vocab-list');
   if (!listEl) return;
   if (filtered.length === 0) {
-    listEl.innerHTML = '<div class="vocab-empty">🔍 ' + (lang==='en'?'No words found':lang==='zh'?'没有找到词汇':'Aucun mot trouvé') + '</div>';
+    listEl.innerHTML = '<div class="vocab-empty"><span class="vocab-empty-icon">🔍</span><div class="vocab-empty-title">' + (lang==='en'?'No words found':lang==='zh'?'没有找到词汇':'Aucun mot trouvé') + '</div><div class="vocab-empty-sub">' + (lang==='en'?'Try a different search term':lang==='zh'?'请尝试其他关键词':'Essayez un autre terme de recherche') + '</div></div>';
     return;
   }
 
@@ -8589,6 +8594,82 @@ function nextQuestion() {
   }
 }
 
+
+function showResult() {
+  var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
+  var total = dataArr.length;
+  var pct = total > 0 ? Math.round(quizScore / total * 100) : 0;
+  var stars = pct >= 80 ? 3 : pct >= 60 ? 2 : 1;
+  var starsHtml = Array.from({length:3}, function(_, i) {
+    return '<span style="opacity:' + (i < stars ? '1' : '0.22') + '">' + (i < stars ? '⭐' : '⭐') + '</span>';
+  }).join('');
+  var mascot = pct === 100 ? '🦊🎉' : pct >= 80 ? '🦊✨' : pct >= 60 ? '🦊👍' : '🦊💪';
+  var i18n = translations[lang] || translations.fr;
+  var msg = pct === 100 ? i18n.r100msg : pct >= 80 ? i18n.r80msg : pct >= 60 ? i18n.r60msg : i18n.r0msg;
+  var sub = pct === 100 ? i18n.r100sub : pct >= 80 ? i18n.r80sub : pct >= 60 ? i18n.r60sub : i18n.r0sub;
+  var xpEarned = quizScore * 10;
+
+  var el = function(id) { return document.getElementById(id); };
+  var mascotEl = el('result-mascot');
+  if (mascotEl) mascotEl.innerHTML = '<span style="font-size:52px;display:inline-block;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)">' + mascot + '</span>';
+
+  var starsEl = el('result-stars');
+  if (starsEl) starsEl.innerHTML = starsHtml;
+
+  var scoreEl = el('result-score');
+  if (scoreEl) scoreEl.textContent = quizScore + '/' + total;
+
+  var labelEl = el('result-label');
+  if (labelEl) {
+    var pctBadge = '<div class="result-pct-badge">🎯 ' + pct + '%</div>';
+    labelEl.innerHTML = pctBadge + '<div style="margin-top:4px;font-size:13px;color:var(--muted)">' + i18n.pctLabel + '</div>';
+  }
+
+  var msgEl = el('result-msg');
+  if (msgEl) msgEl.textContent = msg;
+
+  var subEl = el('result-sub');
+  if (subEl) subEl.textContent = sub;
+
+  var xpEl = el('xp-gained');
+  if (xpEl) xpEl.innerHTML = '⚡ +' + xpEarned + ' ' + (i18n.xpLbl || 'XP');
+
+  var retryBtn = el('btn-retry');
+  if (retryBtn) retryBtn.textContent = i18n.retry || '🔄 Recommencer le quiz';
+
+  var reviewBtn = el('btn-review-wrong');
+  if (reviewBtn) {
+    var hasWrong = window.wrongAnswersList && window.wrongAnswersList.length > 0;
+    reviewBtn.style.display = hasWrong ? '' : 'none';
+    var wrongCount = hasWrong ? window.wrongAnswersList.length : 0;
+    reviewBtn.textContent = lang==='en' ? '🔁 Review ' + wrongCount + ' wrong answer' + (wrongCount>1?'s':'') :
+                            lang==='zh' ? '🔁 复习 ' + wrongCount + ' 道错题' :
+                            '🔁 Revoir les ' + wrongCount + ' erreur' + (wrongCount>1?'s':'');
+  }
+
+  var backBtn = el('btn-back-lessons');
+  if (backBtn) backBtn.textContent = i18n.backLessons || '📚 Toutes les leçons';
+
+  var shareLbl = el('btn-share-lbl');
+  if (shareLbl) shareLbl.textContent = lang==='en'?'Share my score':lang==='zh'?'分享成绩':'Partager mon score';
+
+  // Save progress
+  if (currentLesson) {
+    if (!state[currentLesson.id]) state[currentLesson.id] = {};
+    if (!state[currentLesson.id].score || quizScore > state[currentLesson.id].score) {
+      state[currentLesson.id].score = quizScore;
+    }
+    state[currentLesson.id].done = true;
+    saveState();
+    updateXPDisplay();
+    checkBadges();
+  }
+
+  // Switch views
+  document.getElementById('quiz-view').classList.remove('active');
+  document.getElementById('result-view').classList.add('active');
+}
+
 function retryQuiz() {
   window.wrongAnswersList = [];
   document.getElementById('result-view').classList.remove('active');
@@ -9016,7 +9097,7 @@ function filterLessons(query) {
   });
   if (searchResults) {
     if (matches.length === 0) {
-      searchResults.innerHTML = `<div style="text-align:center;padding:32px;color:var(--muted);font-size:14px;">${lang==='en'?'No lessons found':lang==='zh'?'未找到课程':'Aucune leçon trouvée'}</div>`;
+      searchResults.innerHTML = `<div style="text-align:center;padding:40px 24px;"><div style="font-size:52px;margin-bottom:10px;display:block;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)">📭</div><div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px">${lang==='en'?'No lessons found':lang==='zh'?'未找到课程':'Aucune leçon trouvée'}</div><div style="font-size:13px;color:var(--muted)">${lang==='en'?'Try different keywords':lang==='zh'?'请尝试其他关键词':'Essayez d\'autres mots-clés'}</div></div>`;
     } else {
       searchResults.innerHTML = matches.map(l => {
         const s = state[l.id] || {};
@@ -9098,7 +9179,7 @@ function renderFlashcard() {
   if (fill) fill.style.width = Math.round((fcIndex+1)/total*100)+'%';
   if (resetBtn) resetBtn.textContent = lang==='en'?'↺ Restart':lang==='zh'?'↺ 重新开始':'↺ Recommencer';
   if (!area) return;
-  if (total===0) { area.innerHTML='<div class="card" style="text-align:center;color:var(--muted);">Aucune carte</div>'; return; }
+  if (total===0) { area.innerHTML='<div class="card" style="text-align:center;padding:40px 24px;"><div style="font-size:52px;margin-bottom:10px;display:block;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)">🃏</div><div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px">'+(lang==='en'?'No cards available':lang==='zh'?'没有卡片':'Aucune carte disponible')+'</div><div style="font-size:13px;color:var(--muted)">'+(lang==='en'?'Complete lessons to unlock flashcards':lang==='zh'?'完成课程以解锁闪卡':'Complétez des leçons pour débloquer des cartes')+'</div></div>'; return; }
   var card = fcDeck[fcIndex];
   var back = lang==='zh' ? card.zh : card.en;
   var exLine = card.example
