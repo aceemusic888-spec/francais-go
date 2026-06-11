@@ -32,6 +32,9 @@
     body.dark nav { background:#1A1A2E; border-top-color:#2D3748; }
     body.dark .card, body.dark .stat-box, body.dark .achievement { background:#1E1E38; }
     body.dark .quiz-option, body.dark .back-btn { background:#1E1E38; color:var(--text); border-color:#2D3748; }
+    body.dark .vocab-page-btn { background:#1E1E38; color:var(--text); border-color:#2D3748; }
+    body.dark .vocab-page-btn.active { background:var(--indigo); border-color:var(--indigo); color:white; }
+    body.dark .vocab-themes-toggle { color:#818CF8; }
     body.dark .modal-box { background:#1A1A2E; color:var(--text); }
     body.dark .modal-features { background:#111126; }
     body.dark .btn-secondary, body.dark .btn-unlock-code { background:#1E1E38; color:#818CF8; border-color:#3730A3; }
@@ -224,11 +227,18 @@
     .vocab-search { width: 100%; padding: 12px 16px 12px 42px; border: 2px solid var(--border); border-radius: 14px; background: var(--card); color: var(--text); font-size: 15px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
     .vocab-search:focus { border-color: var(--indigo); }
     .vocab-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 17px; pointer-events: none; }
-    .vocab-themes { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 14px; }
+    .vocab-themes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; max-height: 108px; overflow-y: auto; scrollbar-width: none; }
     .vocab-themes::-webkit-scrollbar { display: none; }
-    .vocab-chip { flex-shrink: 0; padding: 7px 14px; border-radius: 99px; border: 2px solid var(--border); background: var(--card); font-size: 12px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
+    .vocab-themes.expanded { max-height: none; }
+    .vocab-chip { flex-shrink: 0; padding: 6px 11px; border-radius: 99px; border: 2px solid var(--border); background: var(--card); font-size: 11px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
     .vocab-chip.active { background: var(--indigo); border-color: var(--indigo); color: white; }
+    .vocab-themes-toggle { font-size: 11px; color: var(--indigo); font-weight: 700; cursor: pointer; background: none; border: none; padding: 4px 0; width: 100%; text-align: center; margin-bottom: 8px; }
     .vocab-count { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+    .vocab-pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; padding: 8px 0; }
+    .vocab-page-btn { width: 36px; height: 36px; border-radius: 10px; border: 2px solid var(--border); background: var(--card); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text); transition: all 0.15s; }
+    .vocab-page-btn:disabled { opacity: 0.3; cursor: default; }
+    .vocab-page-btn.active { background: var(--indigo); border-color: var(--indigo); color: white; }
+    .vocab-page-info { font-size: 13px; font-weight: 600; color: var(--muted); min-width: 80px; text-align: center; }
     .vocab-list-inner { display: flex; flex-direction: column; gap: 10px; }
     .vocab-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 14px 16px; transition: all 0.15s; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
     .vocab-card:hover { border-color: var(--indigo); transform: translateY(-1px); }
@@ -1299,12 +1309,14 @@
   <div id="tab-vocab">
     <div class="vocab-search-wrap">
       <span class="vocab-search-icon">🔍</span>
-      <input type="text" class="vocab-search" id="vocab-search" oninput="renderVocab()" placeholder="Rechercher un mot...">
+      <input type="text" class="vocab-search" id="vocab-search" oninput="vocabPage=0;renderVocab()" placeholder="Rechercher un mot...">
     </div>
     <button class="vocab-train-btn" id="vocab-train-btn" onclick="startVocabQuiz()">&#x26A1; S'entraîner</button>
     <div class="vocab-themes" id="vocab-theme-tabs"></div>
+    <button class="vocab-themes-toggle" id="vocab-themes-toggle" onclick="toggleVocabThemes()"></button>
     <div class="vocab-count" id="vocab-count"></div>
     <div class="vocab-list-inner" id="vocab-list"></div>
+    <div class="vocab-pagination" id="vocab-pagination"></div>
   </div>
 
 <!-- PAYWALL MODAL -->
@@ -1778,11 +1790,11 @@ const TITLES_ZH = {
   47:{title:'间接引语',desc:'转述他人话语'},
   48:{title:'关系代词',desc:'qui、que、dont、où及复合形式'},
   49:{title:'时态一致性',desc:'掌握复杂句子中的时态'},
-  50:{title:'商务邮件',desc:'用法语撰写清晰正式的邮件'},
-  51:{title:'正式信函',desc:'掌握法国行政信函格式'},
-  52:{title:'简历与求职信',desc:'用法语进行职业自我介绍'},
-  53:{title:'会议记录',desc:'书面总结、综合与汇报'},
-  54:{title:'书面论证',desc:'构建有力且令人信服的论点'},
+  50:{title:'被动语态',desc:'将主动句转换为被动句'},
+  51:{title:'现在分词与副动词',desc:'表达同时性与方式'},
+  52:{title:'愈过去时',desc:'表达过去两个动作的先后顺序'},
+  53:{title:'语言风格',desc:'正式、标准与非正式法语'},
+  54:{title:'简单过去时',desc:'文学叙述与正式文本的专用时态'},
   55:{title:'移民词汇 — 快速通道',desc:'加拿大联邦移民申请核心词汇'},
   56:{title:'语音与发音',desc:'联诵、省音与法语发音规则'},
   57:{title:'逻辑连接词',desc:'TCF写作：论证与组织观点'},
@@ -3045,85 +3057,110 @@ const CONTENT_ZH = {
 <tr><td>先发动作</td><td>→ 愈过去时</td><td>Il a dit qu'il <strong>avait fini</strong>.</td></tr>
 <tr><td>后续动作</td><td>→ 条件式</td><td>Il a dit qu'il <strong>viendrait</strong>.</td></tr>
 </table>`,
-  50:`<h2>📧 法语商务邮件</h2>
-<p>商务邮件遵循固定结构和程式化表达。</p>
-<h3>标准结构</h3>
+  50:`<h2>🔄 被动语态（La voix passive）</h2>
+<p>被动语态将重点放在动作的承受者上，而非动作的执行者。</p>
+<h3>构成方式</h3>
+<p><strong>主语 + être（变位）+ 过去分词 + par + 施事者</strong></p>
 <table class="vocab-table">
-<tr><td>主题</td><td>简短精确：主题：会议请求——1月15日</td></tr>
-<tr><td>开头称谓</td><td>Madame, / Monsieur, / Madame, Monsieur,</td></tr>
-<tr><td>引言</td><td>Je me permets de vous contacter au sujet de…</td></tr>
-<tr><td>正文</td><td>清晰表达请求或信息</td></tr>
-<tr><td>结束语</td><td>见下表</td></tr>
+<tr><th>主动语态</th><th>被动语态</th></tr>
+<tr><td>Le chef prépare le repas.</td><td>Le repas <strong>est préparé</strong> par le chef.</td></tr>
+<tr><td>La police a arrêté le suspect.</td><td>Le suspect <strong>a été arrêté</strong> par la police.</td></tr>
+<tr><td>On construira un pont.</td><td>Un pont <strong>sera construit</strong>.</td></tr>
 </table>
-<h3>结束语</h3>
+<h3>过去分词的性数配合</h3>
+<p>过去分词须与被动句的<strong>主语</strong>配合性数。</p>
+<div class="example-box">Les lettres <strong>ont été écrites</strong> par Marie. / La maison <strong>sera vendue</strong> demain.</div>
+<h3>特殊情况</h3>
 <table class="vocab-table">
-<tr><td>非常正式</td><td>Veuillez agréer… l'expression de mes salutations distinguées.</td></tr>
-<tr><td>标准正式</td><td>Cordialement,（此致）</td></tr>
-<tr><td>半正式</td><td>Bien à vous,（致以问候）</td></tr>
-</table>`,
-  51:`<h2>📜 法语正式信函</h2>
-<p>正式信函遵循法国行政传统中精确的版面规则。</p>
-<h3>版面布局</h3>
-<table class="vocab-table">
-<tr><td>发件人（左上）</td><td>姓名、地址、城市、邮编</td></tr>
-<tr><td>收件人（右上）</td><td>姓名/部门、地址</td></tr>
-<tr><td>地点和日期</td><td>Paris, le 10 janvier 2025</td></tr>
-<tr><td>主题</td><td>Objet：退款申请</td></tr>
+<tr><td>省略施事者</td><td>La fenêtre a été cassée.（不知道是谁打破的）</td></tr>
+<tr><td>介词 de</td><td>Il est <strong>respecté de</strong> tous ses collègues.</td></tr>
+<tr><td>口语替代</td><td>用"on"：<em>On a volé la voiture</em> 代替被动式</td></tr>
 </table>
-<h3>结束语</h3>
+<div class="tip-box"><strong>💡 小贴士：</strong>在口语法语中，常用"on"结构代替完整被动式，更自然流畅。</div>`,
+  51:`<h2>🌿 现在分词与副动词</h2>
+<h3>现在分词（Participe présent）</h3>
+<p>构成：取<strong>nous</strong>的现在时形式，将词尾<em>-ons</em>替换为<em>-ant</em></p>
 <table class="vocab-table">
-<tr><td>最正式</td><td>Veuillez agréer… l'assurance de ma considération distinguée.</td></tr>
-<tr><td>正式</td><td>Veuillez agréer… mes salutations distinguées.</td></tr>
-</table>`,
-  52:`<h2>📄 简历与求职信</h2>
-<h3>法国简历结构</h3>
-<table class="vocab-table">
-<tr><td>页眉</td><td>照片（可选）、姓名、联系方式、LinkedIn</td></tr>
-<tr><td>个人简介</td><td>2-3行概括职业背景</td></tr>
-<tr><td>工作经历</td><td>倒序排列，动作动词，量化成果</td></tr>
-<tr><td>教育背景</td><td>学历、院校、年份</td></tr>
-<tr><td>技能</td><td>语言（等级）、IT、专业技能</td></tr>
+<tr><td>parler → nous parlons</td><td>→ <strong>parlant</strong>（说话的）</td></tr>
+<tr><td>finir → nous finissons</td><td>→ <strong>finissant</strong>（完成的）</td></tr>
+<tr><td>être（不规则）</td><td>→ <strong>étant</strong>（是/作为）</td></tr>
+<tr><td>avoir（不规则）</td><td>→ <strong>ayant</strong>（有）</td></tr>
+<tr><td>savoir（不规则）</td><td>→ <strong>sachant</strong>（知道的）</td></tr>
 </table>
-<h3>求职信结构</h3>
+<p>现在分词<strong>不变形</strong>——无需进行性数配合。</p>
+<div class="example-box">Les étudiants <strong>parlant</strong> français ont un avantage. / <strong>Étant</strong> fatigué, il est parti tôt.</div>
+<h3>副动词（Gérondif）</h3>
+<p><strong>en + 现在分词</strong>——表示同时性或方式</p>
 <table class="vocab-table">
-<tr><td>第1段</td><td>您+目标职位</td></tr>
-<tr><td>第2段</td><td>我：主要技能和经历</td></tr>
-<tr><td>第3段</td><td>我们：我能为公司带来什么</td></tr>
-<tr><td>结尾</td><td>面试请求</td></tr>
-</table>`,
-  53:`<h2>📋 会议记录（Le compte-rendu）</h2>
-<p>会议记录忠实记录事实，不包含个人评价。</p>
-<h3>结构</h3>
-<table class="vocab-table">
-<tr><td>页眉</td><td>日期、地点、参与者、议程</td></tr>
-<tr><td>正文</td><td>议题1：…/ 议题2：…</td></tr>
-<tr><td>决定</td><td>Il a été décidé que…（已决定……）</td></tr>
-<tr><td>行动项</td><td>[人名] est chargé(e) de…（[人名]负责……）</td></tr>
+<tr><td>同时性</td><td>Il écoute de la musique <strong>en travaillant</strong>.（一边工作一边听音乐）</td></tr>
+<tr><td>方式</td><td>Elle a appris le français <strong>en regardant</strong> des films.（通过看电影）</td></tr>
+<tr><td>条件</td><td><strong>En partant</strong> tôt, tu éviteras les bouchons.（提前出发的话…）</td></tr>
 </table>
-<h3>常用表达</h3>
+<div class="tip-box"><strong>💡 关键区别：</strong>现在分词修饰名词（<em>un enfant souriant</em>），副动词说明动作如何/何时发生（<em>en souriant</em>）。</div>`,
+  52:`<h2>⏮️ 愈过去时（Plus-que-parfait）</h2>
+<p>愈过去时表示在另一个<strong>过去动作之前</strong>已经发生的动作。</p>
+<h3>构成方式</h3>
+<p><strong>avoir 或 être 的未完成过去时 + 过去分词</strong></p>
 <table class="vocab-table">
-<tr><td>引出议题</td><td>En ce qui concerne… / Concernant…</td></tr>
-<tr><td>记录决定</td><td>Il a été décidé… / Il est convenu que…</td></tr>
-<tr><td>总结</td><td>En conclusion… / En définitive…</td></tr>
-</table>`,
-  54:`<h2>⚔️ 书面论证（Argumenter à l'écrit）</h2>
-<p>构建有结构的论点对于论文、报告和职业沟通至关重要。</p>
-<h3>论证性文章结构</h3>
-<table class="vocab-table">
-<tr><td>引言</td><td>引入 → 背景 → 论题 → 提纲</td></tr>
-<tr><td>正文</td><td>论点 → 论据 → 例证 → 反驳 → 综合</td></tr>
-<tr><td>结论</td><td>总结 → 展望</td></tr>
+<tr><th>使用 avoir</th><th>使用 être</th></tr>
+<tr><td>j'avais mangé（我已经吃了）</td><td>j'étais parti(e)（我已经离开了）</td></tr>
+<tr><td>tu avais fini（你已经完成了）</td><td>tu étais arrivé(e)（你已经到了）</td></tr>
+<tr><td>il avait parlé（他已经说了）</td><td>elle était sortie（她已经出去了）</td></tr>
+<tr><td>nous avions vu（我们已经看了）</td><td>nous étions allé(e)s（我们已经去了）</td></tr>
 </table>
-<h3>重要逻辑连词</h3>
+<h3>用法</h3>
 <table class="vocab-table">
-<tr><td>递进</td><td>De plus, en outre, par ailleurs（此外，而且）</td></tr>
-<tr><td>转折</td><td>Cependant, néanmoins, en revanche（然而，尽管如此）</td></tr>
-<tr><td>原因</td><td>En effet, car, puisque（确实，因为，由于）</td></tr>
-<tr><td>结果</td><td>Donc, ainsi, par conséquent（所以，因此）</td></tr>
-<tr><td>让步</td><td>Certes, il est vrai que（诚然，固然）</td></tr>
-<tr><td>总结</td><td>En conclusion, en définitive（总之，归根结底）</td></tr>
+<tr><td>过去的先行动作</td><td>Quand je suis arrivé, elle <strong>était déjà partie</strong>.（她已经走了）</td></tr>
+<tr><td>过去事件的原因</td><td>Il était fatigué car il <strong>avait travaillé</strong> toute la nuit.</td></tr>
+<tr><td>不可实现的过去条件</td><td>Si j'<strong>avais su</strong>, je serais venu.（如果我早知道的话）</td></tr>
+<tr><td>间接引语</td><td>Il a dit qu'il <strong>avait vu</strong> le film.（他说他看过这部电影）</td></tr>
 </table>
-<div class="tip-box"><strong>💡 建议：</strong>一个好论点 = 一个观点 + 一个依据 + 一个例证。切勿只断言不论证！</div>`,
+<div class="tip-box"><strong>💡 记忆诀窍：</strong>愈过去时 → 复合过去时 → 现在时（从最远到最近）。</div>`,
+  53:`<h2>🎭 语言风格（Les registres de langue）</h2>
+<p>法语根据交流情境分为三种主要语体。</p>
+<table class="vocab-table">
+<tr><th>语体</th><th>使用场合</th><th>示例</th></tr>
+<tr><td><strong>正式（soutenu）</strong></td><td>正式书写、官方演讲</td><td><em>Je ne puis vous répondre dans l'immédiat.</em></td></tr>
+<tr><td><strong>标准（courant）</strong></td><td>日常对话、新闻媒体</td><td><em>Je ne peux pas vous répondre maintenant.</em></td></tr>
+<tr><td><strong>非正式（familier）</strong></td><td>朋友、家人、短信</td><td><em>Je peux pas te répondre là.</em></td></tr>
+</table>
+<h3>词汇对比</h3>
+<table class="vocab-table">
+<tr><th>正式</th><th>标准</th><th>非正式</th></tr>
+<tr><td>De nombreuses personnes</td><td>Beaucoup de gens</td><td>Plein de monde</td></tr>
+<tr><td>Automobile</td><td>Voiture</td><td>Bagnole / Caisse（破车）</td></tr>
+<tr><td>De l'argent</td><td>De l'argent</td><td>Du fric / de la thune（钱）</td></tr>
+<tr><td>Un enfant</td><td>Un gamin</td><td>Un gosse / un môme（小孩）</td></tr>
+</table>
+<h3>否定式的语体变化</h3>
+<table class="vocab-table">
+<tr><td>正式/标准</td><td>Je <strong>ne</strong> veux <strong>pas</strong> partir.</td></tr>
+<tr><td>非正式</td><td>Je veux <strong>pas</strong> partir.（常省略<em>ne</em>）</td></tr>
+</table>
+<div class="tip-box"><strong>💡 建议：</strong>在TCF/TEF考试和职业场合，请使用标准或正式语体。非正式语体仅限于日常非正式交流。</div>`,
+  54:`<h2>📖 简单过去时（Passé simple）</h2>
+<p>简单过去时主要用于<strong>文学、历史和正式书面文本</strong>，在日常口语中不使用。</p>
+<h3>构成——-ER 动词</h3>
+<table class="vocab-table">
+<tr><td>je parlai（我说了）</td><td>nous parlâmes</td></tr>
+<tr><td>tu parlas</td><td>vous parlâtes</td></tr>
+<tr><td>il/elle parla</td><td>ils/elles parlèrent</td></tr>
+</table>
+<h3>构成——-IR / -RE 动词</h3>
+<table class="vocab-table">
+<tr><td>je finis / je pris</td><td>nous finîmes / nous prîmes</td></tr>
+<tr><td>tu finis / tu pris</td><td>vous finîtes / vous prîtes</td></tr>
+<tr><td>il finit / il prit</td><td>ils finirent / ils prirent</td></tr>
+</table>
+<h3>常用不规则动词</h3>
+<table class="vocab-table">
+<tr><td>être（是）</td><td>je fus, tu fus, il fut, nous fûmes, ils furent</td></tr>
+<tr><td>avoir（有）</td><td>j'eus, tu eus, il eut, nous eûmes, ils eurent</td></tr>
+<tr><td>faire（做）</td><td>je fis, tu fis, il fit, nous fîmes, ils firent</td></tr>
+<tr><td>venir（来）</td><td>je vins, tu vins, il vint, nous vînmes, ils vinrent</td></tr>
+</table>
+<div class="example-box">Il <strong>naquit</strong> en 1769 et <strong>mourut</strong> en 1821. / Elle <strong>prit</strong> la plume et <strong>écrivit</strong> ces mots célèbres.</div>
+<div class="tip-box"><strong>💡 阅读提示：</strong>你会在小说、童话（<em>il était une fois… il arriva que…</em>）和历史文本中遇到简单过去时。口语中请始终使用复合过去时。</div>`,
   55:`<h2>🍁 移民词汇 — 快速通道</h2>
 <p>以下是加拿大联邦移民申请中最常用的法语词汇。</p>
 <h3>核心移民词汇</h3>
@@ -3484,7 +3521,106 @@ const CONTENT_EN = {
   62: `<h2>🔄 Reflexive verbs</h2><p>Reflexive verbs are accompanied by a reflexive pronoun (me, te, se, nous, vous, se). They often describe actions done to oneself.</p><h3>Conjugating "se lever" (to get up) — present</h3><table class="vocab-table"><tr><td>je me lève</td><td>I get up</td></tr><tr><td>tu te lèves</td><td>you get up</td></tr><tr><td>il/elle se lève</td><td>he/she gets up</td></tr><tr><td>nous nous levons</td><td>we get up</td></tr><tr><td>vous vous levez</td><td>you get up</td></tr><tr><td>ils/elles se lèvent</td><td>they get up</td></tr></table><h3>Common reflexive verbs</h3><table class="vocab-table"><tr><td>s'appeler</td><td>to be called</td></tr><tr><td>se coucher</td><td>to go to bed</td></tr><tr><td>se laver</td><td>to wash (oneself)</td></tr><tr><td>s'habiller</td><td>to get dressed</td></tr></table><h3>In the passé composé</h3><table class="vocab-table"><tr><td>Je me suis levé(e).</td><td>I got up.</td></tr><tr><td>Elle s'est couchée.</td><td>She went to bed.</td></tr></table><p>💡 The past participle agrees with the subject!</p>`,
   63: `<h2>⚡ Adverbs</h2><p>Adverbs modify verbs, adjectives or other adverbs. They are <strong>invariable</strong> (no gender/number agreement).</p><h3>Forming adverbs with -ment</h3><table class="vocab-table"><tr><th>Masc. adj.</th><th>Adverb</th><th>Meaning</th></tr><tr><td>lent → lente</td><td>lentement</td><td>slowly</td></tr><tr><td>rapide → rapide</td><td>rapidement</td><td>quickly</td></tr><tr><td>heureux → heureuse</td><td>heureusement</td><td>fortunately</td></tr></table><h3>Key adverbs to memorise</h3><table class="vocab-table"><tr><td>bien / mal</td><td>well / badly</td></tr><tr><td>très / beaucoup</td><td>very / a lot</td></tr><tr><td>souvent / toujours / jamais</td><td>often / always / never</td></tr><tr><td>déjà / encore / vite</td><td>already / still-again / fast</td></tr></table><h3>Position</h3><table class="vocab-table"><tr><td>Elle parle bien français.</td><td>She speaks French well.</td></tr><tr><td>J'ai bien dormi.</td><td>I slept well.</td></tr></table>`,
   64: `<h2>💪 Pouvoir, Vouloir, Devoir</h2><p>These three essential modal verbs express ability, desire and obligation.</p><h3>POUVOIR — can / to be able to</h3><table class="vocab-table"><tr><td>je peux / tu peux</td><td>I can / you can</td></tr><tr><td>il peut / nous pouvons</td><td>he can / we can</td></tr><tr><td>vous pouvez / ils peuvent</td><td>you can / they can</td></tr></table><h3>VOULOIR — to want</h3><table class="vocab-table"><tr><td>je veux / tu veux</td><td>I want / you want</td></tr><tr><td>il veut / nous voulons</td><td>he wants / we want</td></tr><tr><td>vous voulez / ils veulent</td><td>you want / they want</td></tr></table><p>💡 For politeness use the conditional: <em>Je <strong>voudrais</strong> un café.</em></p><h3>DEVOIR — must / to have to</h3><table class="vocab-table"><tr><td>je dois / tu dois</td><td>I must / you must</td></tr><tr><td>il doit / nous devons</td><td>he must / we must</td></tr><tr><td>vous devez / ils doivent</td><td>you must / they must</td></tr></table>`,
+
+  50:`<h2>🔄 The Passive Voice</h2>
+<p>The passive voice emphasizes the object of the action rather than its author.</p>
+<h3>Formation: Subject + être (conjugated) + past participle + par + agent</h3>
+<table class="vocab-table">
+<tr><th>Active</th><th>Passive</th></tr>
+<tr><td>Le chef prépare le repas.</td><td>Le repas <strong>est préparé</strong> par le chef. (The meal is prepared by the chef.)</td></tr>
+<tr><td>La police a arrêté le suspect.</td><td>Le suspect <strong>a été arrêté</strong> par la police. (The suspect was arrested.)</td></tr>
+<tr><td>On construira un pont.</td><td>Un pont <strong>sera construit</strong>. (A bridge will be built.)</td></tr>
+</table>
+<h3>Past participle agreement</h3>
+<p>The past participle agrees with the <strong>subject</strong> of the passive sentence.</p>
+<div class="example-box">Les lettres <strong>ont été écrites</strong> par Marie. / La maison <strong>sera vendue</strong> demain.</div>
+<div class="tip-box"><strong>💡 Tip:</strong> In spoken French, "on" constructions are often preferred: <em>On a volé la voiture</em> instead of <em>La voiture a été volée</em>.</div>`,
+}
+  51:`<h2>🌿 Present Participle & Gerund</h2>
+<h3>Present Participle</h3>
+<p>Take the <strong>nous</strong> present form, replace <em>-ons</em> with <em>-ant</em></p>
+<table class="vocab-table">
+<tr><td>parler → parlons</td><td>→ <strong>parlant</strong> (speaking)</td></tr>
+<tr><td>finir → finissons</td><td>→ <strong>finissant</strong> (finishing)</td></tr>
+<tr><td>être (irreg.)</td><td>→ <strong>étant</strong> (being)</td></tr>
+<tr><td>avoir (irreg.)</td><td>→ <strong>ayant</strong> (having)</td></tr>
+<tr><td>savoir (irreg.)</td><td>→ <strong>sachant</strong> (knowing)</td></tr>
+</table>
+<p>The present participle is <strong>invariable</strong> — it never agrees with the noun.</p>
+<h3>The Gerund: en + present participle</h3>
+<table class="vocab-table">
+<tr><td>Simultaneous action</td><td>Il écoute de la musique <strong>en travaillant</strong>. (while working)</td></tr>
+<tr><td>Manner</td><td>Elle a appris le français <strong>en regardant</strong> des films. (by watching)</td></tr>
+<tr><td>Condition</td><td><strong>En partant</strong> tôt, tu éviteras les bouchons. (By leaving early…)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Key difference:</strong> Present participle qualifies a noun (<em>un enfant souriant</em> = a smiling child), the gerund tells how/when an action happens (<em>en souriant</em> = while smiling).</div>`,
+}
+  52:`<h2>⏮️ The Pluperfect (Past Perfect)</h2>
+<p>The pluperfect expresses an action that happened <strong>before another past action</strong>.</p>
+<h3>Formation: avoir/être at imperfect + past participle</h3>
+<table class="vocab-table">
+<tr><th>With avoir</th><th>With être</th></tr>
+<tr><td>j'avais mangé (I had eaten)</td><td>j'étais parti(e) (I had left)</td></tr>
+<tr><td>tu avais fini (you had finished)</td><td>tu étais arrivé(e) (you had arrived)</td></tr>
+<tr><td>il avait parlé (he had spoken)</td><td>elle était sortie (she had gone out)</td></tr>
+<tr><td>nous avions vu (we had seen)</td><td>nous étions allé(e)s (we had gone)</td></tr>
+</table>
+<h3>Uses</h3>
+<table class="vocab-table">
+<tr><td>Prior past action</td><td>Quand je suis arrivé, elle <strong>était déjà partie</strong>. (She had already left.)</td></tr>
+<tr><td>Cause of a past event</td><td>Il était fatigué car il <strong>avait travaillé</strong> toute la nuit.</td></tr>
+<tr><td>Impossible past condition</td><td>Si j'<strong>avais su</strong>, je serais venu. (If I had known, I would have come.)</td></tr>
+<tr><td>Reported speech</td><td>Il a dit qu'il <strong>avait vu</strong> le film. (He said he had seen the film.)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Memory tip:</strong> Pluperfect = furthest back → passé composé → present (moving forward in time).</div>`,
+}
+  53:`<h2>🎭 Language Registers</h2>
+<p>French has three main registers depending on the communication context.</p>
+<table class="vocab-table">
+<tr><th>Register</th><th>Context</th><th>Example</th></tr>
+<tr><td><strong>Formal (soutenu)</strong></td><td>Official writing, speeches</td><td><em>Je ne puis vous répondre dans l'immédiat.</em></td></tr>
+<tr><td><strong>Standard (courant)</strong></td><td>Normal conversation, press</td><td><em>Je ne peux pas vous répondre maintenant.</em></td></tr>
+<tr><td><strong>Informal (familier)</strong></td><td>Friends, family, texting</td><td><em>Je peux pas te répondre là.</em></td></tr>
+</table>
+<h3>Vocabulary comparison</h3>
+<table class="vocab-table">
+<tr><th>Formal</th><th>Standard</th><th>Informal</th></tr>
+<tr><td>De nombreuses personnes</td><td>Beaucoup de gens</td><td>Plein de monde</td></tr>
+<tr><td>Automobile</td><td>Voiture</td><td>Bagnole / Caisse (old car)</td></tr>
+<tr><td>De l'argent</td><td>De l'argent</td><td>Du fric / de la thune (dough)</td></tr>
+<tr><td>Un enfant</td><td>Un gamin</td><td>Un gosse / un môme (kid)</td></tr>
+</table>
+<h3>Negation across registers</h3>
+<table class="vocab-table">
+<tr><td>Formal/Standard</td><td>Je <strong>ne</strong> veux <strong>pas</strong> partir.</td></tr>
+<tr><td>Informal</td><td>Je veux <strong>pas</strong> partir. (<em>ne</em> often dropped)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> For TCF/TEF and professional settings, use standard or formal register. Informal register is for casual exchanges only.</div>`,
+}
+  54:`<h2>📖 The Passé Simple (Literary Past)</h2>
+<p>The passé simple is used in <strong>literary, historical and formal written texts</strong>. It is never used in everyday speech.</p>
+<h3>-ER verbs</h3>
+<table class="vocab-table">
+<tr><td>je parlai (I spoke)</td><td>nous parlâmes</td></tr>
+<tr><td>tu parlas</td><td>vous parlâtes</td></tr>
+<tr><td>il/elle parla</td><td>ils/elles parlèrent</td></tr>
+</table>
+<h3>-IR / -RE verbs</h3>
+<table class="vocab-table">
+<tr><td>je finis / je pris</td><td>nous finîmes / nous prîmes</td></tr>
+<tr><td>tu finis / tu pris</td><td>vous finîtes / vous prîtes</td></tr>
+<tr><td>il finit / il prit</td><td>ils finirent / ils prirent</td></tr>
+</table>
+<h3>Common irregular verbs</h3>
+<table class="vocab-table">
+<tr><td>être</td><td>je fus, tu fus, il fut, nous fûmes, ils furent (was/were)</td></tr>
+<tr><td>avoir</td><td>j'eus, tu eus, il eut, nous eûmes, ils eurent (had)</td></tr>
+<tr><td>faire</td><td>je fis, tu fis, il fit, nous fîmes, ils firent (did/made)</td></tr>
+<tr><td>venir</td><td>je vins, tu vins, il vint, nous vînmes, ils vinrent (came)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Remember:</strong> You'll see the passé simple in novels and history books. In everyday spoken French, always use the passé composé instead.</div>`,
 };
+
 
 /* ══════════════════════════════════════
    LESSONS DATA
@@ -6992,6 +7128,259 @@ const LESSONS = [
     ]
   },
 
+
+  /* ─── 50 ─── */
+  {
+    id:50, level:'advanced',
+    title:'La voix passive',title_en:'The Passive Voice',
+    desc:'Transformer une phrase active en passive.',desc_en:'Transform active sentences into passive.',
+    content:`<h2>🔄 La voix passive</h2>
+<p>La voix passive met l'accent sur l'objet de l'action plutôt que sur son auteur.</p>
+<h3>Formation</h3>
+<p><strong>Sujet + être (conjugué) + participe passé + par + agent</strong></p>
+<table class="vocab-table">
+<tr><th>Voix active</th><th>Voix passive</th></tr>
+<tr><td>Le chef prépare le repas.</td><td>Le repas <strong>est préparé</strong> par le chef.</td></tr>
+<tr><td>La police a arrêté le suspect.</td><td>Le suspect <strong>a été arrêté</strong> par la police.</td></tr>
+<tr><td>On construira un pont.</td><td>Un pont <strong>sera construit</strong>.</td></tr>
+</table>
+<h3>Accord du participe passé</h3>
+<p>Le participe passé s'accorde avec le <strong>sujet</strong> de la phrase passive.</p>
+<div class="example-box">Les lettres <strong>ont été écrites</strong> par Marie. / La maison <strong>sera vendue</strong> demain.</div>
+<h3>Cas particuliers</h3>
+<table class="vocab-table">
+<tr><td>Agent omis (inconnu)</td><td>La fenêtre a été cassée.</td></tr>
+<tr><td>Verbe + de</td><td>Il est <strong>respecté de</strong> tous ses collègues.</td></tr>
+<tr><td>Éviter le passif</td><td>Préférer "on" : <em>On a volé la voiture</em></td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> En français parlé, on préfère souvent la tournure avec "on" plutôt que le passif complet.</div>`,
+    content_en:`<h2>🔄 The Passive Voice</h2>
+<p>The passive voice emphasizes the object of the action rather than its author.</p>
+<h3>Formation</h3>
+<p><strong>Subject + être (conjugated) + past participle + par + agent</strong></p>
+<table class="vocab-table">
+<tr><th>Active</th><th>Passive</th></tr>
+<tr><td>Le chef prépare le repas.</td><td>Le repas <strong>est préparé</strong> par le chef.</td></tr>
+<tr><td>La police a arrêté le suspect.</td><td>Le suspect <strong>a été arrêté</strong> par la police.</td></tr>
+</table>
+<p>The past participle agrees with the <strong>subject</strong> of the passive sentence.</p>
+<div class="tip-box"><strong>💡 Tip:</strong> In spoken French, "on" constructions are often preferred: <em>On a volé la voiture</em> instead of <em>La voiture a été volée</em>.</div>`,
+    quiz:[
+      {q:'Quelle est la voix passive de "Le professeur corrige les copies" ?', q_en:'What is the passive form of "Le professeur corrige les copies"?', opts:['Les copies sont corrigées par le professeur','Les copies corrigent le professeur','Le professeur est corrigé par les copies','Les copies ont corrigé le professeur'], ans:0},
+      {q:'Mettez au passé composé passif : "On a mangé le gâteau."', q_en:'Passive form of "On a mangé le gâteau":', opts:['Le gâteau était mangé','Le gâteau a été mangé','Le gâteau sera mangé','Le gâteau est mangé'], ans:1},
+      {q:'Quel accord est correct ? "Les documents ___ signés par la directrice."', q_en:'"Les documents ___ signés par la directrice." — correct form?', opts:['a été','ont été','est','avait été'], ans:1},
+      {q:'Pourquoi préfère-t-on parfois "on" au passif en français parlé ?', q_en:'Why is "on" sometimes preferred over the passive in spoken French?', opts:['Le passif est incorrect en français','Le passif est réservé à l\'écrit littéraire','La tournure avec "on" est plus naturelle à l\'oral','Le passif ne peut pas exprimer le passé'], ans:2},
+      {q:'Quel préposition introduit l\'agent au passif ?', q_en:'Which preposition introduces the agent in passive sentences?', opts:['"avec"','"pour"','"par" ou "de"','"dans"'], ans:2},
+    ]
+  },
+
+  /* ─── 51 ─── */
+  {
+    id:51, level:'advanced',
+    title:'Le participe présent et le gérondif',title_en:'Present Participle & Gerund',
+    desc:'Exprimer la simultanéité et la manière.',desc_en:'Express simultaneity and manner.',
+    content:`<h2>🌿 Le participe présent et le gérondif</h2>
+<h3>Le participe présent</h3>
+<p>Formé sur la base de <strong>nous</strong> au présent → remplacer <em>-ons</em> par <em>-ant</em></p>
+<table class="vocab-table">
+<tr><td>parler → nous parlons</td><td>→ <strong>parlant</strong></td></tr>
+<tr><td>finir → nous finissons</td><td>→ <strong>finissant</strong></td></tr>
+<tr><td>être (irrég.)</td><td>→ <strong>étant</strong></td></tr>
+<tr><td>avoir (irrég.)</td><td>→ <strong>ayant</strong></td></tr>
+<tr><td>savoir (irrég.)</td><td>→ <strong>sachant</strong></td></tr>
+</table>
+<p>Le participe présent est <strong>invariable</strong> (ne s'accorde pas).</p>
+<div class="example-box">Les étudiants <strong>parlant</strong> français ont un avantage. / <strong>Étant</strong> fatigué, il est parti tôt.</div>
+<h3>Le gérondif</h3>
+<p><strong>En + participe présent</strong> — exprime la simultanéité ou la manière</p>
+<table class="vocab-table">
+<tr><td>Simultanéité</td><td>Il écoute de la musique <strong>en travaillant</strong>.</td></tr>
+<tr><td>Manière</td><td>Elle a appris le français <strong>en regardant</strong> des films.</td></tr>
+<tr><td>Condition</td><td><strong>En partant</strong> tôt, tu éviteras les bouchons.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Différence clé :</strong> Le participe présent qualifie un nom (<em>un enfant souriant</em>), le gérondif indique comment ou quand une action se fait (<em>en souriant</em>).</div>`,
+    content_en:`<h2>🌿 Present Participle & Gerund</h2>
+<h3>Present Participle</h3>
+<p>Formed from the <strong>nous</strong> present form → replace <em>-ons</em> with <em>-ant</em></p>
+<table class="vocab-table">
+<tr><td>parler → parlons</td><td>→ <strong>parlant</strong> (speaking)</td></tr>
+<tr><td>finir → finissons</td><td>→ <strong>finissant</strong> (finishing)</td></tr>
+<tr><td>être (irreg.)</td><td>→ <strong>étant</strong> (being)</td></tr>
+<tr><td>avoir (irreg.)</td><td>→ <strong>ayant</strong> (having)</td></tr>
+</table>
+<p>The present participle is <strong>invariable</strong> — it never agrees with the noun.</p>
+<h3>The Gerund (en + present participle)</h3>
+<table class="vocab-table">
+<tr><td>Simultaneous action</td><td>Il écoute de la musique <strong>en travaillant</strong>. (while working)</td></tr>
+<tr><td>Manner</td><td>Elle a appris le français <strong>en regardant</strong> des films. (by watching)</td></tr>
+<tr><td>Condition</td><td><strong>En partant</strong> tôt, tu éviteras les bouchons. (By leaving early…)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Key difference:</strong> Present participle qualifies a noun (<em>un enfant souriant</em>), the gerund tells how/when an action happens (<em>en souriant</em>).</div>`,
+    quiz:[
+      {q:'Quel est le participe présent de "boire" ?', q_en:'What is the present participle of "boire"?', opts:['boivant','buvant','buivant','boirant'], ans:1},
+      {q:'Complétez : "Il a réussi l\'examen ___ beaucoup."', q_en:'Complete: "He passed the exam ___ a lot."', opts:['travaillant','en travaillant','de travailler','avoir travaillé'], ans:1},
+      {q:'Le participe présent s\'accorde-t-il avec le nom ?', q_en:'Does the present participle agree with the noun?', opts:['Oui, toujours','Non, il est invariable','Seulement au féminin','Seulement au pluriel'], ans:1},
+      {q:'Quelle phrase utilise correctement le gérondif ?', q_en:'Which sentence correctly uses the gerund?', opts:['Elle chante en dansant','Elle en chante dansant','En elle chante dansant','Elle chantant danse'], ans:0},
+      {q:'Quelle est la forme du gérondif de "avoir" ?', q_en:'What is the gerund form of "avoir"?', opts:['en avantant','en ayant','en avait','en avoir'], ans:1},
+    ]
+  },
+
+  /* ─── 52 ─── */
+  {
+    id:52, level:'advanced',
+    title:'Le plus-que-parfait',title_en:'The Pluperfect (Past Perfect)',
+    desc:'Une action antérieure à une autre dans le passé.',desc_en:'Express an action before another past action.',
+    content:`<h2>⏮️ Le plus-que-parfait</h2>
+<p>Le plus-que-parfait exprime une action passée <strong>antérieure à une autre action passée</strong>.</p>
+<h3>Formation</h3>
+<p><strong>Auxiliaire avoir ou être à l'imparfait + participe passé</strong></p>
+<table class="vocab-table">
+<tr><th>Avec avoir</th><th>Avec être</th></tr>
+<tr><td>j'avais mangé</td><td>j'étais parti(e)</td></tr>
+<tr><td>tu avais fini</td><td>tu étais arrivé(e)</td></tr>
+<tr><td>il avait parlé</td><td>elle était sortie</td></tr>
+<tr><td>nous avions vu</td><td>nous étions allé(e)s</td></tr>
+</table>
+<h3>Emplois</h3>
+<table class="vocab-table">
+<tr><td>Antériorité</td><td>Quand je suis arrivé, elle <strong>était déjà partie</strong>.</td></tr>
+<tr><td>Cause passée</td><td>Il était fatigué car il <strong>avait travaillé</strong> toute la nuit.</td></tr>
+<tr><td>Condition irréelle (si + PQP)</td><td>Si j'<strong>avais su</strong>, je serais venu.</td></tr>
+<tr><td>Discours indirect</td><td>Il a dit qu'il <strong>avait vu</strong> le film.</td></tr>
+</table>
+<div class="example-box">Lorsqu'elle a ouvert le frigo, quelqu'un <strong>avait mangé</strong> toute la tarte. / Si nous <strong>étions partis</strong> plus tôt, nous n'aurions pas raté le train.</div>
+<div class="tip-box"><strong>💡 Repère :</strong> Plus-que-parfait → passé composé → présent (du plus loin au plus proche dans le temps).</div>`,
+    content_en:`<h2>⏮️ The Pluperfect</h2>
+<p>The pluperfect expresses an action that happened <strong>before another past action</strong>.</p>
+<h3>Formation: avoir/être at imperfect + past participle</h3>
+<table class="vocab-table">
+<tr><th>With avoir</th><th>With être</th></tr>
+<tr><td>j'avais mangé (I had eaten)</td><td>j'étais parti(e) (I had left)</td></tr>
+<tr><td>tu avais fini (you had finished)</td><td>tu étais arrivé(e) (you had arrived)</td></tr>
+<tr><td>il avait parlé (he had spoken)</td><td>elle était sortie (she had gone out)</td></tr>
+</table>
+<h3>Uses</h3>
+<table class="vocab-table">
+<tr><td>Prior past action</td><td>Quand je suis arrivé, elle <strong>était déjà partie</strong>. (She had already left.)</td></tr>
+<tr><td>Impossible past condition</td><td>Si j'<strong>avais su</strong>, je serais venu. (If I had known, I would have come.)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Memory tip:</strong> Pluperfect = furthest back → passé composé → present (moving forward in time).</div>`,
+    quiz:[
+      {q:'Comment forme-t-on le plus-que-parfait ?', q_en:'How is the pluperfect formed?', opts:['Infinitif + avais/étais','Avoir/être à l\'imparfait + participe passé','Avoir/être au présent + participe passé','Infinitif + terminaisons de l\'imparfait'], ans:1},
+      {q:'Conjuguez "partir" au plus-que-parfait (je) :', q_en:'Conjugate "partir" in the pluperfect (je):', opts:['j\'avais parti','j\'étais parti','je suis parti','j\'ai parti'], ans:1},
+      {q:'Choisissez la phrase correcte :', q_en:'Choose the correct sentence:', opts:['Quand il est arrivé, je mangeais déjà.','Quand il est arrivé, j\'avais déjà mangé.','Quand il est arrivé, j\'ai déjà mangé.','Quand il arrivait, j\'avais mangé.'], ans:1},
+      {q:'"Si j\'___ étudié, j\'aurais réussi." — Quel temps ?', q_en:'"Si j\'___ étudié, j\'aurais réussi." — What tense?', opts:['avais','ai','aurai','aurais'], ans:0},
+      {q:'Quel temps est le plus éloigné dans le passé ?', q_en:'Which tense is furthest back in the past?', opts:['L\'imparfait','Le passé composé','Le plus-que-parfait','Le présent'], ans:2},
+    ]
+  },
+
+  /* ─── 53 ─── */
+  {
+    id:53, level:'advanced',
+    title:'Les registres de langue',title_en:'Language Registers',
+    desc:'Soutenu, courant et familier : parler selon le contexte.',desc_en:'Formal, standard and informal French.',
+    content:`<h2>🎭 Les registres de langue</h2>
+<p>Le français possède trois registres principaux selon le contexte de communication.</p>
+<table class="vocab-table">
+<tr><th>Registre</th><th>Contexte</th><th>Exemple</th></tr>
+<tr><td><strong>Soutenu</strong></td><td>Écrit formel, discours officiel</td><td><em>Je ne puis vous répondre dans l'immédiat.</em></td></tr>
+<tr><td><strong>Courant</strong></td><td>Conversation normale, presse</td><td><em>Je ne peux pas vous répondre maintenant.</em></td></tr>
+<tr><td><strong>Familier</strong></td><td>Amis, famille, texto</td><td><em>Je peux pas te répondre là.</em></td></tr>
+</table>
+<h3>Comparaison de vocabulaire</h3>
+<table class="vocab-table">
+<tr><th>Soutenu</th><th>Courant</th><th>Familier</th></tr>
+<tr><td>De nombreuses personnes</td><td>Beaucoup de gens</td><td>Plein de monde</td></tr>
+<tr><td>Je ne sais pas</td><td>Je ne sais pas</td><td>Chais pas</td></tr>
+<tr><td>Automobile</td><td>Voiture</td><td>Bagnole / Caisse</td></tr>
+<tr><td>De l'argent</td><td>De l'argent</td><td>Du fric / de la thune</td></tr>
+<tr><td>Un enfant</td><td>Un enfant / gamin</td><td>Un gosse / môme</td></tr>
+</table>
+<h3>La négation selon le registre</h3>
+<table class="vocab-table">
+<tr><td>Soutenu / Courant</td><td>Je <strong>ne</strong> veux <strong>pas</strong> partir.</td></tr>
+<tr><td>Familier</td><td>Je veux <strong>pas</strong> partir. (<em>ne</em> souvent omis)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Conseil :</strong> Pour le TCF/TEF et les situations professionnelles, utilisez le registre courant ou soutenu. Le registre familier est réservé aux échanges informels.</div>`,
+    content_en:`<h2>🎭 Language Registers</h2>
+<p>French has three main registers depending on context.</p>
+<table class="vocab-table">
+<tr><th>Register</th><th>Context</th><th>Example</th></tr>
+<tr><td><strong>Formal (soutenu)</strong></td><td>Official writing, speeches</td><td><em>Je ne puis vous répondre dans l'immédiat.</em></td></tr>
+<tr><td><strong>Standard (courant)</strong></td><td>Normal conversation, press</td><td><em>Je ne peux pas vous répondre maintenant.</em></td></tr>
+<tr><td><strong>Informal (familier)</strong></td><td>Friends, family, texting</td><td><em>Je peux pas te répondre là.</em></td></tr>
+</table>
+<h3>Vocabulary comparison</h3>
+<table class="vocab-table">
+<tr><th>Formal</th><th>Standard</th><th>Informal</th></tr>
+<tr><td>De nombreuses personnes</td><td>Beaucoup de gens</td><td>Plein de monde</td></tr>
+<tr><td>Automobile</td><td>Voiture</td><td>Bagnole / Caisse</td></tr>
+<tr><td>De l'argent</td><td>De l'argent</td><td>Du fric / de la thune</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> For TCF/TEF and professional settings, use standard or formal register. Informal is for casual exchanges only.</div>`,
+    quiz:[
+      {q:'Quel registre utilise-t-on pour une lettre de motivation ?', q_en:'Which register is used for a cover letter?', opts:['Familier','Courant','Soutenu','Argotique'], ans:2},
+      {q:'"Chais pas" appartient à quel registre ?', q_en:'"Chais pas" belongs to which register?', opts:['Soutenu','Courant','Familier','Scientifique'], ans:2},
+      {q:'Dans quel registre le "ne" de la négation est-il souvent omis ?', q_en:'In which register is the "ne" often dropped?', opts:['Soutenu','Courant','Familier','Les trois'], ans:2},
+      {q:'Quel mot familier signifie "voiture" ?', q_en:'Which informal word means "voiture" (car)?', opts:['Automobile','Véhicule','Bagnole','Carrosse'], ans:2},
+      {q:'Quelle phrase est au registre soutenu ?', q_en:'Which sentence is in the formal register?', opts:['"Je peux pas venir"','"Je ne peux pas venir"','"Il m\'est impossible de venir"','"Venir, c\'est pas possible"'], ans:2},
+    ]
+  },
+
+  /* ─── 54 ─── */
+  {
+    id:54, level:'advanced',
+    title:'Le passé simple',title_en:'The Passé Simple (Literary Past)',
+    desc:'Le temps du récit littéraire et des textes formels.',desc_en:'The literary tense of written narratives.',
+    content:`<h2>📖 Le passé simple</h2>
+<p>Le passé simple est utilisé dans les <strong>textes littéraires, historiques et formels</strong>. On ne l'utilise <em>pas</em> à l'oral courant.</p>
+<h3>Formation — verbes en -ER</h3>
+<table class="vocab-table">
+<tr><td>je parlai</td><td>nous parlâmes</td></tr>
+<tr><td>tu parlas</td><td>vous parlâtes</td></tr>
+<tr><td>il/elle parla</td><td>ils/elles parlèrent</td></tr>
+</table>
+<h3>Formation — verbes en -IR / -RE</h3>
+<table class="vocab-table">
+<tr><td>je finis / je pris</td><td>nous finîmes / nous prîmes</td></tr>
+<tr><td>tu finis / tu pris</td><td>vous finîtes / vous prîtes</td></tr>
+<tr><td>il finit / il prit</td><td>ils finirent / ils prirent</td></tr>
+</table>
+<h3>Verbes irréguliers fréquents</h3>
+<table class="vocab-table">
+<tr><td>être</td><td>je fus, tu fus, il fut, nous fûmes, ils furent</td></tr>
+<tr><td>avoir</td><td>j'eus, tu eus, il eut, nous eûmes, ils eurent</td></tr>
+<tr><td>faire</td><td>je fis, tu fis, il fit, nous fîmes, ils firent</td></tr>
+<tr><td>venir</td><td>je vins, tu vins, il vint, nous vînmes, ils vinrent</td></tr>
+<tr><td>voir</td><td>je vis, tu vis, il vit, nous vîmes, ils virent</td></tr>
+</table>
+<div class="example-box">Il <strong>naquit</strong> en 1769 et <strong>mourut</strong> en 1821. / Elle <strong>prit</strong> la plume et <strong>écrivit</strong> ces mots célèbres.</div>
+<div class="tip-box"><strong>💡 Lecture :</strong> Vous le rencontrerez dans les romans, contes (<em>il était une fois… il arriva que…</em>) et textes historiques. À l'oral, utilisez toujours le passé composé.</div>`,
+    content_en:`<h2>📖 The Passé Simple</h2>
+<p>The passé simple is used in <strong>literary, historical and formal written texts</strong>. It is never used in everyday speech.</p>
+<h3>-ER verbs</h3>
+<table class="vocab-table">
+<tr><td>je parlai (I spoke)</td><td>nous parlâmes</td></tr>
+<tr><td>tu parlas</td><td>vous parlâtes</td></tr>
+<tr><td>il/elle parla</td><td>ils/elles parlèrent</td></tr>
+</table>
+<h3>Common irregular verbs</h3>
+<table class="vocab-table">
+<tr><td>être</td><td>je fus, tu fus, il fut (I/you/he was)</td></tr>
+<tr><td>avoir</td><td>j'eus, tu eus, il eut (I/you/he had)</td></tr>
+<tr><td>faire</td><td>je fis, tu fis, il fit (I/you/he did)</td></tr>
+<tr><td>venir</td><td>je vins, tu vins, il vint (I/you/he came)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Remember:</strong> You'll see the passé simple in novels and history books. In everyday spoken French, always use the passé composé instead.</div>`,
+    quiz:[
+      {q:'Dans quel contexte utilise-t-on principalement le passé simple ?', q_en:'The passé simple is mainly used in:', opts:['Conversation courante','Textes littéraires et écrits formels','SMS et réseaux sociaux','Langage familier'], ans:1},
+      {q:'Conjuguez "parler" au passé simple (il) :', q_en:'Conjugate "parler" in the passé simple (il):', opts:['il parlait','il a parlé','il parla','il parlera'], ans:2},
+      {q:'Quel est le passé simple de "être" (nous) ?', q_en:'Passé simple of "être" (nous):', opts:['nous étions','nous avons été','nous fûmes','nous sommes'], ans:2},
+      {q:'Quelle phrase est au passé simple ?', q_en:'Which sentence is in the passé simple?', opts:['"Il a pris son chapeau et est parti"','"Il prit son chapeau et partit"','"Il prenait son chapeau et partait"','"Il prend son chapeau et part"'], ans:1},
+      {q:'Quel temps remplace le passé simple à l\'oral ?', q_en:'Which tense replaces the passé simple in speech?', opts:['L\'imparfait','Le plus-que-parfait','Le passé composé','Le futur antérieur'], ans:2},
+    ]
+  },
+
   /* ─── 55 ─── */
   {
     id:55, level:'tcf',
@@ -7568,6 +7957,7 @@ const VOCAB_THEMES = [
   {id:'emotions',     fr:'Émotions',     en:'Emotions',    zh:'情感',     icon:'😊'},
   {id:'nature',       fr:'Nature',       en:'Nature',      zh:'自然',     icon:'🌿'},
   {id:'sports',       fr:'Sports',       en:'Sports',      zh:'体育',     icon:'⚽'},
+  {id:'grammaire',    fr:'Grammaire',    en:'Grammar',     zh:'语法',     icon:'📝'},
 ];
 const VOCAB = [
   {fr:'Bonjour',         en:'Hello / Good morning', zh:'你好 / 早上好', pos:'excl.', theme:'salutations', ex:"Bonjour, comment allez-vous ?",         ex_en:"Hello, how are you?"},
@@ -7775,6 +8165,36 @@ const VOCAB = [
   {fr:'voyager',      en:'to travel',      zh:'旅行',  pos:'v.', theme:'sports', ex:"J'adore voyager en Europe.",          ex_en:"I love travelling in Europe."},
   {fr:'jouer',        en:'to play',        zh:'玩/演奏',pos:'v.',theme:'sports', ex:"Les enfants jouent dans le jardin.",   ex_en:"The children play in the garden."},
   {fr:'le week-end',  en:'the weekend',    zh:'周末',  pos:'n.', theme:'sports', ex:"Que fais-tu ce week-end ?",           ex_en:"What are you doing this weekend?"},
+  {fr:'le participe passé',  en:'past participle',          zh:'过去分词',      pos:'n.m.',  theme:'grammaire', ex:"Le participe passé de 'manger' est 'mangé'.",          ex_en:"The past participle of 'manger' is 'mangé'."},
+  {fr:'le sujet',            en:'subject',                  zh:'主语',          pos:'n.m.',  theme:'grammaire', ex:"Dans cette phrase, 'le chat' est le sujet.",           ex_en:"In this sentence, 'le chat' is the subject."},
+  {fr:"l'auxiliaire",        en:'auxiliary (verb)',         zh:'助动词',        pos:'n.m.',  theme:'grammaire', ex:"Être et avoir sont les deux auxiliaires français.",     ex_en:"Être and avoir are the two French auxiliaries."},
+  {fr:'la voix passive',     en:'passive voice',            zh:'被动语态',      pos:'n.f.',  theme:'grammaire', ex:"La voix passive met l'accent sur l'objet de l'action.", ex_en:"The passive voice emphasizes the object of the action."},
+  {fr:'actif / passif',      en:'active / passive',         zh:'主动 / 被动',   pos:'adj.',  theme:'grammaire', ex:"Transformez la phrase active en phrase passive.",       ex_en:"Transform the active sentence into a passive one."},
+  {fr:"l'agent",             en:'agent (grammar)',          zh:'施事者',        pos:'n.m.',  theme:'grammaire', ex:"Dans le passif, l'agent suit souvent 'par'.",           ex_en:"In the passive, the agent often follows 'par'."},
+  {fr:'le gérondif',         en:'gerund',                   zh:'副动词',        pos:'n.m.',  theme:'grammaire', ex:"Le gérondif se forme avec 'en' + participe présent.",   ex_en:"The gerund is formed with 'en' + present participle."},
+  {fr:'le participe présent',en:'present participle',       zh:'现在分词',      pos:'n.m.',  theme:'grammaire', ex:"'Parlant' est le participe présent de 'parler'.",       ex_en:"'Parlant' is the present participle of 'parler'."},
+  {fr:'invariable',          en:'invariable / unchanged',   zh:'不变形的',      pos:'adj.',  theme:'grammaire', ex:"Le participe présent est invariable en français.",      ex_en:"The present participle is invariable in French."},
+  {fr:'le plus-que-parfait', en:'pluperfect / past perfect',zh:'愈过去时',      pos:'n.m.',  theme:'grammaire', ex:"J'avais mangé quand tu es arrivé.",                    ex_en:"I had eaten when you arrived."},
+  {fr:'antérieur(e)',        en:'prior / anterior',         zh:'先前的',        pos:'adj.',  theme:'grammaire', ex:"Le plus-que-parfait exprime une action antérieure.",    ex_en:"The pluperfect expresses a prior action."},
+  {fr:'le passé simple',     en:'simple past (literary)',   zh:'简单过去时',    pos:'n.m.',  theme:'grammaire', ex:"Le passé simple s'utilise dans les textes littéraires.",ex_en:"The simple past is used in literary texts."},
+  {fr:'littéraire',          en:'literary',                 zh:'文学的',        pos:'adj.',  theme:'grammaire', ex:"Le passé simple est un temps littéraire.",              ex_en:"The passé simple is a literary tense."},
+  {fr:'le registre',         en:'register (language)',      zh:'语言风格/语体', pos:'n.m.',  theme:'grammaire', ex:"Choisissez le bon registre selon la situation.",        ex_en:"Choose the right register according to the situation."},
+  {fr:'soutenu(e)',          en:'formal / elevated',        zh:'正式的/文雅的', pos:'adj.',  theme:'grammaire', ex:"Un langage soutenu convient à une lettre officielle.",  ex_en:"Formal language suits an official letter."},
+  {fr:'courant(e)',          en:'standard / everyday',      zh:'标准的/日常的', pos:'adj.',  theme:'grammaire', ex:"Le registre courant est utilisé dans la conversation.",  ex_en:"The standard register is used in conversation."},
+  {fr:'familier / familière',en:'informal / colloquial',    zh:'非正式的/口语的',pos:'adj.', theme:'grammaire', ex:"'Bagnole' est un mot familier pour 'voiture'.",         ex_en:"'Bagnole' is an informal word for 'voiture' (car)."},
+  {fr:'le subjonctif',       en:'subjunctive (mood)',       zh:'虚拟式',        pos:'n.m.',  theme:'grammaire', ex:"Il faut que tu viennes — c'est le subjonctif.",         ex_en:"Il faut que tu viennes — that's the subjunctive."},
+  {fr:'le conditionnel',     en:'conditional (mood)',       zh:'条件式',        pos:'n.m.',  theme:'grammaire', ex:"Je voudrais un café — c'est le conditionnel.",          ex_en:"Je voudrais un café — that's the conditional."},
+  {fr:"l'imparfait",         en:'imperfect (tense)',        zh:'未完成过去时',  pos:'n.m.',  theme:'grammaire', ex:"Quand j'étais jeune, je jouais au foot.",               ex_en:"When I was young, I used to play football."},
+  {fr:'se conjuguer',        en:'to conjugate',             zh:'变位/变形',     pos:'v.',    theme:'grammaire', ex:"Le verbe 'être' se conjugue de façon irrégulière.",     ex_en:"The verb 'être' conjugates irregularly."},
+  {fr:'irrégulier / irrégulière', en:'irregular',          zh:'不规则的',      pos:'adj.',  theme:'grammaire', ex:"'Aller' est un verbe irrégulier.",                      ex_en:"'Aller' is an irregular verb."},
+  {fr:'le complément',       en:'complement / object',      zh:'补语/宾语',     pos:'n.m.',  theme:'grammaire', ex:"'Le livre' est le complément direct du verbe.",         ex_en:"'Le livre' is the direct object of the verb."},
+  {fr:'la proposition',      en:'clause',                   zh:'从句',          pos:'n.f.',  theme:'grammaire', ex:"La proposition principale contient le verbe principal.", ex_en:"The main clause contains the main verb."},
+  {fr:"l'accord",            en:'agreement (grammar)',      zh:'性数配合',      pos:'n.m.',  theme:'grammaire', ex:"L'accord du participe passé est une règle complexe.",   ex_en:"Past participle agreement is a complex rule."},
+  {fr:'transitif / intransitif', en:'transitive / intransitive', zh:'及物/不及物', pos:'adj.', theme:'grammaire', ex:"'Manger' est transitif, 'partir' est intransitif.", ex_en:"'Manger' is transitive, 'partir' is intransitive."},
+  {fr:'pronominal(e)',       en:'pronominal / reflexive',   zh:'代词式的',      pos:'adj.',  theme:'grammaire', ex:"'Se lever' est un verbe pronominal.",                   ex_en:"'Se lever' is a pronominal verb."},
+  {fr:'la négation',         en:'negation',                 zh:'否定',          pos:'n.f.',  theme:'grammaire', ex:"La négation se forme avec 'ne…pas'.",                   ex_en:"Negation is formed with 'ne…pas'."},
+  {fr:"l'inversion",         en:'inversion (question)',     zh:'倒装（疑问）',  pos:'n.f.',  theme:'grammaire', ex:"L'inversion est une façon formelle de poser des questions.", ex_en:"Inversion is a formal way to ask questions."},
+  {fr:'la concordance',      en:'agreement of tenses',      zh:'时态一致',      pos:'n.f.',  theme:'grammaire', ex:"La concordance des temps régit les propositions subordonnées.", ex_en:"The sequence of tenses governs subordinate clauses."},
 ];
 
 /* ── VOCAB QUIZ ── */
@@ -7899,6 +8319,20 @@ function _vqShowResult() {
 
 
 
+var vocabPage = 0;
+var VOCAB_PER_PAGE = 20;
+var _vocabThemesExpanded = false;
+
+function toggleVocabThemes() {
+  _vocabThemesExpanded = !_vocabThemesExpanded;
+  var el = document.getElementById('vocab-theme-tabs');
+  var btn = document.getElementById('vocab-themes-toggle');
+  if (el) el.classList.toggle('expanded', _vocabThemesExpanded);
+  if (btn) btn.textContent = _vocabThemesExpanded
+    ? (lang==='en'?'▲ Show less':lang==='zh'?'▲ 收起':'▲ Réduire')
+    : (lang==='en'?'▼ All themes':lang==='zh'?'▼ 全部主题':'▼ Tous les thèmes');
+}
+
 function renderVocab() {
   var search = '';
   var searchEl = document.getElementById('vocab-search');
@@ -7909,10 +8343,15 @@ function renderVocab() {
     themeTabs.innerHTML = VOCAB_THEMES.map(function(th) {
       var lbl = lang==='en' ? th.en : lang==='zh' ? th.zh : th.fr;
       return '<button class="vocab-chip' + (vocabTheme===th.id?' active':'')
-        + '" onclick="vocabTheme=\'' + th.id + '\';renderVocab()">'
+        + '" onclick="vocabTheme=\'' + th.id + '\';vocabPage=0;renderVocab()">'
         + th.icon + ' ' + lbl + '</button>';
     }).join('');
   }
+
+  var toggleBtn = document.getElementById('vocab-themes-toggle');
+  if (toggleBtn) toggleBtn.textContent = _vocabThemesExpanded
+    ? (lang==='en'?'▲ Show less':lang==='zh'?'▲ 收起':'▲ Réduire')
+    : (lang==='en'?'▼ All themes':lang==='zh'?'▼ 全部主题':'▼ Tous les thèmes');
 
   var filtered = VOCAB.filter(function(w) {
     if (vocabTheme !== 'all' && w.theme !== vocabTheme) return false;
@@ -7924,8 +8363,12 @@ function renderVocab() {
 
   var trainBtn = document.getElementById('vocab-train-btn');
   if (trainBtn) {
-    trainBtn.textContent = lang==='en'?'\u26A1 Practice Quiz':lang==='zh'?'\u26A1 \u7EC3\u4E60\u6D4B\u9A8C':'\u26A1 S\'entra\xEEner';
+    trainBtn.textContent = lang==='en'?'⚡ Practice Quiz':lang==='zh'?'⚡ 练习测验':'⚡ S\'entra\xEEner';
   }
+
+  var totalPages = Math.max(1, Math.ceil(filtered.length / VOCAB_PER_PAGE));
+  if (vocabPage >= totalPages) vocabPage = totalPages - 1;
+
   var countEl = document.getElementById('vocab-count');
   if (countEl) {
     var unit = lang==='en' ? (filtered.length!==1?'words':'word') : lang==='zh' ? '个词' : (filtered.length!==1?'mots':'mot');
@@ -7935,20 +8378,23 @@ function renderVocab() {
   var listEl = document.getElementById('vocab-list');
   if (!listEl) return;
   if (filtered.length === 0) {
-    listEl.innerHTML = '<div class="vocab-empty"><span class="vocab-empty-icon">🔍</span><div class="vocab-empty-title">' + (lang==='en'?'No words found':lang==='zh'?'没有找到词汇':'Aucun mot trouvé') + '</div><div class="vocab-empty-sub">' + (lang==='en'?'Try a different search term':lang==='zh'?'请尝试其他关键词':'Essayez un autre terme de recherche') + '</div></div>';
+    listEl.innerHTML = '<div class="vocab-empty"><span class="vocab-empty-icon">🔍</span><div class="vocab-empty-title">' + (lang==='en'?'No words found':lang==='zh'?'没有找到词汇':'Aucun mot trouv\xe9') + '</div><div class="vocab-empty-sub">' + (lang==='en'?'Try a different search term':lang==='zh'?'请尝试其他关键词':'Essayez un autre terme de recherche') + '</div></div>';
+    var pagEl = document.getElementById('vocab-pagination');
+    if (pagEl) pagEl.innerHTML = '';
     return;
   }
 
-  listEl.innerHTML = filtered.map(function(w) {
+  var pageItems = filtered.slice(vocabPage * VOCAB_PER_PAGE, (vocabPage + 1) * VOCAB_PER_PAGE);
+  listEl.innerHTML = pageItems.map(function(w) {
     var trans = lang==='zh' ? w.zh : w.en;
-    var exText = w.ex; // toujours l'exemple en français
+    var exText = w.ex;
     function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     var speakFr = w.fr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return '<div class="vocab-card">'
       + '<div class="vocab-card-top">'
       + '<span class="vocab-fr">' + esc(w.fr) + '</span>'
       + '<span class="vocab-pos">' + w.pos + '</span>'
-      + '<button class="vocab-speak" onclick="speak(\'' + speakFr + '\',\'fr-FR\')" title="Écouter">🔊</button>'
+      + '<button class="vocab-speak" onclick="speak(\'' + speakFr + '\',\'fr-FR\')" title="\xc9couter">🔊</button>'
       + '</div>'
       + '<div class="vocab-trans">' + esc(trans) + '</div>'
       + '<div class="vocab-ex">' + esc(exText)
@@ -7956,6 +8402,23 @@ function renderVocab() {
       + '</div>'
       + '</div>';
   }).join('');
+
+  // Pagination bar
+  var pag = document.getElementById('vocab-pagination');
+  if (pag) {
+    if (totalPages <= 1) { pag.innerHTML = ''; return; }
+    var prevDisabled = vocabPage === 0 ? ' disabled' : '';
+    var nextDisabled = vocabPage >= totalPages - 1 ? ' disabled' : '';
+    var lo = Math.max(0, Math.min(vocabPage - 2, totalPages - 5));
+    var hi = Math.min(totalPages - 1, lo + 4);
+    var pageNums = '';
+    for (var p = lo; p <= hi; p++) {
+      pageNums += '<button class="vocab-page-btn' + (p===vocabPage?' active':'') + '" onclick="vocabPage='+p+';renderVocab();document.getElementById(\'tab-vocab\').scrollTop=0">' + (p+1) + '</button>';
+    }
+    pag.innerHTML = '<button class="vocab-page-btn" onclick="if(vocabPage>0){vocabPage--;renderVocab();document.getElementById(\'tab-vocab\').scrollTop=0}"' + prevDisabled + '>‹</button>'
+      + pageNums
+      + '<button class="vocab-page-btn" onclick="if(vocabPage<' + (totalPages-1) + '){vocabPage++;renderVocab();document.getElementById(\'tab-vocab\').scrollTop=0}"' + nextDisabled + '>›</button>';
+  }
 }
 
 let quizIndex   = 0;
@@ -8604,7 +9067,7 @@ function showResult() {
     return '<span style="opacity:' + (i < stars ? '1' : '0.22') + '">' + (i < stars ? '⭐' : '⭐') + '</span>';
   }).join('');
   var mascot = pct === 100 ? '🦊🎉' : pct >= 80 ? '🦊✨' : pct >= 60 ? '🦊👍' : '🦊💪';
-  var i18n = translations[lang] || translations.fr;
+  var i18n = T[lang] || T.fr;
   var msg = pct === 100 ? i18n.r100msg : pct >= 80 ? i18n.r80msg : pct >= 60 ? i18n.r60msg : i18n.r0msg;
   var sub = pct === 100 ? i18n.r100sub : pct >= 80 ? i18n.r80sub : pct >= 60 ? i18n.r60sub : i18n.r0sub;
   var xpEarned = quizScore * 10;
