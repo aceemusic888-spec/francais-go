@@ -240,10 +240,25 @@
     .vocab-search { width: 100%; padding: 12px 16px 12px 42px; border: 2px solid var(--border); border-radius: 14px; background: var(--card); color: var(--text); font-size: 15px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
     .vocab-search:focus { border-color: var(--indigo); }
     .vocab-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 17px; pointer-events: none; }
-    .vocab-themes { display: flex; flex-wrap: nowrap; gap: 6px; margin-bottom: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-    .vocab-chip { flex-shrink: 0; padding: 6px 11px; border-radius: 99px; border: 2px solid var(--border); background: var(--card); font-size: 11px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
-    .vocab-chip.active { background: var(--indigo); border-color: var(--indigo); color: white; }
-    .vocab-themes-toggle { display: none; }
+    .vocab-theme-selector { position:relative; margin-bottom:10px; }
+    .vocab-theme-btn { width:100%; display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:14px; border:2px solid var(--border); background:var(--card); color:var(--text); font-size:14px; font-weight:700; cursor:pointer; transition:border-color 0.15s; text-align:left; }
+    .vocab-theme-btn:hover { border-color:var(--indigo); }
+    .vocab-theme-btn .vtb-icon { font-size:20px; }
+    .vocab-theme-btn .vtb-label { flex:1; }
+    .vocab-theme-btn .vtb-arrow { font-size:11px; opacity:0.5; transition:transform 0.2s; }
+    .vocab-theme-btn.open .vtb-arrow { transform:rotate(180deg); }
+    .vocab-theme-dropdown { display:none; position:absolute; top:calc(100% + 6px); left:0; right:0; background:var(--card); border:2px solid var(--border); border-radius:16px; padding:10px; z-index:50; box-shadow:0 8px 32px rgba(0,0,0,0.18); }
+    .vocab-theme-dropdown.open { display:block; }
+    .vocab-theme-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+    .vocab-theme-item { display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 4px; border-radius:10px; border:2px solid transparent; cursor:pointer; transition:all 0.15s; background:transparent; }
+    .vocab-theme-item:hover { background:var(--bg); }
+    .vocab-theme-item.active { border-color:var(--indigo); background:#EEF2FF; }
+    body.dark .vocab-theme-item.active { background:#1E1B4B; }
+    .vocab-theme-item .vti-icon { font-size:22px; line-height:1; }
+    .vocab-theme-item .vti-label { font-size:10px; font-weight:700; color:var(--muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+    .vocab-theme-item.active .vti-label { color:var(--indigo); }
+    .vocab-themes { display:none; }
+    .vocab-themes-toggle { display:none; }
     .vocab-count { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
     .vocab-pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; padding: 8px 0; }
     .vocab-page-btn { width: 36px; height: 36px; border-radius: 10px; border: 2px solid var(--border); background: var(--card); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text); transition: all 0.15s; }
@@ -1331,6 +1346,16 @@
       <input type="text" class="vocab-search" id="vocab-search" oninput="vocabPage=0;renderVocab()" placeholder="Rechercher un mot...">
     </div>
     <button class="vocab-train-btn" id="vocab-train-btn" onclick="startVocabQuiz()">&#x26A1; S'entraîner</button>
+    <div class="vocab-theme-selector" id="vocab-theme-selector">
+      <button class="vocab-theme-btn" id="vocab-theme-btn" onclick="toggleThemeDropdown()">
+        <span class="vtb-icon" id="vtb-icon">🌟</span>
+        <span class="vtb-label" id="vtb-label">Tous les thèmes</span>
+        <span class="vtb-arrow">▼</span>
+      </button>
+      <div class="vocab-theme-dropdown" id="vocab-theme-dropdown">
+        <div class="vocab-theme-grid" id="vocab-theme-grid"></div>
+      </div>
+    </div>
     <div class="vocab-themes" id="vocab-theme-tabs"></div>
     <button class="vocab-themes-toggle" id="vocab-themes-toggle" onclick="toggleVocabThemes()"></button>
     <div class="vocab-count" id="vocab-count"></div>
@@ -8471,15 +8496,45 @@ function _vqShowResult() {
 var vocabPage = 0;
 var VOCAB_PER_PAGE = 20;
 var _vocabThemesExpanded = false;
-
-function toggleVocabThemes() {
-  _vocabThemesExpanded = !_vocabThemesExpanded;
-  var el = document.getElementById('vocab-theme-tabs');
-  var btn = document.getElementById('vocab-themes-toggle');
-  if (el) el.classList.toggle('expanded', _vocabThemesExpanded);
-  if (btn) btn.textContent = _vocabThemesExpanded
-    ? (lang==='en'?'▲ Show less':lang==='zh'?'▲ 收起':'▲ Réduire')
-    : (lang==='en'?'▼ All themes':lang==='zh'?'▼ 全部主题':'▼ Tous les thèmes');
+function toggleVocabThemes() {}
+function toggleThemeDropdown() {
+  var btn = document.getElementById('vocab-theme-btn');
+  var dd  = document.getElementById('vocab-theme-dropdown');
+  if (!btn || !dd) return;
+  var isOpen = dd.classList.contains('open');
+  if (isOpen) {
+    dd.classList.remove('open'); btn.classList.remove('open');
+  } else {
+    renderThemeGrid(); dd.classList.add('open'); btn.classList.add('open');
+  }
+}
+function closeThemeDropdown() {
+  var btn = document.getElementById('vocab-theme-btn');
+  var dd  = document.getElementById('vocab-theme-dropdown');
+  if (btn) btn.classList.remove('open');
+  if (dd)  dd.classList.remove('open');
+}
+function selectTheme(id) {
+  vocabTheme = id; vocabPage = 0; closeThemeDropdown(); renderVocab();
+}
+function renderThemeGrid() {
+  var grid = document.getElementById('vocab-theme-grid');
+  if (!grid) return;
+  grid.innerHTML = VOCAB_THEMES.map(function(th) {
+    var lbl = lang==='en' ? th.en : lang==='zh' ? th.zh : th.fr;
+    return '<button class="vocab-theme-item' + (vocabTheme===th.id?' active':'') + '" onclick="selectTheme(\'' + th.id + '\')">'
+      + '<span class="vti-icon">' + th.icon + '</span>'
+      + '<span class="vti-label">' + lbl + '</span>'
+      + '</button>';
+  }).join('');
+}
+function updateThemeBtn() {
+  var th = VOCAB_THEMES.find(function(t){ return t.id===vocabTheme; }) || VOCAB_THEMES[0];
+  var lbl = lang==='en' ? th.en : lang==='zh' ? th.zh : th.fr;
+  var iconEl = document.getElementById('vtb-icon');
+  var labelEl = document.getElementById('vtb-label');
+  if (iconEl)  iconEl.textContent  = th.icon;
+  if (labelEl) labelEl.textContent = lbl;
 }
 
 function renderVocab() {
@@ -8496,6 +8551,7 @@ function renderVocab() {
         + th.icon + ' ' + lbl + '</button>';
     }).join('');
   }
+  updateThemeBtn();
 
   var filtered = VOCAB.filter(function(w) {
     if (vocabTheme !== 'all' && w.theme !== vocabTheme) return false;
@@ -9270,19 +9326,25 @@ function showResult() {
   // Save progress
   if (currentLesson) {
     if (!state[currentLesson.id]) state[currentLesson.id] = {};
+    var xpBefore = getXP();
     if (!state[currentLesson.id].score || quizScore > state[currentLesson.id].score) {
       state[currentLesson.id].score = quizScore;
     }
     state[currentLesson.id].completed = true;
     saveState();
     updateStreak();
-    var xpBefore = getXP() - quizScore * 10;
-    showXPFloat(xpEarned);
-    _addDailyXP(xpEarned);
+    var xpAfter = getXP();
+    var xpGained = xpAfter - xpBefore;
+    if (xpGained > 0) {
+      showXPFloat(xpGained);
+      _addDailyXP(xpGained);
+      if (xpEl) xpEl.innerHTML = '⚡ +' + xpGained + ' ' + (i18n.xpLbl || 'XP');
+    } else {
+      if (xpEl) xpEl.style.display = 'none';
+    }
     updateXPDisplay();
     checkBadges();
     // Level-up check
-    var xpAfter = getXP();
     var lvlBefore = getLevelInfo(xpBefore);
     var lvlAfter  = getLevelInfo(xpAfter);
     if (lvlAfter.idx > lvlBefore.idx) {
@@ -10171,7 +10233,7 @@ function openPaywall() {
     set('modal-title','Premium Content 🔓');
     set('modal-sub','Unlock 55 advanced lessons and progress quickly in French.');
     set('mf1','55 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
-    set('mf2','300 interactive quiz exercises');
+    set('mf2','325 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
     set('modal-price-label','Full access — one-time payment');
@@ -10183,7 +10245,7 @@ function openPaywall() {
     set('modal-title','高级内容 🔓');
     set('modal-sub','解锁55节高级课程，快速提升法语水平。');
     set('mf1','55节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
-    set('mf2','300道互动测验');
+    set('mf2','325道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
     set('modal-price-label','完整访问 — 一次性付款');
@@ -10195,7 +10257,7 @@ function openPaywall() {
     set('modal-title','Contenu Premium 🔓');
     set('modal-sub','Débloquez les 55 leçons avancées et progressez rapidement en français.');
     set('mf1','55 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
-    set('mf2','300 exercices de quiz interactifs');
+    set('mf2','325 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
     set('modal-price-label','Accès complet — paiement unique');
@@ -10212,6 +10274,12 @@ function openPaywall() {
 function closePaywall() {
   const modal = document.getElementById('paywall-modal');
   if (modal) modal.classList.remove('show');
+  const ci = document.getElementById('code-input');
+  if (ci) ci.value = '';
+  const ce = document.getElementById('code-error');
+  if (ce) { ce.textContent = ''; ce.style.display = 'none'; }
+  const ca = document.getElementById('code-area');
+  if (ca) ca.style.display = 'none';
 }
 function closePaywallOnBg(e) {
   if (e.target.id === 'paywall-modal') closePaywall();
@@ -10426,6 +10494,11 @@ function initApp() {
 /* ══════════════════════════════════════
    SERVICE WORKER REGISTRATION
 ══════════════════════════════════════ */
+document.addEventListener('click', function(e) {
+  var sel = document.getElementById('vocab-theme-selector');
+  if (sel && !sel.contains(e.target)) closeThemeDropdown();
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
