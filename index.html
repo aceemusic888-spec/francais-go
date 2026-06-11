@@ -53,6 +53,17 @@
     body.dark .modal-title, body.dark .modal-sub, body.dark .modal-feature { color:var(--text); }
     body.dark .lesson-card h3 { color:var(--text); }
     body.dark .lesson-card p { color:var(--muted); }
+    body.dark .feedback-box.correct { background:#052e16; color:#86efac; border-color:#166534; }
+    body.dark .feedback-box.wrong { background:#2d0a0a; color:#fca5a5; border-color:#7f1d1d; }
+    body.dark .btn-review-wrong { background:linear-gradient(135deg,#7f1d1d,#991b1b); color:white; }
+    body.dark .vocab-chip.active { background:var(--indigo); border-color:var(--indigo); }
+    body.dark .vocab-chip { color:var(--muted); border-color:#374151; }
+    body.dark .vocab-card { border-color:#2D3748; }
+    body.dark .vocab-ex { color:var(--muted); }
+    body.dark .vocab-ex-trans { color:#6B7280; }
+    body.dark .share-social-btn { color:var(--text); }
+    body.dark .fc-front { background:linear-gradient(140deg,#2D2B6B 0%,#3730A3 50%,#4C1D95 100%); }
+    body.dark .result-pct-badge { opacity:0.9; }
 
     /* ── Header ── */
     header { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 24px rgba(99,102,241,0.35); }
@@ -3619,6 +3630,100 @@ const CONTENT_EN = {
 <tr><td>venir</td><td>je vins, tu vins, il vint, nous vînmes, ils vinrent (came)</td></tr>
 </table>
 <div class="tip-box"><strong>💡 Remember:</strong> You'll see the passé simple in novels and history books. In everyday spoken French, always use the passé composé instead.</div>`,
+  45: `<h2>🌀 The Present Subjunctive</h2>
+<p>The subjunctive is a verb mood used after expressions of will, doubt, emotion or obligation.</p>
+<h3>Formation</h3>
+<p>Take the ils/elles form, drop -ent, add: -e, -es, -e, -ions, -iez, -ent</p>
+<table class="vocab-table">
+<tr><td>parler → ils parlent</td><td>que je parle, que tu parles…</td></tr>
+<tr><td>finir → ils finissent</td><td>que je finisse, que tu finisses…</td></tr>
+<tr><td>être (irreg.)</td><td>que je sois, que tu sois, qu'il soit…</td></tr>
+<tr><td>avoir (irreg.)</td><td>que j'aie, que tu aies, qu'il ait…</td></tr>
+<tr><td>aller (irreg.)</td><td>que j'aille, que tu ailles, qu'il aille…</td></tr>
+</table>
+<h3>When to use it?</h3>
+<table class="vocab-table">
+<tr><td>Will / desire</td><td>Je veux que tu <strong>viennes</strong>. (I want you to come.)</td></tr>
+<tr><td>Doubt</td><td>Je doute qu'il <strong>soit</strong> là. (I doubt he is there.)</td></tr>
+<tr><td>Emotion</td><td>Je suis content que tu <strong>aies</strong> réussi. (I'm glad you succeeded.)</td></tr>
+<tr><td>Obligation</td><td>Il faut que vous <strong>partiez</strong>. (You must leave.)</td></tr>
+<tr><td>Conjunctions</td><td>bien que (although), pour que (so that), avant que (before)…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> Subjunctive requires a different subject in the subordinate clause. Same subject → infinitive: <em>Je veux <strong>partir</strong></em>.</div>`,
+
+  46: `<h2>🔮 The Conditional</h2>
+<p>The conditional expresses hypothetical actions, wishes and is used for politeness.</p>
+<h3>Formation — Present conditional</h3>
+<p>Infinitive + imperfect endings: -ais, -ais, -ait, -ions, -iez, -aient</p>
+<table class="vocab-table">
+<tr><td>parler</td><td>je parlerais, tu parlerais, il parlerait…</td></tr>
+<tr><td>avoir (irreg.)</td><td>j'aurais, tu aurais, il aurait…</td></tr>
+<tr><td>être (irreg.)</td><td>je serais, tu serais, il serait…</td></tr>
+<tr><td>aller (irreg.)</td><td>j'irais, tu irais, il irait…</td></tr>
+</table>
+<h3>Uses</h3>
+<table class="vocab-table">
+<tr><td>Politeness</td><td>Je <strong>voudrais</strong> un café. (I would like a coffee.)</td></tr>
+<tr><td>Hypothesis (si + imperfect)</td><td>Si j'avais de l'argent, je <strong>voyagerais</strong>.</td></tr>
+<tr><td>Wish</td><td>J'<strong>aimerais</strong> vivre à Paris.</td></tr>
+<tr><td>Unconfirmed info</td><td>Il <strong>serait</strong> malade. (He is reportedly ill.)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Rule:</strong> Never "si + conditional" — the "si" clause always takes imperfect or pluperfect.</div>`,
+
+  47: `<h2>💬 Reported Speech</h2>
+<p>Reported speech allows you to report someone's words without quoting them directly.</p>
+<h3>Main transformations</h3>
+<table class="vocab-table">
+<tr><td>Direct speech</td><td>Reported speech</td></tr>
+<tr><td>"I am tired."</td><td>He says he <strong>is</strong> tired.</td></tr>
+<tr><td>"I ate."</td><td>He says he <strong>had eaten</strong>.</td></tr>
+<tr><td>"I will eat."</td><td>He says he <strong>would eat</strong>.</td></tr>
+<tr><td>"Eat!"</td><td>He tells him <strong>to eat</strong>.</td></tr>
+</table>
+<h3>Tense backshift (introductory verb in past)</h3>
+<table class="vocab-table">
+<tr><td>Present → Imperfect</td><td>"Je travaille" → il disait qu'il <strong>travaillait</strong></td></tr>
+<tr><td>Perfect → Pluperfect</td><td>"J'ai fini" → il disait qu'il <strong>avait fini</strong></td></tr>
+<tr><td>Future → Conditional</td><td>"Je viendrai" → il disait qu'il <strong>viendrait</strong></td></tr>
+</table>`,
+
+  48: `<h2>🔗 Relative Pronouns</h2>
+<p>Relative pronouns link two clauses by replacing a noun.</p>
+<h3>Simple pronouns</h3>
+<table class="vocab-table">
+<tr><td><strong>qui</strong></td><td>subject</td><td>The man <strong>who</strong> is speaking is my father.</td></tr>
+<tr><td><strong>que/qu'</strong></td><td>direct object</td><td>The book <strong>that</strong> I'm reading is fascinating.</td></tr>
+<tr><td><strong>dont</strong></td><td>complement with "de"</td><td>The subject <strong>of which</strong> I speak is complex.</td></tr>
+<tr><td><strong>où</strong></td><td>place / time</td><td>The city <strong>where</strong> I live is beautiful.</td></tr>
+</table>
+<h3>Compound pronouns</h3>
+<p>Used after a preposition: lequel, laquelle, lesquels, lesquelles</p>
+<table class="vocab-table">
+<tr><td>La table <strong>sur laquelle</strong> je travaille</td><td>the table on which I work</td></tr>
+<tr><td>Les amis <strong>auxquels</strong> je pense</td><td>à + lesquels = auxquels</td></tr>
+</table>`,
+
+  49: `<h2>⏱️ Sequence of Tenses</h2>
+<p>The sequence of tenses governs tense choice in subordinate clauses based on the main clause tense.</p>
+<h3>"Si" clauses (hypotheses)</h3>
+<table class="vocab-table">
+<tr><td<tr><td>Si + present</td><td>→ future or imperative</td><td>If it's nice, <strong>we will go out</strong>.</td></tr>
+<tr><td>Si + imperfect</td><td>→ present conditional</td><td>If it were nice, <strong>we would go out</strong>.</td></tr>
+<tr><td>Si + pluperfect</td><td>→ past conditional</td><td>If it had been nice, <strong>we would have gone out</strong>.</td></tr>
+</table>
+<h3>In subordinate clauses (main verb in the past)</h3>
+<table class="vocab-table">
+<tr><td>Simultaneous action</td><td>→ imperfect</td><td>He said he <strong>was</strong> tired.</td></tr>
+<tr><td>Prior action</td><td>→ pluperfect</td><td>He said he <strong>had finished</strong>.</td></tr>
+<tr><td>Subsequent action</td><td>→ conditional</td><td>He said he <strong>would come</strong>.</td></tr>
+</table>
+<h3>Literary tenses</h3>
+<table class="vocab-table">
+<tr><td>Passé simple</td><td>Literary past narrative: He <strong>arrived</strong> at midnight.</td></tr>
+<tr><td>Imperfect subjunctive</td><td>Classical literature: Although it <strong>were</strong> late…</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> In everyday speech, use passé composé, imperfect and conditional. The passé simple is reserved for literary writing.</div>`,
+
 };
 
 
@@ -8165,6 +8270,28 @@ const VOCAB = [
   {fr:'voyager',      en:'to travel',      zh:'旅行',  pos:'v.', theme:'sports', ex:"J'adore voyager en Europe.",          ex_en:"I love travelling in Europe."},
   {fr:'jouer',        en:'to play',        zh:'玩/演奏',pos:'v.',theme:'sports', ex:"Les enfants jouent dans le jardin.",   ex_en:"The children play in the garden."},
   {fr:'le week-end',  en:'the weekend',    zh:'周末',  pos:'n.', theme:'sports', ex:"Que fais-tu ce week-end ?",           ex_en:"What are you doing this weekend?"},
+
+  {fr:'une robe',           en:'a dress',              zh:'一条裙子',     pos:'n.f.',  theme:'vetements', ex:"Elle porte une belle robe rouge.",          ex_en:"She is wearing a beautiful red dress."},
+  {fr:'un pantalon',        en:'trousers / pants',     zh:'裤子',         pos:'n.m.',  theme:'vetements', ex:"Il met un pantalon noir pour travailler.",   ex_en:"He puts on black trousers for work."},
+  {fr:'des chaussures',     en:'shoes',                zh:'鞋子',         pos:'n.f.pl',theme:'vetements', ex:"Ces chaussures sont très confortables.",     ex_en:"These shoes are very comfortable."},
+  {fr:'une veste',          en:'jacket',               zh:'外套',         pos:'n.f.',  theme:'vetements', ex:"Il fait froid, prends ta veste.",             ex_en:"It's cold, take your jacket."},
+  {fr:'un imperméable',     en:'raincoat',             zh:'雨衣',         pos:'n.m.',  theme:'vetements', ex:"N'oublie pas ton imperméable, il pleut.",    ex_en:"Don't forget your raincoat, it's raining."},
+  {fr:'s'habiller',        en:'to get dressed',       zh:'穿衣服',       pos:'v.',    theme:'vetements', ex:"Il faut s'habiller chaudement en hiver.",    ex_en:"You need to dress warmly in winter."},
+  {fr:'trois',              en:'three',                zh:'三',           pos:'n.',    theme:'chiffres', ex:"J'ai trois chats.",                           ex_en:"I have three cats."},
+  {fr:'quatre',             en:'four',                 zh:'四',           pos:'n.',    theme:'chiffres', ex:"Il y a quatre saisons.",                      ex_en:"There are four seasons."},
+  {fr:'six',                en:'six',                  zh:'六',           pos:'n.',    theme:'chiffres', ex:"Le bus numéro six passe ici.",                ex_en:"Bus number six stops here."},
+  {fr:'sept',               en:'seven',                zh:'七',           pos:'n.',    theme:'chiffres', ex:"La semaine a sept jours.",                    ex_en:"The week has seven days."},
+  {fr:'huit',               en:'eight',                zh:'八',           pos:'n.',    theme:'chiffres', ex:"Il est huit heures du matin.",                ex_en:"It is eight o'clock in the morning."},
+  {fr:'neuf',               en:'nine',                 zh:'九',           pos:'n.',    theme:'chiffres', ex:"Un chat a neuf vies.",                        ex_en:"A cat has nine lives."},
+  {fr:'une chambre',        en:'bedroom',              zh:'卧室',         pos:'n.f.',  theme:'maison', ex:"Ma chambre est au premier étage.",              ex_en:"My bedroom is on the first floor."},
+  {fr:'une cuisine',        en:'kitchen',              zh:'厨房',         pos:'n.f.',  theme:'maison', ex:"Je prépare le dîner dans la cuisine.",          ex_en:"I prepare dinner in the kitchen."},
+  {fr:'une salle de bains', en:'bathroom',             zh:'浴室',         pos:'n.f.',  theme:'maison', ex:"La salle de bains est en face de ma chambre.", ex_en:"The bathroom is across from my bedroom."},
+  {fr:'un escalier',        en:'stairs / staircase',   zh:'楼梯',         pos:'n.m.',  theme:'maison', ex:"Monte les escaliers, c'est au deuxième étage.",ex_en:"Go up the stairs, it's on the second floor."},
+  {fr:'un balcon',          en:'balcony',              zh:'阳台',         pos:'n.m.',  theme:'maison', ex:"Je prends mon café sur le balcon le matin.",   ex_en:"I have my coffee on the balcony in the morning."},
+  {fr:'Pardon',             en:'Pardon / Sorry',       zh:'对不起/请问',  pos:'excl.', theme:'salutations', ex:"Pardon, vous pouvez répéter ?",            ex_en:"Pardon, could you repeat that?"},
+  {fr:'Bienvenue',          en:'Welcome',              zh:'欢迎',         pos:'excl.', theme:'salutations', ex:"Bienvenue en France !",                   ex_en:"Welcome to France!"},
+  {fr:'Bonne journée',      en:'Have a good day',      zh:'祝您愉快',     pos:'excl.', theme:'salutations', ex:"Merci, bonne journée à vous aussi !",      ex_en:"Thank you, have a good day too!"},
+  {fr:'À tout à l'heure',  en:'See you in a bit',     zh:'待会儿见',     pos:'excl.', theme:'salutations', ex:"Je reviens dans dix minutes, à tout à l'heure !", ex_en:"I'll be back in ten minutes, see you in a bit!"},
   {fr:'le participe passé',  en:'past participle',          zh:'过去分词',      pos:'n.m.',  theme:'grammaire', ex:"Le participe passé de 'manger' est 'mangé'.",          ex_en:"The past participle of 'manger' is 'mangé'."},
   {fr:'le sujet',            en:'subject',                  zh:'主语',          pos:'n.m.',  theme:'grammaire', ex:"Dans cette phrase, 'le chat' est le sujet.",           ex_en:"In this sentence, 'le chat' is the subject."},
   {fr:"l'auxiliaire",        en:'auxiliary (verb)',         zh:'助动词',        pos:'n.m.',  theme:'grammaire', ex:"Être et avoir sont les deux auxiliaires français.",     ex_en:"Être and avoir are the two French auxiliaries."},
@@ -9103,7 +9230,7 @@ function showResult() {
   var reviewBtn = el('btn-review-wrong');
   if (reviewBtn) {
     var hasWrong = window.wrongAnswersList && window.wrongAnswersList.length > 0;
-    reviewBtn.style.display = hasWrong ? '' : 'none';
+    reviewBtn.style.display = hasWrong ? 'block' : 'none';
     var wrongCount = hasWrong ? window.wrongAnswersList.length : 0;
     reviewBtn.textContent = lang==='en' ? '🔁 Review ' + wrongCount + ' wrong answer' + (wrongCount>1?'s':'') :
                             lang==='zh' ? '🔁 复习 ' + wrongCount + ' 道错题' :
