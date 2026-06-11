@@ -1361,8 +1361,8 @@
    FREEMIUM CONFIG  ← modifiez ici !
 ══════════════════════════════════════ */
 const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35]; // IDs des leçons gratuites
-const UNLOCK_CODE   = 'FRANCAIS2024';            // Code donné aux acheteurs
-const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld';
+const UNLOCK_CODE_HASH = '9b603d420459bde57879ed37f77899dd9ebfe468709a5153a5558bde5bf3e8cf'; // SHA-256 du code
+const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld'; // web only
 
 function isStandaloneApp() {
   return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
@@ -10169,12 +10169,18 @@ function toggleCodeInput() {
   const ca = document.getElementById('code-area');
   if (ca) ca.style.display = ca.style.display==='none'?'block':'none';
 }
-function validateCode() {
+async function validateCode() {
   const input = document.getElementById('code-input');
   const errEl = document.getElementById('code-error');
   if (!input) return;
-  if (input.value.trim().toUpperCase() === UNLOCK_CODE) {
+  const code = input.value.trim().toUpperCase();
+  // Hash the entered code with SHA-256 and compare — plaintext never stored in source
+  const encoded = new TextEncoder().encode(code);
+  const hashBuf = await crypto.subtle.digest('SHA-256', encoded);
+  const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  if (hashHex === UNLOCK_CODE_HASH) {
     localStorage.setItem('ff_unlocked','1');
+    if (window._fbAuth && window._fbAuth.currentUser) saveToCloud();
     closePaywall();
     renderCurrentView();
     showStreakToast('🔓 '+(lang==='en'?'Premium unlocked!':lang==='zh'?'高级已解锁！':'Premium débloqué !'));
