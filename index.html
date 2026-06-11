@@ -1400,8 +1400,13 @@ const UNLOCK_CODE_HASH = '9b603d420459bde57879ed37f77899dd9ebfe468709a5153a5558b
 const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld'; // web only
 
 function isStandaloneApp() {
-  return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
-      || window.navigator.standalone === true;
+  var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+                || window.navigator.standalone === true;
+  // TWA detection: referrer contains the origin (Android TWA sets this)
+  var isTWA = document.referrer && document.referrer.includes('android-app://');
+  // Also detect via user agent hint or display-mode: fullscreen (some TWAs)
+  var isFullscreen = window.matchMedia && window.matchMedia('(display-mode: fullscreen)').matches;
+  return standalone || isTWA || isFullscreen;
 }
 function isUnlocked() {
   return isStandaloneApp() || localStorage.getItem('ff_unlocked') === '1';
