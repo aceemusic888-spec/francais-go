@@ -238,12 +238,10 @@
     .vocab-search { width: 100%; padding: 12px 16px 12px 42px; border: 2px solid var(--border); border-radius: 14px; background: var(--card); color: var(--text); font-size: 15px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
     .vocab-search:focus { border-color: var(--indigo); }
     .vocab-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 17px; pointer-events: none; }
-    .vocab-themes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; max-height: 108px; overflow-y: auto; scrollbar-width: none; }
-    .vocab-themes::-webkit-scrollbar { display: none; }
-    .vocab-themes.expanded { max-height: none; }
+    .vocab-themes { display: flex; flex-wrap: nowrap; gap: 6px; margin-bottom: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .vocab-chip { flex-shrink: 0; padding: 6px 11px; border-radius: 99px; border: 2px solid var(--border); background: var(--card); font-size: 11px; font-weight: 700; cursor: pointer; color: var(--muted); transition: all 0.15s; white-space: nowrap; }
     .vocab-chip.active { background: var(--indigo); border-color: var(--indigo); color: white; }
-    .vocab-themes-toggle { font-size: 11px; color: var(--indigo); font-weight: 700; cursor: pointer; background: none; border: none; padding: 4px 0; width: 100%; text-align: center; margin-bottom: 8px; }
+    .vocab-themes-toggle { display: none; }
     .vocab-count { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
     .vocab-pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; padding: 8px 0; }
     .vocab-page-btn { width: 36px; height: 36px; border-radius: 10px; border: 2px solid var(--border); background: var(--card); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text); transition: all 0.15s; }
@@ -856,7 +854,7 @@
     </div>
     <span class="ob-emoji">🦊</span>
     <div class="ob-title ob-i18n" data-fr="Bienvenue sur FrenchGo !" data-en="Welcome to FrenchGo!" data-zh="欢迎使用 FrenchGo！">Bienvenue sur FrenchGo !</div>
-    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 55 leçons interactives, des quiz et un système de progression gamifié." data-en="Learn French at your own pace with 55 interactive lessons, quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，55节互动课程、测验和游戏化进度系统。">Apprenez le français à votre rythme avec 55 leçons interactives, des quiz et un système de progression gamifié.</div>
+    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié." data-en="Learn French at your own pace with 65 interactive lessons, quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，55节互动课程、测验和游戏化进度系统。">Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié.</div>
   </div>
 
   <!-- Slide 1 : fonctionnalités -->
@@ -867,7 +865,7 @@
       <div class="ob-feat">
         <span class="ob-feat-icon">📚</span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="55 leçons structurées"    data-en="55 structured lessons"    data-zh="55节结构化课程">55 leçons structurées</strong>
+          <strong class="ob-i18n" data-fr="65 leçons structurées"    data-en="65 structured lessons"    data-zh="65节结构化课程">65 leçons structurées</strong>
           <span   class="ob-i18n" data-fr="Du débutant au niveau avancé" data-en="From beginner to advanced" data-zh="从初级到高级">Du débutant au niveau avancé</span>
         </div>
       </div>
@@ -1336,10 +1334,10 @@
     <div class="modal-handle"></div>
     <div class="modal-mascot" id="modal-mascot"></div>
     <div class="modal-title" id="modal-title">Contenu Premium</div>
-    <div class="modal-sub" id="modal-sub">Débloquez les 49 leçons avancées et progressez rapidement en français.</div>
+    <div class="modal-sub" id="modal-sub">Débloquez les 55 leçons avancées et progressez rapidement en français.</div>
     <div class="modal-features">
-      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">49 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
-      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">245 exercices de quiz interactifs</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">55 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">325 exercices de quiz interactifs</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🔄</span><span id="mf3">Mises à jour gratuites à vie</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🌍</span><span id="mf4">Interface trilingue FR / EN / 中文</span></div>
     </div>
@@ -1366,8 +1364,26 @@ const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35]; // IDs des leçons grat
 const UNLOCK_CODE   = 'FRANCAIS2024';            // Code donné aux acheteurs
 const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld';
 
-function isUnlocked() { return localStorage.getItem('ff_unlocked') === '1'; }
+function isStandaloneApp() {
+  return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+      || window.navigator.standalone === true;
+}
+function isUnlocked() {
+  return isStandaloneApp() || localStorage.getItem('ff_unlocked') === '1';
+}
 function isPremium(id) { return !FREE_LESSONS.includes(id); }
+// Hide payment UI when running as installed app (TWA / standalone)
+(function() {
+  if (isStandaloneApp()) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var ids = ['btn-gumroad','modal-code-btn','code-area'];
+      ids.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+    });
+  }
+})();
 function isAccessible(id) { return !isPremium(id) || isUnlocked(); }
 
 /* ══════════════════════════════════════
@@ -3703,7 +3719,7 @@ const CONTENT_EN = {
 <p>The sequence of tenses governs tense choice in subordinate clauses based on the main clause tense.</p>
 <h3>"Si" clauses (hypotheses)</h3>
 <table class="vocab-table">
-<tr><td<tr><td>Si + present</td><td>→ future or imperative</td><td>If it's nice, <strong>we will go out</strong>.</td></tr>
+<tr><td>Si + present</td><td>→ future or imperative</td><td>If it's nice, <strong>we will go out</strong>.</td></tr>
 <tr><td>Si + imperfect</td><td>→ present conditional</td><td>If it were nice, <strong>we would go out</strong>.</td></tr>
 <tr><td>Si + pluperfect</td><td>→ past conditional</td><td>If it had been nice, <strong>we would have gone out</strong>.</td></tr>
 </table>
@@ -7204,7 +7220,7 @@ const LESSONS = [
 <p>The sequence of tenses governs tense choice in subordinate clauses based on the main clause tense.</p>
 <h3>"Si" clauses (hypotheses)</h3>
 <table class="vocab-table">
-<tr><td<tr><td>Si + present</td><td>→ future or imperative</td><td>If it's nice, <strong>we will go out</strong>.</td></tr>
+<tr><td>Si + present</td><td>→ future or imperative</td><td>If it's nice, <strong>we will go out</strong>.</td></tr>
 <tr><td>Si + imperfect</td><td>→ present conditional</td><td>If it were nice, <strong>we would go out</strong>.</td></tr>
 <tr><td>Si + pluperfect</td><td>→ past conditional</td><td>If it had been nice, <strong>we would have gone out</strong>.</td></tr>
 </table>
@@ -8471,11 +8487,6 @@ function renderVocab() {
     }).join('');
   }
 
-  var toggleBtn = document.getElementById('vocab-themes-toggle');
-  if (toggleBtn) toggleBtn.textContent = _vocabThemesExpanded
-    ? (lang==='en'?'▲ Show less':lang==='zh'?'▲ 收起':'▲ Réduire')
-    : (lang==='en'?'▼ All themes':lang==='zh'?'▼ 全部主题':'▼ Tous les thèmes');
-
   var filtered = VOCAB.filter(function(w) {
     if (vocabTheme !== 'all' && w.theme !== vocabTheme) return false;
     if (!search) return true;
@@ -8722,6 +8733,11 @@ function showTab(tab) {
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
+  // Hide overlay views so they don't bleed into tab navigation
+  ['lesson-view','quiz-view','result-view'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
   var vqv = document.getElementById('vocab-quiz-view');
   if (vqv) vqv.classList.remove('active');
   ['home','lessons','progress','flashcards','settings','vocab'].forEach(id => {
@@ -8818,7 +8834,7 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'🔓 Unlock all 50 premium lessons':lang==='zh'?'🔓 解锁全部50节高级课程':'🔓 Débloquer les 50 leçons premium';
+      const promoTitle = lang==='en'?'🔓 Unlock all 55 premium lessons':lang==='zh'?'🔓 解锁全部55节高级课程':'🔓 Débloquer les 55 leçons premium';
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
       const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
       unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
@@ -10102,8 +10118,8 @@ function openPaywall() {
   const setH = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
   if (lang==='en') {
     set('modal-title','Premium Content 🔓');
-    set('modal-sub','Unlock 49 advanced lessons and progress quickly in French.');
-    set('mf1','50 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
+    set('modal-sub','Unlock 55 advanced lessons and progress quickly in French.');
+    set('mf1','55 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
     set('mf2','300 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
@@ -10114,8 +10130,8 @@ function openPaywall() {
     set('modal-code-btn','🔑 I already have an access code');
   } else if (lang==='zh') {
     set('modal-title','高级内容 🔓');
-    set('modal-sub','解锁49节高级课程，快速提升法语水平。');
-    set('mf1','50节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
+    set('modal-sub','解锁55节高级课程，快速提升法语水平。');
+    set('mf1','55节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
     set('mf2','300道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
@@ -10126,8 +10142,8 @@ function openPaywall() {
     set('modal-code-btn','🔑 我已有访问码');
   } else {
     set('modal-title','Contenu Premium 🔓');
-    set('modal-sub','Débloquez les 49 leçons avancées et progressez rapidement en français.');
-    set('mf1','50 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
+    set('modal-sub','Débloquez les 55 leçons avancées et progressez rapidement en français.');
+    set('mf1','55 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
     set('mf2','300 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
