@@ -1,7 +1,7 @@
 {
   "name": "FrenchGo — Apprendre le français",
   "short_name": "FrenchGo",
-  "description": "Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF Canada.",
+  "description": "Apprenez le français avec 65 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF Canada.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

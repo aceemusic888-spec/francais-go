@@ -134,10 +134,12 @@
     .hero-stat-num { display:block; font-size:19px; font-weight:900; line-height:1; letter-spacing:-0.5px; }
     .hero-stat-lbl { display:block; font-size:10px; opacity:0.72; font-weight:600; margin-top:3px; letter-spacing:0.2px; white-space:nowrap; }
     .hero-stat-sep { width:1px; height:32px; background:rgba(255,255,255,0.24); flex-shrink:0; }
-    .hero-prog-wrap { display:flex; align-items:center; gap:9px; margin-top:10px; }
-    .hero-prog-bar { flex:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; overflow:hidden; }
-    .hero-prog-fill { height:100%; background:rgba(255,255,255,0.88); border-radius:3px; transition:width 1.4s cubic-bezier(0.34,1,0.64,1); }
-    .hero-prog-pct { font-size:12px; opacity:0.88; font-weight:800; white-space:nowrap; min-width:30px; text-align:right; }
+    .hero-prog-wrap { margin-top:12px; }
+    .hero-road-track { position:relative; height:22px; background:rgba(0,0,0,0.25); border-radius:99px; overflow:visible; margin-bottom:5px; }
+    .hero-road-track::after { content:''; position:absolute; top:50%; left:10px; right:10px; height:2px; background:repeating-linear-gradient(90deg,rgba(255,255,255,0.3) 0,rgba(255,255,255,0.3) 8px,transparent 8px,transparent 16px); transform:translateY(-50%); pointer-events:none; }
+    .hero-prog-fill { position:absolute; left:0; top:0; height:100%; background:linear-gradient(90deg,#059669,#34D399); border-radius:99px; transition:width 1.2s cubic-bezier(0.34,1,0.64,1); }
+    .hero-road-car { position:absolute; top:50%; font-size:22px; transform:translate(-50%,-50%); transition:left 1.2s cubic-bezier(0.34,1,0.64,1); filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4)); z-index:2; line-height:1; }
+    .hero-road-footer { display:flex; justify-content:space-between; font-size:11px; opacity:0.85; font-weight:700; padding:0 4px; }
     .streak-pill { display:none; }
 
     /* ── Cards ── */
@@ -854,7 +856,7 @@
     </div>
     <span class="ob-emoji">🦊</span>
     <div class="ob-title ob-i18n" data-fr="Bienvenue sur FrenchGo !" data-en="Welcome to FrenchGo!" data-zh="欢迎使用 FrenchGo！">Bienvenue sur FrenchGo !</div>
-    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié." data-en="Learn French at your own pace with 65 interactive lessons, quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，55节互动课程、测验和游戏化进度系统。">Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié.</div>
+    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié." data-en="Learn French at your own pace with 65 interactive lessons, quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，65节互动课程、测验和游戏化进度系统。">Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié.</div>
   </div>
 
   <!-- Slide 1 : fonctionnalités -->
@@ -983,8 +985,15 @@
       <div id="hero-level-wrap" style="text-align:center;margin:8px 0 2px;"></div>
       <div id="hero-daily-goal-wrap" style="margin:4px 0 6px;padding:0 4px;"></div>
       <div class="hero-prog-wrap">
-        <div class="hero-prog-bar"><div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div></div>
-        <span class="hero-prog-pct" id="hero-prog-pct">0%</span>
+        <div class="hero-road-track">
+          <div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div>
+          <div class="hero-road-car" id="hero-road-car" style="left:2%">🚗</div>
+        </div>
+        <div class="hero-road-footer">
+          <span>🏁 0</span>
+          <span id="hero-prog-pct">0 / 65</span>
+          <span>65 🎯</span>
+        </div>
       </div>
       <div class="hero-mascot" id="home-mascot"></div>
     </div>
@@ -1276,6 +1285,7 @@
       <div class="result-sub" id="result-sub"></div>
       <div class="xp-gained" id="xp-gained"></div>
       <div class="result-actions">
+        <button class="btn-primary" id="btn-next-lesson" onclick="goNextLesson()" style="display:none"></button>
         <button class="btn-primary" id="btn-retry" onclick="retryQuiz()"></button>
         <button class="btn-review-wrong" id="btn-review-wrong" onclick="retryWrongAnswers()"></button>
         <button class="btn-secondary" id="btn-back-lessons" onclick="backToLessons()"></button>
@@ -8823,7 +8833,9 @@ function renderHome() {
   }
   const fill = document.getElementById('hero-prog-fill');
   if (fill) fill.style.width = pct+'%';
-  set('hero-prog-pct', pct+'%');
+  const car = document.getElementById('hero-road-car');
+  if (car) car.style.left = Math.max(2, Math.min(97, pct))+'%';
+  set('hero-prog-pct', done+' / '+LESSONS.length);
   set('home-welcome', t('welcome'));
   set('home-title', t('title'));
   set('home-sub', t('sub'));
@@ -9176,7 +9188,7 @@ function _selectAnswer(i) {
   }
   if (correct) {
     speak(d.opts[d.ans], _detectLangCode(d.opts[d.ans]) || 'fr-FR');
-    addBonusXP(10);
+    showXPFloat(10);
     playTickSound();
   }
 }
@@ -9261,10 +9273,41 @@ function showResult() {
     if (!state[currentLesson.id].score || quizScore > state[currentLesson.id].score) {
       state[currentLesson.id].score = quizScore;
     }
-    state[currentLesson.id].done = true;
+    state[currentLesson.id].completed = true;
     saveState();
+    updateStreak();
+    var xpBefore = getXP() - quizScore * 10;
+    showXPFloat(xpEarned);
+    _addDailyXP(xpEarned);
     updateXPDisplay();
     checkBadges();
+    // Level-up check
+    var xpAfter = getXP();
+    var lvlBefore = getLevelInfo(xpBefore);
+    var lvlAfter  = getLevelInfo(xpAfter);
+    if (lvlAfter.idx > lvlBefore.idx) {
+      var lbl = lang==='en' ? 'Level up! '+lvlAfter.icon+' '+lvlAfter.label
+              : lang==='zh' ? '升级！'+lvlAfter.icon+' '+lvlAfter.label
+              : 'Niveau suivant ! '+lvlAfter.icon+' '+lvlAfter.label;
+      setTimeout(function(){ showStreakToast('🎉 '+lbl); }, 800);
+    }
+  }
+  // Confetti on 80%+
+  if (pct >= 80) { try { launchConfetti(); } catch(e) {} }
+  // Next lesson button
+  var nextLessonBtn = el('btn-next-lesson');
+  if (nextLessonBtn && currentLesson) {
+    var curIdx = LESSONS.findIndex(function(l){ return l.id === currentLesson.id; });
+    var nextL  = LESSONS[curIdx + 1];
+    var canNext = nextL && (FREE_LESSONS.includes(nextL.id) || isUnlocked());
+    if (canNext) {
+      nextLessonBtn.style.display = 'block';
+      nextLessonBtn.textContent = lang==='en' ? '➡️ Next lesson: '+nextL.title
+                                : lang==='zh' ? '➡️ 下一课：'+nextL.title
+                                : '➡️ Leçon suivante : '+nextL.title;
+    } else {
+      nextLessonBtn.style.display = 'none';
+    }
   }
 
   // Switch views
@@ -9722,6 +9765,14 @@ function closeQuiz() {
 function backToLessons() {
   currentTab = 'lessons';
   closeLessonView();
+}
+function goNextLesson() {
+  if (!currentLesson) return;
+  var curIdx = LESSONS.findIndex(function(l){ return l.id === currentLesson.id; });
+  var nextL  = LESSONS[curIdx + 1];
+  if (!nextL) return;
+  document.getElementById('result-view').classList.remove('active');
+  openLesson(nextL.id);
 }
 
 /* ══════════════════════════════════════
