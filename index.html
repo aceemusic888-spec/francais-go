@@ -19269,7 +19269,7 @@ function setFCTheme(theme) {
   renderFlashcard();
 }
 function getFCPool() {
-  var pool = getFCPool();
+  var pool = fcFilter==='all' ? FLASHCARDS.slice() : FLASHCARDS.filter(function(c){ return c.level===fcFilter; });
   if (fcTheme!=='all') pool = pool.filter(function(c){ return c.theme===fcTheme; });
   return pool;
 }
