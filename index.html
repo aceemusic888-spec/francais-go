@@ -1398,7 +1398,7 @@
 /* ══════════════════════════════════════
    FREEMIUM CONFIG  ← modifiez ici !
 ══════════════════════════════════════ */
-const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35]; // IDs des leçons gratuites
+const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35, 65, 68]; // IDs des leçons gratuites
 const UNLOCK_CODE_HASH = '9b603d420459bde57879ed37f77899dd9ebfe468709a5153a5558bde5bf3e8cf'; // SHA-256 du code
 const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld'; // web only
 
@@ -8087,6 +8087,118 @@ const LESSONS = [
       {q:'Quelle conjugaison de "vouloir" est correcte ?', opts:["nous voulons","nous voulez","nous veulent","nous voulont"], ans:0},
     ]
   },
+,
+  /* ══════════════════════════════════════
+     GRAMMAIRE
+  ══════════════════════════════════════ */
+  {
+    id:65, level:'beginner', tag:'🔤',
+    title:'Conjugaison au présent — Verbes du 1er groupe',
+    title_en:'Present Tense — 1st Group Verbs',
+    desc:'Maîtrisez la conjugaison des verbes en -ER au présent.',
+    desc_en:'Master the conjugation of -ER verbs in the present tense.',
+    tip:'Les verbes du 1er groupe (en -ER) suivent le modèle : je -e, tu -es, il/elle -e, nous -ons, vous -ez, ils/elles -ent.',
+    tip_en:'1st group verbs (-ER) follow the pattern: je -e, tu -es, il/elle -e, nous -ons, vous -ez, ils/elles -ent.',
+    example:'Parler → je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.',
+    example_en:'Parler → je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.',
+    quiz:[
+      {q:'Conjuguez "parler" — Je ___ français.', opts:['parle','parles','parlons','parlent'], ans:0},
+      {q:'Conjuguez "manger" — Nous ___ au restaurant.', opts:['mangeons','mangez','mangent','manges'], ans:0},
+      {q:'Conjuguez "aimer" — Ils ___ la musique.', opts:['aiment','aime','aimons','aimez'], ans:0},
+      {q:'Conjuguez "travailler" — Tu ___ beaucoup.', opts:['travailles','travaille','travaillons','travaillez'], ans:0},
+      {q:'Conjuguez "habiter" — Vous ___ à Paris.', opts:['habitez','habite','habitons','habitent'], ans:0},
+      {q:'Conjuguez "regarder" — Elle ___ la télévision.', opts:['regarde','regardes','regardons','regardez'], ans:0},
+      {q:'Conjuguez "écouter" — Nous ___ de la musique.', opts:['écoutons','écoutez','écoutent','écoute'], ans:0},
+      {q:'Conjuguez "chanter" — Je ___ sous la pluie.', opts:['chante','chantes','chantons','chantent'], ans:0},
+    ]
+  },
+  {
+    id:66, level:'beginner', tag:'🔤',
+    title:"L'accord des adjectifs en genre et en nombre",
+    title_en:'Adjective Agreement in Gender and Number',
+    desc:'Apprenez à accorder les adjectifs avec le nom.',
+    desc_en:'Learn to make adjectives agree with the noun.',
+    tip:"En français, l'adjectif s'accorde avec le nom : on ajoute -e pour le féminin et -s pour le pluriel.",
+    tip_en:'In French, adjectives agree with the noun: add -e for feminine, -s for plural.',
+    example:'Un homme grand → une femme grande. Un livre intéressant → des livres intéressants.',
+    example_en:'Un homme grand → une femme grande. Un livre intéressant → des livres intéressants.',
+    quiz:[
+      {q:'Choisissez la bonne forme : Une maison ___ (grand).', opts:['grande','grand','grands','grandes'], ans:0},
+      {q:'Choisissez la bonne forme : Des enfants ___ (heureux).', opts:['heureux','heureuse','heureuses','heureus'], ans:0},
+      {q:'Choisissez la bonne forme : Une femme ___ (beau).', opts:['belle','beau','beaux','belles'], ans:0},
+      {q:'Choisissez la bonne forme : Des fleurs ___ (rouge).', opts:['rouges','rouge','rougeuse','rouges'], ans:0},
+      {q:'Choisissez la bonne forme : Un garçon ___ (sérieux).', opts:['sérieux','sérieuse','sérieuses','sérieusse'], ans:0},
+      {q:'Choisissez la bonne forme : Une fille ___ (actif).', opts:['active','actif','actifs','actives'], ans:0},
+      {q:'Choisissez la bonne forme : Des livres ___ (nouveau).', opts:['nouveaux','nouveau','nouvelles','nouvel'], ans:0},
+      {q:'Choisissez la bonne forme : Une histoire ___ (long).', opts:['longue','long','longs','longues'], ans:0},
+    ]
+  },
+  {
+    id:67, level:'beginner', tag:'🔤',
+    title:'Compléter la phrase — Les prépositions',
+    title_en:'Fill in the Blank — Prepositions',
+    desc:'Pratiquez les prépositions de lieu, temps et direction.',
+    desc_en:'Practice prepositions of place, time and direction.',
+    tip:"Les prépositions clés : à (at/to), de (from/of), en (in), dans (in/inside), sur (on), sous (under), avec (with), pour (for), sans (without).",
+    tip_en:"Key prepositions: à (at/to), de (from/of), en (in), dans (in/inside), sur (on), sous (under), avec (with), pour (for), sans (without).",
+    example:"Je vais à Paris. Il vient de Lyon. Elle est dans la maison.",
+    example_en:"I'm going to Paris. He comes from Lyon. She is inside the house.",
+    quiz:[
+      {q:"Je vais ___ Paris ce weekend.", opts:['à','de','en','sur'], ans:0},
+      {q:"Le livre est ___ la table.", opts:['sur','sous','dans','avec'], ans:0},
+      {q:"Elle vient ___ Canada.", opts:['du','de','en','au'], ans:0},
+      {q:"Il travaille ___ une banque.", opts:['dans','sur','à','de'], ans:0},
+      {q:"Nous partons ___ avion.", opts:['en','par','avec','à'], ans:0},
+      {q:"Le chat est ___ le canapé.", opts:['sous','sur','dans','avec'], ans:0},
+      {q:"Je parle ___ mon ami.", opts:['avec','à','de','pour'], ans:0},
+      {q:"Il rentre ___ travail à 18h.", opts:['du','de','au','en'], ans:0},
+    ]
+  },
+  /* ══════════════════════════════════════
+     CONNECTEURS LOGIQUES
+  ══════════════════════════════════════ */
+  {
+    id:68, level:'intermediate', tag:'🔗',
+    title:'Les connecteurs logiques — Addition & Opposition',
+    title_en:'Logical Connectors — Addition & Opposition',
+    desc:'Maîtrisez les connecteurs pour relier vos idées.',
+    desc_en:'Master connectors to link your ideas.',
+    tip:"Addition : de plus, en outre, également, non seulement... mais aussi. Opposition : cependant, néanmoins, toutefois, en revanche, par contre, or, malgré.",
+    tip_en:"Addition: de plus, en outre, également, non seulement... mais aussi. Opposition: cependant, néanmoins, toutefois, en revanche, par contre, or, malgré.",
+    example:"Il est intelligent. De plus, il est travailleur. Il est riche. Cependant, il n'est pas heureux.",
+    example_en:"He is intelligent. Moreover, he is hardworking. He is rich. However, he is not happy.",
+    quiz:[
+      {q:"Il travaille beaucoup. ___, il réussit toujours. (addition)", opts:['De plus','Cependant','Or','Malgré'], ans:0},
+      {q:"Il fait beau. ___, il reste chez lui. (opposition)", opts:['Cependant','De plus','En effet','Donc'], ans:0},
+      {q:"Elle aime le café. ___, elle en boit cinq par jour. (addition)", opts:['En outre','Toutefois','Malgré','Or'], ans:0},
+      {q:"Il voulait partir. ___, son patron l'en a empêché. (opposition)", opts:['Néanmoins','De plus','En outre','Ainsi'], ans:0},
+      {q:"Le nord est froid. ___, le sud est chaud. (opposition)", opts:['En revanche','De plus','En effet','Car'], ans:0},
+      {q:"Il est fort en maths. ___, il est bon en langues. (addition)", opts:['Non seulement... mais aussi','Cependant','Or','Malgré'], ans:0},
+      {q:"Elle était fatiguée. ___, elle a fini son travail. (opposition)", opts:['Malgré tout','En outre','De plus','En effet'], ans:0},
+      {q:"Il parle français. ___, il parle espagnol. (addition)", opts:['En outre','Toutefois','Or','Bien que'], ans:0},
+    ]
+  },
+  {
+    id:69, level:'intermediate', tag:'🔗',
+    title:'Les connecteurs logiques — Cause & Conséquence',
+    title_en:'Logical Connectors — Cause & Consequence',
+    desc:'Exprimez les liens de cause et conséquence à l\'écrit.',
+    desc_en:'Express cause and consequence links in writing.',
+    tip:"Cause : car, parce que, puisque, étant donné que, en effet, grâce à, à cause de. Conséquence : donc, ainsi, par conséquent, c'est pourquoi, d'où.",
+    tip_en:"Cause: car, parce que, puisque, étant donné que, en effet, grâce à, à cause de. Consequence: donc, ainsi, par conséquent, c'est pourquoi, d'où.",
+    example:"Il est absent car il est malade. Il a travaillé dur. Par conséquent, il a réussi.",
+    example_en:"He is absent because he is sick. He worked hard. Consequently, he succeeded.",
+    quiz:[
+      {q:"Il est absent ___ il est malade. (cause)", opts:['car','donc','ainsi','or'], ans:0},
+      {q:"Il a beaucoup étudié. ___, il a réussi. (conséquence)", opts:['Par conséquent','Car','Puisque','Bien que'], ans:0},
+      {q:"___ tu es là, aide-moi ! (cause)", opts:['Puisque','Donc','Ainsi','Par conséquent'], ans:0},
+      {q:"Il pleut. ___, le match est annulé. (conséquence)", opts:["C'est pourquoi",'Car','Puisque','Grâce à'], ans:0},
+      {q:"___ à ton aide, j'ai réussi. (cause positive)", opts:['Grâce','À cause','Par','En'], ans:0},
+      {q:"___ de la grève, les transports sont bloqués. (cause négative)", opts:['À cause','Grâce','Car','Donc'], ans:0},
+      {q:"Il ne parle pas français. ___, il comprend tout. (conséquence inattendue)", opts:["D'où",'Car','Puisque','Grâce à'], ans:0},
+      {q:"Je pense. ___, je suis. (conséquence)", opts:['Donc','Car','Puisque','Ainsi que'], ans:0},
+    ]
+  }
 ];
 
 /* ══════════════════════════════════════
@@ -8123,6 +8235,8 @@ const VOCAB_THEMES = [
   {id:'nature',       fr:'Nature',       en:'Nature',      zh:'自然',     icon:'🌿'},
   {id:'sports',       fr:'Sports',       en:'Sports',      zh:'体育',     icon:'⚽'},
   {id:'grammaire',    fr:'Grammaire',    en:'Grammar',     zh:'语法',     icon:'📝'},
+  {id:'connecteurs',  fr:'Connecteurs',  en:'Connectors',  zh:'连词',     icon:'🔗'},
+  {id:'technologie',  fr:'Technologie',  en:'Technology',  zh:'科技',     icon:'💻'},
 ];
 const VOCAB = [
   {fr:'Bonjour',         en:'Hello / Good morning', zh:'你好 / 早上好', pos:'excl.', theme:'salutations', ex:"Bonjour, comment allez-vous ?",         ex_en:"Hello, how are you?"},
@@ -8382,6 +8496,139 @@ const VOCAB = [
   {fr:'la négation',         en:'negation',                 zh:'否定',          pos:'n.f.',  theme:'grammaire', ex:"La négation se forme avec 'ne…pas'.",                   ex_en:"Negation is formed with 'ne…pas'."},
   {fr:"l'inversion",         en:'inversion (question)',     zh:'倒装（疑问）',  pos:'n.f.',  theme:'grammaire', ex:"L'inversion est une façon formelle de poser des questions.", ex_en:"Inversion is a formal way to ask questions."},
   {fr:'la concordance',      en:'agreement of tenses',      zh:'时态一致',      pos:'n.f.',  theme:'grammaire', ex:"La concordance des temps régit les propositions subordonnées.", ex_en:"The sequence of tenses governs subordinate clauses."},
+  // ── CONNECTEURS LOGIQUES ──
+  {fr:'De plus',           en:'Moreover / Furthermore',  zh:'此外',          pos:'adv.',  theme:'connecteurs', ex:'Il est intelligent. De plus, il est travailleur.',        ex_en:'He is intelligent. Moreover, he is hardworking.'},
+  {fr:'En outre',          en:'Furthermore / Besides',   zh:'另外',          pos:'adv.',  theme:'connecteurs', ex:"En outre, il faut considérer le coût.",                   ex_en:'Furthermore, we must consider the cost.'},
+  {fr:'Cependant',         en:'However / Nevertheless',  zh:'然而',          pos:'adv.',  theme:'connecteurs', ex:"Il voulait venir. Cependant, il était malade.",           ex_en:'He wanted to come. However, he was sick.'},
+  {fr:'Néanmoins',         en:'Nevertheless / Nonetheless', zh:'尽管如此',   pos:'adv.',  theme:'connecteurs', ex:"Il a échoué. Néanmoins, il n'abandonne pas.",            ex_en:"He failed. Nevertheless, he doesn't give up."},
+  {fr:'Toutefois',         en:'However / Yet',           zh:'不过',          pos:'adv.',  theme:'connecteurs', ex:"Il est vrai. Toutefois, il y a des exceptions.",          ex_en:'It is true. However, there are exceptions.'},
+  {fr:'En revanche',       en:'On the other hand',       zh:'反之',          pos:'loc.',  theme:'connecteurs', ex:"Il aime le sport. En revanche, il déteste la gym.",        ex_en:'He loves sport. On the other hand, he hates the gym.'},
+  {fr:'Par contre',        en:'On the contrary',         zh:'相反地',        pos:'loc.',  theme:'connecteurs', ex:"Il parle vite. Par contre, il écrit lentement.",          ex_en:'He speaks fast. On the contrary, he writes slowly.'},
+  {fr:'Par conséquent',    en:'Consequently / Therefore', zh:'因此',         pos:'adv.',  theme:'connecteurs', ex:"Il a travaillé dur. Par conséquent, il a réussi.",        ex_en:'He worked hard. Consequently, he succeeded.'},
+  {fr:'Ainsi',             en:'Thus / So',               zh:'因此/这样',     pos:'adv.',  theme:'connecteurs', ex:"Il a plu, ainsi le match a été annulé.",                  ex_en:'It rained, thus the match was cancelled.'},
+  {fr:'Donc',              en:'Therefore / So',          zh:'所以',          pos:'conj.', theme:'connecteurs', ex:"Je pense, donc je suis.",                                 ex_en:'I think, therefore I am.'},
+  {fr:"C'est pourquoi",    en:'That is why',             zh:'这就是为什么',  pos:'loc.',  theme:'connecteurs', ex:"Il était fatigué, c'est pourquoi il est parti.",         ex_en:'He was tired, that is why he left.'},
+  {fr:'Car',               en:'Because / For',           zh:'因为',          pos:'conj.', theme:'connecteurs', ex:"Il reste car il aime Paris.",                             ex_en:'He stays because he loves Paris.'},
+  {fr:'Puisque',           en:'Since / As',              zh:'既然',          pos:'conj.', theme:'connecteurs', ex:"Puisque tu es là, parlons.",                              ex_en:"Since you are here, let's talk."},
+  {fr:'En effet',          en:'Indeed / In fact',        zh:'事实上',        pos:'adv.',  theme:'connecteurs', ex:"C'est difficile. En effet, peu y réussissent.",          ex_en:'It is difficult. Indeed, few succeed.'},
+  {fr:'Bien que',          en:'Although / Even though',  zh:'尽管',          pos:'conj.', theme:'connecteurs', ex:"Bien qu'il soit fatigué, il travaille.",                 ex_en:'Although he is tired, he works.'},
+  {fr:'Même si',           en:'Even if / Even though',   zh:'即使',          pos:'conj.', theme:'connecteurs', ex:"Même si c'est dur, je continuerai.",                     ex_en:"Even if it is hard, I will continue."},
+  {fr:"D'abord",           en:'First / Firstly',         zh:'首先',          pos:'adv.',  theme:'connecteurs', ex:"D'abord, il faut comprendre la règle.",                  ex_en:'First, you need to understand the rule.'},
+  {fr:'Ensuite',           en:'Then / Next',             zh:'然后',          pos:'adv.',  theme:'connecteurs', ex:"D'abord il mange, ensuite il fait la vaisselle.",        ex_en:'First he eats, then he does the dishes.'},
+  {fr:'Enfin',             en:'Finally / At last',       zh:'最后',          pos:'adv.',  theme:'connecteurs', ex:"Enfin, nous arrivons à la conclusion.",                   ex_en:'Finally, we reach the conclusion.'},
+  {fr:'Puis',              en:'Then / Afterwards',       zh:'接着',          pos:'adv.',  theme:'connecteurs', ex:"Il mange, puis il sort.",                                 ex_en:'He eats, then he goes out.'},
+  {fr:'Avant tout',        en:'Above all / First of all', zh:'首先',         pos:'loc.',  theme:'connecteurs', ex:"Avant tout, restez calme.",                               ex_en:'Above all, stay calm.'},
+  {fr:'En conclusion',     en:'In conclusion',           zh:'总之',          pos:'loc.',  theme:'connecteurs', ex:"En conclusion, ce projet est réalisable.",                 ex_en:'In conclusion, this project is feasible.'},
+  {fr:'En résumé',         en:'In summary',              zh:'总结',          pos:'loc.',  theme:'connecteurs', ex:"En résumé, nous avons trois options.",                     ex_en:'In summary, we have three options.'},
+  {fr:'Autrement dit',     en:'In other words',          zh:'换句话说',      pos:'loc.',  theme:'connecteurs', ex:"Il est avare, autrement dit il ne donne rien.",           ex_en:'He is stingy, in other words he gives nothing.'},
+  {fr:"C'est-à-dire",      en:'That is to say / I.e.',   zh:'也就是说',      pos:'loc.',  theme:'connecteurs', ex:"Il est bilingue, c'est-à-dire qu'il parle deux langues.", ex_en:'He is bilingual, that is to say he speaks two languages.'},
+  {fr:'Malgré',            en:'Despite / In spite of',   zh:'尽管',          pos:'prép.', theme:'connecteurs', ex:"Malgré la pluie, il est sorti.",                          ex_en:'Despite the rain, he went out.'},
+  {fr:'Grâce à',           en:'Thanks to / Due to',      zh:'多亏了',        pos:'loc.',  theme:'connecteurs', ex:"Grâce à toi, j'ai réussi.",                              ex_en:'Thanks to you, I succeeded.'},
+  {fr:'À cause de',        en:'Because of / Due to',     zh:'由于',          pos:'loc.',  theme:'connecteurs', ex:"À cause de la grève, le train est annulé.",               ex_en:'Because of the strike, the train is cancelled.'},
+  {fr:'Or',                en:'Now / But (literary)',    zh:'然而（书面）',   pos:'conj.', theme:'connecteurs', ex:"Il croyait réussir. Or, il a échoué.",                    ex_en:'He thought he would succeed. But he failed.'},
+  {fr:'En particulier',    en:'In particular',           zh:'特别是',        pos:'adv.',  theme:'connecteurs', ex:"J'aime la France, en particulier Paris.",                ex_en:'I love France, in particular Paris.'},
+  {fr:'Par exemple',       en:'For example',             zh:'例如',          pos:'adv.',  theme:'connecteurs', ex:"Par exemple, le français est parlé en Belgique.",         ex_en:'For example, French is spoken in Belgium.'},
+  {fr:"D'une part... d'autre part", en:'On one hand... on the other hand', zh:'一方面…另一方面', pos:'loc.', theme:'connecteurs', ex:"D'une part c'est utile, d'autre part c'est coûteux.", ex_en:"On one hand it's useful, on the other hand it's costly."},
+  {fr:'Non seulement',     en:'Not only',                zh:'不仅',          pos:'adv.',  theme:'connecteurs', ex:"Non seulement il chante, mais il joue aussi.",            ex_en:'Not only does he sing, but he also plays.'},
+
+  // ── TECHNOLOGIE ──
+  {fr:'Un ordinateur',     en:'A computer',              zh:'电脑',          pos:'n.m.',  theme:'technologie', ex:"J'utilise un ordinateur pour travailler.",               ex_en:'I use a computer to work.'},
+  {fr:'Un smartphone',     en:'A smartphone',            zh:'智能手机',      pos:'n.m.',  theme:'technologie', ex:"Son smartphone est toujours chargé.",                     ex_en:'His smartphone is always charged.'},
+  {fr:'Une application',   en:'An app',                  zh:'应用程序',      pos:'n.f.',  theme:'technologie', ex:"Télécharge cette application, elle est gratuite.",        ex_en:"Download this app, it's free."},
+  {fr:'Internet',          en:'The Internet',            zh:'互联网',        pos:'n.m.',  theme:'technologie', ex:"Je cherche sur Internet.",                                ex_en:'I search on the Internet.'},
+  {fr:'Un mot de passe',   en:'A password',              zh:'密码',          pos:'n.m.',  theme:'technologie', ex:"Mon mot de passe est secret.",                            ex_en:'My password is secret.'},
+  {fr:'Un réseau social',  en:'A social network',        zh:'社交网络',      pos:'n.m.',  theme:'technologie', ex:"Il passe trop de temps sur les réseaux sociaux.",         ex_en:'He spends too much time on social networks.'},
+  {fr:'Télécharger',       en:'To download',             zh:'下载',          pos:'v.',    theme:'technologie', ex:"Je vais télécharger ce fichier.",                         ex_en:'I will download this file.'},
+  {fr:'Envoyer',           en:'To send',                 zh:'发送',          pos:'v.',    theme:'technologie', ex:"Envoie-moi un message.",                                  ex_en:'Send me a message.'},
+  {fr:'Un fichier',        en:'A file',                  zh:'文件',          pos:'n.m.',  theme:'technologie', ex:"Ouvre ce fichier PDF.",                                   ex_en:'Open this PDF file.'},
+  {fr:'Une batterie',      en:'A battery',               zh:'电池',          pos:'n.f.',  theme:'technologie', ex:"La batterie de mon téléphone est vide.",                  ex_en:'My phone battery is dead.'},
+  {fr:'Un écran',          en:'A screen',                zh:'屏幕',          pos:'n.m.',  theme:'technologie', ex:"L'écran est fissuré.",                                   ex_en:'The screen is cracked.'},
+  {fr:'Une connexion',     en:'A connection',            zh:'网络连接',      pos:'n.f.',  theme:'technologie', ex:"La connexion est lente aujourd'hui.",                    ex_en:'The connection is slow today.'},
+  {fr:'Un clavier',        en:'A keyboard',              zh:'键盘',          pos:'n.m.',  theme:'technologie', ex:"Ce clavier est sans fil.",                                ex_en:'This keyboard is wireless.'},
+  {fr:'Une souris',        en:'A (computer) mouse',      zh:'鼠标',          pos:'n.f.',  theme:'technologie', ex:"La souris ne fonctionne plus.",                           ex_en:"The mouse doesn't work anymore."},
+  {fr:'Un logiciel',       en:'Software',                zh:'软件',          pos:'n.m.',  theme:'technologie', ex:"Ce logiciel est très utile.",                             ex_en:'This software is very useful.'},
+  {fr:'Un courriel',       en:'An email',                zh:'电子邮件',      pos:'n.m.',  theme:'technologie', ex:"Je t'envoie un courriel demain.",                        ex_en:"I'll send you an email tomorrow."},
+  {fr:'Une intelligence artificielle', en:'Artificial intelligence', zh:'人工智能', pos:'n.f.', theme:'technologie', ex:"L'intelligence artificielle change le monde.",     ex_en:'Artificial intelligence is changing the world.'},
+  {fr:'Sauvegarder',       en:'To save / To back up',    zh:'保存',          pos:'v.',    theme:'technologie', ex:"N'oublie pas de sauvegarder ton travail.",               ex_en:"Don't forget to save your work."},
+  {fr:'Un virus',          en:'A (computer) virus',      zh:'病毒',          pos:'n.m.',  theme:'technologie', ex:"Mon ordinateur a attrapé un virus.",                      ex_en:'My computer got a virus.'},
+  {fr:'La cybersécurité',  en:'Cybersecurity',           zh:'网络安全',      pos:'n.f.',  theme:'technologie', ex:"La cybersécurité est essentielle pour les entreprises.",  ex_en:'Cybersecurity is essential for businesses.'},
+
+  // ── VOYAGE (extensions) ──
+  {fr:"Un hôtel",          en:'A hotel',                 zh:'酒店',          pos:'n.m.',  theme:'voyage', ex:"Nous logeons dans un hôtel cinq étoiles.",                    ex_en:"We are staying in a five-star hotel."},
+  {fr:'Un billet',         en:'A ticket',                zh:'票',            pos:'n.m.',  theme:'voyage', ex:"J'ai acheté un billet aller-retour.",                        ex_en:'I bought a round-trip ticket.'},
+  {fr:'Un passeport',      en:'A passport',              zh:'护照',          pos:'n.m.',  theme:'voyage', ex:"N'oublie pas ton passeport.",                                ex_en:"Don't forget your passport."},
+  {fr:'Une valise',        en:'A suitcase',              zh:'行李箱',        pos:'n.f.',  theme:'voyage', ex:"Ma valise est trop lourde.",                                  ex_en:'My suitcase is too heavy.'},
+  {fr:'Un visa',           en:'A visa',                  zh:'签证',          pos:'n.m.',  theme:'voyage', ex:"Il faut un visa pour entrer dans ce pays.",                   ex_en:'You need a visa to enter this country.'},
+  {fr:'La douane',         en:'Customs',                 zh:'海关',          pos:'n.f.',  theme:'voyage', ex:"Passez par la douane à votre arrivée.",                       ex_en:'Go through customs upon arrival.'},
+  {fr:'Un vol',            en:'A flight',                zh:'航班',          pos:'n.m.',  theme:'voyage', ex:"Mon vol est à 14h.",                                          ex_en:'My flight is at 2pm.'},
+  {fr:'Une escale',        en:'A stopover / layover',    zh:'中转',          pos:'n.f.',  theme:'voyage', ex:"J'ai une escale à Amsterdam.",                               ex_en:'I have a layover in Amsterdam.'},
+  {fr:'Loger',             en:'To stay / To lodge',      zh:'住宿',          pos:'v.',    theme:'voyage', ex:"Où logez-vous pendant votre séjour ?",                        ex_en:'Where are you staying during your visit?'},
+  {fr:"L'assurance voyage",en:'Travel insurance',        zh:'旅行保险',      pos:'n.f.',  theme:'voyage', ex:"Prenez toujours une assurance voyage.",                        ex_en:'Always get travel insurance.'},
+
+  // ── NOURRITURE (extensions) ──
+  {fr:'Un restaurant',     en:'A restaurant',            zh:'餐厅',          pos:'n.m.',  theme:'nourriture', ex:"On va dîner au restaurant ce soir.",                       ex_en:"We're having dinner at a restaurant tonight."},
+  {fr:'Une recette',       en:'A recipe',                zh:'食谱',          pos:'n.f.',  theme:'nourriture', ex:"Tu as la recette de ce gâteau ?",                          ex_en:'Do you have the recipe for this cake?'},
+  {fr:'Le petit-déjeuner', en:'Breakfast',               zh:'早餐',          pos:'n.m.',  theme:'nourriture', ex:"Je prends un café au petit-déjeuner.",                     ex_en:'I have a coffee at breakfast.'},
+  {fr:'Le déjeuner',       en:'Lunch',                   zh:'午餐',          pos:'n.m.',  theme:'nourriture', ex:"Le déjeuner est servi à midi.",                            ex_en:'Lunch is served at noon.'},
+  {fr:'Le dîner',          en:'Dinner',                  zh:'晚餐',          pos:'n.m.',  theme:'nourriture', ex:"Le dîner était délicieux.",                                ex_en:'Dinner was delicious.'},
+  {fr:"L'addition",        en:'The bill / Check',        zh:'账单',          pos:'n.f.',  theme:'nourriture', ex:"L'addition, s'il vous plaît.",                           ex_en:'The bill, please.'},
+  {fr:'La carte',          en:'The menu',                zh:'菜单',          pos:'n.f.',  theme:'nourriture', ex:"Puis-je avoir la carte, s'il vous plaît ?",               ex_en:'May I have the menu, please?'},
+  {fr:'Un plat principal', en:'A main course',           zh:'主菜',          pos:'n.m.',  theme:'nourriture', ex:"Le plat principal est un steak-frites.",                   ex_en:'The main course is a steak with fries.'},
+  {fr:'Une entrée',        en:'A starter / Appetizer',   zh:'前菜',          pos:'n.f.',  theme:'nourriture', ex:"Je prends une soupe en entrée.",                           ex_en:"I'll have soup as a starter."},
+  {fr:'Un dessert',        en:'A dessert',               zh:'甜点',          pos:'n.m.',  theme:'nourriture', ex:"Il y a de la crème brûlée comme dessert.",                 ex_en:'There is crème brûlée for dessert.'},
+
+  // ── SPORTS (extensions) ──
+  {fr:"Un entraînement",   en:'A training session',      zh:'训练',          pos:'n.m.',  theme:'sports', ex:"L'entraînement commence à 9h.",                              ex_en:'Training starts at 9am.'},
+  {fr:'Un champion',       en:'A champion',              zh:'冠军',          pos:'n.m.',  theme:'sports', ex:"Elle est championne du monde.",                               ex_en:'She is world champion.'},
+  {fr:'Un stade',          en:'A stadium',               zh:'体育场',        pos:'n.m.',  theme:'sports', ex:"Le stade peut accueillir 80 000 personnes.",                  ex_en:'The stadium can hold 80,000 people.'},
+  {fr:'Un arbitre',        en:'A referee',               zh:'裁判',          pos:'n.m.',  theme:'sports', ex:"L'arbitre a sifflé une faute.",                              ex_en:'The referee blew the whistle for a foul.'},
+  {fr:'Gagner',            en:'To win',                  zh:'赢',            pos:'v.',    theme:'sports', ex:"Notre équipe a gagné 3-0.",                                   ex_en:'Our team won 3-0.'},
+  {fr:'Perdre',            en:'To lose',                 zh:'输',            pos:'v.',    theme:'sports', ex:"Ils ont perdu le championnat.",                               ex_en:'They lost the championship.'},
+  {fr:"S'entraîner",       en:'To train / To practice',  zh:'训练',          pos:'v.',    theme:'sports', ex:"Il s'entraîne deux heures par jour.",                         ex_en:'He trains two hours a day.'},
+  {fr:'Un but',            en:'A goal',                  zh:'进球',          pos:'n.m.',  theme:'sports', ex:"Il a marqué un but magnifique.",                              ex_en:'He scored a magnificent goal.'},
+  {fr:'Une médaille',      en:'A medal',                 zh:'奖牌',          pos:'n.f.',  theme:'sports', ex:"Elle a remporté une médaille d'or.",                          ex_en:'She won a gold medal.'},
+  {fr:'Un tournoi',        en:'A tournament',            zh:'锦标赛',        pos:'n.m.',  theme:'sports', ex:"Il participe à un tournoi de tennis.",                         ex_en:'He is taking part in a tennis tournament.'},
+
+  // ── SANTÉ (extensions) ──
+  {fr:'Un médicament',     en:'A medicine / Drug',       zh:'药',            pos:'n.m.',  theme:'sante', ex:"Prenez ce médicament deux fois par jour.",                     ex_en:'Take this medicine twice a day.'},
+  {fr:'Une ordonnance',    en:'A prescription',          zh:'处方',          pos:'n.f.',  theme:'sante', ex:"Le médecin a écrit une ordonnance.",                           ex_en:'The doctor wrote a prescription.'},
+  {fr:'Un rendez-vous',    en:'An appointment',          zh:'预约',          pos:'n.m.',  theme:'sante', ex:"J'ai un rendez-vous chez le dentiste.",                       ex_en:'I have an appointment at the dentist.'},
+  {fr:'La fièvre',         en:'Fever',                   zh:'发烧',          pos:'n.f.',  theme:'sante', ex:"Il a 39 degrés de fièvre.",                                   ex_en:'He has a fever of 39 degrees.'},
+  {fr:'Une allergie',      en:'An allergy',              zh:'过敏',          pos:'n.f.',  theme:'sante', ex:"Je suis allergique aux arachides.",                            ex_en:'I am allergic to peanuts.'},
+  {fr:'Une blessure',      en:'An injury / Wound',       zh:'受伤',          pos:'n.f.',  theme:'sante', ex:"Il a une blessure au genou.",                                  ex_en:'He has a knee injury.'},
+  {fr:'Guérir',            en:'To heal / To cure',       zh:'痊愈',          pos:'v.',    theme:'sante', ex:"Il guérit rapidement grâce aux médicaments.",                  ex_en:'He heals quickly thanks to the medicine.'},
+  {fr:'Un infirmier',      en:'A nurse (male)',           zh:'男护士',        pos:'n.m.',  theme:'sante', ex:"L'infirmier prend la tension du patient.",                    ex_en:"The nurse takes the patient's blood pressure."},
+  {fr:'La pharmacie',      en:'The pharmacy',            zh:'药房',          pos:'n.f.',  theme:'sante', ex:"La pharmacie est ouverte jusqu'à 20h.",                       ex_en:'The pharmacy is open until 8pm.'},
+  {fr:'Une urgence',       en:'An emergency',            zh:'紧急情况',      pos:'n.f.',  theme:'sante', ex:"Appelez le 15 en cas d'urgence.",                             ex_en:'Call 15 in case of emergency.'},
+
+  // ── ÉMOTIONS (extensions) ──
+  {fr:'La nostalgie',      en:'Nostalgia',               zh:'怀旧',          pos:'n.f.',  theme:'emotions', ex:"Cette chanson me plonge dans la nostalgie.",               ex_en:'This song fills me with nostalgia.'},
+  {fr:"L'enthousiasme",    en:'Enthusiasm',              zh:'热情',          pos:'n.m.',  theme:'emotions', ex:"Il parle avec enthousiasme de son projet.",                ex_en:'He speaks enthusiastically about his project.'},
+  {fr:'La déception',      en:'Disappointment',          zh:'失望',          pos:'n.f.',  theme:'emotions', ex:"Sa déception était visible sur son visage.",               ex_en:'His disappointment was visible on his face.'},
+  {fr:'La fierté',         en:'Pride',                   zh:'自豪',          pos:'n.f.',  theme:'emotions', ex:"Elle regarde son fils avec fierté.",                        ex_en:'She looks at her son with pride.'},
+  {fr:'La jalousie',       en:'Jealousy',                zh:'嫉妒',          pos:'n.f.',  theme:'emotions', ex:"La jalousie peut détruire une amitié.",                    ex_en:'Jealousy can destroy a friendship.'},
+  {fr:'La confiance',      en:'Confidence / Trust',      zh:'信心',          pos:'n.f.',  theme:'emotions', ex:"Elle a confiance en elle-même.",                            ex_en:'She has confidence in herself.'},
+  {fr:"L'inquiétude",      en:'Worry / Concern',         zh:'担忧',          pos:'n.f.',  theme:'emotions', ex:"Son inquiétude était palpable.",                            ex_en:'His worry was palpable.'},
+  {fr:'Le soulagement',    en:'Relief',                  zh:'如释重负',      pos:'n.m.',  theme:'emotions', ex:"Quel soulagement d'apprendre la bonne nouvelle !",        ex_en:'What a relief to hear the good news!'},
+  {fr:'La honte',          en:'Shame',                   zh:'羞耻',          pos:'n.f.',  theme:'emotions', ex:"Il rougit de honte.",                                      ex_en:'He blushed with shame.'},
+  {fr:'La gratitude',      en:'Gratitude',               zh:'感激',          pos:'n.f.',  theme:'emotions', ex:"Je lui exprime ma gratitude.",                              ex_en:'I express my gratitude to him.'},
+
+  // ── VERBES (extensions) ──
+  {fr:'Réussir',           en:'To succeed / To pass',    zh:'成功',          pos:'v.',    theme:'verbes', ex:"Elle a réussi son examen.",                                   ex_en:'She passed her exam.'},
+  {fr:'Échouer',           en:'To fail',                 zh:'失败',          pos:'v.',    theme:'verbes', ex:"Il a échoué à l'entretien.",                                 ex_en:'He failed the interview.'},
+  {fr:'Apprendre',         en:'To learn',                zh:'学习',          pos:'v.',    theme:'verbes', ex:"J'apprends le français depuis six mois.",                    ex_en:'I have been learning French for six months.'},
+  {fr:'Enseigner',         en:'To teach',                zh:'教',            pos:'v.',    theme:'verbes', ex:"Elle enseigne les mathématiques.",                             ex_en:'She teaches mathematics.'},
+  {fr:'Expliquer',         en:'To explain',              zh:'解释',          pos:'v.',    theme:'verbes', ex:"Peux-tu m'expliquer la règle ?",                             ex_en:'Can you explain the rule to me?'},
+  {fr:'Comprendre',        en:'To understand',           zh:'理解',          pos:'v.',    theme:'verbes', ex:"Je ne comprends pas cette phrase.",                           ex_en:"I don't understand this sentence."},
+  {fr:'Choisir',           en:'To choose',               zh:'选择',          pos:'v.',    theme:'verbes', ex:"Choisis un livre parmi ceux-ci.",                             ex_en:'Choose a book from these.'},
+  {fr:'Décider',           en:'To decide',               zh:'决定',          pos:'v.',    theme:'verbes', ex:"Il a décidé de partir à l'étranger.",                        ex_en:'He decided to go abroad.'},
+  {fr:'Permettre',         en:'To allow / To permit',    zh:'允许',          pos:'v.',    theme:'verbes', ex:"Cela permet de gagner du temps.",                             ex_en:'This allows us to save time.'},
+  {fr:'Remarquer',         en:'To notice',               zh:'注意到',        pos:'v.',    theme:'verbes', ex:"J'ai remarqué qu'il était triste.",                         ex_en:'I noticed that he was sad.'},
+  {fr:'Rejoindre',         en:'To join / To meet up',    zh:'加入',          pos:'v.',    theme:'verbes', ex:"Je vous rejoins dans dix minutes.",                           ex_en:"I'll join you in ten minutes."},
+  {fr:'Résoudre',          en:'To solve / To resolve',   zh:'解决',          pos:'v.',    theme:'verbes', ex:"Nous devons résoudre ce problème.",                           ex_en:'We must solve this problem.'},
+  {fr:'Soutenir',          en:'To support',              zh:'支持',          pos:'v.',    theme:'verbes', ex:"Je te soutiens dans ta décision.",                            ex_en:'I support you in your decision.'},
+  {fr:'Améliorer',         en:'To improve',              zh:'改善',          pos:'v.',    theme:'verbes', ex:"Il cherche à améliorer son niveau.",                          ex_en:'He is trying to improve his level.'},
+  {fr:'Proposer',          en:'To propose / To suggest', zh:'提议',          pos:'v.',    theme:'verbes', ex:"Je propose une autre solution.",                              ex_en:'I suggest another solution.'},
 ];
 
 /* ── VOCAB QUIZ ── */
