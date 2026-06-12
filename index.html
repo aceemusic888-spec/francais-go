@@ -6,6 +6,7 @@
   <title>FrenchGo — Apprendre le français</title>
   <meta name="description" content="Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF." />
   <meta name="theme-color" content="#4F46E5" />
+  <meta name="color-scheme" content="light" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -18,6 +19,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
+      color-scheme: light;
       --indigo: #6366F1; --indigo-dark: #4338CA; --purple: #8B5CF6;
       --green: #10B981; --green-dark: #059669;
       --amber: #F59E0B; --red: #EF4444;
@@ -852,6 +854,7 @@
 <body>
 
 <!-- SPLASH SCREEN -->
+<script>window._splashStart = Date.now();</script>
 <div id="splash-screen">
   <div class="splash-mascot" id="splash-mascot"></div>
   <div class="splash-title">FrenchGo</div>
@@ -1554,8 +1557,13 @@ function initMascot() {
 function hideSplash() {
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
-  splash.classList.add('hide');
-  setTimeout(() => { splash.style.display = 'none'; }, 550);
+  var minDelay = 1500;
+  var elapsed = Date.now() - (window._splashStart || Date.now());
+  var remaining = Math.max(0, minDelay - elapsed);
+  setTimeout(function() {
+    splash.classList.add('hide');
+    setTimeout(function() { splash.style.display = 'none'; }, 550);
+  }, remaining);
 }
 
 /* ══════════════════════════════════════
@@ -10488,6 +10496,42 @@ function initApp() {
 
 /* BOOT */
 (function() {
+  // Android back button — navigate within app instead of exiting
+  history.replaceState({view:'home',idx:0}, '');
+  history.pushState({view:'home',idx:1}, '');
+  window.addEventListener('popstate', function() {
+    // 1. Result screen open → close it
+    var rv = document.getElementById('result-view');
+    if (rv && rv.classList.contains('active')) {
+      rv.classList.remove('active');
+      history.pushState({view: typeof currentTab !== 'undefined' ? currentTab : 'home'}, '');
+      return;
+    }
+    // 2. Lesson or quiz open → close it, back to tab
+    var lv = document.getElementById('lesson-view');
+    var qv = document.getElementById('quiz-view');
+    if ((lv && lv.classList.contains('active')) || (qv && qv.classList.contains('active'))) {
+      if (lv) lv.classList.remove('active');
+      if (qv) qv.classList.remove('active');
+      history.pushState({view:'home'}, '');
+      return;
+    }
+    // 3. On a non-home tab → go home
+    if (typeof currentTab !== 'undefined' && currentTab !== 'home') {
+      showTab('home');
+      history.pushState({view:'home'}, '');
+      return;
+    }
+    // 4. Already on home — double-press to exit
+    if (!window._androidExitReady) {
+      window._androidExitReady = true;
+      setTimeout(function() { window._androidExitReady = false; }, 2000);
+      try { showStreakToast('Appuyez à nouveau pour quitter'); } catch(e) {}
+      history.pushState({view:'home'}, '');
+      return;
+    }
+    // Let the app exit naturally on second press
+  });
   initApp();
   const onboarded = localStorage.getItem('ff_onboarded');
   if (!onboarded) {
