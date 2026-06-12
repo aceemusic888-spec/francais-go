@@ -1,16 +1,57 @@
-const CACHE_NAME = 'frenchgo-v6.0';
+importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
+
+firebase.initializeApp({
+  apiKey: "AIzaSyDGQMrwcY0L9nxXqJL8fB0PWDZGOz-DiMg",
+  authDomain: "frenchgo.firebaseapp.com",
+  projectId: "frenchgo",
+  storageBucket: "frenchgo.firebasestorage.app",
+  messagingSenderId: "798535705126",
+  appId: "1:798535705126:web:fdf97a6f0c4b80379efce7"
+});
+
+const messaging = firebase.messaging();
+
+// Background push notifications (app fermée / en arrière-plan)
+messaging.onBackgroundMessage(function(payload) {
+  const title = (payload.notification && payload.notification.title) || 'FrenchGo 🦊';
+  const body  = (payload.notification && payload.notification.body)  || 'Temps de pratiquer le français !';
+  return self.registration.showNotification(title, {
+    body,
+    icon:     '/icon-192.png',
+    badge:    '/icon-192.png',
+    tag:      'frenchgo-daily',
+    renotify: true,
+    data:     { url: '/' }
+  });
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(list) {
+      for (var c of list) {
+        if (c.url.includes(self.location.origin) && 'focus' in c) return c.focus();
+      }
+      return clients.openWindow('/');
+    })
+  );
+});
+
+// ── Cache strategy ────────────────────────────────────────
+const CACHE_NAME = 'frenchgo-v6.1';
 const ASSETS = [
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
   '/mascot.png',
-  '/mascot-hero.png',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap'
+  '/mascot-hero.png'
 ];
 
 const BYPASS = [
   'firebaseapp.com','googleapis.com','accounts.google.com',
-  'gstatic.com/firebasejs','__/auth','identitytoolkit','securetoken'
+  'gstatic.com/firebasejs','__/auth','identitytoolkit','securetoken',
+  'fcm.googleapis.com'
 ];
 
 self.addEventListener('install', e => {

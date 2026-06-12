@@ -934,6 +934,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 </head>
 <body>
 
@@ -19575,6 +19576,7 @@ async function toggleNotifications() {
     localStorage.setItem('ff_notif', '1');
     localStorage.setItem('ff_notif_last', Date.now().toString());
     if (toggle) toggle.classList.add('on');
+    registerFCMToken();
     scheduleStreakReminder();
     new Notification('FrenchGo 🦊', {
       body: lang==='en'?`Notifications enabled! We'll remind you to practice every day.`:lang==='zh'?`通知已开启！我们每天提醒您练习。`:`Notifications activées ! On vous rappellera de pratiquer chaque jour.`,
@@ -19908,6 +19910,7 @@ function initApp() {
   updateNav();
   hideSplash();
   checkPendingNotification();
+  updateLastActive();
   // Wire up onboarding lang buttons
   ['fr','en','zh'].forEach(l => {
     const b = document.getElementById('ob-lang-'+l);
@@ -20004,12 +20007,38 @@ if ('serviceWorker' in navigator) {
     appId: "1:798535705126:web:fdf97a6f0c4b80379efce7"
   };
   try { firebase.initializeApp(firebaseConfig); } catch(e) {}
-  window._fbAuth = firebase.auth();
-  window._fbDb  = firebase.firestore();
+  window._fbAuth    = firebase.auth();
+  window._fbDb      = firebase.firestore();
+  try { window._fbMsg = firebase.messaging(); } catch(e) { window._fbMsg = null; }
 })();
 
 let _syncTimeout = null;
 let _authMode = 'login';
+
+const VAPID_KEY = 'BED7P7cbbxQGA6IAvFLth8mrjThZOOYJN5FWDhzLPJ9HvDJP1VzlOxKPr9M0-g9yWIBeuvDrBRtta85kX0oqvq4';
+
+function registerFCMToken() {
+  if (!window._fbMsg || !window._fbDb || !window._fbAuth) return;
+  const user = window._fbAuth.currentUser;
+  if (!user) return;
+  window._fbMsg.getToken({ vapidKey: VAPID_KEY })
+    .then(function(token) {
+      if (!token) return;
+      window._fbDb.collection('users').doc(user.uid).set(
+        { fcmToken: token, lastActive: Date.now() }, { merge: true }
+      ).catch(console.warn);
+    })
+    .catch(function(e) { console.warn('FCM token:', e); });
+}
+
+function updateLastActive() {
+  if (!window._fbDb || !window._fbAuth) return;
+  const user = window._fbAuth.currentUser;
+  if (!user) return;
+  window._fbDb.collection('users').doc(user.uid).set(
+    { lastActive: Date.now() }, { merge: true }
+  ).catch(console.warn);
+}
 
 function scheduleCloudSync() {
   if (!window._fbAuth || !window._fbAuth.currentUser) return;
@@ -20075,7 +20104,12 @@ function setSyncIndicator(ok) {
 
 window._fbAuth.onAuthStateChanged(user => {
   updateAuthUI(user);
-  if (user) loadFromCloud(user.uid);
+  if (user) {
+    loadFromCloud(user.uid);
+  } else {
+    // Auto sign-in anonymously — sync works for all users without signup friction
+    window._fbAuth.signInAnonymously().catch(function(e) { console.warn('anon auth:', e); });
+  }
 });
 
 function handleAvatarClick() {
