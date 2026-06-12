@@ -882,6 +882,60 @@
     }
     .fc-back { transform: rotateY(180deg); }
 
+    /* ═══════════════════════════════════
+       DIALOGUES
+    ═══════════════════════════════════ */
+    .dlg-header-title { font-size:22px; font-weight:900; color:var(--text); letter-spacing:-0.5px; padding:6px 2px 2px; }
+    .dlg-header-sub { font-size:13px; color:var(--muted); padding:0 2px 16px; }
+    #dlg-scenes-grid { display:flex; flex-direction:column; gap:12px; }
+    .dlg-scene-card { background:var(--card); border-radius:20px; padding:18px 18px 16px; display:flex; align-items:center; gap:16px; cursor:pointer; border:2px solid var(--border); transition:transform 0.15s,box-shadow 0.15s,border-color 0.15s; box-shadow:0 2px 10px rgba(0,0,0,0.06); }
+    .dlg-scene-card:active { transform:scale(0.97); }
+    .dlg-scene-card:hover { border-color:var(--indigo); box-shadow:0 4px 18px rgba(79,70,229,0.15); }
+    .dlg-scene-card.done { border-color:#10b981; }
+    .dlg-scene-emoji { font-size:36px; line-height:1; flex-shrink:0; }
+    .dlg-scene-info { flex:1; min-width:0; }
+    .dlg-scene-name { font-size:16px; font-weight:800; color:var(--text); margin-bottom:2px; }
+    .dlg-scene-desc { font-size:12px; color:var(--muted); }
+    .dlg-scene-meta { display:flex; gap:6px; margin-top:6px; align-items:center; }
+    .dlg-scene-level { font-size:11px; font-weight:700; background:var(--indigo); color:white; border-radius:8px; padding:2px 8px; }
+    .dlg-scene-stars { font-size:12px; color:#f59e0b; }
+    .dlg-scene-badge { font-size:28px; text-align:center; padding:12px 0 4px; }
+    .dlg-scene-title { font-size:19px; font-weight:900; color:var(--text); text-align:center; padding:0 0 14px; letter-spacing:-0.3px; }
+    .dlg-chat-area { display:flex; flex-direction:column; gap:10px; padding-bottom:8px; min-height:100px; }
+    .dlg-bubble-wrap { display:flex; flex-direction:column; }
+    .dlg-bubble-wrap.user { align-items:flex-end; }
+    .dlg-bubble-wrap.npc { align-items:flex-start; }
+    .dlg-bubble-name { font-size:10px; font-weight:700; color:var(--muted); padding:0 6px 3px; text-transform:uppercase; letter-spacing:0.5px; }
+    .dlg-bubble { max-width:82%; padding:11px 14px; border-radius:18px; font-size:14px; line-height:1.5; font-weight:500; }
+    .dlg-bubble.npc { background:var(--card); border:1.5px solid var(--border); color:var(--text); border-bottom-left-radius:6px; }
+    .dlg-bubble.user { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-bottom-right-radius:6px; box-shadow:0 3px 12px rgba(79,70,229,0.3); }
+    .dlg-bubble.user.wrong { background:linear-gradient(135deg,#ef4444,#dc2626); box-shadow:0 3px 12px rgba(239,68,68,0.3); }
+    .dlg-bubble.user.ok { background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 3px 12px rgba(245,158,11,0.3); }
+    .dlg-choices-area { display:flex; flex-direction:column; gap:8px; padding:6px 0 4px; }
+    .dlg-choice-btn { background:var(--card); border:2px solid var(--border); border-radius:14px; padding:12px 16px; text-align:left; font-size:13.5px; font-weight:600; color:var(--text); cursor:pointer; line-height:1.45; transition:border-color 0.15s,background 0.15s,transform 0.1s; }
+    .dlg-choice-btn:hover { border-color:var(--indigo); background:rgba(79,70,229,0.05); }
+    .dlg-choice-btn:active { transform:scale(0.98); }
+    .dlg-choice-btn.selected-good { border-color:#10b981; background:rgba(16,185,129,0.08); color:#065f46; }
+    .dlg-choice-btn.selected-ok   { border-color:#f59e0b; background:rgba(245,158,11,0.08); color:#92400e; }
+    .dlg-choice-btn.selected-bad  { border-color:#ef4444; background:rgba(239,68,68,0.08); color:#991b1b; }
+    .dlg-feedback-area { border-radius:14px; padding:12px 16px; font-size:13px; line-height:1.55; font-weight:500; margin:4px 0; }
+    .dlg-feedback-area.good { background:rgba(16,185,129,0.1); border:1.5px solid #10b981; color:#065f46; }
+    .dlg-feedback-area.ok   { background:rgba(245,158,11,0.1); border:1.5px solid #f59e0b; color:#92400e; }
+    .dlg-feedback-area.bad  { background:rgba(239,68,68,0.1); border:1.5px solid #ef4444; color:#991b1b; }
+    .dlg-next-btn { width:100%; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border:none; border-radius:14px; padding:14px; font-size:15px; font-weight:800; cursor:pointer; margin-top:6px; transition:transform 0.15s,box-shadow 0.15s; box-shadow:0 4px 14px rgba(79,70,229,0.35); }
+    .dlg-next-btn:active { transform:scale(0.97); }
+    .dlg-result-card { background:var(--card); border-radius:24px; padding:28px 20px 24px; text-align:center; margin-top:20px; box-shadow:0 4px 24px rgba(0,0,0,0.08); border:2px solid var(--border); }
+    .dlg-result-icon { font-size:52px; line-height:1; margin-bottom:8px; }
+    .dlg-result-title { font-size:22px; font-weight:900; color:var(--text); margin-bottom:14px; letter-spacing:-0.4px; }
+    .dlg-score-bar-wrap { margin:0 10px 6px; }
+    .dlg-score-bar-bg { background:var(--border); border-radius:99px; height:12px; overflow:hidden; }
+    .dlg-score-bar-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,#4F46E5,#7C3AED); transition:width 0.8s cubic-bezier(0.34,1.2,0.64,1); }
+    .dlg-result-score { font-size:17px; font-weight:700; color:var(--indigo); margin:8px 0 12px; }
+    .dlg-result-tips { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:18px; }
+    .dlg-retry-btn { width:100%; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border:none; border-radius:14px; padding:13px; font-size:15px; font-weight:800; cursor:pointer; margin-bottom:10px; box-shadow:0 4px 14px rgba(79,70,229,0.3); }
+    .dlg-back-btn2 { width:100%; background:var(--bg); color:var(--muted); border:2px solid var(--border); border-radius:14px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; }
+    #dlg-play-view .back-btn { margin-bottom:6px; }
+
     /* ── TAB FADE TRANSITION ── */
     @keyframes sectionFadeIn {
       from { opacity: 0; transform: translateY(16px) scale(0.984); }
@@ -1075,6 +1129,7 @@
   <button id="nav-flashcards" onclick="showTab('flashcards')"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
   <button id="nav-vocab" onclick="showTab('vocab')"><span class="nav-icon">📖</span><span class="nav-label" id="nav-lbl-vocab">Vocab</span></button>
   <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
+  <button id="nav-dialogues" onclick="showTab('dialogues')"><span class="nav-icon">💬</span><span class="nav-label" id="nav-lbl-dialogues">Dialogues</span></button>
 </nav>
 
 <main>
@@ -1459,6 +1514,35 @@
     </div>
   </div>
 </main>
+
+<!-- DIALOGUES -->
+  <div id="tab-dialogues" class="section">
+    <div id="dlg-list-view">
+      <div class="dlg-header-title" id="dlg-title-main">💬 Dialogues</div>
+      <div class="dlg-header-sub" id="dlg-sub-main">Pratique des conversations du quotidien</div>
+      <div id="dlg-scenes-grid"></div>
+    </div>
+    <div id="dlg-play-view" style="display:none">
+      <button class="back-btn" onclick="dlgBackToList()">←</button>
+      <div class="dlg-scene-badge" id="dlg-scene-badge"></div>
+      <div class="dlg-scene-title" id="dlg-scene-title"></div>
+      <div id="dlg-chat-area" class="dlg-chat-area"></div>
+      <div id="dlg-choices-area" class="dlg-choices-area"></div>
+      <div id="dlg-feedback-area" class="dlg-feedback-area" style="display:none"></div>
+      <button id="dlg-next-btn" class="dlg-next-btn" style="display:none" onclick="dlgNext()"></button>
+    </div>
+    <div id="dlg-result-view" style="display:none">
+      <div class="dlg-result-card">
+        <div class="dlg-result-icon" id="dlg-result-icon"></div>
+        <div class="dlg-result-title" id="dlg-result-title"></div>
+        <div class="dlg-score-bar-wrap"><div class="dlg-score-bar-bg"><div class="dlg-score-bar-fill" id="dlg-score-fill"></div></div></div>
+        <div class="dlg-result-score" id="dlg-result-score"></div>
+        <div class="dlg-result-tips" id="dlg-result-tips"></div>
+        <button class="dlg-retry-btn" id="dlg-retry-btn" onclick="dlgRetry()"></button>
+        <button class="dlg-back-btn2" onclick="dlgBackToList()">↩</button>
+      </div>
+    </div>
+  </div>
 
 <!-- VOCAB QUIZ -->
   <div id="vocab-quiz-view">
@@ -18225,7 +18309,7 @@ function showTab(tab) {
   });
   var vqv = document.getElementById('vocab-quiz-view');
   if (vqv) vqv.classList.remove('active');
-  ['home','lessons','progress','flashcards','settings','vocab'].forEach(id => {
+  ['home','lessons','progress','flashcards','settings','vocab','dialogues'].forEach(id => {
     const sec = document.getElementById('tab-'+id);
     const btn = document.getElementById('nav-'+id);
     if (sec) sec.classList.toggle('active', id===tab);
@@ -18237,6 +18321,7 @@ function showTab(tab) {
   if (tab==='flashcards') renderFlashcard();
   if (tab==='settings')   renderSettings();
   if (tab==='vocab')      renderVocab();
+  if (tab==='dialogues')  renderDialogues();
 }
 function updateNav() {
   const navLabels = t('nav') || [];
@@ -18253,6 +18338,9 @@ function updateNav() {
   var vocabLbl = lang==='en'?'Vocab':lang==='zh'?'词汇':'Vocab';
   var vocabEl = document.getElementById('nav-lbl-vocab');
   if (vocabEl) vocabEl.textContent = vocabLbl;
+  var dlgLbl = lang==='en'?'Dialogs':lang==='zh'?'对话':'Dialogues';
+  var dlgNavEl = document.getElementById('nav-lbl-dialogues');
+  if (dlgNavEl) dlgNavEl.textContent = dlgLbl;
 }
 function renderCurrentView() {
   updateLangBtn();
@@ -20239,6 +20327,492 @@ function submitEmailAuth() {
 }
 function signOutUser() {
   window._fbAuth.signOut().then(() => updateAuthUI(null));
+}
+
+// ═══════════════════════════════════════════
+// DIALOGUES
+// ═══════════════════════════════════════════
+var dlgData = [
+  {
+    id: 'restaurant',
+    emoji: '🍽️',
+    level: 'A1',
+    nameKey: { en: 'At the Restaurant', fr: 'Au restaurant', zh: '在餐厅' },
+    descKey: { en: 'Order a meal and pay', fr: 'Commander un repas et régler', zh: '点餐和结账' },
+    npcKey:  { en: 'Waiter', fr: 'Serveur', zh: '服务员' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Good evening! Do you have a reservation?', fr: 'Bonsoir ! Vous avez réservé ?', zh: '晚上好！您有预订吗？' },
+        choices: [
+          { text: { en: 'Yes, a table for two under "Martin".', fr: 'Oui, une table pour deux au nom de Martin.', zh: '是的，以"Martin"预订了两人桌。' }, score: 3,
+            fb: { en: 'Perfect! Natural and polite.', fr: 'Parfait ! Naturel et poli.', zh: '完美！自然礼貌。' } },
+          { text: { en: 'No, but we are two people.', fr: 'Non, mais nous sommes deux.', zh: '没有，但我们是两个人。' }, score: 2,
+            fb: { en: 'OK, but you could add "Is that possible?"', fr: "Acceptable, mais ajoutez \"C'est possible ?\"", zh: '可以，但可以加上"可以吗？"' } },
+          { text: { en: 'I want to eat.', fr: 'Je veux manger.', zh: '我要吃饭。' }, score: 0,
+            fb: { en: 'Too direct. Try to be more polite.', fr: 'Trop direct. En français, on est plus poli.', zh: '太直接了，应该更礼貌。' } }
+        ]
+      },
+      {
+        npc: { en: 'Of course! Would you like the menu?', fr: 'Bien sûr ! Vous désirez la carte ?', zh: '当然！您需要菜单吗？' },
+        choices: [
+          { text: { en: 'Yes please, and could we see the wine list?', fr: "Oui s'il vous plaît, et la carte des vins aussi ?", zh: '是的，谢谢，还有酒单吗？' }, score: 3,
+            fb: { en: 'Excellent! Polite and complete.', fr: 'Excellent ! Poli et complet.', zh: '很好！礼貌而完整。' } },
+          { text: { en: 'Yes, the menu please.', fr: "Oui, la carte s'il vous plaît.", zh: '是的，菜单请。' }, score: 2,
+            fb: { en: 'Correct and polite. Good job.', fr: 'Correct et poli. Bien.', zh: '正确且礼貌，不错。' } },
+          { text: { en: 'Give me the menu.', fr: 'Donnez-moi la carte.', zh: '给我菜单。' }, score: 0,
+            fb: { en: '"Donnez-moi" without "please" sounds rude.', fr: "\"Donnez-moi\" sans \"s'il vous plaît\" est impoli.", zh: '没有"请"听起来很无礼。' } }
+        ]
+      },
+      {
+        npc: { en: 'Are you ready to order?', fr: 'Vous avez choisi ?', zh: '您准备好点菜了吗？' },
+        choices: [
+          { text: { en: "Yes! I'll have the salmon and a glass of white wine.", fr: 'Oui ! Je vais prendre le saumon et un verre de vin blanc.', zh: '好了！我要三文鱼和一杯白葡萄酒。' }, score: 3,
+            fb: { en: 'Perfect! "Je vais prendre" is the natural way to order.', fr: '"Je vais prendre" est la formule naturelle pour commander.', zh: '"Je vais prendre"是自然的点餐方式。' } },
+          { text: { en: "I'd like the steak, please.", fr: "Je voudrais le steak, s'il vous plaît.", zh: '请给我牛排。' }, score: 3,
+            fb: { en: '"Je voudrais" is also perfect — very polite.', fr: '"Je voudrais" est également parfait — très poli.', zh: '"Je voudrais"也很好——非常礼貌。' } },
+          { text: { en: 'Not ready yet.', fr: 'Pas encore prêt.', zh: '还没好。' }, score: 1,
+            fb: { en: 'A bit abrupt. Better: "Un moment s\'il vous plaît !"', fr: 'Un peu brusque. Mieux : "Un moment s\'il vous plaît !"', zh: '有点唐突。最好说："Un moment s\'il vous plaît !"' } }
+        ]
+      },
+      {
+        npc: { en: 'Would you like anything for dessert?', fr: 'Et comme dessert ?', zh: '甜点要什么？' },
+        choices: [
+          { text: { en: "I'll have the crème brûlée, please.", fr: "Je prendrai la crème brûlée, s'il vous plaît.", zh: '我要焦糖布丁，谢谢。' }, score: 3,
+            fb: { en: 'Great! The future "prendrai" is elegant for ordering.', fr: 'Très bien ! Le futur "prendrai" est élégant pour commander.', zh: '很好！用将来时"prendrai"点餐很优雅。' } },
+          { text: { en: 'No thank you, just the check please.', fr: "Non merci, l'addition s'il vous plaît.", zh: '不用了，谢谢，请结账。' }, score: 3,
+            fb: { en: 'Excellent! "L\'addition" is how you ask for the check.', fr: '"L\'addition" c\'est le mot juste.', zh: '"L\'addition"是请结账的正确说法。' } },
+          { text: { en: 'Give me something sweet.', fr: 'Donnez-moi quelque chose de sucré.', zh: '给我点甜的。' }, score: 0,
+            fb: { en: 'Too vague and direct. Be specific and polite.', fr: 'Trop vague et direct. Soyez précis et poli.', zh: '太含糊直接了，需要具体且礼貌。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'gare',
+    emoji: '🚂',
+    level: 'A2',
+    nameKey: { en: 'At the Train Station', fr: 'À la gare', zh: '在火车站' },
+    descKey: { en: 'Buy a ticket and find your platform', fr: 'Acheter un billet et trouver son quai', zh: '购票和找站台' },
+    npcKey:  { en: 'Agent', fr: 'Agent', zh: '工作人员' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Hello, how can I help you?', fr: 'Bonjour, je peux vous aider ?', zh: '您好，有什么可以帮您？' },
+        choices: [
+          { text: { en: 'Hello! I\'d like a ticket to Lyon, please.', fr: "Bonjour ! Je voudrais un billet pour Lyon, s'il vous plaît.", zh: '您好！我想要一张去里昂的票，谢谢。' }, score: 3,
+            fb: { en: 'Perfect! Always start with "Bonjour" in France.', fr: 'Parfait ! En France, commencez toujours par "Bonjour".', zh: '完美！在法国，总是先说"Bonjour"。' } },
+          { text: { en: 'A ticket to Lyon.', fr: 'Un billet pour Lyon.', zh: '一张去里昂的票。' }, score: 1,
+            fb: { en: 'Missing "Bonjour" — always greet first in France.', fr: 'Il manque "Bonjour" — toujours saluer d\'abord en France.', zh: '缺少"Bonjour"——在法国要先打招呼。' } },
+          { text: { en: 'Is there a train to Paris?', fr: 'Y a-t-il un train pour Paris ?', zh: '有去巴黎的火车吗？' }, score: 2,
+            fb: { en: 'Polite question but try to say what you actually want.', fr: 'Question polie, mais dites plutôt ce que vous voulez.', zh: '礼貌的问题，但最好直接说出您想要什么。' } }
+        ]
+      },
+      {
+        npc: { en: 'One way or return?', fr: 'Aller simple ou aller-retour ?', zh: '单程还是往返？' },
+        choices: [
+          { text: { en: "A return ticket, please. I'm coming back on Sunday.", fr: "Un aller-retour s'il vous plaît. Je reviens dimanche.", zh: '往返票，谢谢。我周日回来。' }, score: 3,
+            fb: { en: 'Great! You gave all necessary info at once.', fr: 'Excellent ! Vous avez donné toutes les infos nécessaires.', zh: '很好！您一次给出了所有必要信息。' } },
+          { text: { en: 'One way.', fr: 'Aller simple.', zh: '单程。' }, score: 2,
+            fb: { en: 'Correct but a bit short. Add "please" to be polite.', fr: "Correct mais un peu court. Ajoutez \"s'il vous plaît\".", zh: '正确但稍短，加上"谢谢"会更礼貌。' } },
+          { text: { en: 'What does aller-retour mean?', fr: 'Qu\'est-ce que ça veut dire aller-retour ?', zh: '"往返"是什么意思？' }, score: 1,
+            fb: { en: 'Aller-retour = round trip! Good to ask but learn key travel vocabulary.', fr: 'Aller-retour = round trip ! Bon reflexe de demander.', zh: '"往返"=round trip！问一下很好，但要学关键旅行词汇。' } }
+        ]
+      },
+      {
+        npc: { en: 'First or second class?', fr: 'Première ou deuxième classe ?', zh: '一等座还是二等座？' },
+        choices: [
+          { text: { en: 'Second class please. How much is it?', fr: "Deuxième classe s'il vous plaît. C'est combien ?", zh: '二等座，谢谢。多少钱？' }, score: 3,
+            fb: { en: 'Perfect combination — choice + question!', fr: 'Combinaison parfaite — choix + question !', zh: '完美组合——选择+询问价格！' } },
+          { text: { en: 'First class.', fr: 'Première classe.', zh: '一等座。' }, score: 2,
+            fb: { en: 'Clear answer. Add "s\'il vous plaît" for politeness.', fr: "Réponse claire. N'oubliez pas \"s'il vous plaît\".", zh: '回答清楚，记得加"谢谢"更礼貌。' } },
+          { text: { en: 'Is the train fast?', fr: 'Est-ce que le train est rapide ?', zh: '火车快吗？' }, score: 0,
+            fb: { en: "Off-topic! Answer the agent's direct question first.", fr: 'Hors sujet ! Répondez d\'abord à la question de l\'agent.', zh: '跑题了！先回答工作人员的问题。' } }
+        ]
+      },
+      {
+        npc: { en: "That's 47 euros. Platform 5, departure at 14:32.", fr: 'Ça fait 47 euros. Quai 5, départ à 14h32.', zh: '47欧元。5号站台，14:32出发。' },
+        choices: [
+          { text: { en: 'Thank you very much. Do I have time to grab a coffee?', fr: "Merci beaucoup. J'ai le temps de prendre un café ?", zh: '非常感谢。我有时间喝咖啡吗？' }, score: 3,
+            fb: { en: 'Excellent! Natural end to the conversation.', fr: 'Excellent ! Fin naturelle de la conversation.', zh: '很好！对话的自然结尾。' } },
+          { text: { en: 'Thank you, goodbye.', fr: 'Merci, au revoir.', zh: '谢谢，再见。' }, score: 2,
+            fb: { en: 'Polite and correct. Well done.', fr: 'Poli et correct. Bien fait.', zh: '礼貌正确，做得好。' } },
+          { text: { en: 'Why is it so expensive?', fr: "Pourquoi c'est si cher ?", zh: '为什么这么贵？' }, score: 0,
+            fb: { en: 'Impolite in this context!', fr: 'Impoli dans ce contexte !', zh: '在此语境中不礼貌！' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'hotel',
+    emoji: '🏨',
+    level: 'A2',
+    nameKey: { en: 'At the Hotel', fr: "À l'hôtel", zh: '在酒店' },
+    descKey: { en: 'Check in and handle a problem', fr: "S'enregistrer et gérer un problème", zh: '入住和解决问题' },
+    npcKey:  { en: 'Receptionist', fr: 'Réceptionniste', zh: '前台' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Good evening, welcome! Do you have a reservation?', fr: 'Bonsoir, bienvenue ! Vous avez une réservation ?', zh: '晚上好，欢迎！您有预订吗？' },
+        choices: [
+          { text: { en: 'Good evening! Yes, under the name Dupont, two nights.', fr: 'Bonsoir ! Oui, au nom de Dupont, pour deux nuits.', zh: '晚上好！是的，以"Dupont"名义预订了两晚。' }, score: 3,
+            fb: { en: 'Perfect! You gave all the needed info right away.', fr: "Parfait ! Vous avez donné toutes les infos d'emblée.", zh: '完美！您一下子给出了所有必要信息。' } },
+          { text: { en: 'Yes, I reserved online.', fr: "Oui, j'ai réservé sur Internet.", zh: '是的，我在网上预订了。' }, score: 2,
+            fb: { en: 'Good, but also say your name and number of nights.', fr: 'Bien, mais indiquez aussi votre nom et le nombre de nuits.', zh: '好的，但也要说您的名字和住几晚。' } },
+          { text: { en: 'I want a room.', fr: 'Je veux une chambre.', zh: '我要一个房间。' }, score: 0,
+            fb: { en: 'Too direct. Say "Bonsoir" and give your reservation details.', fr: 'Trop direct. Dites "Bonsoir" et donnez vos détails de réservation.', zh: '太直接了。先说"晚上好"并给出预订信息。' } }
+        ]
+      },
+      {
+        npc: { en: 'Your room is 214. Breakfast 7–10 AM. Need help with luggage?', fr: 'Votre chambre est le 214. Petit-déjeuner de 7h à 10h. Vous avez besoin d\'aide pour vos bagages ?', zh: '您的房间是214号。早餐7到10点。需要帮助搬行李吗？' },
+        choices: [
+          { text: { en: "Thank you! No need. Could I have the WiFi password?", fr: "Merci ! Non merci, ça ira. Le code WiFi s'il vous plaît ?", zh: '谢谢！不需要。请问WiFi密码是什么？' }, score: 3,
+            fb: { en: 'Great! Polite refusal + asking for WiFi is very natural.', fr: 'Super ! Refus poli + demande du WiFi, très naturel.', zh: '很好！礼貌地拒绝并询问WiFi，非常自然。' } },
+          { text: { en: 'Yes please, I have a heavy suitcase.', fr: "Oui s'il vous plaît, j'ai une valise lourde.", zh: '好的，谢谢，我有个很重的行李箱。' }, score: 3,
+            fb: { en: 'Perfect! Accepting help politely with an explanation.', fr: "Parfait ! Accepter de l'aide poliment avec une explication.", zh: '完美！礼貌地接受帮助并说明原因。' } },
+          { text: { en: 'OK.', fr: 'OK.', zh: '好。' }, score: 1,
+            fb: { en: 'Too terse. Always acknowledge and respond properly.', fr: 'Trop bref. Répondez toujours correctement.', zh: '太简短了。要给出适当的回应。' } }
+        ]
+      },
+      {
+        npc: { en: '(Next morning) Good morning! Is everything OK with your room?', fr: '(Le lendemain matin) Bonjour ! Tout va bien dans votre chambre ?', zh: '（第二天早上）早上好！房间一切都好吗？' },
+        choices: [
+          { text: { en: "Actually, the air conditioning isn't working. Could you send someone?", fr: "En fait, la climatisation ne fonctionne pas. Pourriez-vous envoyer quelqu'un ?", zh: '其实，空调不工作了。能派人来看看吗？' }, score: 3,
+            fb: { en: 'Excellent! "Pourriez-vous" (conditional) is very polite for requests.', fr: '"Pourriez-vous" (conditionnel) est très poli pour les demandes.', zh: '"Pourriez-vous"（条件式）是表达请求最礼貌的方式。' } },
+          { text: { en: 'The AC is broken.', fr: 'La clim est cassée.', zh: '空调坏了。' }, score: 1,
+            fb: { en: 'Conveys the problem but sounds abrupt. Add a polite request.', fr: "Le problème est clair mais c'est brusque. Ajoutez une demande polie.", zh: '传达了问题但听起来唐突，加上礼貌的请求。' } },
+          { text: { en: 'Everything is perfect, thank you!', fr: 'Tout est parfait, merci !', zh: '一切都很完美，谢谢！' }, score: 2,
+            fb: { en: "Polite and positive — great if it's true!", fr: "Poli et positif — parfait si c'est vrai !", zh: '礼貌积极——如果真是这样就太好了！' } }
+        ]
+      },
+      {
+        npc: { en: "Of course, sorry for the inconvenience. What time are you checking out?", fr: 'Bien sûr, je suis désolé pour le désagrément. À quelle heure partez-vous ?', zh: '当然，对于不便我们深感抱歉。您什么时候退房？' },
+        choices: [
+          { text: { en: 'Around 11 AM. Is late check-out possible?', fr: 'Vers 11h. Est-il possible de partir un peu plus tard ?', zh: '大约11点。能晚退房一会儿吗？' }, score: 3,
+            fb: { en: '"Est-il possible de..." is a perfect polite way to make a request.', fr: '"Est-il possible de..." est une formulation parfaite pour une demande polie.', zh: '"Est-il possible de..."是礼貌请求的完美表达。' } },
+          { text: { en: 'At noon.', fr: 'À midi.', zh: '中午。' }, score: 2,
+            fb: { en: 'Clear and direct. Correct answer.', fr: 'Clair et direct. Réponse correcte.', zh: '清晰直接，回答正确。' } },
+          { text: { en: "I don't know yet.", fr: 'Je ne sais pas encore.', zh: '还不知道。' }, score: 1,
+            fb: { en: 'Understandable but try to give a rough time.', fr: 'Compréhensible mais essayez de donner une heure approximative.', zh: '可以理解，但尽量给出大概时间。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'medecin',
+    emoji: '👨‍⚕️',
+    level: 'B1',
+    nameKey: { en: 'At the Doctor', fr: 'Chez le médecin', zh: '看医生' },
+    descKey: { en: 'Describe symptoms and understand advice', fr: 'Décrire ses symptômes et comprendre les conseils', zh: '描述症状并理解建议' },
+    npcKey:  { en: 'Doctor', fr: 'Médecin', zh: '医生' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Good morning! What brings you in today?', fr: 'Bonjour ! Qu\'est-ce qui vous amène ?', zh: '早上好！您今天来是因为什么？' },
+        choices: [
+          { text: { en: "I've had a sore throat and fever for two days.", fr: "J'ai mal à la gorge et de la fièvre depuis deux jours.", zh: '我喉咙痛和发烧已经两天了。' }, score: 3,
+            fb: { en: 'Perfect! "J\'ai mal à..." + duration is exactly what doctors need.', fr: '"J\'ai mal à..." + durée, c\'est exactement ce dont un médecin a besoin.', zh: '"J\'ai mal à..."加上持续时间，正是医生需要的信息。' } },
+          { text: { en: "I'm sick.", fr: 'Je suis malade.', zh: '我生病了。' }, score: 1,
+            fb: { en: 'Too vague — describe your symptoms specifically.', fr: 'Trop vague — décrivez précisément vos symptômes.', zh: '太笼统了——具体描述您的症状。' } },
+          { text: { en: 'I feel bad since yesterday.', fr: 'Je me sens mal depuis hier.', zh: '从昨天开始我感觉不好。' }, score: 2,
+            fb: { en: 'Good start but be more specific about which symptoms.', fr: 'Bon début mais soyez plus précis sur les symptômes.', zh: '好的开始，但请更具体地说明哪些症状。' } }
+        ]
+      },
+      {
+        npc: { en: 'Any other symptoms? Cough or headache?', fr: 'Vous avez d\'autres symptômes ? De la toux ou des maux de tête ?', zh: '您还有其他症状吗？咳嗽或头痛？' },
+        choices: [
+          { text: { en: "Yes, I have a slight cough and I'm very tired.", fr: "Oui, j'ai une légère toux et je suis très fatigué(e).", zh: '是的，我有点轻微咳嗽，也非常疲倦。' }, score: 3,
+            fb: { en: 'Excellent! "Légère" (slight) shows a good vocabulary level.', fr: 'Excellent ! "Légère" montre un bon niveau de vocabulaire.', zh: '"Légère"（轻微的）显示了良好的词汇水平。' } },
+          { text: { en: 'Yes, I have a headache too.', fr: "Oui, j'ai aussi mal à la tête.", zh: '是的，我也头痛。' }, score: 2,
+            fb: { en: 'Good, but could mention if mild or severe.', fr: 'Bien, mais précisez si c\'est léger ou fort.', zh: '不错，但可以说明是轻微还是严重。' } },
+          { text: { en: 'No, nothing else.', fr: "Non, rien d'autre.", zh: '没有，没有其他了。' }, score: 2,
+            fb: { en: "Clear answer. If you have symptoms don't forget to mention them.", fr: "Réponse claire. N'oubliez pas de mentionner tous vos symptômes.", zh: '回答清楚，但如果有症状别忘记提及。' } }
+        ]
+      },
+      {
+        npc: { en: "It looks like a throat infection. I'll prescribe antibiotics. Any allergies?", fr: "On dirait une angine. Je vais vous prescrire des antibiotiques. Vous avez des allergies ?", zh: '看起来是咽炎。我给您开抗生素。您有过敏症状吗？' },
+        choices: [
+          { text: { en: "I'm allergic to penicillin.", fr: 'Je suis allergique à la pénicilline.', zh: '我对青霉素过敏。' }, score: 3,
+            fb: { en: 'Critical info! "Je suis allergique à..." is essential vocabulary.', fr: '"Je suis allergique à..." est un vocabulaire essentiel.', zh: '关键信息！"Je suis allergique à..."是重要词汇。' } },
+          { text: { en: 'No allergies.', fr: "Pas d'allergies.", zh: '没有过敏。' }, score: 2,
+            fb: { en: 'Correct. You could also say "Non, aucune allergie."', fr: 'Correct. Vous pouvez aussi dire "Non, aucune allergie."', zh: '正确。也可以说"Non, aucune allergie."' } },
+          { text: { en: 'What are antibiotics?', fr: "C'est quoi des antibiotiques ?", zh: '抗生素是什么？' }, score: 0,
+            fb: { en: 'Important to know "antibiotiques" — a common prescription word.', fr: '"Antibiotiques" est un mot essentiel à connaître.', zh: '需要知道"antibiotiques"——这是常见的处方词。' } }
+        ]
+      },
+      {
+        npc: { en: 'Take these 3 times a day for 7 days, and rest. Any questions?', fr: 'Prenez-les 3 fois par jour pendant 7 jours, et reposez-vous. Des questions ?', zh: '一天三次，服用7天，并且注意休息。有问题吗？' },
+        choices: [
+          { text: { en: 'Should I take them with food? And can I go back to work tomorrow?', fr: "Je dois les prendre avec de la nourriture ? Et je peux reprendre le travail demain ?", zh: '我需要随餐服用吗？明天可以回去工作吗？' }, score: 3,
+            fb: { en: 'Great! Asking the right practical questions.', fr: 'Super ! Vous posez les bonnes questions pratiques.', zh: '很好！提出了正确的实际问题。' } },
+          { text: { en: "No, that's clear. Thank you Doctor.", fr: "Non, c'est clair. Merci Docteur.", zh: '没有，很清楚了。谢谢医生。' }, score: 2,
+            fb: { en: 'Polite and correct. "Merci Docteur" is the standard way to end.', fr: '"Merci Docteur" est la formule standard.', zh: '"Merci Docteur"是标准的结束语。' } },
+          { text: { en: 'Can you write it down?', fr: 'Vous pouvez écrire ça ?', zh: '您能写下来吗？' }, score: 1,
+            fb: { en: 'Understandable, but doctors give written prescriptions anyway!', fr: 'Compréhensible, mais les médecins donnent des ordonnances écrites de toute façon !', zh: '可以理解，但医生无论如何都会开书面处方的！' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'marche',
+    emoji: '🛒',
+    level: 'A1',
+    nameKey: { en: 'At the Market', fr: 'Au marché', zh: '在市场' },
+    descKey: { en: 'Buy fresh produce', fr: 'Acheter des produits frais', zh: '购买新鲜食品' },
+    npcKey:  { en: 'Vendor', fr: 'Vendeur', zh: '摊主' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Hello! Everything is fresh from this morning!', fr: 'Bonjour ! Tout est frais du matin !', zh: '你好！所有东西都是今早新鲜的！' },
+        choices: [
+          { text: { en: "Hello! I'd like a kilo of tomatoes please.", fr: "Bonjour ! Je voudrais un kilo de tomates, s'il vous plaît.", zh: '你好！我想要一公斤西红柿，谢谢。' }, score: 3,
+            fb: { en: 'Perfect! Specific quantity + "s\'il vous plaît" = ideal.', fr: '"s\'il vous plaît" = idéal.', zh: '完美！具体数量加上"谢谢"=理想。' } },
+          { text: { en: 'What do you have?', fr: "Qu'est-ce que vous avez ?", zh: '你有什么？' }, score: 2,
+            fb: { en: "Fine if you're browsing — but don't forget \"Bonjour\" first!", fr: 'OK si vous cherchez — mais n\'oubliez pas "Bonjour" d\'abord !', zh: '如果在逛的话没问题——但别忘了先说"Bonjour"！' } },
+          { text: { en: 'Tomatoes, how much?', fr: "Les tomates, c'est combien ?", zh: '西红柿多少钱？' }, score: 1,
+            fb: { en: 'Acceptable but skipped the greeting — in France always say "Bonjour" first.', fr: 'Acceptable mais pas de salutation — "Bonjour" d\'abord en France.', zh: '可以，但没有打招呼——在法国一定要先说"Bonjour"。' } }
+        ]
+      },
+      {
+        npc: { en: 'Nice tomatoes, 2.50€ per kilo. Anything else?', fr: "Belles tomates, 2,50€ le kilo. Et avec ça ?", zh: '漂亮的西红柿，每公斤2.50欧元。还需要别的吗？' },
+        choices: [
+          { text: { en: 'Yes, do you have zucchini? And some fresh basil if possible.', fr: 'Oui, vous avez des courgettes ? Et du basilic frais si possible.', zh: '是的，您有西葫芦吗？如果可以的话，还要新鲜罗勒。' }, score: 3,
+            fb: { en: '"If possible" is very natural French.', fr: '"Si possible" rend la demande très naturelle en français.', zh: '"Si possible"（如果可以的话）让请求非常自然。' } },
+          { text: { en: "No that's all, thank you.", fr: "Non merci, c'est tout.", zh: '不了，谢谢，就这些。' }, score: 2,
+            fb: { en: '"C\'est tout" is the perfect phrase to end your order.', fr: '"C\'est tout" est la formule parfaite pour terminer votre commande.', zh: '"C\'est tout"是结束点单的完美短语。' } },
+          { text: { en: 'Are they organic?', fr: 'Elles sont bio ?', zh: '是有机的吗？' }, score: 2,
+            fb: { en: 'Good question! "Bio" (organic) is very used in France.', fr: '"Bio" est très utilisé en France.', zh: '"Bio"（有机）在法国是常用词。' } }
+        ]
+      },
+      {
+        npc: { en: 'I have beautiful zucchini, 1.80€/kg, and fresh basil at 1€ a bunch.', fr: "J'ai de belles courgettes à 1,80€/kg, et du basilic à 1€ la botte.", zh: '我有漂亮的西葫芦，每公斤1.80欧元，新鲜罗勒每束1欧元。' },
+        choices: [
+          { text: { en: 'A kilo of zucchini and two bunches of basil. How much total?', fr: "Un kilo de courgettes et deux bottes de basilic s'il vous plaît. Ça fait combien en tout ?", zh: '一公斤西葫芦和两束罗勒，谢谢。总共多少钱？' }, score: 3,
+            fb: { en: 'Excellent! "En tout" (in total) is a very useful phrase.', fr: '"En tout" (au total) est une expression très utile.', zh: '"En tout"（总共）是非常有用的表达。' } },
+          { text: { en: 'OK, give me the zucchini.', fr: 'OK, donnez-moi les courgettes.', zh: '好的，给我西葫芦。' }, score: 1,
+            fb: { en: '"Donnez-moi" without "please" is rude. Try "Je vais prendre".', fr: '"Donnez-moi" sans "s\'il vous plaît" est impoli.', zh: '"Donnez-moi"没有"请"是不礼貌的。' } },
+          { text: { en: "That's too expensive!", fr: "C'est trop cher !", zh: '太贵了！' }, score: 1,
+            fb: { en: 'French markets don\'t usually bargain. Better: "Vous pouvez faire un geste ?"', fr: 'On ne marchande pas au marché français. Mieux : "Vous pouvez faire un geste ?"', zh: '法国市场通常不讨价还价。最好礼貌地问："Vous pouvez faire un geste ?"' } }
+        ]
+      },
+      {
+        npc: { en: "That's 6.30€ altogether. I'll throw in some parsley for free!", fr: "Ça fait 6,30€ en tout. Je vous mets du persil en cadeau !", zh: '总共6.30欧元。我送您一把欧芹！' },
+        choices: [
+          { text: { en: "Oh thank you, that's very kind! Here's 7 euros.", fr: "Oh merci, c'est très gentil ! Voilà 7 euros.", zh: '哦谢谢，您太好了！给您7欧元。' }, score: 3,
+            fb: { en: 'Perfect! Acknowledging the gesture is important in French culture.', fr: 'Parfait ! Reconnaître le geste est important dans la culture française.', zh: '完美！在法国文化中，感谢对方的好意很重要。' } },
+          { text: { en: 'Thanks. Here you go.', fr: 'Merci. Voilà.', zh: '谢谢，给您。' }, score: 2,
+            fb: { en: 'Polite but "c\'est très gentil" would show more appreciation.', fr: '"c\'est très gentil" montrerait plus d\'appréciation.', zh: '"c\'est très gentil"会表达更多感谢。' } },
+          { text: { en: "I don't like parsley.", fr: "Je n'aime pas le persil.", zh: '我不喜欢欧芹。' }, score: 1,
+            fb: { en: 'Honest but could be more diplomatic: "C\'est gentil mais je n\'en mange pas, merci quand même."', fr: '"C\'est gentil mais je n\'en mange pas, merci quand même."', zh: '"C\'est gentil mais je n\'en mange pas, merci quand même."' } }
+        ]
+      }
+    ]
+  }
+];
+
+var dlgState = { sceneIdx:0, turnIdx:0, scores:[], totalMax:0, done:false };
+
+function renderDialogues() {
+  var listView = document.getElementById('dlg-list-view');
+  var playView = document.getElementById('dlg-play-view');
+  var resultView = document.getElementById('dlg-result-view');
+  listView.style.display = '';
+  playView.style.display = 'none';
+  resultView.style.display = 'none';
+
+  var title = document.getElementById('dlg-title-main');
+  var sub   = document.getElementById('dlg-sub-main');
+  if (title) title.textContent = lang==='en'?'💬 Dialogues':lang==='zh'?'💬 对话':'💬 Dialogues';
+  if (sub)   sub.textContent   = lang==='en'?'Practice everyday conversations':lang==='zh'?'练习日常对话':'Pratique des conversations du quotidien';
+
+  var grid = document.getElementById('dlg-scenes-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  dlgData.forEach(function(scene, idx) {
+    var card = document.createElement('div');
+    card.className = 'dlg-scene-card';
+    var name = scene.nameKey[lang] || scene.nameKey.fr;
+    var desc = scene.descKey[lang] || scene.descKey.fr;
+    card.innerHTML =
+      '<div class="dlg-scene-emoji">'+scene.emoji+'</div>'+
+      '<div class="dlg-scene-info">'+
+        '<div class="dlg-scene-name">'+name+'</div>'+
+        '<div class="dlg-scene-desc">'+desc+'</div>'+
+        '<div class="dlg-scene-meta">'+
+          '<span class="dlg-scene-level">'+scene.level+'</span>'+
+          '<span class="dlg-scene-stars">'+Array(scene.turns.length+1).join('💬')+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div style="font-size:20px;color:var(--muted);">›</div>';
+    card.onclick = function() { dlgStartScene(idx); };
+    grid.appendChild(card);
+  });
+}
+
+function dlgStartScene(idx) {
+  var scene = dlgData[idx];
+  dlgState = { sceneIdx:idx, turnIdx:0, scores:[], totalMax: scene.turns.length * 3, done:false };
+
+  document.getElementById('dlg-list-view').style.display = 'none';
+  document.getElementById('dlg-result-view').style.display = 'none';
+  document.getElementById('dlg-play-view').style.display = '';
+
+  var badge = document.getElementById('dlg-scene-badge');
+  var title = document.getElementById('dlg-scene-title');
+  if (badge) badge.textContent = scene.emoji;
+  if (title) title.textContent = scene.nameKey[lang] || scene.nameKey.fr;
+
+  document.getElementById('dlg-chat-area').innerHTML = '';
+  document.getElementById('dlg-choices-area').innerHTML = '';
+  document.getElementById('dlg-feedback-area').style.display = 'none';
+  document.getElementById('dlg-next-btn').style.display = 'none';
+
+  dlgShowTurn();
+}
+
+function dlgShowTurn() {
+  var scene = dlgData[dlgState.sceneIdx];
+  var turn  = scene.turns[dlgState.turnIdx];
+  if (!turn) { dlgShowResult(); return; }
+
+  var npcName  = scene.npcKey[lang]  || scene.npcKey.fr;
+  var chatArea = document.getElementById('dlg-chat-area');
+
+  var wrap = document.createElement('div');
+  wrap.className = 'dlg-bubble-wrap npc';
+  wrap.innerHTML = '<div class="dlg-bubble-name">'+npcName+'</div><div class="dlg-bubble npc">'+
+    (turn.npc[lang] || turn.npc.fr) + '</div>';
+  chatArea.appendChild(wrap);
+  chatArea.scrollTop = chatArea.scrollHeight;
+
+  var choicesArea = document.getElementById('dlg-choices-area');
+  choicesArea.innerHTML = '';
+  var userLbl = lang==='en'?'A: ':lang==='zh'?'选项：':'R : ';
+  turn.choices.forEach(function(choice, ci) {
+    var btn = document.createElement('button');
+    btn.className = 'dlg-choice-btn';
+    btn.textContent = userLbl + (choice.text[lang] || choice.text.fr);
+    btn.onclick = function() { dlgChoose(ci, btn); };
+    choicesArea.appendChild(btn);
+  });
+  document.getElementById('dlg-feedback-area').style.display = 'none';
+  document.getElementById('dlg-next-btn').style.display = 'none';
+}
+
+function dlgChoose(choiceIdx, btn) {
+  var scene  = dlgData[dlgState.sceneIdx];
+  var turn   = scene.turns[dlgState.turnIdx];
+  var choice = turn.choices[choiceIdx];
+
+  dlgState.scores.push(choice.score);
+
+  var choicesArea = document.getElementById('dlg-choices-area');
+  Array.from(choicesArea.children).forEach(function(b) { b.disabled = true; });
+
+  if (choice.score === 3)     { btn.classList.add('selected-good'); }
+  else if (choice.score >= 1) { btn.classList.add('selected-ok'); }
+  else                         { btn.classList.add('selected-bad'); }
+
+  var chatArea = document.getElementById('dlg-chat-area');
+  var userWrap = document.createElement('div');
+  userWrap.className = 'dlg-bubble-wrap user';
+  var bubbleClass = choice.score === 3 ? 'user' : (choice.score >= 1 ? 'user ok' : 'user wrong');
+  var userText = choice.text[lang] || choice.text.fr;
+  var userNameTxt = scene.userKey[lang] || scene.userKey.fr;
+  userWrap.innerHTML = '<div class="dlg-bubble-name" style="text-align:right">'+userNameTxt+'</div><div class="dlg-bubble '+bubbleClass+'">'+userText+'</div>';
+  chatArea.appendChild(userWrap);
+  chatArea.scrollTop = chatArea.scrollHeight;
+
+  var fb = document.getElementById('dlg-feedback-area');
+  var fbText = choice.fb[lang] || choice.fb.fr;
+  var icon = choice.score === 3 ? '✅ ' : (choice.score >= 1 ? '⚠️ ' : '❌ ');
+  fb.textContent = icon + fbText;
+  fb.className = 'dlg-feedback-area ' + (choice.score === 3 ? 'good' : (choice.score >= 1 ? 'ok' : 'bad'));
+  fb.style.display = '';
+
+  var nextBtn = document.getElementById('dlg-next-btn');
+  var isLast = dlgState.turnIdx >= scene.turns.length - 1;
+  nextBtn.textContent = isLast
+    ? (lang==='en'?'See results':lang==='zh'?'查看结果':'Voir les résultats')
+    : (lang==='en'?'Next →':lang==='zh'?'下一步 →':'Suivant →');
+  nextBtn.style.display = '';
+
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function dlgNext() {
+  dlgState.turnIdx++;
+  var scene = dlgData[dlgState.sceneIdx];
+  if (dlgState.turnIdx >= scene.turns.length) {
+    dlgShowResult();
+  } else {
+    document.getElementById('dlg-choices-area').innerHTML = '';
+    document.getElementById('dlg-feedback-area').style.display = 'none';
+    document.getElementById('dlg-next-btn').style.display = 'none';
+    dlgShowTurn();
+  }
+}
+
+function dlgShowResult() {
+  document.getElementById('dlg-play-view').style.display = 'none';
+  var resultView = document.getElementById('dlg-result-view');
+  resultView.style.display = '';
+
+  var total = dlgState.scores.reduce(function(a,b){ return a+b; }, 0);
+  var max   = dlgState.totalMax;
+  var pct   = Math.round(total / max * 100);
+
+  var icon  = pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚';
+  var titleTxt, scoreTxt, tips;
+
+  if (lang === 'en') {
+    titleTxt = pct >= 80 ? 'Excellent conversation!' : pct >= 50 ? 'Good job!' : 'Keep practicing!';
+    scoreTxt = 'Score: ' + total + ' / ' + max + ' (' + pct + '%)';
+    tips = pct >= 80
+      ? 'Your French is natural and polite. Try a harder scene next!'
+      : pct >= 50
+      ? 'Good progress! Pay attention to politeness and "s\'il vous plaît".'
+      : 'Focus on greetings (always "Bonjour"!) and polite formulas.';
+  } else if (lang === 'zh') {
+    titleTxt = pct >= 80 ? '对话精彩！' : pct >= 50 ? '做得好！' : '继续练习！';
+    scoreTxt = '得分：' + total + ' / ' + max + ' (' + pct + '%)';
+    tips = pct >= 80
+      ? '您的法语自然且礼貌，试试更难的场景吧！'
+      : pct >= 50
+      ? '进步不错！注意礼貌用语和"s\'il vous plaît"。'
+      : '重点练习打招呼（一定要说"Bonjour"！）和礼貌表达。';
+  } else {
+    titleTxt = pct >= 80 ? 'Excellente conversation !' : pct >= 50 ? 'Bien joué !' : 'Continuez à pratiquer !';
+    scoreTxt = 'Score : ' + total + ' / ' + max + ' (' + pct + '%)';
+    tips = pct >= 80
+      ? 'Votre français est naturel et poli. Essayez un scénario plus difficile !'
+      : pct >= 50
+      ? 'Faites attention à la politesse et aux "s\'il vous plaît".'
+      : 'Travaillez les salutations (toujours "Bonjour" !) et les formules polies.';
+  }
+
+  document.getElementById('dlg-result-icon').textContent = icon;
+  document.getElementById('dlg-result-title').textContent = titleTxt;
+  document.getElementById('dlg-result-score').textContent = scoreTxt;
+  document.getElementById('dlg-result-tips').textContent = tips;
+  document.getElementById('dlg-retry-btn').textContent = lang==='en'?'↺ Retry':lang==='zh'?'↺ 重试':'↺ Rejouer';
+
+  var fill = document.getElementById('dlg-score-fill');
+  if (fill) {
+    fill.style.width = '0%';
+    setTimeout(function() { fill.style.width = pct + '%'; }, 100);
+  }
+  window.scrollTo(0, 0);
+}
+
+function dlgRetry() {
+  dlgStartScene(dlgState.sceneIdx);
+}
+
+function dlgBackToList() {
+  document.getElementById('dlg-play-view').style.display = 'none';
+  document.getElementById('dlg-result-view').style.display = 'none';
+  document.getElementById('dlg-list-view').style.display = '';
 }
 
 </script>
