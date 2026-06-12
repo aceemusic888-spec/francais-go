@@ -860,7 +860,47 @@
     .section.active, #tab-vocab.active {
       animation: sectionFadeIn 0.38s cubic-bezier(0.34, 1.05, 0.64, 1) both !important;
     }
-  </style>
+  
+    /* ══════════════════════════════════════
+       HOME v2 — Professional redesign
+    ══════════════════════════════════════ */
+    .hv2-hero { display:flex; align-items:flex-end; justify-content:space-between; background:linear-gradient(140deg,#3730A3 0%,#4F46E5 45%,#7C3AED 100%); border-radius:24px; padding:24px 0 0 24px; margin-bottom:16px; overflow:hidden; box-shadow:0 12px 40px rgba(79,70,229,0.38); position:relative; min-height:170px; }
+    .hv2-hero::before { content:''; position:absolute; top:-40px; right:120px; width:160px; height:160px; background:rgba(255,255,255,0.07); border-radius:50%; pointer-events:none; }
+    .hv2-hero-text { flex:1; padding-bottom:22px; }
+    .hv2-welcome { font-size:11px; font-weight:700; color:rgba(255,255,255,0.75); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+    .hv2-title { font-size:23px; font-weight:900; color:white; letter-spacing:-0.5px; line-height:1.15; margin:0 0 5px; }
+    .hv2-sub { font-size:13px; color:rgba(255,255,255,0.78); margin:0 0 16px; line-height:1.45; }
+    .hv2-cta { background:white; color:#4F46E5; font-weight:800; font-size:14px; border:none; border-radius:14px; padding:11px 20px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.18); transition:transform 0.15s,box-shadow 0.15s; letter-spacing:0.1px; }
+    .hv2-cta:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.22); }
+    .hv2-cta:active { transform:scale(0.97); }
+    .hv2-hero-img { flex-shrink:0; width:130px; display:flex; align-items:flex-end; justify-content:center; }
+    .hv2-mascot { width:135px; height:auto; object-fit:contain; display:block; filter:drop-shadow(0 6px 18px rgba(0,0,0,0.28)); }
+
+    /* Stats pills */
+    .hv2-stats { display:flex; gap:10px; margin-bottom:14px; }
+    .hv2-pill { flex:1; background:white; border-radius:18px; padding:14px 8px 12px; text-align:center; box-shadow:0 2px 12px rgba(0,0,0,0.07); display:flex; flex-direction:column; align-items:center; gap:2px; transition:transform 0.15s; }
+    .hv2-pill:active { transform:scale(0.97); }
+    .hv2-pill-fire { background:linear-gradient(135deg,#FEF9C3,#FEF08A); }
+    .hv2-pill-icon { font-size:20px; line-height:1; margin-bottom:2px; }
+    .hv2-pill-val { font-size:22px; font-weight:900; color:var(--text); line-height:1; }
+    .hv2-pill-lbl { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+
+    /* Progress card */
+    .hv2-prog-card { background:white; border-radius:20px; padding:18px; margin-bottom:14px; box-shadow:0 2px 14px rgba(0,0,0,0.07); }
+    body.dark .hv2-prog-card { background:#1E1E38; }
+    body.dark .hv2-pill { background:#1E1E38; }
+    .hv2-prog-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .hv2-prog-pct { font-size:13px; font-weight:700; color:var(--muted); }
+    .hv2-prog-track { background:#F1F5F9; border-radius:99px; height:12px; overflow:hidden; }
+    body.dark .hv2-prog-track { background:#2D3748; }
+    .hv2-prog-fill { height:12px; border-radius:99px; background:linear-gradient(90deg,#4F46E5,#7C3AED); transition:width 0.9s cubic-bezier(0.34,1.56,0.64,1); width:0%; }
+
+    /* Section labels */
+    .hv2-section-lbl { font-size:16px; font-weight:800; color:var(--text); margin:20px 0 10px; letter-spacing:-0.3px; }
+
+    /* Splash mascot img */
+    .splash-mascot-img { width:150px; height:150px; object-fit:contain; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.3)); }
+</style>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -871,7 +911,7 @@
 <!-- SPLASH SCREEN -->
 <script>window._splashStart = Date.now();</script>
 <div id="splash-screen">
-  <div class="splash-mascot" id="splash-mascot"></div>
+  <img src="/mascot-hero.png" class="splash-mascot-img" alt="FrenchGo" onerror="this.style.display='none'" />
   <div class="splash-title">FrenchGo</div>
   <div class="splash-sub">Apprenez le français facilement 🍁</div>
 </div>
@@ -995,45 +1035,60 @@
 <main>
   <!-- HOME -->
   <div id="tab-home" class="section active">
-    <div class="hero-card">
-      <div class="hero-sub" id="home-welcome"></div>
-      <div class="hero-title" id="home-title"></div>
-      <div class="hero-desc" id="home-sub"></div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="hero-done-count">0</span>
-          <span class="hero-stat-lbl" id="hero-lessons-lbl">leçons</span>
-        </div>
-        <div class="hero-stat-sep"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="hero-xp-stat">0</span>
-          <span class="hero-stat-lbl">XP</span>
-        </div>
-        <div class="hero-stat-sep"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="hero-streak-num">0</span>
-          <span class="hero-stat-lbl" id="hero-streak-lbl">🔥 série</span>
-        </div>
+
+    <!-- ── HERO ── -->
+    <div class="hv2-hero">
+      <div class="hv2-hero-text">
+        <div class="hv2-welcome" id="home-welcome"></div>
+        <h1 class="hv2-title" id="home-title"></h1>
+        <p class="hv2-sub" id="home-sub"></p>
+        <button class="hv2-cta" id="hv2-cta-btn" onclick="(function(){var r=LESSONS.find(function(l){return l&&state[l.id]&&!state[l.id].completed;});openLesson(r?r.id:0);})()">▶ Commencer</button>
       </div>
-      <div id="hero-level-wrap" style="text-align:center;margin:8px 0 2px;"></div>
-      <div id="hero-daily-goal-wrap" style="margin:4px 0 6px;padding:0 4px;"></div>
-      <div class="hero-prog-wrap">
-        <div class="hero-road-track">
-          <div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div>
-          <div class="hero-road-car" id="hero-road-car" style="left:2%">🚗</div>
-        </div>
-        <div class="hero-road-footer">
-          <span>🏁 0</span>
-          <span id="hero-prog-pct">0 / 65</span>
-          <span>65 🎯</span>
-        </div>
+      <div class="hv2-hero-img">
+        <img src="/mascot-hero.png" alt="FrenchGo" class="hv2-mascot" onerror="this.style.display='none'" />
       </div>
-      <div class="hero-mascot" id="home-mascot"></div>
     </div>
+
+    <!-- ── STATS PILLS ── -->
+    <div class="hv2-stats">
+      <div class="hv2-pill">
+        <span class="hv2-pill-icon">📚</span>
+        <span class="hv2-pill-val" id="hero-done-count">0</span>
+        <span class="hv2-pill-lbl" id="hero-lessons-lbl">leçons</span>
+      </div>
+      <div class="hv2-pill">
+        <span class="hv2-pill-icon">⚡</span>
+        <span class="hv2-pill-val" id="hero-xp-stat">0</span>
+        <span class="hv2-pill-lbl">XP</span>
+      </div>
+      <div class="hv2-pill hv2-pill-fire">
+        <span class="hv2-pill-icon">🔥</span>
+        <span class="hv2-pill-val" id="hero-streak-num">0</span>
+        <span class="hv2-pill-lbl" id="hero-streak-lbl">série</span>
+      </div>
+    </div>
+
+    <!-- ── PROGRESS CARD ── -->
+    <div class="hv2-prog-card">
+      <div class="hv2-prog-top">
+        <div id="hero-level-wrap"></div>
+        <span class="hv2-prog-pct" id="hero-prog-pct">0 / 70</span>
+      </div>
+      <div class="hv2-prog-track">
+        <div class="hv2-prog-fill" id="hero-prog-fill" style="width:0%"></div>
+      </div>
+      <div id="hero-daily-goal-wrap" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- ── PREMIUM / UNLOCKED ── -->
     <div id="home-unlocked"></div>
-    <div class="section-title" id="home-continue-title"></div>
+
+    <!-- ── CONTINUE ── -->
+    <div class="hv2-section-lbl" id="home-continue-title"></div>
     <div id="home-continue"></div>
-    <div class="section-title" id="home-start-title"></div>
+
+    <!-- ── START HERE ── -->
+    <div class="hv2-section-lbl" id="home-start-title"></div>
     <div class="card lesson-card" onclick="openLesson(0)">
       <span class="level-tag beginner" id="home-first-tag"></span>
       <span class="done-icon" id="done-home-0"></span>
@@ -1558,15 +1613,9 @@ function initMascot() {
   // Header logo
   const headerLogo = document.getElementById('header-logo');
   if (headerLogo) headerLogo.innerHTML = getLogoSVG();
-  // Home hero mascot
-  const homeMascot = document.getElementById('home-mascot');
-  if (homeMascot) homeMascot.innerHTML = getMascotSVG('happy', 100);
-  // Modal mascot (set once)
+  // Modal mascot
   const modalMascot = document.getElementById('modal-mascot');
-  if (modalMascot) modalMascot.innerHTML = getMascotSVG('excited', 88);
-  // Splash mascot
-  const splashMascot = document.getElementById('splash-mascot');
-  if (splashMascot) splashMascot.innerHTML = getMascotSVG('excited', 140);
+  if (modalMascot) modalMascot.innerHTML = '<img src="/mascot-hero.png" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;" alt="">';
 }
 
 function hideSplash() {
@@ -9381,19 +9430,19 @@ function renderHome() {
       +'<div style="background:white;border-radius:99px;height:6px;width:'+dpct+'%;transition:width 0.6s;"></div></div>';
   }
   const fill = document.getElementById('hero-prog-fill');
-  const car  = document.getElementById('hero-road-car');
-  // Reset to start position so the transition always plays (WebView fix)
-  if (fill) fill.style.width = '0%';
-  if (car)  car.style.left  = '2%';
-  // Defer update to after the browser has painted the reset state
+  if (fill) { fill.style.width = '0%'; }
   var _pct = pct;
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      if (fill) fill.style.width = _pct + '%';
-      if (car)  car.style.left  = Math.max(2, Math.min(97, _pct)) + '%';
-    });
-  });
+  requestAnimationFrame(function() { requestAnimationFrame(function() {
+    if (fill) fill.style.width = _pct + '%';
+  }); });
   set('hero-prog-pct', done+' / '+LESSONS.length);
+  // Update CTA button label
+  var ctaBtn = document.getElementById('hv2-cta-btn');
+  if (ctaBtn) {
+    var hasProgress = Object.keys(state).length > 0;
+    var hasIncomplete = LESSONS.find(function(l) { return l && state[l.id] && !state[l.id].completed; });
+    ctaBtn.textContent = hasIncomplete ? (lang==='en'?'▶ Continue':lang==='zh'?'▶ 继续':'▶ Continuer') : (lang==='en'?'▶ Start learning':lang==='zh'?'▶ 开始学习':'▶ Commencer');
+  }
   set('home-welcome', t('welcome'));
   set('home-title', t('title'));
   set('home-sub', t('sub'));
@@ -9783,7 +9832,7 @@ function showResult() {
 
   var el = function(id) { return document.getElementById(id); };
   var mascotEl = el('result-mascot');
-  if (mascotEl) mascotEl.innerHTML = '<span style="font-size:52px;display:inline-block;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)">' + mascot + '</span>';
+  if (mascotEl) mascotEl.innerHTML = '<img src="/mascot-hero.png" style="width:90px;height:90px;object-fit:contain;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)" alt="">';
 
   var starsEl = el('result-stars');
   if (starsEl) starsEl.innerHTML = starsHtml;
