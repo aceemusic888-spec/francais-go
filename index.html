@@ -280,6 +280,21 @@
     .vocab-ex-trans { font-size: 12px; color: var(--muted); opacity: 0.8; margin-top: 2px; }
     .vocab-empty { text-align: center; padding: 40px 24px; } .vocab-empty-icon { font-size: 52px; margin-bottom: 10px; display: block; animation: pop 0.45s cubic-bezier(0.34,1.56,0.64,1); } .vocab-empty-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; } .vocab-empty-sub { font-size: 13px; color: var(--muted); }
     body.dark .vocab-search { background: #1E1E38; border-color: #2D3748; }
+    .dict-card { background:var(--card); border:1.5px solid var(--border); border-radius:18px; padding:16px 18px; margin-bottom:12px; transition:border-color 0.15s; }
+    .dict-card:hover { border-color:var(--indigo); }
+    .dict-word { font-size:22px; font-weight:900; color:var(--text); line-height:1.2; }
+    .dict-pos-pill { display:inline-block; font-size:11px; font-weight:700; color:white; background:var(--indigo); padding:2px 9px; border-radius:99px; margin-left:8px; vertical-align:middle; }
+    .dict-speak { background:none; border:none; font-size:20px; cursor:pointer; padding:0 2px; opacity:0.65; transition:opacity 0.15s,transform 0.15s; vertical-align:middle; }
+    .dict-speak:hover { opacity:1; transform:scale(1.2); }
+    .dict-lang-badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:99px; flex-shrink:0; }
+    .dict-badge-en { color:#4F46E5; background:#EEF2FF; }
+    .dict-badge-zh { color:#059669; background:#ECFDF5; }
+    .dict-trans-text { font-size:14px; color:var(--text); }
+    .dict-example { margin-top:10px; padding:10px 12px; background:var(--bg); border-radius:12px; border-left:3px solid var(--indigo); }
+    .dict-ex-fr { font-size:13px; font-style:italic; color:var(--muted); line-height:1.5; }
+    .dict-ex-en { font-size:12px; color:var(--muted); opacity:0.75; margin-top:3px; }
+    body.dark .dict-badge-en { background:#1E1B4B; }
+    body.dark .dict-badge-zh { background:#064E3B; color:#6EE7B7; }
     /* Vocab quiz button */
     .vocab-train-btn { display:block; width:100%; padding:14px; margin-bottom:16px; background:linear-gradient(135deg,var(--indigo),var(--purple)); color:white; border:none; border-radius:16px; font-size:15px; font-weight:800; cursor:pointer; text-align:center; transition:opacity 0.15s; }
     .vocab-train-btn:hover { opacity:0.9; }
@@ -1346,7 +1361,7 @@
   <div id="tab-vocab">
     <div class="vocab-search-wrap">
       <span class="vocab-search-icon">🔍</span>
-      <input type="text" class="vocab-search" id="vocab-search" oninput="vocabPage=0;renderVocab()" placeholder="Rechercher un mot...">
+      <input type="text" class="vocab-search" id="vocab-search" oninput="vocabPage=0;renderVocab()" placeholder="Rechercher en FR, EN ou 中文...">
     </div>
     <button class="vocab-train-btn" id="vocab-train-btn" onclick="startVocabQuiz()">&#x26A1; S'entraîner</button>
     <div class="vocab-theme-selector" id="vocab-theme-selector">
@@ -8801,6 +8816,60 @@ function renderVocab() {
   var search = '';
   var searchEl = document.getElementById('vocab-search');
   if (searchEl) search = searchEl.value.toLowerCase().trim();
+
+  // ── DICTIONARY MODE when searching ──
+  var themeWrap = document.getElementById('vocab-theme-selector');
+  var trainBtn0 = document.getElementById('vocab-train-btn');
+  var pagEl0    = document.getElementById('vocab-pagination');
+  var listEl0   = document.getElementById('vocab-list');
+  var countEl0  = document.getElementById('vocab-count');
+
+  if (search) {
+    if (themeWrap) themeWrap.style.display = 'none';
+    if (trainBtn0) trainBtn0.style.display  = 'none';
+    if (pagEl0)    pagEl0.innerHTML = '';
+    var dictResults = VOCAB.filter(function(w) {
+      return w.fr.toLowerCase().indexOf(search) !== -1
+          || w.en.toLowerCase().indexOf(search) !== -1
+          || (w.zh && w.zh.indexOf(search) !== -1);
+    });
+    if (countEl0) {
+      var rUnit = lang==='en'?(dictResults.length!==1?'results':'result'):lang==='zh'?'\u4e2a\u7ed3\u679c':(dictResults.length!==1?'r\xe9sultats':'r\xe9sultat');
+      countEl0.textContent = dictResults.length + ' ' + rUnit;
+    }
+    if (listEl0) {
+      if (dictResults.length === 0) {
+        listEl0.innerHTML = '<div class="vocab-empty"><span class="vocab-empty-icon">\uD83D\uDD0D</span>'
+          + '<div class="vocab-empty-title">'+(lang==='en'?'No results':lang==='zh'?'\u6ca1\u6709\u7ed3\u679c':'Aucun r\xe9sultat')+'</div>'
+          + '<div class="vocab-empty-sub">'+(lang==='en'?'Try French, English or Chinese':lang==='zh'?'\u8bf7\u7528\u6cd5\u8bed\u3001\u82f1\u8bed\u6216\u4e2d\u6587\u641c\u7d22':'Essayez en fran\xe7ais, anglais ou chinois')+'</div></div>';
+      } else {
+        var dEsc = function(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+        listEl0.innerHTML = dictResults.map(function(w) {
+          var spk = w.fr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+          return '<div class="dict-card">'
+            + '<div style="display:flex;align-items:center;justify-content:space-between">'
+            + '<div style="flex:1"><span class="dict-word">'+dEsc(w.fr)+'</span>'
+            + '<span class="dict-pos-pill">'+dEsc(w.pos)+'</span></div>'
+            + '<button class="dict-speak" onclick="speak(\'' + spk + '\',\'fr-FR\')" title="\xc9couter">\uD83D\uDD0A</button>'
+            + '</div>'
+            + '<div style="display:flex;align-items:center;gap:8px;margin-top:8px">'
+            + '<span class="dict-lang-badge dict-badge-en">EN</span>'
+            + '<span class="dict-trans-text">'+dEsc(w.en)+'</span></div>'
+            + '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'
+            + '<span class="dict-lang-badge dict-badge-zh">\u4e2d</span>'
+            + '<span class="dict-trans-text">'+dEsc(w.zh)+'</span></div>'
+            + (w.ex ? '<div class="dict-example"><div class="dict-ex-fr">'+dEsc(w.ex)+'</div>'
+              + (w.ex_en ? '<div class="dict-ex-en">'+dEsc(w.ex_en)+'</div>' : '')
+              + '</div>' : '')
+            + '</div>';
+        }).join('');
+      }
+    }
+    return;
+  }
+  // restore theme selector when not searching
+  if (themeWrap) themeWrap.style.display = '';
+  if (trainBtn0) trainBtn0.style.display = '';
 
   var themeTabs = document.getElementById('vocab-theme-tabs');
   if (themeTabs) {
