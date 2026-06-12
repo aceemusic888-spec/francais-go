@@ -1615,14 +1615,14 @@ function initMascot() {
   if (headerLogo) headerLogo.innerHTML = getLogoSVG();
   // Modal mascot
   const modalMascot = document.getElementById('modal-mascot');
-  if (modalMascot) modalMascot.innerHTML = '<img src="/mascot-hero.png" style="width:90px;height:90px;object-fit:contain;display:block;margin:0 auto;" alt="">';
+  if (modalMascot) modalMascot.innerHTML = getMascotSVG('excited', 88);
 }
 
 function hideSplash() {
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
   // 1.5s minimum only in TWA/standalone APK — instant on web browser
-  var minDelay = isStandaloneApp() ? 1500 : 0;
+  var minDelay = isStandaloneApp() ? 2000 : 1500;
   var elapsed = Date.now() - (window._splashStart || Date.now());
   var remaining = Math.max(0, minDelay - elapsed);
   setTimeout(function() {
@@ -9832,7 +9832,7 @@ function showResult() {
 
   var el = function(id) { return document.getElementById(id); };
   var mascotEl = el('result-mascot');
-  if (mascotEl) mascotEl.innerHTML = '<img src="/mascot-hero.png" style="width:90px;height:90px;object-fit:contain;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)" alt="">';
+  if (mascotEl) mascotEl.innerHTML = '<span style="font-size:72px;display:inline-block;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)">' + mascot + '</span>';
 
   var starsEl = el('result-stars');
   if (starsEl) starsEl.innerHTML = starsHtml;
