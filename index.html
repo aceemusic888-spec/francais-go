@@ -8901,9 +8901,18 @@ function renderHome() {
       +'<div style="background:white;border-radius:99px;height:6px;width:'+dpct+'%;transition:width 0.6s;"></div></div>';
   }
   const fill = document.getElementById('hero-prog-fill');
-  if (fill) fill.style.width = pct+'%';
-  const car = document.getElementById('hero-road-car');
-  if (car) car.style.left = Math.max(2, Math.min(97, pct))+'%';
+  const car  = document.getElementById('hero-road-car');
+  // Reset to start position so the transition always plays (WebView fix)
+  if (fill) fill.style.width = '0%';
+  if (car)  car.style.left  = '2%';
+  // Defer update to after the browser has painted the reset state
+  var _pct = pct;
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      if (fill) fill.style.width = _pct + '%';
+      if (car)  car.style.left  = Math.max(2, Math.min(97, _pct)) + '%';
+    });
+  });
   set('hero-prog-pct', done+' / '+LESSONS.length);
   set('home-welcome', t('welcome'));
   set('home-title', t('title'));
