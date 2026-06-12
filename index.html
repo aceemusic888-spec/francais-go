@@ -615,7 +615,9 @@
     /* ══════════════════════════════════════
        FLASHCARDS TAB
     ══════════════════════════════════════ */
-    #fc-filter-bar { display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
+    #fc-filter-bar { display:flex; gap:6px; margin-bottom:8px; overflow-x:auto; padding-bottom:2px; }
+    #fc-theme-bar { margin-bottom:12px; }
+    #fc-theme-select { width:100%; padding:8px 12px; border:2px solid var(--border); border-radius:12px; background:var(--card); color:var(--text); font-size:13px; font-weight:700; cursor:pointer; appearance:auto; }
     #fc-filter-bar::-webkit-scrollbar { display:none; }
     .fc-filter-btn { flex-shrink:0; padding:7px 13px; border:2px solid var(--border); border-radius:12px; background:var(--card); font-size:12px; font-weight:800; cursor:pointer; color:var(--muted); transition:all 0.18s; }
     .fc-filter-btn.active { background:var(--indigo); border-color:var(--indigo); color:white; }
@@ -1223,8 +1225,39 @@
       <button class="fc-filter-btn" data-level="advanced" onclick="setFCFilter('advanced')">Avancé</button>
       <button class="fc-filter-btn" data-level="tcf" onclick="setFCFilter('tcf')">🍁 TCF/TEF</button>
     </div>
+    <div id="fc-theme-bar">
+      <select id="fc-theme-select" onchange="setFCTheme(this.value)">
+        <option value="all">📚 Tous les thèmes</option>
+        <option value="salutations">👋 Salutations</option>
+        <option value="chiffres">🔢 Chiffres</option>
+        <option value="couleurs">🎨 Couleurs</option>
+        <option value="famille">👨‍👩‍👧 Famille</option>
+        <option value="animaux">🐾 Animaux</option>
+        <option value="nourriture">🍽️ Nourriture</option>
+        <option value="corps">🫀 Corps</option>
+        <option value="maison">🏠 Maison</option>
+        <option value="vetements">👕 Vêtements</option>
+        <option value="verbes">⚡ Verbes</option>
+        <option value="adjectifs">✨ Adjectifs</option>
+        <option value="voyage">✈️ Voyage</option>
+        <option value="ecole">📖 École</option>
+        <option value="meteo">🌤️ Météo</option>
+        <option value="sante">🏥 Santé</option>
+        <option value="emotions">💬 Émotions</option>
+        <option value="nature">🌿 Nature</option>
+        <option value="sports">⚽ Sports</option>
+        <option value="technologie">💻 Technologie</option>
+        <option value="ville">🏙️ Ville</option>
+        <option value="politique">🏛️ Politique</option>
+        <option value="art">🎭 Art &amp; Culture</option>
+        <option value="expressions">💡 Expressions</option>
+        <option value="faux_amis">⚠️ Faux amis</option>
+        <option value="grammaire">📝 Grammaire</option>
+        <option value="connecteurs">🔗 Connecteurs</option>
+      </select>
+    </div>
     <div class="fc-header" style="flex-wrap:wrap;gap:8px;">
-      <span class="fc-counter" id="fc-counter">1 / 100</span>
+      <span class="fc-counter" id="fc-counter">1 / 551</span>
       <button class="fc-srs-toggle" id="fc-srs-btn" onclick="toggleFCSRS()">⏰ SRS</button>
       <button class="fc-reset-btn" id="fc-reset-btn" onclick="fcReset()">↺ Recommencer</button>
     </div>
@@ -1659,110 +1692,4965 @@ function hideSplash() {
    FLASHCARDS DATA
 ══════════════════════════════════════ */
 const FLASHCARDS = [
-  // ── DÉBUTANT (35 cartes) ──
-  {id:100,level:'beginner',fr:'Bonjour',en:'Hello / Good morning',zh:'你好 / 早上好',example:'Bonjour, comment allez-vous ?'},
-  {id:101,level:'beginner',fr:'Bonsoir',en:'Good evening',zh:'晚上好',example:'Bonsoir, bonne soirée !'},
-  {id:102,level:'beginner',fr:'Bonne nuit',en:'Good night',zh:'晚安',example:'Bonne nuit, à demain !'},
-  {id:103,level:'beginner',fr:'Au revoir',en:'Goodbye',zh:'再见',example:'Au revoir et merci !'},
-  {id:104,level:'beginner',fr:'À bientôt',en:'See you soon',zh:'待会儿见',example:'À bientôt !'},
-  {id:105,level:'beginner',fr:'Merci',en:'Thank you',zh:'谢谢',example:'Merci beaucoup !'},
-  {id:106,level:'beginner',fr:"S'il vous plaît",en:'Please (formal)',zh:'请（正式）',example:"Un café, s'il vous plaît."},
-  {id:107,level:'beginner',fr:'De rien',en:"You're welcome",zh:'不客气',example:'— Merci ! — De rien.'},
-  {id:108,level:'beginner',fr:'Excusez-moi',en:'Excuse me',zh:'打扰一下',example:'Excusez-moi, où est la gare ?'},
-  {id:109,level:'beginner',fr:'Comment allez-vous ?',en:'How are you? (formal)',zh:'您好吗？（正式）',example:'Bonjour, comment allez-vous ?'},
-  {id:110,level:'beginner',fr:'Ça va ?',en:'How are you? (informal)',zh:'你好吗？（非正式）',example:'Salut, ça va ?'},
-  {id:111,level:'beginner',fr:"Je m'appelle...",en:'My name is...',zh:'我叫...',example:"Je m'appelle Marie."},
-  {id:112,level:'beginner',fr:'Enchanté(e)',en:'Nice to meet you',zh:'很高兴认识你',example:'Enchanté, je suis Paul.'},
-  {id:113,level:'beginner',fr:'Oui / Non',en:'Yes / No',zh:'是的 / 不',example:"Oui, c'est vrai. Non, merci."},
-  {id:114,level:'beginner',fr:'Un, deux, trois',en:'One, two, three',zh:'一，二，三',example:'Un café, deux croissants, trois baguettes.'},
-  {id:115,level:'beginner',fr:'Dix',en:'Ten',zh:'十',example:"J'ai dix euros."},
-  {id:116,level:'beginner',fr:'Vingt',en:'Twenty',zh:'二十',example:'Il a vingt ans.'},
-  {id:117,level:'beginner',fr:'Cent',en:'One hundred',zh:'一百',example:"Cent euros, s'il vous plaît."},
-  {id:118,level:'beginner',fr:'Rouge',en:'Red',zh:'红色',example:'Une robe rouge.'},
-  {id:119,level:'beginner',fr:'Bleu(e)',en:'Blue',zh:'蓝色',example:'Le ciel est bleu.'},
-  {id:120,level:'beginner',fr:'Vert(e)',en:'Green',zh:'绿色',example:'La forêt est verte.'},
-  {id:121,level:'beginner',fr:'Jaune',en:'Yellow',zh:'黄色',example:'Un tournesol jaune.'},
-  {id:122,level:'beginner',fr:'Noir(e)',en:'Black',zh:'黑色',example:'Un chat noir.'},
-  {id:123,level:'beginner',fr:'Blanc(he)',en:'White',zh:'白色',example:'La neige est blanche.'},
-  {id:124,level:'beginner',fr:'Le père',en:'Father',zh:'父亲',example:"Mon père s'appelle Henri."},
-  {id:125,level:'beginner',fr:'La mère',en:'Mother',zh:'母亲',example:'Ma mère est professeure.'},
-  {id:126,level:'beginner',fr:'Le frère',en:'Brother',zh:'兄弟',example:'Mon frère a quinze ans.'},
-  {id:127,level:'beginner',fr:'La sœur',en:'Sister',zh:'姐妹',example:'Ma sœur habite à Paris.'},
-  {id:128,level:'beginner',fr:'Le pain',en:'Bread',zh:'面包',example:'Je mange du pain le matin.'},
-  {id:129,level:'beginner',fr:"L'eau",en:'Water',zh:'水',example:"Un verre d'eau, s'il vous plaît."},
-  {id:130,level:'beginner',fr:'Le café',en:'Coffee',zh:'咖啡',example:'Je prends un café au lait.'},
-  {id:131,level:'beginner',fr:'Manger',en:'To eat',zh:'吃',example:"J'aime manger des croissants."},
-  {id:132,level:'beginner',fr:'Le, la, les',en:'The (definite articles)',zh:'定冠词',example:'Le chat, la maison, les enfants.'},
-  {id:133,level:'beginner',fr:'Ne... pas',en:'Not (negation)',zh:'否定结构',example:'Je ne parle pas espagnol.'},
-  {id:134,level:'beginner',fr:'Où est... ?',en:'Where is... ?',zh:'...在哪里？',example:'Où est la boulangerie ?'},
-  // ── INTERMÉDIAIRE (25 cartes) ──
-  {id:135,level:'intermediate',fr:'Être',en:'To be',zh:'是（动词）',example:'Je suis étudiant.'},
-  {id:136,level:'intermediate',fr:'Avoir',en:'To have',zh:'有（动词）',example:"J'ai deux enfants."},
-  {id:137,level:'intermediate',fr:'Aller',en:'To go',zh:'去（动词）',example:"Je vais à l'école."},
-  {id:138,level:'intermediate',fr:'Faire',en:'To do / make',zh:'做（动词）',example:"Il fait beau aujourd'hui."},
-  {id:139,level:'intermediate',fr:'Vouloir',en:'To want',zh:'想要（动词）',example:"Je veux un café, s'il vous plaît."},
-  {id:140,level:'intermediate',fr:'Pouvoir',en:'To be able to / can',zh:'能够（动词）',example:'Tu peux m\'aider ?'},
-  {id:141,level:'intermediate',fr:'Devoir',en:'To have to / must',zh:'必须（动词）',example:'Tu dois étudier ce soir.'},
-  {id:142,level:'intermediate',fr:'Savoir',en:'To know (fact or skill)',zh:'知道（动词）',example:'Je sais nager.'},
-  {id:143,level:'intermediate',fr:'Le passé composé',en:'Past tense (compound)',zh:'复合过去时',example:"J'ai mangé une pizza hier."},
-  {id:144,level:'intermediate',fr:"L'imparfait",en:'Imperfect tense',zh:'未完成过去时',example:"Quand j'étais enfant, je jouais au foot."},
-  {id:145,level:'intermediate',fr:'Le futur proche',en:'Near future (going to)',zh:'最近将来时',example:'Je vais partir demain.'},
-  {id:146,level:'intermediate',fr:"J'aime / J'adore",en:'I like / I love',zh:'我喜欢 / 我热爱',example:'J\'adore le chocolat.'},
-  {id:147,level:'intermediate',fr:"Je n'aime pas",en:"I don't like",zh:'我不喜欢',example:'Je n\'aime pas le froid.'},
-  {id:148,level:'intermediate',fr:'Il faut',en:'It is necessary / you must',zh:'必须 / 需要',example:'Il faut pratiquer chaque jour.'},
-  {id:149,level:'intermediate',fr:"C'est-à-dire",en:'That is to say / i.e.',zh:'也就是说',example:"Il est tardif, c'est-à-dire après 22h."},
-  {id:150,level:'intermediate',fr:'En effet',en:'Indeed / in fact',zh:'确实 / 事实上',example:"En effet, c'est une bonne idée."},
-  {id:151,level:'intermediate',fr:'Cependant',en:'However',zh:'然而',example:"C'est beau, cependant c'est cher."},
-  {id:152,level:'intermediate',fr:'Donc',en:'Therefore / so',zh:'所以 / 因此',example:'Il pleut, donc je prends le bus.'},
-  {id:153,level:'intermediate',fr:'Parce que',en:'Because',zh:'因为',example:"Je suis fatigué parce que je n'ai pas dormi."},
-  {id:154,level:'intermediate',fr:'Depuis',en:'Since / for (duration)',zh:'自从 / 已经...多久',example:"J'habite ici depuis cinq ans."},
-  {id:155,level:'intermediate',fr:'Avant / Après',en:'Before / After',zh:'之前 / 之后',example:'Je lis avant de dormir.'},
-  {id:156,level:'intermediate',fr:'Toujours / Jamais',en:'Always / Never',zh:'总是 / 从不',example:'Il arrive toujours en retard.'},
-  {id:157,level:'intermediate',fr:'Souvent / Parfois',en:'Often / Sometimes',zh:'经常 / 有时',example:'Je mange souvent des pâtes.'},
-  {id:158,level:'intermediate',fr:'Beaucoup / Un peu',en:'A lot / A little',zh:'很多 / 一点',example:'Je parle un peu français.'},
-  {id:159,level:'intermediate',fr:'Trop / Assez',en:'Too much / Enough',zh:'太多了 / 足够',example:"C'est trop cher."},
-  // ── AVANCÉ (20 cartes) ──
-  {id:160,level:'advanced',fr:'Le subjonctif',en:'The subjunctive mood',zh:'虚拟式',example:'Il faut que tu viennes.'},
-  {id:161,level:'advanced',fr:'Bien que',en:'Although / Even though',zh:'尽管 / 虽然',example:'Bien qu\'il soit tard, je continue.'},
-  {id:162,level:'advanced',fr:'Afin que',en:'So that / In order that',zh:'为了（使）',example:'Je parle lentement afin que tu comprennes.'},
-  {id:163,level:'advanced',fr:'Malgré',en:'Despite / In spite of',zh:'尽管 / 不顾',example:'Malgré la pluie, nous sortons.'},
-  {id:164,level:'advanced',fr:'Néanmoins',en:'Nevertheless / Nonetheless',zh:'尽管如此',example:"C'est difficile ; néanmoins, c'est possible."},
-  {id:165,level:'advanced',fr:'Avoir le cafard',en:'To feel down / blue (idiom)',zh:'情绪低落（惯用语）',example:"Je ne sais pas pourquoi j'ai le cafard."},
-  {id:166,level:'advanced',fr:'Il pleut des cordes',en:"It's raining cats and dogs",zh:'倾盆大雨（惯用语）',example:'Ne sors pas, il pleut des cordes !'},
-  {id:167,level:'advanced',fr:'Coûter les yeux de la tête',en:'To cost an arm and a leg',zh:'价格昂贵（惯用语）',example:'Cette voiture coûte les yeux de la tête.'},
-  {id:168,level:'advanced',fr:'Avoir du pain sur la planche',en:"To have a lot on one's plate",zh:'任务繁重（惯用语）',example:'On a du pain sur la planche avant le lancement.'},
-  {id:169,level:'advanced',fr:'La mondialisation',en:'Globalization',zh:'全球化',example:'La mondialisation affecte toutes les économies.'},
-  {id:170,level:'advanced',fr:'Le développement durable',en:'Sustainable development',zh:'可持续发展',example:"Le développement durable est crucial pour l'avenir."},
-  {id:171,level:'advanced',fr:"L'intelligence artificielle",en:'Artificial intelligence',zh:'人工智能',example:'L\'intelligence artificielle transforme le travail.'},
-  {id:172,level:'advanced',fr:'En outre',en:'Moreover / Furthermore',zh:'此外 / 而且',example:"C'est rapide et, en outre, c'est gratuit."},
-  {id:173,level:'advanced',fr:'Par conséquent',en:'Consequently / As a result',zh:'因此 / 结果',example:'Il a raté l\'examen ; par conséquent, il redouble.'},
-  {id:174,level:'advanced',fr:"S'avérer",en:'To turn out to be',zh:'证明是 / 结果是',example:'Cela s\'avère plus difficile que prévu.'},
-  {id:175,level:'advanced',fr:'Nuancer',en:'To nuance / qualify',zh:'细化 / 加以区分',example:'Il faut nuancer cette affirmation.'},
-  {id:176,level:'advanced',fr:'Approfondir',en:'To deepen / go into depth',zh:'深化 / 深入研究',example:'Je veux approfondir mes connaissances.'},
-  {id:177,level:'advanced',fr:'La citoyenneté',en:'Citizenship',zh:'公民身份',example:'La citoyenneté française confère des droits.'},
-  {id:178,level:'advanced',fr:'À condition que',en:'On the condition that',zh:'只要 / 条件是',example:'Je viens à condition que tu cuisines.'},
-  {id:179,level:'advanced',fr:'Mettre les pieds dans le plat',en:"To put one's foot in it",zh:'说错话（惯用语）',example:'Il a mis les pieds dans le plat devant tout le monde.'},
-  // ── TCF/TEF CANADA (20 cartes) ──
-  {id:180,level:'tcf',fr:'La résidence permanente',en:'Permanent residence',zh:'永久居留权',example:"J'ai obtenu ma résidence permanente."},
-  {id:181,level:'tcf',fr:'Le permis de travail',en:'Work permit',zh:'工作许可证',example:'Mon permis de travail expire en décembre.'},
-  {id:182,level:'tcf',fr:'La citoyenneté canadienne',en:'Canadian citizenship',zh:'加拿大公民身份',example:'La citoyenneté canadienne offre de nombreux avantages.'},
-  {id:183,level:'tcf',fr:'Soumettre une demande',en:'To submit an application',zh:'提交申请',example:"J'ai soumis ma demande en ligne."},
-  {id:184,level:'tcf',fr:'Le formulaire',en:'The form',zh:'表格',example:'Remplissez ce formulaire en lettres capitales.'},
-  {id:185,level:'tcf',fr:'Le délai de traitement',en:'Processing time',zh:'处理时间',example:'Le délai de traitement est de six mois.'},
-  {id:186,level:'tcf',fr:"L'entretien",en:'Interview',zh:'面试 / 访谈',example:"J'ai un entretien à l'ambassade."},
-  {id:187,level:'tcf',fr:'Maîtriser',en:'To master / be proficient in',zh:'掌握 / 精通',example:"Je maîtrise le français et l'anglais."},
-  {id:188,level:'tcf',fr:'La compréhension orale',en:'Listening comprehension',zh:'听力理解',example:'La compréhension orale est évaluée au TCF.'},
-  {id:189,level:'tcf',fr:"L'expression écrite",en:'Written expression',zh:'书面表达',example:"L'expression écrite représente 25 % du score."},
-  {id:190,level:'tcf',fr:'Bilingue',en:'Bilingual',zh:'双语的',example:'Le Canada est officiellement bilingue.'},
-  {id:191,level:'tcf',fr:'Francophone',en:'French-speaking / Francophone',zh:'说法语的人/地区',example:'Le Québec est une province francophone.'},
-  {id:192,level:'tcf',fr:'Le dossier',en:'File / Application dossier',zh:'档案 / 申请材料',example:'Votre dossier sera examiné sous deux semaines.'},
-  {id:193,level:'tcf',fr:'Les pièces justificatives',en:'Supporting documents',zh:'证明文件',example:'Joignez toutes les pièces justificatives requises.'},
-  {id:194,level:'tcf',fr:"L'acte de naissance",en:'Birth certificate',zh:'出生证明',example:"Fournissez un acte de naissance traduit."},
-  {id:195,level:'tcf',fr:"L'intégration",en:'Integration',zh:'融合 / 融入',example:"L'intégration linguistique est essentielle."},
-  {id:196,level:'tcf',fr:'Le seuil linguistique',en:'Language threshold / level',zh:'语言门槛',example:'Le TCF Canada évalue votre seuil linguistique.'},
-  {id:197,level:'tcf',fr:'Obtenir des points',en:'To earn points',zh:'获得分数',example:"On peut obtenir des points pour l'expérience."},
-  {id:198,level:'tcf',fr:"À l'écrit / à l'oral",en:'In writing / orally',zh:'书面上 / 口头上',example:"Je suis meilleur à l'écrit qu'à l'oral."},
-  {id:199,level:'tcf',fr:'Renouveler',en:'To renew',zh:'更新 / 续签',example:'Je dois renouveler mon permis de séjour.'},
+  {
+    "id": 100,
+    "level": "beginner",
+    "fr": "Bonjour",
+    "en": "Hello / Good morning",
+    "zh": "你好 / 早上好",
+    "example": "Bonjour, comment allez-vous ?",
+    "theme": "manual"
+  },
+  {
+    "id": 101,
+    "level": "beginner",
+    "fr": "Bonsoir",
+    "en": "Good evening",
+    "zh": "晚上好",
+    "example": "Bonsoir, bonne soirée !",
+    "theme": "manual"
+  },
+  {
+    "id": 102,
+    "level": "beginner",
+    "fr": "Bonne nuit",
+    "en": "Good night",
+    "zh": "晚安",
+    "example": "Bonne nuit, à demain !",
+    "theme": "manual"
+  },
+  {
+    "id": 103,
+    "level": "beginner",
+    "fr": "Au revoir",
+    "en": "Goodbye",
+    "zh": "再见",
+    "example": "Au revoir et merci !",
+    "theme": "manual"
+  },
+  {
+    "id": 104,
+    "level": "beginner",
+    "fr": "À bientôt",
+    "en": "See you soon",
+    "zh": "待会儿见",
+    "example": "À bientôt !",
+    "theme": "manual"
+  },
+  {
+    "id": 105,
+    "level": "beginner",
+    "fr": "Merci",
+    "en": "Thank you",
+    "zh": "谢谢",
+    "example": "Merci beaucoup !",
+    "theme": "manual"
+  },
+  {
+    "id": 106,
+    "level": "beginner",
+    "fr": "S'il vous plaît",
+    "en": "Please (formal)",
+    "zh": "请（正式）",
+    "example": "Un café, s'il vous plaît.",
+    "theme": "manual"
+  },
+  {
+    "id": 107,
+    "level": "beginner",
+    "fr": "De rien",
+    "en": "You're welcome",
+    "zh": "不客气",
+    "example": "— Merci ! — De rien.",
+    "theme": "manual"
+  },
+  {
+    "id": 108,
+    "level": "beginner",
+    "fr": "Excusez-moi",
+    "en": "Excuse me",
+    "zh": "打扰一下",
+    "example": "Excusez-moi, où est la gare ?",
+    "theme": "manual"
+  },
+  {
+    "id": 109,
+    "level": "beginner",
+    "fr": "Comment allez-vous ?",
+    "en": "How are you? (formal)",
+    "zh": "您好吗？（正式）",
+    "example": "Bonjour, comment allez-vous ?",
+    "theme": "manual"
+  },
+  {
+    "id": 110,
+    "level": "beginner",
+    "fr": "Ça va ?",
+    "en": "How are you? (informal)",
+    "zh": "你好吗？（非正式）",
+    "example": "Salut, ça va ?",
+    "theme": "manual"
+  },
+  {
+    "id": 111,
+    "level": "beginner",
+    "fr": "Je m'appelle...",
+    "en": "My name is...",
+    "zh": "我叫...",
+    "example": "Je m'appelle Marie.",
+    "theme": "manual"
+  },
+  {
+    "id": 112,
+    "level": "beginner",
+    "fr": "Enchanté(e)",
+    "en": "Nice to meet you",
+    "zh": "很高兴认识你",
+    "example": "Enchanté, je suis Paul.",
+    "theme": "manual"
+  },
+  {
+    "id": 113,
+    "level": "beginner",
+    "fr": "Oui / Non",
+    "en": "Yes / No",
+    "zh": "是的 / 不",
+    "example": "Oui, c'est vrai. Non, merci.",
+    "theme": "manual"
+  },
+  {
+    "id": 114,
+    "level": "beginner",
+    "fr": "Un, deux, trois",
+    "en": "One, two, three",
+    "zh": "一，二，三",
+    "example": "Un café, deux croissants, trois baguettes.",
+    "theme": "manual"
+  },
+  {
+    "id": 115,
+    "level": "beginner",
+    "fr": "Dix",
+    "en": "Ten",
+    "zh": "十",
+    "example": "J'ai dix euros.",
+    "theme": "manual"
+  },
+  {
+    "id": 116,
+    "level": "beginner",
+    "fr": "Vingt",
+    "en": "Twenty",
+    "zh": "二十",
+    "example": "Il a vingt ans.",
+    "theme": "manual"
+  },
+  {
+    "id": 117,
+    "level": "beginner",
+    "fr": "Cent",
+    "en": "One hundred",
+    "zh": "一百",
+    "example": "Cent euros, s'il vous plaît.",
+    "theme": "manual"
+  },
+  {
+    "id": 118,
+    "level": "beginner",
+    "fr": "Rouge",
+    "en": "Red",
+    "zh": "红色",
+    "example": "Une robe rouge.",
+    "theme": "manual"
+  },
+  {
+    "id": 119,
+    "level": "beginner",
+    "fr": "Bleu(e)",
+    "en": "Blue",
+    "zh": "蓝色",
+    "example": "Le ciel est bleu.",
+    "theme": "manual"
+  },
+  {
+    "id": 120,
+    "level": "beginner",
+    "fr": "Vert(e)",
+    "en": "Green",
+    "zh": "绿色",
+    "example": "La forêt est verte.",
+    "theme": "manual"
+  },
+  {
+    "id": 121,
+    "level": "beginner",
+    "fr": "Jaune",
+    "en": "Yellow",
+    "zh": "黄色",
+    "example": "Un tournesol jaune.",
+    "theme": "manual"
+  },
+  {
+    "id": 122,
+    "level": "beginner",
+    "fr": "Noir(e)",
+    "en": "Black",
+    "zh": "黑色",
+    "example": "Un chat noir.",
+    "theme": "manual"
+  },
+  {
+    "id": 123,
+    "level": "beginner",
+    "fr": "Blanc(he)",
+    "en": "White",
+    "zh": "白色",
+    "example": "La neige est blanche.",
+    "theme": "manual"
+  },
+  {
+    "id": 124,
+    "level": "beginner",
+    "fr": "Le père",
+    "en": "Father",
+    "zh": "父亲",
+    "example": "Mon père s'appelle Henri.",
+    "theme": "manual"
+  },
+  {
+    "id": 125,
+    "level": "beginner",
+    "fr": "La mère",
+    "en": "Mother",
+    "zh": "母亲",
+    "example": "Ma mère est professeure.",
+    "theme": "manual"
+  },
+  {
+    "id": 126,
+    "level": "beginner",
+    "fr": "Le frère",
+    "en": "Brother",
+    "zh": "兄弟",
+    "example": "Mon frère a quinze ans.",
+    "theme": "manual"
+  },
+  {
+    "id": 127,
+    "level": "beginner",
+    "fr": "La sœur",
+    "en": "Sister",
+    "zh": "姐妹",
+    "example": "Ma sœur habite à Paris.",
+    "theme": "manual"
+  },
+  {
+    "id": 128,
+    "level": "beginner",
+    "fr": "Le pain",
+    "en": "Bread",
+    "zh": "面包",
+    "example": "Je mange du pain le matin.",
+    "theme": "manual"
+  },
+  {
+    "id": 129,
+    "level": "beginner",
+    "fr": "L'eau",
+    "en": "Water",
+    "zh": "水",
+    "example": "Un verre d'eau, s'il vous plaît.",
+    "theme": "manual"
+  },
+  {
+    "id": 130,
+    "level": "beginner",
+    "fr": "Le café",
+    "en": "Coffee",
+    "zh": "咖啡",
+    "example": "Je prends un café au lait.",
+    "theme": "manual"
+  },
+  {
+    "id": 131,
+    "level": "beginner",
+    "fr": "Manger",
+    "en": "To eat",
+    "zh": "吃",
+    "example": "J'aime manger des croissants.",
+    "theme": "manual"
+  },
+  {
+    "id": 132,
+    "level": "beginner",
+    "fr": "Le, la, les",
+    "en": "The (definite articles)",
+    "zh": "定冠词",
+    "example": "Le chat, la maison, les enfants.",
+    "theme": "manual"
+  },
+  {
+    "id": 133,
+    "level": "beginner",
+    "fr": "Ne... pas",
+    "en": "Not (negation)",
+    "zh": "否定结构",
+    "example": "Je ne parle pas espagnol.",
+    "theme": "manual"
+  },
+  {
+    "id": 134,
+    "level": "beginner",
+    "fr": "Où est... ?",
+    "en": "Where is... ?",
+    "zh": "...在哪里？",
+    "example": "Où est la boulangerie ?",
+    "theme": "manual"
+  },
+  {
+    "id": 135,
+    "level": "intermediate",
+    "fr": "Être",
+    "en": "To be",
+    "zh": "是（动词）",
+    "example": "Je suis étudiant.",
+    "theme": "manual"
+  },
+  {
+    "id": 136,
+    "level": "intermediate",
+    "fr": "Avoir",
+    "en": "To have",
+    "zh": "有（动词）",
+    "example": "J'ai deux enfants.",
+    "theme": "manual"
+  },
+  {
+    "id": 137,
+    "level": "intermediate",
+    "fr": "Aller",
+    "en": "To go",
+    "zh": "去（动词）",
+    "example": "Je vais à l'école.",
+    "theme": "manual"
+  },
+  {
+    "id": 138,
+    "level": "intermediate",
+    "fr": "Faire",
+    "en": "To do / make",
+    "zh": "做（动词）",
+    "example": "Il fait beau aujourd'hui.",
+    "theme": "manual"
+  },
+  {
+    "id": 139,
+    "level": "intermediate",
+    "fr": "Vouloir",
+    "en": "To want",
+    "zh": "想要（动词）",
+    "example": "Je veux un café, s'il vous plaît.",
+    "theme": "manual"
+  },
+  {
+    "id": 140,
+    "level": "intermediate",
+    "fr": "Pouvoir",
+    "en": "To be able to / can",
+    "zh": "能够（动词）",
+    "example": "Tu peux m'aider ?",
+    "theme": "manual"
+  },
+  {
+    "id": 141,
+    "level": "intermediate",
+    "fr": "Devoir",
+    "en": "To have to / must",
+    "zh": "必须（动词）",
+    "example": "Tu dois étudier ce soir.",
+    "theme": "manual"
+  },
+  {
+    "id": 142,
+    "level": "intermediate",
+    "fr": "Savoir",
+    "en": "To know (fact or skill)",
+    "zh": "知道（动词）",
+    "example": "Je sais nager.",
+    "theme": "manual"
+  },
+  {
+    "id": 143,
+    "level": "intermediate",
+    "fr": "Le passé composé",
+    "en": "Past tense (compound)",
+    "zh": "复合过去时",
+    "example": "J'ai mangé une pizza hier.",
+    "theme": "manual"
+  },
+  {
+    "id": 144,
+    "level": "intermediate",
+    "fr": "L'imparfait",
+    "en": "Imperfect tense",
+    "zh": "未完成过去时",
+    "example": "Quand j'étais enfant, je jouais au foot.",
+    "theme": "manual"
+  },
+  {
+    "id": 145,
+    "level": "intermediate",
+    "fr": "Le futur proche",
+    "en": "Near future (going to)",
+    "zh": "最近将来时",
+    "example": "Je vais partir demain.",
+    "theme": "manual"
+  },
+  {
+    "id": 146,
+    "level": "intermediate",
+    "fr": "J'aime / J'adore",
+    "en": "I like / I love",
+    "zh": "我喜欢 / 我热爱",
+    "example": "J'adore le chocolat.",
+    "theme": "manual"
+  },
+  {
+    "id": 147,
+    "level": "intermediate",
+    "fr": "Je n'aime pas",
+    "en": "I don't like",
+    "zh": "我不喜欢",
+    "example": "Je n'aime pas le froid.",
+    "theme": "manual"
+  },
+  {
+    "id": 148,
+    "level": "intermediate",
+    "fr": "Il faut",
+    "en": "It is necessary / you must",
+    "zh": "必须 / 需要",
+    "example": "Il faut pratiquer chaque jour.",
+    "theme": "manual"
+  },
+  {
+    "id": 149,
+    "level": "intermediate",
+    "fr": "C'est-à-dire",
+    "en": "That is to say / i.e.",
+    "zh": "也就是说",
+    "example": "Il est tardif, c'est-à-dire après 22h.",
+    "theme": "manual"
+  },
+  {
+    "id": 150,
+    "level": "intermediate",
+    "fr": "En effet",
+    "en": "Indeed / in fact",
+    "zh": "确实 / 事实上",
+    "example": "En effet, c'est une bonne idée.",
+    "theme": "manual"
+  },
+  {
+    "id": 151,
+    "level": "intermediate",
+    "fr": "Cependant",
+    "en": "However",
+    "zh": "然而",
+    "example": "C'est beau, cependant c'est cher.",
+    "theme": "manual"
+  },
+  {
+    "id": 152,
+    "level": "intermediate",
+    "fr": "Donc",
+    "en": "Therefore / so",
+    "zh": "所以 / 因此",
+    "example": "Il pleut, donc je prends le bus.",
+    "theme": "manual"
+  },
+  {
+    "id": 153,
+    "level": "intermediate",
+    "fr": "Parce que",
+    "en": "Because",
+    "zh": "因为",
+    "example": "Je suis fatigué parce que je n'ai pas dormi.",
+    "theme": "manual"
+  },
+  {
+    "id": 154,
+    "level": "intermediate",
+    "fr": "Depuis",
+    "en": "Since / for (duration)",
+    "zh": "自从 / 已经...多久",
+    "example": "J'habite ici depuis cinq ans.",
+    "theme": "manual"
+  },
+  {
+    "id": 155,
+    "level": "intermediate",
+    "fr": "Avant / Après",
+    "en": "Before / After",
+    "zh": "之前 / 之后",
+    "example": "Je lis avant de dormir.",
+    "theme": "manual"
+  },
+  {
+    "id": 156,
+    "level": "intermediate",
+    "fr": "Toujours / Jamais",
+    "en": "Always / Never",
+    "zh": "总是 / 从不",
+    "example": "Il arrive toujours en retard.",
+    "theme": "manual"
+  },
+  {
+    "id": 157,
+    "level": "intermediate",
+    "fr": "Souvent / Parfois",
+    "en": "Often / Sometimes",
+    "zh": "经常 / 有时",
+    "example": "Je mange souvent des pâtes.",
+    "theme": "manual"
+  },
+  {
+    "id": 158,
+    "level": "intermediate",
+    "fr": "Beaucoup / Un peu",
+    "en": "A lot / A little",
+    "zh": "很多 / 一点",
+    "example": "Je parle un peu français.",
+    "theme": "manual"
+  },
+  {
+    "id": 159,
+    "level": "intermediate",
+    "fr": "Trop / Assez",
+    "en": "Too much / Enough",
+    "zh": "太多了 / 足够",
+    "example": "C'est trop cher.",
+    "theme": "manual"
+  },
+  {
+    "id": 160,
+    "level": "advanced",
+    "fr": "Le subjonctif",
+    "en": "The subjunctive mood",
+    "zh": "虚拟式",
+    "example": "Il faut que tu viennes.",
+    "theme": "manual"
+  },
+  {
+    "id": 161,
+    "level": "advanced",
+    "fr": "Bien que",
+    "en": "Although / Even though",
+    "zh": "尽管 / 虽然",
+    "example": "Bien qu'il soit tard, je continue.",
+    "theme": "manual"
+  },
+  {
+    "id": 162,
+    "level": "advanced",
+    "fr": "Afin que",
+    "en": "So that / In order that",
+    "zh": "为了（使）",
+    "example": "Je parle lentement afin que tu comprennes.",
+    "theme": "manual"
+  },
+  {
+    "id": 163,
+    "level": "advanced",
+    "fr": "Malgré",
+    "en": "Despite / In spite of",
+    "zh": "尽管 / 不顾",
+    "example": "Malgré la pluie, nous sortons.",
+    "theme": "manual"
+  },
+  {
+    "id": 164,
+    "level": "advanced",
+    "fr": "Néanmoins",
+    "en": "Nevertheless / Nonetheless",
+    "zh": "尽管如此",
+    "example": "C'est difficile ; néanmoins, c'est possible.",
+    "theme": "manual"
+  },
+  {
+    "id": 165,
+    "level": "advanced",
+    "fr": "Avoir le cafard",
+    "en": "To feel down / blue (idiom)",
+    "zh": "情绪低落（惯用语）",
+    "example": "Je ne sais pas pourquoi j'ai le cafard.",
+    "theme": "manual"
+  },
+  {
+    "id": 166,
+    "level": "advanced",
+    "fr": "Il pleut des cordes",
+    "en": "It's raining cats and dogs",
+    "zh": "倾盆大雨（惯用语）",
+    "example": "Ne sors pas, il pleut des cordes !",
+    "theme": "manual"
+  },
+  {
+    "id": 167,
+    "level": "advanced",
+    "fr": "Coûter les yeux de la tête",
+    "en": "To cost an arm and a leg",
+    "zh": "价格昂贵（惯用语）",
+    "example": "Cette voiture coûte les yeux de la tête.",
+    "theme": "manual"
+  },
+  {
+    "id": 168,
+    "level": "advanced",
+    "fr": "Avoir du pain sur la planche",
+    "en": "To have a lot on one's plate",
+    "zh": "任务繁重（惯用语）",
+    "example": "On a du pain sur la planche avant le lancement.",
+    "theme": "manual"
+  },
+  {
+    "id": 169,
+    "level": "advanced",
+    "fr": "La mondialisation",
+    "en": "Globalization",
+    "zh": "全球化",
+    "example": "La mondialisation affecte toutes les économies.",
+    "theme": "manual"
+  },
+  {
+    "id": 170,
+    "level": "advanced",
+    "fr": "Le développement durable",
+    "en": "Sustainable development",
+    "zh": "可持续发展",
+    "example": "Le développement durable est crucial pour l'avenir.",
+    "theme": "manual"
+  },
+  {
+    "id": 171,
+    "level": "advanced",
+    "fr": "L'intelligence artificielle",
+    "en": "Artificial intelligence",
+    "zh": "人工智能",
+    "example": "L'intelligence artificielle transforme le travail.",
+    "theme": "manual"
+  },
+  {
+    "id": 172,
+    "level": "advanced",
+    "fr": "En outre",
+    "en": "Moreover / Furthermore",
+    "zh": "此外 / 而且",
+    "example": "C'est rapide et, en outre, c'est gratuit.",
+    "theme": "manual"
+  },
+  {
+    "id": 173,
+    "level": "advanced",
+    "fr": "Par conséquent",
+    "en": "Consequently / As a result",
+    "zh": "因此 / 结果",
+    "example": "Il a raté l'examen ; par conséquent, il redouble.",
+    "theme": "manual"
+  },
+  {
+    "id": 174,
+    "level": "advanced",
+    "fr": "S'avérer",
+    "en": "To turn out to be",
+    "zh": "证明是 / 结果是",
+    "example": "Cela s'avère plus difficile que prévu.",
+    "theme": "manual"
+  },
+  {
+    "id": 175,
+    "level": "advanced",
+    "fr": "Nuancer",
+    "en": "To nuance / qualify",
+    "zh": "细化 / 加以区分",
+    "example": "Il faut nuancer cette affirmation.",
+    "theme": "manual"
+  },
+  {
+    "id": 176,
+    "level": "advanced",
+    "fr": "Approfondir",
+    "en": "To deepen / go into depth",
+    "zh": "深化 / 深入研究",
+    "example": "Je veux approfondir mes connaissances.",
+    "theme": "manual"
+  },
+  {
+    "id": 177,
+    "level": "advanced",
+    "fr": "La citoyenneté",
+    "en": "Citizenship",
+    "zh": "公民身份",
+    "example": "La citoyenneté française confère des droits.",
+    "theme": "manual"
+  },
+  {
+    "id": 178,
+    "level": "advanced",
+    "fr": "À condition que",
+    "en": "On the condition that",
+    "zh": "只要 / 条件是",
+    "example": "Je viens à condition que tu cuisines.",
+    "theme": "manual"
+  },
+  {
+    "id": 179,
+    "level": "advanced",
+    "fr": "Mettre les pieds dans le plat",
+    "en": "To put one's foot in it",
+    "zh": "说错话（惯用语）",
+    "example": "Il a mis les pieds dans le plat devant tout le monde.",
+    "theme": "manual"
+  },
+  {
+    "id": 180,
+    "level": "tcf",
+    "fr": "La résidence permanente",
+    "en": "Permanent residence",
+    "zh": "永久居留权",
+    "example": "J'ai obtenu ma résidence permanente.",
+    "theme": "manual"
+  },
+  {
+    "id": 181,
+    "level": "tcf",
+    "fr": "Le permis de travail",
+    "en": "Work permit",
+    "zh": "工作许可证",
+    "example": "Mon permis de travail expire en décembre.",
+    "theme": "manual"
+  },
+  {
+    "id": 182,
+    "level": "tcf",
+    "fr": "La citoyenneté canadienne",
+    "en": "Canadian citizenship",
+    "zh": "加拿大公民身份",
+    "example": "La citoyenneté canadienne offre de nombreux avantages.",
+    "theme": "manual"
+  },
+  {
+    "id": 183,
+    "level": "tcf",
+    "fr": "Soumettre une demande",
+    "en": "To submit an application",
+    "zh": "提交申请",
+    "example": "J'ai soumis ma demande en ligne.",
+    "theme": "manual"
+  },
+  {
+    "id": 184,
+    "level": "tcf",
+    "fr": "Le formulaire",
+    "en": "The form",
+    "zh": "表格",
+    "example": "Remplissez ce formulaire en lettres capitales.",
+    "theme": "manual"
+  },
+  {
+    "id": 185,
+    "level": "tcf",
+    "fr": "Le délai de traitement",
+    "en": "Processing time",
+    "zh": "处理时间",
+    "example": "Le délai de traitement est de six mois.",
+    "theme": "manual"
+  },
+  {
+    "id": 186,
+    "level": "tcf",
+    "fr": "L'entretien",
+    "en": "Interview",
+    "zh": "面试 / 访谈",
+    "example": "J'ai un entretien à l'ambassade.",
+    "theme": "manual"
+  },
+  {
+    "id": 187,
+    "level": "tcf",
+    "fr": "Maîtriser",
+    "en": "To master / be proficient in",
+    "zh": "掌握 / 精通",
+    "example": "Je maîtrise le français et l'anglais.",
+    "theme": "manual"
+  },
+  {
+    "id": 188,
+    "level": "tcf",
+    "fr": "La compréhension orale",
+    "en": "Listening comprehension",
+    "zh": "听力理解",
+    "example": "La compréhension orale est évaluée au TCF.",
+    "theme": "manual"
+  },
+  {
+    "id": 189,
+    "level": "tcf",
+    "fr": "L'expression écrite",
+    "en": "Written expression",
+    "zh": "书面表达",
+    "example": "L'expression écrite représente 25 % du score.",
+    "theme": "manual"
+  },
+  {
+    "id": 190,
+    "level": "tcf",
+    "fr": "Bilingue",
+    "en": "Bilingual",
+    "zh": "双语的",
+    "example": "Le Canada est officiellement bilingue.",
+    "theme": "manual"
+  },
+  {
+    "id": 191,
+    "level": "tcf",
+    "fr": "Francophone",
+    "en": "French-speaking / Francophone",
+    "zh": "说法语的人/地区",
+    "example": "Le Québec est une province francophone.",
+    "theme": "manual"
+  },
+  {
+    "id": 192,
+    "level": "tcf",
+    "fr": "Le dossier",
+    "en": "File / Application dossier",
+    "zh": "档案 / 申请材料",
+    "example": "Votre dossier sera examiné sous deux semaines.",
+    "theme": "manual"
+  },
+  {
+    "id": 193,
+    "level": "tcf",
+    "fr": "Les pièces justificatives",
+    "en": "Supporting documents",
+    "zh": "证明文件",
+    "example": "Joignez toutes les pièces justificatives requises.",
+    "theme": "manual"
+  },
+  {
+    "id": 194,
+    "level": "tcf",
+    "fr": "L'acte de naissance",
+    "en": "Birth certificate",
+    "zh": "出生证明",
+    "example": "Fournissez un acte de naissance traduit.",
+    "theme": "manual"
+  },
+  {
+    "id": 195,
+    "level": "tcf",
+    "fr": "L'intégration",
+    "en": "Integration",
+    "zh": "融合 / 融入",
+    "example": "L'intégration linguistique est essentielle.",
+    "theme": "manual"
+  },
+  {
+    "id": 196,
+    "level": "tcf",
+    "fr": "Le seuil linguistique",
+    "en": "Language threshold / level",
+    "zh": "语言门槛",
+    "example": "Le TCF Canada évalue votre seuil linguistique.",
+    "theme": "manual"
+  },
+  {
+    "id": 197,
+    "level": "tcf",
+    "fr": "Obtenir des points",
+    "en": "To earn points",
+    "zh": "获得分数",
+    "example": "On peut obtenir des points pour l'expérience.",
+    "theme": "manual"
+  },
+  {
+    "id": 198,
+    "level": "tcf",
+    "fr": "À l'écrit / à l'oral",
+    "en": "In writing / orally",
+    "zh": "书面上 / 口头上",
+    "example": "Je suis meilleur à l'écrit qu'à l'oral.",
+    "theme": "manual"
+  },
+  {
+    "id": 199,
+    "level": "tcf",
+    "fr": "Renouveler",
+    "en": "To renew",
+    "zh": "更新 / 续签",
+    "example": "Je dois renouveler mon permis de séjour.",
+    "theme": "manual"
+  },
+  {
+    "id": 200,
+    "level": "beginner",
+    "theme": "salutations",
+    "fr": "Comment ça va ?",
+    "en": "How are you?",
+    "zh": "你好吗？",
+    "example": "Bonjour ! Comment ça va ?"
+  },
+  {
+    "id": 201,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "zéro",
+    "en": "zero",
+    "zh": "零",
+    "example": "Il y a zéro problème."
+  },
+  {
+    "id": 202,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "un / une",
+    "en": "one",
+    "zh": "一",
+    "example": "J'ai un frère et une sœur."
+  },
+  {
+    "id": 203,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "deux",
+    "en": "two",
+    "zh": "二",
+    "example": "Il y a deux chats ici."
+  },
+  {
+    "id": 204,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "cinq",
+    "en": "five",
+    "zh": "五",
+    "example": "J'ai cinq livres."
+  },
+  {
+    "id": 205,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "mille",
+    "en": "one thousand",
+    "zh": "一千",
+    "example": "Il y a mille raisons."
+  },
+  {
+    "id": 206,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "premier / première",
+    "en": "first",
+    "zh": "第一",
+    "example": "C'est la première fois."
+  },
+  {
+    "id": 207,
+    "level": "beginner",
+    "theme": "couleurs",
+    "fr": "rose",
+    "en": "pink",
+    "zh": "粉红色",
+    "example": "Elle aime la couleur rose."
+  },
+  {
+    "id": 208,
+    "level": "beginner",
+    "theme": "couleurs",
+    "fr": "orange",
+    "en": "orange",
+    "zh": "橙色",
+    "example": "Le coucher de soleil est orange."
+  },
+  {
+    "id": 209,
+    "level": "beginner",
+    "theme": "couleurs",
+    "fr": "violet(te)",
+    "en": "purple",
+    "zh": "紫色",
+    "example": "Le raisin est violet."
+  },
+  {
+    "id": 210,
+    "level": "beginner",
+    "theme": "couleurs",
+    "fr": "gris(e)",
+    "en": "grey",
+    "zh": "灰色",
+    "example": "Le ciel est gris aujourd'hui."
+  },
+  {
+    "id": 211,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "la famille",
+    "en": "the family",
+    "zh": "家庭",
+    "example": "Ma famille est grande."
+  },
+  {
+    "id": 212,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "le fils",
+    "en": "the son",
+    "zh": "儿子",
+    "example": "Leur fils a cinq ans."
+  },
+  {
+    "id": 213,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "la fille",
+    "en": "the daughter",
+    "zh": "女儿",
+    "example": "Sa fille est étudiante."
+  },
+  {
+    "id": 214,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "le mari",
+    "en": "the husband",
+    "zh": "丈夫",
+    "example": "Son mari est très gentil."
+  },
+  {
+    "id": 215,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "la femme",
+    "en": "the wife/woman",
+    "zh": "妻子",
+    "example": "Sa femme est architecte."
+  },
+  {
+    "id": 216,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "les grands-parents",
+    "en": "the grandparents",
+    "zh": "祖父母",
+    "example": "Mes grands-parents habitent à Lyon."
+  },
+  {
+    "id": 217,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le fromage",
+    "en": "the cheese",
+    "zh": "奶酪",
+    "example": "La France est célèbre pour ses fromages."
+  },
+  {
+    "id": 218,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le vin",
+    "en": "the wine",
+    "zh": "葡萄酒",
+    "example": "Ce vin rouge est délicieux."
+  },
+  {
+    "id": 219,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "la pomme",
+    "en": "the apple",
+    "zh": "苹果",
+    "example": "Une pomme par jour éloigne le médecin."
+  },
+  {
+    "id": 220,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le poulet",
+    "en": "the chicken",
+    "zh": "鸡肉",
+    "example": "Je prépare du poulet rôti."
+  },
+  {
+    "id": 221,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "la salade",
+    "en": "the salad",
+    "zh": "沙拉",
+    "example": "Je mange une salade pour le déjeuner."
+  },
+  {
+    "id": 222,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le gâteau",
+    "en": "the cake",
+    "zh": "蛋糕",
+    "example": "Elle prépare un gâteau au chocolat."
+  },
+  {
+    "id": 223,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le restaurant",
+    "en": "the restaurant",
+    "zh": "餐厅",
+    "example": "Allons au restaurant ce soir."
+  },
+  {
+    "id": 224,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "la tête",
+    "en": "the head",
+    "zh": "头",
+    "example": "J'ai mal à la tête."
+  },
+  {
+    "id": 225,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "les yeux",
+    "en": "the eyes",
+    "zh": "眼睛",
+    "example": "Elle a les yeux bleus."
+  },
+  {
+    "id": 226,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "le nez",
+    "en": "the nose",
+    "zh": "鼻子",
+    "example": "Mon nez est rouge en hiver."
+  },
+  {
+    "id": 227,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "la bouche",
+    "en": "the mouth",
+    "zh": "嘴巴",
+    "example": "Ouvre la bouche, s'il vous plaît."
+  },
+  {
+    "id": 228,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "les mains",
+    "en": "the hands",
+    "zh": "手",
+    "example": "Lavez-vous les mains avant de manger."
+  },
+  {
+    "id": 229,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "les pieds",
+    "en": "the feet",
+    "zh": "脚",
+    "example": "J'ai mal aux pieds."
+  },
+  {
+    "id": 230,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "le dos",
+    "en": "the back",
+    "zh": "背部",
+    "example": "Il a mal au dos."
+  },
+  {
+    "id": 231,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "le cœur",
+    "en": "the heart",
+    "zh": "心脏",
+    "example": "Mon cœur bat vite."
+  },
+  {
+    "id": 232,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la maison",
+    "en": "the house",
+    "zh": "房子",
+    "example": "J'habite dans une grande maison."
+  },
+  {
+    "id": 233,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la chambre",
+    "en": "the bedroom",
+    "zh": "卧室",
+    "example": "Ma chambre est au premier étage."
+  },
+  {
+    "id": 234,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la cuisine",
+    "en": "the kitchen",
+    "zh": "厨房",
+    "example": "Je cuisine dans ma cuisine moderne."
+  },
+  {
+    "id": 235,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "le salon",
+    "en": "the living room",
+    "zh": "客厅",
+    "example": "Nous regardons la télé dans le salon."
+  },
+  {
+    "id": 236,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la salle de bain",
+    "en": "the bathroom",
+    "zh": "浴室",
+    "example": "La salle de bain est à gauche."
+  },
+  {
+    "id": 237,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la porte",
+    "en": "the door",
+    "zh": "门",
+    "example": "Fermez la porte, s'il vous plaît."
+  },
+  {
+    "id": 238,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la fenêtre",
+    "en": "the window",
+    "zh": "窗户",
+    "example": "Ouvre la fenêtre, il fait chaud."
+  },
+  {
+    "id": 239,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la table",
+    "en": "the table",
+    "zh": "桌子",
+    "example": "Le dîner est sur la table."
+  },
+  {
+    "id": 240,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "le lit",
+    "en": "the bed",
+    "zh": "床",
+    "example": "Mon lit est très confortable."
+  },
+  {
+    "id": 241,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "la chemise",
+    "en": "the shirt",
+    "zh": "衬衫",
+    "example": "Il porte une chemise blanche."
+  },
+  {
+    "id": 242,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "le pantalon",
+    "en": "the trousers",
+    "zh": "裤子",
+    "example": "Ce pantalon est trop grand."
+  },
+  {
+    "id": 243,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "la robe",
+    "en": "the dress",
+    "zh": "连衣裙",
+    "example": "Elle porte une belle robe rouge."
+  },
+  {
+    "id": 244,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "les chaussures",
+    "en": "the shoes",
+    "zh": "鞋子",
+    "example": "Ces chaussures sont confortables."
+  },
+  {
+    "id": 245,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "le manteau",
+    "en": "the coat",
+    "zh": "大衣",
+    "example": "Prends ton manteau, il fait froid."
+  },
+  {
+    "id": 246,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "le chapeau",
+    "en": "the hat",
+    "zh": "帽子",
+    "example": "Elle porte un chapeau rouge."
+  },
+  {
+    "id": 247,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "le pull",
+    "en": "the sweater",
+    "zh": "毛衣",
+    "example": "Ce pull est en laine."
+  },
+  {
+    "id": 248,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "les lunettes",
+    "en": "the glasses",
+    "zh": "眼镜",
+    "example": "Je porte des lunettes depuis dix ans."
+  },
+  {
+    "id": 249,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "parler",
+    "en": "to speak",
+    "zh": "说话",
+    "example": "Je parle un peu français."
+  },
+  {
+    "id": 250,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "boire",
+    "en": "to drink",
+    "zh": "喝",
+    "example": "Il boit de l'eau chaque matin."
+  },
+  {
+    "id": 251,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "travailler",
+    "en": "to work",
+    "zh": "工作",
+    "example": "Elle travaille dans un bureau."
+  },
+  {
+    "id": 252,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "habiter",
+    "en": "to live (somewhere)",
+    "zh": "住",
+    "example": "J'habite à Montréal."
+  },
+  {
+    "id": 253,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "aimer",
+    "en": "to love / like",
+    "zh": "爱/喜欢",
+    "example": "J'aime le chocolat."
+  },
+  {
+    "id": 254,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "comprendre",
+    "en": "to understand",
+    "zh": "理解",
+    "example": "Je ne comprends pas."
+  },
+  {
+    "id": 255,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "grand(e)",
+    "en": "big / tall",
+    "zh": "大/高",
+    "example": "C'est un grand immeuble."
+  },
+  {
+    "id": 256,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "petit(e)",
+    "en": "small / short",
+    "zh": "小/矮",
+    "example": "Elle a un petit chat."
+  },
+  {
+    "id": 257,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "beau / belle",
+    "en": "beautiful",
+    "zh": "美丽的",
+    "example": "C'est une belle journée."
+  },
+  {
+    "id": 258,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "bon(ne)",
+    "en": "good",
+    "zh": "好的",
+    "example": "Ce plat est très bon."
+  },
+  {
+    "id": 259,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "nouveau / nouvelle",
+    "en": "new",
+    "zh": "新的",
+    "example": "J'ai un nouveau téléphone."
+  },
+  {
+    "id": 260,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "vieux / vieille",
+    "en": "old",
+    "zh": "旧/老的",
+    "example": "C'est un vieux livre."
+  },
+  {
+    "id": 261,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "chaud(e)",
+    "en": "hot / warm",
+    "zh": "热的",
+    "example": "Il fait chaud aujourd'hui."
+  },
+  {
+    "id": 262,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "froid(e)",
+    "en": "cold",
+    "zh": "冷的",
+    "example": "L'eau est très froide."
+  },
+  {
+    "id": 263,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "facile",
+    "en": "easy",
+    "zh": "容易的",
+    "example": "Ce cours est facile."
+  },
+  {
+    "id": 264,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "difficile",
+    "en": "difficult",
+    "zh": "困难的",
+    "example": "Cet exercice est difficile."
+  },
+  {
+    "id": 265,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "rapide",
+    "en": "fast / quick",
+    "zh": "快速的",
+    "example": "Ce train est très rapide."
+  },
+  {
+    "id": 266,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "lent(e)",
+    "en": "slow",
+    "zh": "慢的",
+    "example": "Il marche lentement."
+  },
+  {
+    "id": 267,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "l'aéroport",
+    "en": "the airport",
+    "zh": "机场",
+    "example": "Nous sommes à l'aéroport CDG."
+  },
+  {
+    "id": 268,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "le train",
+    "en": "the train",
+    "zh": "火车",
+    "example": "Le train part à huit heures."
+  },
+  {
+    "id": 269,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "la gare",
+    "en": "the train station",
+    "zh": "火车站",
+    "example": "La gare est dans le centre-ville."
+  },
+  {
+    "id": 270,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "l'hôtel",
+    "en": "the hotel",
+    "zh": "酒店",
+    "example": "Notre hôtel est très confortable."
+  },
+  {
+    "id": 271,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "la carte",
+    "en": "the map",
+    "zh": "地图",
+    "example": "Avez-vous une carte de la ville ?"
+  },
+  {
+    "id": 272,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "à gauche",
+    "en": "to the left",
+    "zh": "向左",
+    "example": "Tournez à gauche au carrefour."
+  },
+  {
+    "id": 273,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "à droite",
+    "en": "to the right",
+    "zh": "向右",
+    "example": "L'hôtel est à droite."
+  },
+  {
+    "id": 274,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "tout droit",
+    "en": "straight ahead",
+    "zh": "直走",
+    "example": "Allez tout droit 200 mètres."
+  },
+  {
+    "id": 275,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "le passeport",
+    "en": "the passport",
+    "zh": "护照",
+    "example": "N'oubliez pas votre passeport."
+  },
+  {
+    "id": 276,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "la valise",
+    "en": "the suitcase",
+    "zh": "行李箱",
+    "example": "Ma valise est très lourde."
+  },
+  {
+    "id": 277,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le chat",
+    "en": "the cat",
+    "zh": "猫",
+    "example": "Mon chat s'appelle Minou."
+  },
+  {
+    "id": 278,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le chien",
+    "en": "the dog",
+    "zh": "狗",
+    "example": "Ce chien est très obéissant."
+  },
+  {
+    "id": 279,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le renard",
+    "en": "the fox",
+    "zh": "狐狸",
+    "example": "Le renard est rusé."
+  },
+  {
+    "id": 280,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "l'oiseau",
+    "en": "the bird",
+    "zh": "鸟",
+    "example": "Un oiseau chante dans le jardin."
+  },
+  {
+    "id": 281,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le poisson",
+    "en": "the fish",
+    "zh": "鱼",
+    "example": "Il y a des poissons dans l'aquarium."
+  },
+  {
+    "id": 282,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le cheval",
+    "en": "the horse",
+    "zh": "马",
+    "example": "Elle monte à cheval le week-end."
+  },
+  {
+    "id": 283,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "la vache",
+    "en": "the cow",
+    "zh": "牛",
+    "example": "La vache donne du lait."
+  },
+  {
+    "id": 284,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le lapin",
+    "en": "the rabbit",
+    "zh": "兔子",
+    "example": "Les lapins mangent des carottes."
+  },
+  {
+    "id": 285,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "le lion",
+    "en": "the lion",
+    "zh": "狮子",
+    "example": "Le lion est le roi de la jungle."
+  },
+  {
+    "id": 286,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "l'éléphant",
+    "en": "the elephant",
+    "zh": "大象",
+    "example": "Les éléphants ont une bonne mémoire."
+  },
+  {
+    "id": 287,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "les oreilles",
+    "en": "the ears",
+    "zh": "耳朵",
+    "example": "J'ai mal aux oreilles."
+  },
+  {
+    "id": 288,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "les cheveux",
+    "en": "the hair",
+    "zh": "头发",
+    "example": "Elle a les cheveux longs."
+  },
+  {
+    "id": 289,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "le bras",
+    "en": "the arm",
+    "zh": "手臂",
+    "example": "Je me suis cassé le bras."
+  },
+  {
+    "id": 290,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "la jambe",
+    "en": "the leg",
+    "zh": "腿",
+    "example": "Il a mal à la jambe."
+  },
+  {
+    "id": 291,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le lait",
+    "en": "the milk",
+    "zh": "牛奶",
+    "example": "Je prends du lait dans mon café."
+  },
+  {
+    "id": 292,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le beurre",
+    "en": "the butter",
+    "zh": "黄油",
+    "example": "Passe-moi le beurre, s'il te plaît."
+  },
+  {
+    "id": 293,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "les légumes",
+    "en": "the vegetables",
+    "zh": "蔬菜",
+    "example": "Mange tes légumes !"
+  },
+  {
+    "id": 294,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "les fruits",
+    "en": "the fruit",
+    "zh": "水果",
+    "example": "Je mange des fruits chaque matin."
+  },
+  {
+    "id": 295,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "dormir",
+    "en": "to sleep",
+    "zh": "睡觉",
+    "example": "Je dors huit heures par nuit."
+  },
+  {
+    "id": 296,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "venir",
+    "en": "to come",
+    "zh": "来",
+    "example": "Viens chez moi ce soir."
+  },
+  {
+    "id": 297,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "voir",
+    "en": "to see",
+    "zh": "看见",
+    "example": "Je vois mes amis le week-end."
+  },
+  {
+    "id": 298,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "prendre",
+    "en": "to take",
+    "zh": "拿/乘",
+    "example": "Je prends le métro."
+  },
+  {
+    "id": 299,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "lire",
+    "en": "to read",
+    "zh": "读",
+    "example": "J'aime lire des romans."
+  },
+  {
+    "id": 300,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "écrire",
+    "en": "to write",
+    "zh": "写",
+    "example": "Elle écrit un roman."
+  },
+  {
+    "id": 301,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "l'école",
+    "en": "the school",
+    "zh": "学校",
+    "example": "Les enfants vont à l'école."
+  },
+  {
+    "id": 302,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "l'université",
+    "en": "the university",
+    "zh": "大学",
+    "example": "J'étudie à l'université de Paris."
+  },
+  {
+    "id": 303,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "le professeur",
+    "en": "the teacher",
+    "zh": "老师",
+    "example": "Notre professeur est très sympa."
+  },
+  {
+    "id": 304,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "l'étudiant(e)",
+    "en": "the student",
+    "zh": "学生",
+    "example": "Je suis étudiant en droit."
+  },
+  {
+    "id": 305,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "le bureau",
+    "en": "the office",
+    "zh": "办公室",
+    "example": "Mon bureau est au troisième étage."
+  },
+  {
+    "id": 306,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "le travail",
+    "en": "the work/job",
+    "zh": "工作",
+    "example": "J'aime mon travail."
+  },
+  {
+    "id": 307,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "le cahier",
+    "en": "the notebook",
+    "zh": "笔记本",
+    "example": "J'écris dans mon cahier."
+  },
+  {
+    "id": 308,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "le stylo",
+    "en": "the pen",
+    "zh": "钢笔",
+    "example": "Prête-moi ton stylo."
+  },
+  {
+    "id": 309,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "le dictionnaire",
+    "en": "the dictionary",
+    "zh": "字典",
+    "example": "Consulte le dictionnaire."
+  },
+  {
+    "id": 310,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "les devoirs",
+    "en": "the homework",
+    "zh": "作业",
+    "example": "J'ai beaucoup de devoirs ce soir."
+  },
+  {
+    "id": 311,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "la réunion",
+    "en": "the meeting",
+    "zh": "会议",
+    "example": "J'ai une réunion à dix heures."
+  },
+  {
+    "id": 312,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "l'examen",
+    "en": "the exam",
+    "zh": "考试",
+    "example": "J'ai un examen demain."
+  },
+  {
+    "id": 313,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "il fait beau",
+    "en": "the weather is nice",
+    "zh": "天气好",
+    "example": "Il fait beau aujourd'hui !"
+  },
+  {
+    "id": 314,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "il pleut",
+    "en": "it's raining",
+    "zh": "在下雨",
+    "example": "Il pleut, prends un parapluie."
+  },
+  {
+    "id": 315,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "il neige",
+    "en": "it's snowing",
+    "zh": "在下雪",
+    "example": "Il neige en janvier."
+  },
+  {
+    "id": 316,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "le soleil",
+    "en": "the sun",
+    "zh": "太阳",
+    "example": "Le soleil se lève à l'est."
+  },
+  {
+    "id": 317,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "la pluie",
+    "en": "the rain",
+    "zh": "雨",
+    "example": "J'aime la pluie en automne."
+  },
+  {
+    "id": 318,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "le vent",
+    "en": "the wind",
+    "zh": "风",
+    "example": "Le vent souffle fort aujourd'hui."
+  },
+  {
+    "id": 319,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "la neige",
+    "en": "the snow",
+    "zh": "雪",
+    "example": "Les enfants adorent la neige."
+  },
+  {
+    "id": 320,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "le printemps",
+    "en": "spring",
+    "zh": "春天",
+    "example": "Les fleurs poussent au printemps."
+  },
+  {
+    "id": 321,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "l'été",
+    "en": "summer",
+    "zh": "夏天",
+    "example": "Je pars en vacances en été."
+  },
+  {
+    "id": 322,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "l'automne",
+    "en": "autumn / fall",
+    "zh": "秋天",
+    "example": "Les feuilles tombent en automne."
+  },
+  {
+    "id": 323,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "l'hiver",
+    "en": "winter",
+    "zh": "冬天",
+    "example": "Il fait très froid en hiver."
+  },
+  {
+    "id": 324,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "le parapluie",
+    "en": "the umbrella",
+    "zh": "雨伞",
+    "example": "N'oublie pas ton parapluie !"
+  },
+  {
+    "id": 325,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "le médecin",
+    "en": "the doctor",
+    "zh": "医生",
+    "example": "Je vais chez le médecin demain."
+  },
+  {
+    "id": 326,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "l'hôpital",
+    "en": "the hospital",
+    "zh": "医院",
+    "example": "L'hôpital est près d'ici."
+  },
+  {
+    "id": 327,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "la pharmacie",
+    "en": "the pharmacy",
+    "zh": "药店",
+    "example": "Je dois aller à la pharmacie."
+  },
+  {
+    "id": 328,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "le médicament",
+    "en": "the medicine",
+    "zh": "药物",
+    "example": "Prends ce médicament deux fois par jour."
+  },
+  {
+    "id": 329,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "j'ai mal à...",
+    "en": "I have a pain in...",
+    "zh": "我…痛",
+    "example": "J'ai mal à la gorge."
+  },
+  {
+    "id": 330,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "la fièvre",
+    "en": "the fever",
+    "zh": "发烧",
+    "example": "Elle a de la fièvre."
+  },
+  {
+    "id": 331,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "la toux",
+    "en": "the cough",
+    "zh": "咳嗽",
+    "example": "J'ai une mauvaise toux."
+  },
+  {
+    "id": 332,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "se reposer",
+    "en": "to rest",
+    "zh": "休息",
+    "example": "Il faut vous reposer."
+  },
+  {
+    "id": 333,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "être fatigué(e)",
+    "en": "to be tired",
+    "zh": "疲劳",
+    "example": "Je suis très fatigué ce soir."
+  },
+  {
+    "id": 334,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "se sentir bien",
+    "en": "to feel well",
+    "zh": "感觉良好",
+    "example": "Je me sens bien aujourd'hui."
+  },
+  {
+    "id": 335,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "heureux / heureuse",
+    "en": "happy",
+    "zh": "高兴的",
+    "example": "Je suis très heureux de te voir."
+  },
+  {
+    "id": 336,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "triste",
+    "en": "sad",
+    "zh": "难过的",
+    "example": "Elle est triste aujourd'hui."
+  },
+  {
+    "id": 337,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "en colère",
+    "en": "angry",
+    "zh": "生气的",
+    "example": "Il est en colère contre son frère."
+  },
+  {
+    "id": 338,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "avoir peur",
+    "en": "to be afraid",
+    "zh": "害怕",
+    "example": "J'ai peur du noir."
+  },
+  {
+    "id": 339,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "surpris(e)",
+    "en": "surprised",
+    "zh": "惊讶的",
+    "example": "Elle est très surprise."
+  },
+  {
+    "id": 340,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "stressé(e)",
+    "en": "stressed",
+    "zh": "紧张的",
+    "example": "Je suis stressé par l'examen."
+  },
+  {
+    "id": 341,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "calme",
+    "en": "calm",
+    "zh": "平静的",
+    "example": "Restons calmes."
+  },
+  {
+    "id": 342,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "fatigué(e)",
+    "en": "tired",
+    "zh": "疲倦的",
+    "example": "Je suis fatigué(e) après le travail."
+  },
+  {
+    "id": 343,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "s'ennuyer",
+    "en": "to be bored",
+    "zh": "无聊",
+    "example": "Je m'ennuie pendant les vacances."
+  },
+  {
+    "id": 344,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "amoureux / amoureuse",
+    "en": "in love",
+    "zh": "恋爱中",
+    "example": "Il est amoureux d'elle."
+  },
+  {
+    "id": 345,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la forêt",
+    "en": "the forest",
+    "zh": "森林",
+    "example": "Nous nous promenons dans la forêt."
+  },
+  {
+    "id": 346,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la montagne",
+    "en": "the mountain",
+    "zh": "山",
+    "example": "La montagne est magnifique en hiver."
+  },
+  {
+    "id": 347,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la mer",
+    "en": "the sea",
+    "zh": "大海",
+    "example": "Nous allons à la mer en été."
+  },
+  {
+    "id": 348,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la rivière",
+    "en": "the river",
+    "zh": "河流",
+    "example": "La rivière passe près du village."
+  },
+  {
+    "id": 349,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "le lac",
+    "en": "the lake",
+    "zh": "湖",
+    "example": "Ce lac est très profond."
+  },
+  {
+    "id": 350,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la fleur",
+    "en": "the flower",
+    "zh": "花",
+    "example": "Elle cueille des fleurs dans le jardin."
+  },
+  {
+    "id": 351,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "l'arbre",
+    "en": "the tree",
+    "zh": "树",
+    "example": "Cet arbre a cent ans."
+  },
+  {
+    "id": 352,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "le ciel",
+    "en": "the sky",
+    "zh": "天空",
+    "example": "Le ciel est bleu et clair."
+  },
+  {
+    "id": 353,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la plage",
+    "en": "the beach",
+    "zh": "海滩",
+    "example": "J'adore me promener sur la plage."
+  },
+  {
+    "id": 354,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "la campagne",
+    "en": "the countryside",
+    "zh": "农村",
+    "example": "Ils habitent à la campagne."
+  },
+  {
+    "id": 355,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "le football",
+    "en": "football/soccer",
+    "zh": "足球",
+    "example": "Je joue au football le samedi."
+  },
+  {
+    "id": 356,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "la natation",
+    "en": "swimming",
+    "zh": "游泳",
+    "example": "La natation est bon pour la santé."
+  },
+  {
+    "id": 357,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "le vélo",
+    "en": "the bicycle",
+    "zh": "自行车",
+    "example": "Je fais du vélo chaque matin."
+  },
+  {
+    "id": 358,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "courir",
+    "en": "to run",
+    "zh": "跑步",
+    "example": "Je cours cinq kilomètres par jour."
+  },
+  {
+    "id": 359,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "le cinéma",
+    "en": "the cinema",
+    "zh": "电影院",
+    "example": "Allons au cinéma ce soir."
+  },
+  {
+    "id": 360,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "la musique",
+    "en": "the music",
+    "zh": "音乐",
+    "example": "J'adore écouter de la musique."
+  },
+  {
+    "id": 361,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "la lecture",
+    "en": "reading",
+    "zh": "阅读",
+    "example": "La lecture est mon passe-temps préféré."
+  },
+  {
+    "id": 362,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "voyager",
+    "en": "to travel",
+    "zh": "旅行",
+    "example": "J'adore voyager en Europe."
+  },
+  {
+    "id": 363,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "jouer",
+    "en": "to play",
+    "zh": "玩/演奏",
+    "example": "Les enfants jouent dans le jardin."
+  },
+  {
+    "id": 364,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "le week-end",
+    "en": "the weekend",
+    "zh": "周末",
+    "example": "Que fais-tu ce week-end ?"
+  },
+  {
+    "id": 365,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "une robe",
+    "en": "a dress",
+    "zh": "一条裙子",
+    "example": "Elle porte une belle robe rouge."
+  },
+  {
+    "id": 366,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "un pantalon",
+    "en": "trousers / pants",
+    "zh": "裤子",
+    "example": "Il met un pantalon noir pour travailler."
+  },
+  {
+    "id": 367,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "des chaussures",
+    "en": "shoes",
+    "zh": "鞋子",
+    "example": "Ces chaussures sont très confortables."
+  },
+  {
+    "id": 368,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "une veste",
+    "en": "jacket",
+    "zh": "外套",
+    "example": "Il fait froid, prends ta veste."
+  },
+  {
+    "id": 369,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "un imperméable",
+    "en": "raincoat",
+    "zh": "雨衣",
+    "example": "N'oublie pas ton imperméable, il pleut."
+  },
+  {
+    "id": 370,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "s'habiller",
+    "en": "to get dressed",
+    "zh": "穿衣服",
+    "example": "Il faut s'habiller chaudement en hiver."
+  },
+  {
+    "id": 371,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "trois",
+    "en": "three",
+    "zh": "三",
+    "example": "J'ai trois chats."
+  },
+  {
+    "id": 372,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "quatre",
+    "en": "four",
+    "zh": "四",
+    "example": "Il y a quatre saisons."
+  },
+  {
+    "id": 373,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "six",
+    "en": "six",
+    "zh": "六",
+    "example": "Le bus numéro six passe ici."
+  },
+  {
+    "id": 374,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "sept",
+    "en": "seven",
+    "zh": "七",
+    "example": "La semaine a sept jours."
+  },
+  {
+    "id": 375,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "huit",
+    "en": "eight",
+    "zh": "八",
+    "example": "Il est huit heures du matin."
+  },
+  {
+    "id": 376,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "neuf",
+    "en": "nine",
+    "zh": "九",
+    "example": "Un chat a neuf vies."
+  },
+  {
+    "id": 377,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "une chambre",
+    "en": "bedroom",
+    "zh": "卧室",
+    "example": "Ma chambre est au premier étage."
+  },
+  {
+    "id": 378,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "une cuisine",
+    "en": "kitchen",
+    "zh": "厨房",
+    "example": "Je prépare le dîner dans la cuisine."
+  },
+  {
+    "id": 379,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "une salle de bains",
+    "en": "bathroom",
+    "zh": "浴室",
+    "example": "La salle de bains est en face de ma chambre."
+  },
+  {
+    "id": 380,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "un escalier",
+    "en": "stairs / staircase",
+    "zh": "楼梯",
+    "example": "Monte les escaliers, c'est au deuxième étage."
+  },
+  {
+    "id": 381,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "un balcon",
+    "en": "balcony",
+    "zh": "阳台",
+    "example": "Je prends mon café sur le balcon le matin."
+  },
+  {
+    "id": 382,
+    "level": "beginner",
+    "theme": "salutations",
+    "fr": "Pardon",
+    "en": "Pardon / Sorry",
+    "zh": "对不起/请问",
+    "example": "Pardon, vous pouvez répéter ?"
+  },
+  {
+    "id": 383,
+    "level": "beginner",
+    "theme": "salutations",
+    "fr": "Bienvenue",
+    "en": "Welcome",
+    "zh": "欢迎",
+    "example": "Bienvenue en France !"
+  },
+  {
+    "id": 384,
+    "level": "beginner",
+    "theme": "salutations",
+    "fr": "Bonne journée",
+    "en": "Have a good day",
+    "zh": "祝您愉快",
+    "example": "Merci, bonne journée à vous aussi !"
+  },
+  {
+    "id": 385,
+    "level": "beginner",
+    "theme": "salutations",
+    "fr": "À tout à l'heure",
+    "en": "See you in a bit",
+    "zh": "待会儿见",
+    "example": "Je reviens dans dix minutes, à tout à l'heure !"
+  },
+  {
+    "id": 386,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le participe passé",
+    "en": "past participle",
+    "zh": "过去分词",
+    "example": "Le participe passé de 'manger' est 'mangé'."
+  },
+  {
+    "id": 387,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le sujet",
+    "en": "subject",
+    "zh": "主语",
+    "example": "Dans cette phrase, 'le chat' est le sujet."
+  },
+  {
+    "id": 388,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "l'auxiliaire",
+    "en": "auxiliary (verb)",
+    "zh": "助动词",
+    "example": "Être et avoir sont les deux auxiliaires français."
+  },
+  {
+    "id": 389,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "la voix passive",
+    "en": "passive voice",
+    "zh": "被动语态",
+    "example": "La voix passive met l'accent sur l'objet de l'action."
+  },
+  {
+    "id": 390,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "actif / passif",
+    "en": "active / passive",
+    "zh": "主动 / 被动",
+    "example": "Transformez la phrase active en phrase passive."
+  },
+  {
+    "id": 391,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "l'agent",
+    "en": "agent (grammar)",
+    "zh": "施事者",
+    "example": "Dans le passif, l'agent suit souvent 'par'."
+  },
+  {
+    "id": 392,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le gérondif",
+    "en": "gerund",
+    "zh": "副动词",
+    "example": "Le gérondif se forme avec 'en' + participe présent."
+  },
+  {
+    "id": 393,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le participe présent",
+    "en": "present participle",
+    "zh": "现在分词",
+    "example": "'Parlant' est le participe présent de 'parler'."
+  },
+  {
+    "id": 394,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "invariable",
+    "en": "invariable / unchanged",
+    "zh": "不变形的",
+    "example": "Le participe présent est invariable en français."
+  },
+  {
+    "id": 395,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le plus-que-parfait",
+    "en": "pluperfect / past perfect",
+    "zh": "愈过去时",
+    "example": "J'avais mangé quand tu es arrivé."
+  },
+  {
+    "id": 396,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "antérieur(e)",
+    "en": "prior / anterior",
+    "zh": "先前的",
+    "example": "Le plus-que-parfait exprime une action antérieure."
+  },
+  {
+    "id": 397,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le passé simple",
+    "en": "simple past (literary)",
+    "zh": "简单过去时",
+    "example": "Le passé simple s'utilise dans les textes littéraires."
+  },
+  {
+    "id": 398,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "littéraire",
+    "en": "literary",
+    "zh": "文学的",
+    "example": "Le passé simple est un temps littéraire."
+  },
+  {
+    "id": 399,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le registre",
+    "en": "register (language)",
+    "zh": "语言风格/语体",
+    "example": "Choisissez le bon registre selon la situation."
+  },
+  {
+    "id": 400,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "soutenu(e)",
+    "en": "formal / elevated",
+    "zh": "正式的/文雅的",
+    "example": "Un langage soutenu convient à une lettre officielle."
+  },
+  {
+    "id": 401,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "courant(e)",
+    "en": "standard / everyday",
+    "zh": "标准的/日常的",
+    "example": "Le registre courant est utilisé dans la conversation."
+  },
+  {
+    "id": 402,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "familier / familière",
+    "en": "informal / colloquial",
+    "zh": "非正式的/口语的",
+    "example": "'Bagnole' est un mot familier pour 'voiture'."
+  },
+  {
+    "id": 403,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le conditionnel",
+    "en": "conditional (mood)",
+    "zh": "条件式",
+    "example": "Je voudrais un café — c'est le conditionnel."
+  },
+  {
+    "id": 404,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "se conjuguer",
+    "en": "to conjugate",
+    "zh": "变位/变形",
+    "example": "Le verbe 'être' se conjugue de façon irrégulière."
+  },
+  {
+    "id": 405,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "irrégulier / irrégulière",
+    "en": "irregular",
+    "zh": "不规则的",
+    "example": "'Aller' est un verbe irrégulier."
+  },
+  {
+    "id": 406,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "le complément",
+    "en": "complement / object",
+    "zh": "补语/宾语",
+    "example": "'Le livre' est le complément direct du verbe."
+  },
+  {
+    "id": 407,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "la proposition",
+    "en": "clause",
+    "zh": "从句",
+    "example": "La proposition principale contient le verbe principal."
+  },
+  {
+    "id": 408,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "l'accord",
+    "en": "agreement (grammar)",
+    "zh": "性数配合",
+    "example": "L'accord du participe passé est une règle complexe."
+  },
+  {
+    "id": 409,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "transitif / intransitif",
+    "en": "transitive / intransitive",
+    "zh": "及物/不及物",
+    "example": "'Manger' est transitif, 'partir' est intransitif."
+  },
+  {
+    "id": 410,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "pronominal(e)",
+    "en": "pronominal / reflexive",
+    "zh": "代词式的",
+    "example": "'Se lever' est un verbe pronominal."
+  },
+  {
+    "id": 411,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "la négation",
+    "en": "negation",
+    "zh": "否定",
+    "example": "La négation se forme avec 'ne…pas'."
+  },
+  {
+    "id": 412,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "l'inversion",
+    "en": "inversion (question)",
+    "zh": "倒装（疑问）",
+    "example": "L'inversion est une façon formelle de poser des questions."
+  },
+  {
+    "id": 413,
+    "level": "tcf",
+    "theme": "grammaire",
+    "fr": "la concordance",
+    "en": "agreement of tenses",
+    "zh": "时态一致",
+    "example": "La concordance des temps régit les propositions subordonnées."
+  },
+  {
+    "id": 414,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "De plus",
+    "en": "Moreover / Furthermore",
+    "zh": "此外",
+    "example": "Il est intelligent. De plus, il est travailleur."
+  },
+  {
+    "id": 415,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Toutefois",
+    "en": "However / Yet",
+    "zh": "不过",
+    "example": "Il est vrai. Toutefois, il y a des exceptions."
+  },
+  {
+    "id": 416,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "En revanche",
+    "en": "On the other hand",
+    "zh": "反之",
+    "example": "Il aime le sport. En revanche, il déteste la gym."
+  },
+  {
+    "id": 417,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Par contre",
+    "en": "On the contrary",
+    "zh": "相反地",
+    "example": "Il parle vite. Par contre, il écrit lentement."
+  },
+  {
+    "id": 418,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Ainsi",
+    "en": "Thus / So",
+    "zh": "因此/这样",
+    "example": "Il a plu, ainsi le match a été annulé."
+  },
+  {
+    "id": 419,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "C'est pourquoi",
+    "en": "That is why",
+    "zh": "这就是为什么",
+    "example": "Il était fatigué, c'est pourquoi il est parti."
+  },
+  {
+    "id": 420,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Car",
+    "en": "Because / For",
+    "zh": "因为",
+    "example": "Il reste car il aime Paris."
+  },
+  {
+    "id": 421,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Puisque",
+    "en": "Since / As",
+    "zh": "既然",
+    "example": "Puisque tu es là, parlons."
+  },
+  {
+    "id": 422,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Même si",
+    "en": "Even if / Even though",
+    "zh": "即使",
+    "example": "Même si c'est dur, je continuerai."
+  },
+  {
+    "id": 423,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "D'abord",
+    "en": "First / Firstly",
+    "zh": "首先",
+    "example": "D'abord, il faut comprendre la règle."
+  },
+  {
+    "id": 424,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Ensuite",
+    "en": "Then / Next",
+    "zh": "然后",
+    "example": "D'abord il mange, ensuite il fait la vaisselle."
+  },
+  {
+    "id": 425,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Enfin",
+    "en": "Finally / At last",
+    "zh": "最后",
+    "example": "Enfin, nous arrivons à la conclusion."
+  },
+  {
+    "id": 426,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Puis",
+    "en": "Then / Afterwards",
+    "zh": "接着",
+    "example": "Il mange, puis il sort."
+  },
+  {
+    "id": 427,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Avant tout",
+    "en": "Above all / First of all",
+    "zh": "首先",
+    "example": "Avant tout, restez calme."
+  },
+  {
+    "id": 428,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "En conclusion",
+    "en": "In conclusion",
+    "zh": "总之",
+    "example": "En conclusion, ce projet est réalisable."
+  },
+  {
+    "id": 429,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "En résumé",
+    "en": "In summary",
+    "zh": "总结",
+    "example": "En résumé, nous avons trois options."
+  },
+  {
+    "id": 430,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Autrement dit",
+    "en": "In other words",
+    "zh": "换句话说",
+    "example": "Il est avare, autrement dit il ne donne rien."
+  },
+  {
+    "id": 431,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Grâce à",
+    "en": "Thanks to / Due to",
+    "zh": "多亏了",
+    "example": "Grâce à toi, j'ai réussi."
+  },
+  {
+    "id": 432,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "À cause de",
+    "en": "Because of / Due to",
+    "zh": "由于",
+    "example": "À cause de la grève, le train est annulé."
+  },
+  {
+    "id": 433,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Or",
+    "en": "Now / But (literary)",
+    "zh": "然而（书面）",
+    "example": "Il croyait réussir. Or, il a échoué."
+  },
+  {
+    "id": 434,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "En particulier",
+    "en": "In particular",
+    "zh": "特别是",
+    "example": "J'aime la France, en particulier Paris."
+  },
+  {
+    "id": 435,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Par exemple",
+    "en": "For example",
+    "zh": "例如",
+    "example": "Par exemple, le français est parlé en Belgique."
+  },
+  {
+    "id": 436,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "D'une part... d'autre part",
+    "en": "On one hand... on the other hand",
+    "zh": "一方面…另一方面",
+    "example": "D'une part c'est utile, d'autre part c'est coûteux."
+  },
+  {
+    "id": 437,
+    "level": "tcf",
+    "theme": "connecteurs",
+    "fr": "Non seulement",
+    "en": "Not only",
+    "zh": "不仅",
+    "example": "Non seulement il chante, mais il joue aussi."
+  },
+  {
+    "id": 438,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un ordinateur",
+    "en": "A computer",
+    "zh": "电脑",
+    "example": "J'utilise un ordinateur pour travailler."
+  },
+  {
+    "id": 439,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un smartphone",
+    "en": "A smartphone",
+    "zh": "智能手机",
+    "example": "Son smartphone est toujours chargé."
+  },
+  {
+    "id": 440,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Une application",
+    "en": "An app",
+    "zh": "应用程序",
+    "example": "Télécharge cette application, elle est gratuite."
+  },
+  {
+    "id": 441,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Internet",
+    "en": "The Internet",
+    "zh": "互联网",
+    "example": "Je cherche sur Internet."
+  },
+  {
+    "id": 442,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un mot de passe",
+    "en": "A password",
+    "zh": "密码",
+    "example": "Mon mot de passe est secret."
+  },
+  {
+    "id": 443,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un réseau social",
+    "en": "A social network",
+    "zh": "社交网络",
+    "example": "Il passe trop de temps sur les réseaux sociaux."
+  },
+  {
+    "id": 444,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Télécharger",
+    "en": "To download",
+    "zh": "下载",
+    "example": "Je vais télécharger ce fichier."
+  },
+  {
+    "id": 445,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Envoyer",
+    "en": "To send",
+    "zh": "发送",
+    "example": "Envoie-moi un message."
+  },
+  {
+    "id": 446,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un fichier",
+    "en": "A file",
+    "zh": "文件",
+    "example": "Ouvre ce fichier PDF."
+  },
+  {
+    "id": 447,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Une batterie",
+    "en": "A battery",
+    "zh": "电池",
+    "example": "La batterie de mon téléphone est vide."
+  },
+  {
+    "id": 448,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un écran",
+    "en": "A screen",
+    "zh": "屏幕",
+    "example": "L'écran est fissuré."
+  },
+  {
+    "id": 449,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Une connexion",
+    "en": "A connection",
+    "zh": "网络连接",
+    "example": "La connexion est lente aujourd'hui."
+  },
+  {
+    "id": 450,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un clavier",
+    "en": "A keyboard",
+    "zh": "键盘",
+    "example": "Ce clavier est sans fil."
+  },
+  {
+    "id": 451,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Une souris",
+    "en": "A (computer) mouse",
+    "zh": "鼠标",
+    "example": "La souris ne fonctionne plus."
+  },
+  {
+    "id": 452,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un logiciel",
+    "en": "Software",
+    "zh": "软件",
+    "example": "Ce logiciel est très utile."
+  },
+  {
+    "id": 453,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un courriel",
+    "en": "An email",
+    "zh": "电子邮件",
+    "example": "Je t'envoie un courriel demain."
+  },
+  {
+    "id": 454,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Une intelligence artificielle",
+    "en": "Artificial intelligence",
+    "zh": "人工智能",
+    "example": "L'intelligence artificielle change le monde."
+  },
+  {
+    "id": 455,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Sauvegarder",
+    "en": "To save / To back up",
+    "zh": "保存",
+    "example": "N'oublie pas de sauvegarder ton travail."
+  },
+  {
+    "id": 456,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "Un virus",
+    "en": "A (computer) virus",
+    "zh": "病毒",
+    "example": "Mon ordinateur a attrapé un virus."
+  },
+  {
+    "id": 457,
+    "level": "advanced",
+    "theme": "technologie",
+    "fr": "La cybersécurité",
+    "en": "Cybersecurity",
+    "zh": "网络安全",
+    "example": "La cybersécurité est essentielle pour les entreprises."
+  },
+  {
+    "id": 458,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Un hôtel",
+    "en": "A hotel",
+    "zh": "酒店",
+    "example": "Nous logeons dans un hôtel cinq étoiles."
+  },
+  {
+    "id": 459,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Un billet",
+    "en": "A ticket",
+    "zh": "票",
+    "example": "J'ai acheté un billet aller-retour."
+  },
+  {
+    "id": 460,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Un passeport",
+    "en": "A passport",
+    "zh": "护照",
+    "example": "N'oublie pas ton passeport."
+  },
+  {
+    "id": 461,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Une valise",
+    "en": "A suitcase",
+    "zh": "行李箱",
+    "example": "Ma valise est trop lourde."
+  },
+  {
+    "id": 462,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Un visa",
+    "en": "A visa",
+    "zh": "签证",
+    "example": "Il faut un visa pour entrer dans ce pays."
+  },
+  {
+    "id": 463,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "La douane",
+    "en": "Customs",
+    "zh": "海关",
+    "example": "Passez par la douane à votre arrivée."
+  },
+  {
+    "id": 464,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Un vol",
+    "en": "A flight",
+    "zh": "航班",
+    "example": "Mon vol est à 14h."
+  },
+  {
+    "id": 465,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Une escale",
+    "en": "A stopover / layover",
+    "zh": "中转",
+    "example": "J'ai une escale à Amsterdam."
+  },
+  {
+    "id": 466,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "Loger",
+    "en": "To stay / To lodge",
+    "zh": "住宿",
+    "example": "Où logez-vous pendant votre séjour ?"
+  },
+  {
+    "id": 467,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "L'assurance voyage",
+    "en": "Travel insurance",
+    "zh": "旅行保险",
+    "example": "Prenez toujours une assurance voyage."
+  },
+  {
+    "id": 468,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Un restaurant",
+    "en": "A restaurant",
+    "zh": "餐厅",
+    "example": "On va dîner au restaurant ce soir."
+  },
+  {
+    "id": 469,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Une recette",
+    "en": "A recipe",
+    "zh": "食谱",
+    "example": "Tu as la recette de ce gâteau ?"
+  },
+  {
+    "id": 470,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Le petit-déjeuner",
+    "en": "Breakfast",
+    "zh": "早餐",
+    "example": "Je prends un café au petit-déjeuner."
+  },
+  {
+    "id": 471,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Le déjeuner",
+    "en": "Lunch",
+    "zh": "午餐",
+    "example": "Le déjeuner est servi à midi."
+  },
+  {
+    "id": 472,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Le dîner",
+    "en": "Dinner",
+    "zh": "晚餐",
+    "example": "Le dîner était délicieux."
+  },
+  {
+    "id": 473,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "L'addition",
+    "en": "The bill / Check",
+    "zh": "账单",
+    "example": "L'addition, s'il vous plaît."
+  },
+  {
+    "id": 474,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Un plat principal",
+    "en": "A main course",
+    "zh": "主菜",
+    "example": "Le plat principal est un steak-frites."
+  },
+  {
+    "id": 475,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Une entrée",
+    "en": "A starter / Appetizer",
+    "zh": "前菜",
+    "example": "Je prends une soupe en entrée."
+  },
+  {
+    "id": 476,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "Un dessert",
+    "en": "A dessert",
+    "zh": "甜点",
+    "example": "Il y a de la crème brûlée comme dessert."
+  },
+  {
+    "id": 477,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Un entraînement",
+    "en": "A training session",
+    "zh": "训练",
+    "example": "L'entraînement commence à 9h."
+  },
+  {
+    "id": 478,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Un champion",
+    "en": "A champion",
+    "zh": "冠军",
+    "example": "Elle est championne du monde."
+  },
+  {
+    "id": 479,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Un stade",
+    "en": "A stadium",
+    "zh": "体育场",
+    "example": "Le stade peut accueillir 80 000 personnes."
+  },
+  {
+    "id": 480,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Un arbitre",
+    "en": "A referee",
+    "zh": "裁判",
+    "example": "L'arbitre a sifflé une faute."
+  },
+  {
+    "id": 481,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Gagner",
+    "en": "To win",
+    "zh": "赢",
+    "example": "Notre équipe a gagné 3-0."
+  },
+  {
+    "id": 482,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Perdre",
+    "en": "To lose",
+    "zh": "输",
+    "example": "Ils ont perdu le championnat."
+  },
+  {
+    "id": 483,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "S'entraîner",
+    "en": "To train / To practice",
+    "zh": "训练",
+    "example": "Il s'entraîne deux heures par jour."
+  },
+  {
+    "id": 484,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Un but",
+    "en": "A goal",
+    "zh": "进球",
+    "example": "Il a marqué un but magnifique."
+  },
+  {
+    "id": 485,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Une médaille",
+    "en": "A medal",
+    "zh": "奖牌",
+    "example": "Elle a remporté une médaille d'or."
+  },
+  {
+    "id": 486,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "Un tournoi",
+    "en": "A tournament",
+    "zh": "锦标赛",
+    "example": "Il participe à un tournoi de tennis."
+  },
+  {
+    "id": 487,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Un médicament",
+    "en": "A medicine / Drug",
+    "zh": "药",
+    "example": "Prenez ce médicament deux fois par jour."
+  },
+  {
+    "id": 488,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Une ordonnance",
+    "en": "A prescription",
+    "zh": "处方",
+    "example": "Le médecin a écrit une ordonnance."
+  },
+  {
+    "id": 489,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Un rendez-vous",
+    "en": "An appointment",
+    "zh": "预约",
+    "example": "J'ai un rendez-vous chez le dentiste."
+  },
+  {
+    "id": 490,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Une allergie",
+    "en": "An allergy",
+    "zh": "过敏",
+    "example": "Je suis allergique aux arachides."
+  },
+  {
+    "id": 491,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Une blessure",
+    "en": "An injury / Wound",
+    "zh": "受伤",
+    "example": "Il a une blessure au genou."
+  },
+  {
+    "id": 492,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Guérir",
+    "en": "To heal / To cure",
+    "zh": "痊愈",
+    "example": "Il guérit rapidement grâce aux médicaments."
+  },
+  {
+    "id": 493,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Un infirmier",
+    "en": "A nurse (male)",
+    "zh": "男护士",
+    "example": "L'infirmier prend la tension du patient."
+  },
+  {
+    "id": 494,
+    "level": "intermediate",
+    "theme": "sante",
+    "fr": "Une urgence",
+    "en": "An emergency",
+    "zh": "紧急情况",
+    "example": "Appelez le 15 en cas d'urgence."
+  },
+  {
+    "id": 495,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La nostalgie",
+    "en": "Nostalgia",
+    "zh": "怀旧",
+    "example": "Cette chanson me plonge dans la nostalgie."
+  },
+  {
+    "id": 496,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "L'enthousiasme",
+    "en": "Enthusiasm",
+    "zh": "热情",
+    "example": "Il parle avec enthousiasme de son projet."
+  },
+  {
+    "id": 497,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La déception",
+    "en": "Disappointment",
+    "zh": "失望",
+    "example": "Sa déception était visible sur son visage."
+  },
+  {
+    "id": 498,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La fierté",
+    "en": "Pride",
+    "zh": "自豪",
+    "example": "Elle regarde son fils avec fierté."
+  },
+  {
+    "id": 499,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La jalousie",
+    "en": "Jealousy",
+    "zh": "嫉妒",
+    "example": "La jalousie peut détruire une amitié."
+  },
+  {
+    "id": 500,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La confiance",
+    "en": "Confidence / Trust",
+    "zh": "信心",
+    "example": "Elle a confiance en elle-même."
+  },
+  {
+    "id": 501,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "L'inquiétude",
+    "en": "Worry / Concern",
+    "zh": "担忧",
+    "example": "Son inquiétude était palpable."
+  },
+  {
+    "id": 502,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "Le soulagement",
+    "en": "Relief",
+    "zh": "如释重负",
+    "example": "Quel soulagement d'apprendre la bonne nouvelle !"
+  },
+  {
+    "id": 503,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La honte",
+    "en": "Shame",
+    "zh": "羞耻",
+    "example": "Il rougit de honte."
+  },
+  {
+    "id": 504,
+    "level": "intermediate",
+    "theme": "emotions",
+    "fr": "La gratitude",
+    "en": "Gratitude",
+    "zh": "感激",
+    "example": "Je lui exprime ma gratitude."
+  },
+  {
+    "id": 505,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Réussir",
+    "en": "To succeed / To pass",
+    "zh": "成功",
+    "example": "Elle a réussi son examen."
+  },
+  {
+    "id": 506,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Échouer",
+    "en": "To fail",
+    "zh": "失败",
+    "example": "Il a échoué à l'entretien."
+  },
+  {
+    "id": 507,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Apprendre",
+    "en": "To learn",
+    "zh": "学习",
+    "example": "J'apprends le français depuis six mois."
+  },
+  {
+    "id": 508,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Enseigner",
+    "en": "To teach",
+    "zh": "教",
+    "example": "Elle enseigne les mathématiques."
+  },
+  {
+    "id": 509,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Expliquer",
+    "en": "To explain",
+    "zh": "解释",
+    "example": "Peux-tu m'expliquer la règle ?"
+  },
+  {
+    "id": 510,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Choisir",
+    "en": "To choose",
+    "zh": "选择",
+    "example": "Choisis un livre parmi ceux-ci."
+  },
+  {
+    "id": 511,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Décider",
+    "en": "To decide",
+    "zh": "决定",
+    "example": "Il a décidé de partir à l'étranger."
+  },
+  {
+    "id": 512,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Permettre",
+    "en": "To allow / To permit",
+    "zh": "允许",
+    "example": "Cela permet de gagner du temps."
+  },
+  {
+    "id": 513,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Remarquer",
+    "en": "To notice",
+    "zh": "注意到",
+    "example": "J'ai remarqué qu'il était triste."
+  },
+  {
+    "id": 514,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Rejoindre",
+    "en": "To join / To meet up",
+    "zh": "加入",
+    "example": "Je vous rejoins dans dix minutes."
+  },
+  {
+    "id": 515,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Résoudre",
+    "en": "To solve / To resolve",
+    "zh": "解决",
+    "example": "Nous devons résoudre ce problème."
+  },
+  {
+    "id": 516,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Soutenir",
+    "en": "To support",
+    "zh": "支持",
+    "example": "Je te soutiens dans ta décision."
+  },
+  {
+    "id": 517,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "La ville",
+    "en": "The city / Town",
+    "zh": "城市",
+    "example": "J'habite dans une grande ville."
+  },
+  {
+    "id": 518,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Le quartier",
+    "en": "The neighbourhood",
+    "zh": "街区",
+    "example": "C'est un quartier très animé."
+  },
+  {
+    "id": 519,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "La rue",
+    "en": "The street",
+    "zh": "街道",
+    "example": "Tournez à droite dans la rue principale."
+  },
+  {
+    "id": 520,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Le carrefour",
+    "en": "The crossroads",
+    "zh": "十字路口",
+    "example": "Il y a un feu rouge au carrefour."
+  },
+  {
+    "id": 521,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "La mairie",
+    "en": "The town hall",
+    "zh": "市政厅",
+    "example": "Le bureau de la mairie est fermé le dimanche."
+  },
+  {
+    "id": 522,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "La bibliothèque",
+    "en": "The library",
+    "zh": "图书馆",
+    "example": "Je lis des livres à la bibliothèque."
+  },
+  {
+    "id": 523,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "La poste",
+    "en": "The post office",
+    "zh": "邮局",
+    "example": "J'envoie un colis à la poste."
+  },
+  {
+    "id": 524,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Le musée",
+    "en": "The museum",
+    "zh": "博物馆",
+    "example": "Le musée du Louvre est célèbre dans le monde entier."
+  },
+  {
+    "id": 525,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Le marché",
+    "en": "The market",
+    "zh": "市场",
+    "example": "Le marché ouvre tôt le matin."
+  },
+  {
+    "id": 526,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "La banlieue",
+    "en": "The suburb",
+    "zh": "郊区",
+    "example": "Il habite en banlieue parisienne."
+  },
+  {
+    "id": 527,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Le centre-ville",
+    "en": "The city centre / Downtown",
+    "zh": "市中心",
+    "example": "Le centre-ville est très animé le week-end."
+  },
+  {
+    "id": 528,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Un immeuble",
+    "en": "An apartment building",
+    "zh": "公寓楼",
+    "example": "Elle habite au 5e étage de cet immeuble."
+  },
+  {
+    "id": 529,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Un parking",
+    "en": "A car park",
+    "zh": "停车场",
+    "example": "Le parking est gratuit le dimanche."
+  },
+  {
+    "id": 530,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "Le métro",
+    "en": "The metro / Subway",
+    "zh": "地铁",
+    "example": "Je prends le métro pour aller au travail."
+  },
+  {
+    "id": 531,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Le gouvernement",
+    "en": "The government",
+    "zh": "政府",
+    "example": "Le gouvernement a annoncé de nouvelles mesures."
+  },
+  {
+    "id": 532,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "La loi",
+    "en": "The law",
+    "zh": "法律",
+    "example": "Tout le monde doit respecter la loi."
+  },
+  {
+    "id": 533,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Le président",
+    "en": "The president",
+    "zh": "总统",
+    "example": "Le président a prononcé un discours."
+  },
+  {
+    "id": 534,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Les élections",
+    "en": "The elections",
+    "zh": "选举",
+    "example": "Les élections ont lieu tous les cinq ans."
+  },
+  {
+    "id": 535,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Voter",
+    "en": "To vote",
+    "zh": "投票",
+    "example": "Il est important de voter."
+  },
+  {
+    "id": 536,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "La démocratie",
+    "en": "Democracy",
+    "zh": "民主",
+    "example": "La France est une démocratie."
+  },
+  {
+    "id": 537,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Le citoyen",
+    "en": "The citizen",
+    "zh": "公民",
+    "example": "Chaque citoyen a des droits et des devoirs."
+  },
+  {
+    "id": 538,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "La liberté",
+    "en": "Freedom / Liberty",
+    "zh": "自由",
+    "example": "La liberté d'expression est fondamentale."
+  },
+  {
+    "id": 539,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "L'égalité",
+    "en": "Equality",
+    "zh": "平等",
+    "example": "L'égalité est une valeur républicaine."
+  },
+  {
+    "id": 540,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "La fraternité",
+    "en": "Fraternity / Brotherhood",
+    "zh": "博爱",
+    "example": "Liberté, Égalité, Fraternité est la devise française."
+  },
+  {
+    "id": 541,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "L'impôt",
+    "en": "Tax",
+    "zh": "税",
+    "example": "Les impôts financent les services publics."
+  },
+  {
+    "id": 542,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Le syndicat",
+    "en": "The trade union",
+    "zh": "工会",
+    "example": "Il est membre d'un syndicat."
+  },
+  {
+    "id": 543,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "La grève",
+    "en": "The strike",
+    "zh": "罢工",
+    "example": "Les transports sont perturbés à cause d'une grève."
+  },
+  {
+    "id": 544,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Le débat",
+    "en": "The debate",
+    "zh": "辩论",
+    "example": "Il y a eu un vif débat au parlement."
+  },
+  {
+    "id": 545,
+    "level": "advanced",
+    "theme": "politique",
+    "fr": "Le parlement",
+    "en": "The parliament",
+    "zh": "议会",
+    "example": "Le parlement vote les lois."
+  },
+  {
+    "id": 546,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Une chanson",
+    "en": "A song",
+    "zh": "歌曲",
+    "example": "Cette chanson est un succès mondial."
+  },
+  {
+    "id": 547,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un musicien",
+    "en": "A musician",
+    "zh": "音乐家",
+    "example": "Il est musicien professionnel."
+  },
+  {
+    "id": 548,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un tableau",
+    "en": "A painting",
+    "zh": "画作",
+    "example": "Ce tableau est exposé au musée."
+  },
+  {
+    "id": 549,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un concert",
+    "en": "A concert",
+    "zh": "音乐会",
+    "example": "Je vais à un concert de jazz ce soir."
+  },
+  {
+    "id": 550,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un film",
+    "en": "A film / Movie",
+    "zh": "电影",
+    "example": "Ce film a gagné un César."
+  },
+  {
+    "id": 551,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un roman",
+    "en": "A novel",
+    "zh": "小说",
+    "example": "J'ai lu ce roman en deux jours."
+  },
+  {
+    "id": 552,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un poème",
+    "en": "A poem",
+    "zh": "诗",
+    "example": "Ce poème a été écrit par Baudelaire."
+  },
+  {
+    "id": 553,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "La guitare",
+    "en": "The guitar",
+    "zh": "吉他",
+    "example": "Il joue de la guitare depuis l'âge de dix ans."
+  },
+  {
+    "id": 554,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Le piano",
+    "en": "The piano",
+    "zh": "钢琴",
+    "example": "Elle apprend le piano au conservatoire."
+  },
+  {
+    "id": 555,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "L'exposition",
+    "en": "The exhibition",
+    "zh": "展览",
+    "example": "Cette exposition attire des milliers de visiteurs."
+  },
+  {
+    "id": 556,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Le spectacle",
+    "en": "The show / Performance",
+    "zh": "演出",
+    "example": "Le spectacle commence à 20h."
+  },
+  {
+    "id": 557,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "La danse",
+    "en": "Dancing / Dance",
+    "zh": "舞蹈",
+    "example": "Elle pratique la danse classique."
+  },
+  {
+    "id": 558,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Un chef-d'œuvre",
+    "en": "A masterpiece",
+    "zh": "杰作",
+    "example": "La Joconde est un chef-d'œuvre absolu."
+  },
+  {
+    "id": 559,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "Créer",
+    "en": "To create",
+    "zh": "创造",
+    "example": "L'artiste a créé une sculpture originale."
+  },
+  {
+    "id": 560,
+    "level": "advanced",
+    "theme": "art",
+    "fr": "S'inspirer de",
+    "en": "To be inspired by",
+    "zh": "受…启发",
+    "example": "Elle s'inspire de la nature pour peindre."
+  },
+  {
+    "id": 561,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Casser les pieds",
+    "en": "To be annoying",
+    "zh": "令人烦恼",
+    "example": "Tu me casses les pieds avec tes questions !"
+  },
+  {
+    "id": 562,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Avoir le coup de foudre",
+    "en": "To fall in love at first sight",
+    "zh": "一见钟情",
+    "example": "Il a eu le coup de foudre dès qu'il l'a vue."
+  },
+  {
+    "id": 563,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Poser un lapin",
+    "en": "To stand someone up",
+    "zh": "放鸽子",
+    "example": "Elle m'a posé un lapin au restaurant."
+  },
+  {
+    "id": 564,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Faire la grasse matinée",
+    "en": "To sleep in",
+    "zh": "睡懒觉",
+    "example": "Le week-end, j'aime faire la grasse matinée."
+  },
+  {
+    "id": 565,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Avoir la langue bien pendue",
+    "en": "To be a chatterbox",
+    "zh": "嘴巴不闲",
+    "example": "Elle a vraiment la langue bien pendue."
+  },
+  {
+    "id": 566,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Tomber dans les pommes",
+    "en": "To faint",
+    "zh": "晕倒",
+    "example": "Il a failli tomber dans les pommes de chaleur."
+  },
+  {
+    "id": 567,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Avoir le beurre et l'argent du beurre",
+    "en": "To want to have it both ways",
+    "zh": "想两全其美",
+    "example": "Tu ne peux pas avoir le beurre et l'argent du beurre."
+  },
+  {
+    "id": 568,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Avoir la flemme",
+    "en": "To be lazy / To not feel like it",
+    "zh": "懒得动",
+    "example": "J'ai la flemme de sortir ce soir."
+  },
+  {
+    "id": 569,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "C'est du gâteau",
+    "en": "It's a piece of cake",
+    "zh": "小菜一碟",
+    "example": "Cet exercice ? C'est du gâteau !"
+  },
+  {
+    "id": 570,
+    "level": "advanced",
+    "theme": "expressions",
+    "fr": "Avoir les yeux plus grands que le ventre",
+    "en": "To have eyes bigger than your stomach",
+    "zh": "眼大肚小",
+    "example": "Tu as les yeux plus grands que le ventre !"
+  },
+  {
+    "id": 571,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Actuellement",
+    "en": "Currently (NOT 'actually')",
+    "zh": "目前（不是'实际上'）",
+    "example": "Il travaille actuellement à Lyon."
+  },
+  {
+    "id": 572,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Sensible",
+    "en": "Sensitive (NOT 'sensible')",
+    "zh": "敏感的（不是'理智的'）",
+    "example": "Elle est très sensible à la critique."
+  },
+  {
+    "id": 573,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Rester",
+    "en": "To stay (NOT 'to rest')",
+    "zh": "停留（不是'休息'）",
+    "example": "Je reste chez moi ce soir."
+  },
+  {
+    "id": 574,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Assister à",
+    "en": "To attend (NOT 'to assist')",
+    "zh": "参加（不是'协助'）",
+    "example": "J'assiste à une conférence."
+  },
+  {
+    "id": 575,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Décevoir",
+    "en": "To disappoint (NOT 'to deceive')",
+    "zh": "使失望（不是'欺骗'）",
+    "example": "Il m'a déçu avec ses mensonges."
+  },
+  {
+    "id": 576,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "La librairie",
+    "en": "The bookshop (NOT 'library')",
+    "zh": "书店（不是'图书馆'）",
+    "example": "J'achète des livres dans une librairie."
+  },
+  {
+    "id": 577,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Prétendre",
+    "en": "To claim (NOT 'to pretend')",
+    "zh": "声称（不是'假装'）",
+    "example": "Il prétend être médecin."
+  },
+  {
+    "id": 578,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Sympathique",
+    "en": "Nice/Friendly (NOT 'sympathetic')",
+    "zh": "友好的（不是'有同情心的'）",
+    "example": "Elle est très sympathique."
+  },
+  {
+    "id": 579,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Une lecture",
+    "en": "A reading (NOT 'a lecture')",
+    "zh": "阅读（不是'讲座'）",
+    "example": "J'ai fait une lecture de ce roman."
+  },
+  {
+    "id": 580,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Formel",
+    "en": "Formal (SAME meaning)",
+    "zh": "正式的",
+    "example": "Ce style est trop formel pour cette occasion."
+  },
+  {
+    "id": 581,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Éventer",
+    "en": "To fan / To expose (NOT 'to invent')",
+    "zh": "扇风/透露（不是'发明'）",
+    "example": "On a éventé le secret."
+  },
+  {
+    "id": 582,
+    "level": "advanced",
+    "theme": "faux_amis",
+    "fr": "Rude",
+    "en": "Harsh/Tough (NOT 'rude')",
+    "zh": "严酷的（不是'粗鲁的'）",
+    "example": "Il fait un temps rude en montagne."
+  },
+  {
+    "id": 583,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "Le cerveau",
+    "en": "The brain",
+    "zh": "大脑",
+    "example": "Le cerveau contrôle toutes nos fonctions."
+  },
+  {
+    "id": 584,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "Les poumons",
+    "en": "The lungs",
+    "zh": "肺",
+    "example": "Il faut protéger ses poumons."
+  },
+  {
+    "id": 585,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "L'estomac",
+    "en": "The stomach",
+    "zh": "胃",
+    "example": "J'ai mal à l'estomac."
+  },
+  {
+    "id": 586,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "La gorge",
+    "en": "The throat",
+    "zh": "喉咙",
+    "example": "J'ai mal à la gorge depuis hier."
+  },
+  {
+    "id": 587,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "Le genou",
+    "en": "The knee",
+    "zh": "膝盖",
+    "example": "Il s'est blessé au genou."
+  },
+  {
+    "id": 588,
+    "level": "intermediate",
+    "theme": "corps",
+    "fr": "La cheville",
+    "en": "The ankle",
+    "zh": "脚踝",
+    "example": "Elle s'est tordu la cheville."
+  },
+  {
+    "id": 589,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "Le désert",
+    "en": "The desert",
+    "zh": "沙漠",
+    "example": "Le désert du Sahara est immense."
+  },
+  {
+    "id": 590,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "Le volcan",
+    "en": "The volcano",
+    "zh": "火山",
+    "example": "Ce volcan est encore actif."
+  },
+  {
+    "id": 591,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "La cascade",
+    "en": "The waterfall",
+    "zh": "瀑布",
+    "example": "La cascade fait un bruit impressionnant."
+  },
+  {
+    "id": 592,
+    "level": "intermediate",
+    "theme": "nature",
+    "fr": "La prairie",
+    "en": "The meadow",
+    "zh": "草原",
+    "example": "Les vaches paissent dans la prairie."
+  },
+  {
+    "id": 593,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "Un collègue",
+    "en": "A colleague",
+    "zh": "同事",
+    "example": "Mes collègues sont très sympas."
+  },
+  {
+    "id": 594,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "Un projet",
+    "en": "A project",
+    "zh": "项目",
+    "example": "Nous travaillons sur un nouveau projet."
+  },
+  {
+    "id": 595,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "La candidature",
+    "en": "The application",
+    "zh": "申请",
+    "example": "J'ai envoyé ma candidature hier."
+  },
+  {
+    "id": 596,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "Le salaire",
+    "en": "The salary",
+    "zh": "薪水",
+    "example": "Il a demandé une augmentation de salaire."
+  },
+  {
+    "id": 597,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "La formation",
+    "en": "The training / Course",
+    "zh": "培训",
+    "example": "Elle suit une formation en informatique."
+  },
+  {
+    "id": 598,
+    "level": "intermediate",
+    "theme": "ecole",
+    "fr": "Le diplôme",
+    "en": "The degree / Diploma",
+    "zh": "文凭",
+    "example": "Il a obtenu son diplôme avec mention."
+  },
+  {
+    "id": 599,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Améliorer",
+    "en": "To improve",
+    "zh": "改善",
+    "example": "Il cherche à améliorer son niveau."
+  },
+  {
+    "id": 600,
+    "level": "intermediate",
+    "theme": "verbes",
+    "fr": "Proposer",
+    "en": "To propose / To suggest",
+    "zh": "提议",
+    "example": "Je propose une autre solution."
+  },
+  {
+    "id": 601,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "Le beau-frère",
+    "en": "The brother-in-law",
+    "zh": "大伯/内兄",
+    "example": "Mon beau-frère est médecin."
+  },
+  {
+    "id": 602,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "La belle-sœur",
+    "en": "The sister-in-law",
+    "zh": "嫂子/小姑",
+    "example": "Ma belle-sœur habite à Lyon."
+  },
+  {
+    "id": 603,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "Un jumeau",
+    "en": "A twin",
+    "zh": "双胞胎",
+    "example": "Il a un jumeau qui lui ressemble."
+  },
+  {
+    "id": 604,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "Un nourrisson",
+    "en": "A baby / infant",
+    "zh": "婴儿",
+    "example": "Le nourrisson pleure la nuit."
+  },
+  {
+    "id": 605,
+    "level": "beginner",
+    "theme": "famille",
+    "fr": "L'aîné",
+    "en": "The eldest",
+    "zh": "长子/长女",
+    "example": "L'aîné prend soin de ses frères."
+  },
+  {
+    "id": 606,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "Le couloir",
+    "en": "The hallway / corridor",
+    "zh": "走廊",
+    "example": "Le couloir est trop sombre."
+  },
+  {
+    "id": 607,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "Le sous-sol",
+    "en": "The basement",
+    "zh": "地下室",
+    "example": "Le sous-sol sert de salle de jeux."
+  },
+  {
+    "id": 608,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "Le balcon",
+    "en": "The balcony",
+    "zh": "阳台",
+    "example": "J'arrose mes fleurs sur le balcon."
+  },
+  {
+    "id": 609,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "Le grenier",
+    "en": "The attic",
+    "zh": "阁楼",
+    "example": "Il range ses vieux livres au grenier."
+  },
+  {
+    "id": 610,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "Le loyer",
+    "en": "The rent",
+    "zh": "房租",
+    "example": "Le loyer a augmenté cette année."
+  },
+  {
+    "id": 611,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "Une ceinture",
+    "en": "A belt",
+    "zh": "腰带",
+    "example": "Cette ceinture est en cuir."
+  },
+  {
+    "id": 612,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "Des gants",
+    "en": "Gloves",
+    "zh": "手套",
+    "example": "Il fait froid, mets tes gants."
+  },
+  {
+    "id": 613,
+    "level": "intermediate",
+    "theme": "vetements",
+    "fr": "Une écharpe",
+    "en": "A scarf",
+    "zh": "围巾",
+    "example": "Elle porte une belle écharpe rouge."
+  },
+  {
+    "id": 614,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "Courageux(se)",
+    "en": "Brave / Courageous",
+    "zh": "勇敢的",
+    "example": "Il est très courageux face au danger."
+  },
+  {
+    "id": 615,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "Généreux(se)",
+    "en": "Generous",
+    "zh": "慷慨的",
+    "example": "Elle est toujours généreuse avec ses amis."
+  },
+  {
+    "id": 616,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "Ambitieux(se)",
+    "en": "Ambitious",
+    "zh": "有抱负的",
+    "example": "Il est ambitieux et travaille beaucoup."
+  },
+  {
+    "id": 617,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "Méfiant(e)",
+    "en": "Suspicious / Distrustful",
+    "zh": "多疑的",
+    "example": "Elle est méfiante envers les inconnus."
+  },
+  {
+    "id": 618,
+    "level": "intermediate",
+    "theme": "adjectifs",
+    "fr": "Têtu(e)",
+    "en": "Stubborn",
+    "zh": "固执的",
+    "example": "Il est trop têtu pour changer d'avis."
+  },
+  {
+    "id": 619,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "Un orage",
+    "en": "A thunderstorm",
+    "zh": "暴风雨",
+    "example": "Un violent orage a frappé la région."
+  },
+  {
+    "id": 620,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "Le brouillard",
+    "en": "The fog",
+    "zh": "雾",
+    "example": "Il y a du brouillard sur l'autoroute."
+  },
+  {
+    "id": 621,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "La grêle",
+    "en": "Hail",
+    "zh": "冰雹",
+    "example": "La grêle a abîmé les voitures."
+  },
+  {
+    "id": 622,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "Une vague de chaleur",
+    "en": "A heat wave",
+    "zh": "热浪",
+    "example": "Une vague de chaleur s'abat sur le pays."
+  },
+  {
+    "id": 623,
+    "level": "intermediate",
+    "theme": "meteo",
+    "fr": "Le gel",
+    "en": "Frost / Freezing",
+    "zh": "霜冻",
+    "example": "Le gel a détruit les cultures."
+  },
+  {
+    "id": 624,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "Un dauphin",
+    "en": "A dolphin",
+    "zh": "海豚",
+    "example": "Le dauphin est un animal très intelligent."
+  },
+  {
+    "id": 625,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "Un loup",
+    "en": "A wolf",
+    "zh": "狼",
+    "example": "On entend les loups hurler la nuit."
+  },
+  {
+    "id": 626,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "Un aigle",
+    "en": "An eagle",
+    "zh": "鹰",
+    "example": "L'aigle vole très haut dans le ciel."
+  },
+  {
+    "id": 627,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "Un serpent",
+    "en": "A snake",
+    "zh": "蛇",
+    "example": "Certains serpents sont venimeux."
+  },
+  {
+    "id": 628,
+    "level": "beginner",
+    "theme": "animaux",
+    "fr": "Un renard",
+    "en": "A fox",
+    "zh": "狐狸",
+    "example": "Le renard est rusé selon la fable."
+  },
+  {
+    "id": 629,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "Un million",
+    "en": "A million",
+    "zh": "百万",
+    "example": "Il y a un million d'habitants dans cette ville."
+  },
+  {
+    "id": 630,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "Un milliard",
+    "en": "A billion",
+    "zh": "十亿",
+    "example": "La dette publique atteint plusieurs milliards."
+  },
+  {
+    "id": 631,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "Une douzaine",
+    "en": "A dozen",
+    "zh": "一打",
+    "example": "Achète une douzaine d'œufs."
+  },
+  {
+    "id": 632,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "Une centaine",
+    "en": "About a hundred",
+    "zh": "约一百",
+    "example": "Une centaine de personnes étaient présentes."
+  },
+  {
+    "id": 633,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "La moitié",
+    "en": "Half",
+    "zh": "一半",
+    "example": "Il a mangé la moitié du gâteau."
+  },
+  {
+    "id": 634,
+    "level": "beginner",
+    "theme": "chiffres",
+    "fr": "Le quart",
+    "en": "A quarter",
+    "zh": "四分之一",
+    "example": "Il est trois heures et quart."
+  },
+  {
+    "id": 635,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le menu",
+    "en": "the menu",
+    "zh": "菜单",
+    "example": "Le menu du jour est à 12 euros."
+  },
+  {
+    "id": 636,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "la crêpe",
+    "en": "the crepe",
+    "zh": "可丽饼",
+    "example": "Je voudrais une crêpe au sucre."
+  },
+  {
+    "id": 637,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le yaourt",
+    "en": "the yogurt",
+    "zh": "酸奶",
+    "example": "Je mange un yaourt chaque matin."
+  },
+  {
+    "id": 638,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le jambon",
+    "en": "the ham",
+    "zh": "火腿",
+    "example": "Un sandwich au jambon, s'il vous plaît."
+  },
+  {
+    "id": 639,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "la saucisse",
+    "en": "the sausage",
+    "zh": "香肠",
+    "example": "Les saucisses grillées sont délicieuses."
+  },
+  {
+    "id": 640,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "le rideau",
+    "en": "the curtain",
+    "zh": "窗帘",
+    "example": "Ferme les rideaux, il fait trop chaud."
+  },
+  {
+    "id": 641,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la cave",
+    "en": "the cellar",
+    "zh": "地窖",
+    "example": "Le vin est conservé dans la cave."
+  },
+  {
+    "id": 642,
+    "level": "advanced",
+    "theme": "ville",
+    "fr": "le trottoir",
+    "en": "the pavement",
+    "zh": "人行道",
+    "example": "Les enfants marchent sur le trottoir."
+  },
+  {
+    "id": 643,
+    "level": "intermediate",
+    "theme": "voyage",
+    "fr": "le visa",
+    "en": "the visa",
+    "zh": "签证",
+    "example": "Il faut un visa pour entrer dans ce pays."
+  },
+  {
+    "id": 644,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "la moutarde",
+    "en": "mustard",
+    "zh": "芥末",
+    "example": "La moutarde de Dijon est célèbre."
+  },
+  {
+    "id": 645,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le saumon",
+    "en": "salmon",
+    "zh": "三文鱼",
+    "example": "Le saumon fumé est délicieux."
+  },
+  {
+    "id": 646,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "la baguette",
+    "en": "the baguette",
+    "zh": "法棍",
+    "example": "J'achète une baguette tous les matins."
+  },
+  {
+    "id": 647,
+    "level": "beginner",
+    "theme": "nourriture",
+    "fr": "le croissant",
+    "en": "the croissant",
+    "zh": "牛角包",
+    "example": "Un café et un croissant, s'il vous plaît."
+  },
+  {
+    "id": 648,
+    "level": "intermediate",
+    "theme": "maison",
+    "fr": "la terrasse",
+    "en": "the terrace",
+    "zh": "露台",
+    "example": "On mange souvent sur la terrasse en été."
+  },
+  {
+    "id": 649,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "la piscine",
+    "en": "the swimming pool",
+    "zh": "游泳池",
+    "example": "Je nage dans la piscine chaque semaine."
+  },
+  {
+    "id": 650,
+    "level": "advanced",
+    "theme": "sports",
+    "fr": "le stade",
+    "en": "the stadium",
+    "zh": "体育场",
+    "example": "Le stade peut accueillir 80 000 personnes."
+  }
 ];
 
 /* ══════════════════════════════════════
@@ -13143,6 +18031,7 @@ let quizScore   = 0;
 let quizAnswered = false;
 let currentLevelFilter = 'all';
 let fcFilter = 'all';
+let fcTheme = 'all';
 let fcDeck   = [];
 let fcIndex  = 0;
 let fcFlipped = false;
@@ -14374,17 +19263,27 @@ function setFCFilter(level) {
   buildFCDeck();
   renderFlashcard();
 }
+function setFCTheme(theme) {
+  fcTheme = theme;
+  buildFCDeck();
+  renderFlashcard();
+}
+function getFCPool() {
+  var pool = getFCPool();
+  if (fcTheme!=='all') pool = pool.filter(function(c){ return c.theme===fcTheme; });
+  return pool;
+}
 function getSRSData() {
   try { return JSON.parse(localStorage.getItem('ff_srs') || '{}'); } catch(e) { return {}; }
 }
 function saveSRSData(d) { localStorage.setItem('ff_srs', JSON.stringify(d)); }
 function getFCDueCount() {
   var data = getSRSData(); var now = Date.now();
-  var pool = fcFilter==='all' ? FLASHCARDS : FLASHCARDS.filter(function(c){ return c.level===fcFilter; });
+  var pool = getFCPool();
   return pool.filter(function(c){ var s=data[c.fr]; return !s||s.due<=now; }).length;
 }
 function buildFCDeck() {
-  var pool = fcFilter==='all' ? FLASHCARDS.slice() : FLASHCARDS.filter(function(c){ return c.level===fcFilter; });
+  var pool = getFCPool();
   if (fcSRSMode) {
     var data = getSRSData(); var now = Date.now();
     pool.sort(function(a,b){
