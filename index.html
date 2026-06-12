@@ -372,7 +372,7 @@
 
     /* ── Home hero mascot ── */
     .hero-card { position:relative; overflow:hidden; }
-    .hero-mascot { position:absolute; right:-4px; bottom:-14px; opacity:0.92; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.22)); pointer-events:none; }
+    .hero-mascot { position:absolute; right:-4px; bottom:-8px; opacity:0.92; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.22)) saturate(0.85); pointer-events:none; }
 
     /* ── Paywall mascot ── */
     .modal-mascot { display:flex; justify-content:center; margin-bottom:4px; animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
@@ -532,6 +532,12 @@
     .float-xp { position:fixed; font-size:17px; font-weight:900; color:white; pointer-events:none; z-index:9000; animation:floatXP 1.5s ease-out forwards; text-shadow:0 2px 10px rgba(99,102,241,0.7); background:linear-gradient(135deg,#6366F1,#8B5CF6); padding:6px 14px; border-radius:20px; }
     @keyframes floatXP { 0%{opacity:1;transform:translateY(0) scale(1);} 100%{opacity:0;transform:translateY(-90px) scale(1.2);} }
 
+    /* ── Wide-gamut display compensation ── */
+    @media (color-gamut: p3) {
+      .hero-mascot { filter: drop-shadow(0 4px 12px rgba(0,0,0,0.22)) saturate(0.78) !important; }
+      header { filter: saturate(0.88); }
+      .hero-card { filter: saturate(0.88); }
+    }
     /* ── Streak Toast ── */
     .streak-toast { position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:linear-gradient(135deg,#F59E0B,#EF4444); color:white; font-size:15px; font-weight:800; padding:11px 22px; border-radius:24px; box-shadow:0 6px 24px rgba(239,68,68,0.45); z-index:8000; opacity:0; transition:opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.2,0.64,1); pointer-events:none; white-space:nowrap; }
     .streak-toast.streak-toast-show { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -18085,7 +18091,13 @@ function speak(text, forceLang) {
     u.rate  = langCode.startsWith('zh') ? 0.85 : 0.88;
     u.pitch = 1;
     var voice = _pickVoice(voices, langCode);
-    if (voice) u.voice = voice;
+    if (voice) {
+      u.voice = voice;
+    } else if (!window._voiceWarnShown && (langCode.startsWith('fr') || langCode.startsWith('zh'))) {
+      window._voiceWarnShown = true;
+      var _wl = langCode.startsWith('fr') ? (lang==='en'?'French':lang==='zh'?'法语':'français') : (lang==='en'?'Chinese':lang==='zh'?'中文':'chinois');
+      showStreakToast(lang==='en'?'⚠️ '+_wl+' voice not installed → Android Settings › TTS':lang==='zh'?'⚠️ 未安装'+_wl+'语音包 → 设置›文字转语音':'⚠️ Voix '+_wl+' manquante → Paramètres › Synthèse vocale');
+    }
     window.speechSynthesis.speak(u);
   });
 }
@@ -18147,7 +18159,7 @@ function showStreakToast(n) {
     el.className = 'streak-toast';
     document.body.appendChild(el);
   }
-  const msg = lang==='en' ? n+' days in a row! 🔥' : lang==='zh' ? '连续'+n+'天！🔥' : n+' jours de suite ! 🔥';
+  const msg = typeof n === 'string' ? n : (lang==='en' ? n+' days in a row! 🔥' : lang==='zh' ? '连续'+n+'天！🔥' : n+' jours de suite ! 🔥');
   el.textContent = msg;
   el.classList.add('streak-toast-show');
   setTimeout(() => el.classList.remove('streak-toast-show'), 3000);
@@ -18295,17 +18307,14 @@ function renderHome() {
   }
   const fill = document.getElementById('hero-prog-fill');
   const car  = document.getElementById('hero-road-car');
-  // Reset to start position so the transition always plays (WebView fix)
-  if (fill) fill.style.width = '0%';
-  if (car)  car.style.left  = '2%';
-  // Defer update to after the browser has painted the reset state
+  // Disable transitions → force paint at 0 → re-enable → animate (WebView-safe)
+  if (fill) { fill.style.transition = 'none'; fill.style.width = '0%'; }
+  if (car)  { car.style.transition  = 'none'; car.style.left   = '2%'; }
   var _pct = pct;
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      if (fill) fill.style.width = _pct + '%';
-      if (car)  car.style.left  = Math.max(2, Math.min(97, _pct)) + '%';
-    });
-  });
+  setTimeout(function() {
+    if (fill) { fill.style.transition = ''; fill.style.width = _pct + '%'; }
+    if (car)  { car.style.transition  = ''; car.style.left   = Math.max(2, Math.min(97, _pct)) + '%'; }
+  }, 60);
   set('hero-prog-pct', done+' / '+LESSONS.length);
   set('home-welcome', t('welcome'));
   set('home-title', t('title'));
