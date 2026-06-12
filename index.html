@@ -1496,9 +1496,9 @@
     <div class="modal-handle"></div>
     <div class="modal-mascot" id="modal-mascot"></div>
     <div class="modal-title" id="modal-title">Contenu Premium</div>
-    <div class="modal-sub" id="modal-sub">Débloquez les 55 leçons avancées et progressez rapidement en français.</div>
+    <div class="modal-sub" id="modal-sub">Débloquez les 58 leçons avancées et progressez rapidement en français.</div>
     <div class="modal-features">
-      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">55 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">58 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">325 exercices de quiz interactifs</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🔄</span><span id="mf3">Mises à jour gratuites à vie</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🌍</span><span id="mf4">Interface trilingue FR / EN / 中文</span></div>
@@ -18317,7 +18317,7 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'🔓 Unlock all 55 premium lessons':lang==='zh'?'🔓 解锁全部55节高级课程':'🔓 Débloquer les 53 leçons premium';
+      const promoTitle = lang==='en'?'🔓 Unlock all 58 premium lessons':lang==='zh'?'🔓 解锁全部58节高级课程':'🔓 Débloquer les 58 leçons premium';
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
       const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
       unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
@@ -19657,7 +19657,7 @@ function openPaywall() {
   if (lang==='en') {
     set('modal-title','Premium Content 🔓');
     set('modal-sub','Unlock 55 advanced lessons and progress quickly in French.');
-    set('mf1','55 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
+    set('mf1','58 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
     set('mf2','325 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
@@ -19668,8 +19668,8 @@ function openPaywall() {
     set('modal-code-btn','🔑 I already have an access code');
   } else if (lang==='zh') {
     set('modal-title','高级内容 🔓');
-    set('modal-sub','解锁55节高级课程，快速提升法语水平。');
-    set('mf1','55节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
+    set('modal-sub','解锁58节高级课程，快速提升法语水平。');
+    set('mf1','58节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
     set('mf2','325道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
@@ -19680,8 +19680,8 @@ function openPaywall() {
     set('modal-code-btn','🔑 我已有访问码');
   } else {
     set('modal-title','Contenu Premium 🔓');
-    set('modal-sub','Débloquez les 55 leçons avancées et progressez rapidement en français.');
-    set('mf1','55 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
+    set('modal-sub','Débloquez les 58 leçons avancées et progressez rapidement en français.');
+    set('mf1','58 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
     set('mf2','325 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
