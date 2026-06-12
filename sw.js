@@ -1,7 +1,5 @@
-const CACHE_NAME = 'frenchgo-v4.0';
+const CACHE_NAME = 'frenchgo-v5.0';
 const ASSETS = [
-  '/',
-  '/index.html',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
@@ -37,8 +35,28 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = e.request.url;
-  // Bypass auth and external service URLs
   if (BYPASS.some(b => url.includes(b))) return;
+
+  // Network-first for HTML documents — always get the latest index.html
+  const isHTML = e.request.mode === 'navigate'
+    || e.request.destination === 'document'
+    || url.endsWith('/')
+    || url.endsWith('/index.html');
+
+  if (isHTML) {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        if (res && res.status === 200) {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => caches.match(e.request).then(c => c || caches.match('/index.html')))
+    );
+    return;
+  }
+
+  // Cache-first for static assets (fonts, icons, manifest)
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
