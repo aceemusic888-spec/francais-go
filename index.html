@@ -1572,7 +1572,8 @@ function initMascot() {
 function hideSplash() {
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
-  var minDelay = 1500;
+  // 1.5s minimum only in TWA/standalone APK — instant on web browser
+  var minDelay = isStandaloneApp() ? 1500 : 0;
   var elapsed = Date.now() - (window._splashStart || Date.now());
   var remaining = Math.max(0, minDelay - elapsed);
   setTimeout(function() {
@@ -8252,6 +8253,11 @@ const VOCAB_THEMES = [
   {id:'grammaire',    fr:'Grammaire',    en:'Grammar',     zh:'语法',     icon:'📝'},
   {id:'connecteurs',  fr:'Connecteurs',  en:'Connectors',  zh:'连词',     icon:'🔗'},
   {id:'technologie',  fr:'Technologie',  en:'Technology',  zh:'科技',     icon:'💻'},
+  {id:'ville',        fr:'Ville',        en:'City',        zh:'城市',     icon:'🏙️'},
+  {id:'politique',    fr:'Politique',    en:'Politics',    zh:'政治',     icon:'🏛️'},
+  {id:'art',          fr:'Art & Musique', en:'Art & Music', zh:'艺术',    icon:'🎨'},
+  {id:'expressions',  fr:'Expressions',  en:'Idioms',      zh:'成语',     icon:'💬'},
+  {id:'faux_amis',    fr:'Faux amis',    en:'False friends', zh:'假朋友', icon:'⚠️'},
 ];
 const VOCAB = [
   {fr:'Bonjour',         en:'Hello / Good morning', zh:'你好 / 早上好', pos:'excl.', theme:'salutations', ex:"Bonjour, comment allez-vous ?",         ex_en:"Hello, how are you?"},
@@ -8634,7 +8640,6 @@ const VOCAB = [
   {fr:'Apprendre',         en:'To learn',                zh:'学习',          pos:'v.',    theme:'verbes', ex:"J'apprends le français depuis six mois.",                    ex_en:'I have been learning French for six months.'},
   {fr:'Enseigner',         en:'To teach',                zh:'教',            pos:'v.',    theme:'verbes', ex:"Elle enseigne les mathématiques.",                             ex_en:'She teaches mathematics.'},
   {fr:'Expliquer',         en:'To explain',              zh:'解释',          pos:'v.',    theme:'verbes', ex:"Peux-tu m'expliquer la règle ?",                             ex_en:'Can you explain the rule to me?'},
-  {fr:'Comprendre',        en:'To understand',           zh:'理解',          pos:'v.',    theme:'verbes', ex:"Je ne comprends pas cette phrase.",                           ex_en:"I don't understand this sentence."},
   {fr:'Choisir',           en:'To choose',               zh:'选择',          pos:'v.',    theme:'verbes', ex:"Choisis un livre parmi ceux-ci.",                             ex_en:'Choose a book from these.'},
   {fr:'Décider',           en:'To decide',               zh:'决定',          pos:'v.',    theme:'verbes', ex:"Il a décidé de partir à l'étranger.",                        ex_en:'He decided to go abroad.'},
   {fr:'Permettre',         en:'To allow / To permit',    zh:'允许',          pos:'v.',    theme:'verbes', ex:"Cela permet de gagner du temps.",                             ex_en:'This allows us to save time.'},
@@ -8642,8 +8647,168 @@ const VOCAB = [
   {fr:'Rejoindre',         en:'To join / To meet up',    zh:'加入',          pos:'v.',    theme:'verbes', ex:"Je vous rejoins dans dix minutes.",                           ex_en:"I'll join you in ten minutes."},
   {fr:'Résoudre',          en:'To solve / To resolve',   zh:'解决',          pos:'v.',    theme:'verbes', ex:"Nous devons résoudre ce problème.",                           ex_en:'We must solve this problem.'},
   {fr:'Soutenir',          en:'To support',              zh:'支持',          pos:'v.',    theme:'verbes', ex:"Je te soutiens dans ta décision.",                            ex_en:'I support you in your decision.'},
+  // ── VILLE & LIEUX ──
+  {fr:"La ville",          en:"The city / Town",         zh:"城市",          pos:"n.f.",  theme:"ville", ex:"J'habite dans une grande ville.",                             ex_en:"I live in a big city."},
+  {fr:"Le quartier",       en:"The neighbourhood",       zh:"街区",          pos:"n.m.",  theme:"ville", ex:"C'est un quartier très animé.",                              ex_en:"It's a very lively neighbourhood."},
+  {fr:"La rue",            en:"The street",              zh:"街道",          pos:"n.f.",  theme:"ville", ex:"Tournez à droite dans la rue principale.",                    ex_en:"Turn right on the main street."},
+  {fr:"Le carrefour",      en:"The crossroads",          zh:"十字路口",      pos:"n.m.",  theme:"ville", ex:"Il y a un feu rouge au carrefour.",                           ex_en:"There is a red light at the crossroads."},
+  {fr:"La mairie",         en:"The town hall",           zh:"市政厅",        pos:"n.f.",  theme:"ville", ex:"Le bureau de la mairie est fermé le dimanche.",               ex_en:"The town hall is closed on Sundays."},
+  {fr:"La bibliothèque",   en:"The library",             zh:"图书馆",        pos:"n.f.",  theme:"ville", ex:"Je lis des livres à la bibliothèque.",                        ex_en:"I read books at the library."},
+  {fr:"La poste",          en:"The post office",         zh:"邮局",          pos:"n.f.",  theme:"ville", ex:"J'envoie un colis à la poste.",                              ex_en:"I send a parcel at the post office."},
+  {fr:"Le musée",          en:"The museum",              zh:"博物馆",        pos:"n.m.",  theme:"ville", ex:"Le musée du Louvre est célèbre dans le monde entier.",        ex_en:"The Louvre museum is famous worldwide."},
+  {fr:"Le marché",         en:"The market",              zh:"市场",          pos:"n.m.",  theme:"ville", ex:"Le marché ouvre tôt le matin.",                               ex_en:"The market opens early in the morning."},
+  {fr:"La banlieue",       en:"The suburb",              zh:"郊区",          pos:"n.f.",  theme:"ville", ex:"Il habite en banlieue parisienne.",                           ex_en:"He lives in the Paris suburbs."},
+  {fr:"Le centre-ville",   en:"The city centre / Downtown", zh:"市中心",     pos:"n.m.",  theme:"ville", ex:"Le centre-ville est très animé le week-end.",                 ex_en:"The city centre is very lively on weekends."},
+  {fr:"Un immeuble",       en:"An apartment building",   zh:"公寓楼",        pos:"n.m.",  theme:"ville", ex:"Elle habite au 5e étage de cet immeuble.",                    ex_en:"She lives on the 5th floor of this building."},
+  {fr:"Un parking",        en:"A car park",              zh:"停车场",        pos:"n.m.",  theme:"ville", ex:"Le parking est gratuit le dimanche.",                          ex_en:"The car park is free on Sundays."},
+  {fr:"La gare",           en:"The train station",       zh:"火车站",        pos:"n.f.",  theme:"ville", ex:"La gare est à dix minutes à pied.",                           ex_en:"The station is ten minutes on foot."},
+  {fr:"Le métro",          en:"The metro / Subway",      zh:"地铁",          pos:"n.m.",  theme:"ville", ex:"Je prends le métro pour aller au travail.",                   ex_en:"I take the metro to go to work."},
+
+  // ── POLITIQUE & SOCIÉTÉ ──
+  {fr:"Le gouvernement",   en:"The government",          zh:"政府",          pos:"n.m.",  theme:"politique", ex:"Le gouvernement a annoncé de nouvelles mesures.",         ex_en:"The government announced new measures."},
+  {fr:"La loi",            en:"The law",                 zh:"法律",          pos:"n.f.",  theme:"politique", ex:"Tout le monde doit respecter la loi.",                    ex_en:"Everyone must respect the law."},
+  {fr:"Le président",      en:"The president",           zh:"总统",          pos:"n.m.",  theme:"politique", ex:"Le président a prononcé un discours.",                     ex_en:"The president gave a speech."},
+  {fr:"Les élections",     en:"The elections",           zh:"选举",          pos:"n.f.",  theme:"politique", ex:"Les élections ont lieu tous les cinq ans.",                ex_en:"Elections take place every five years."},
+  {fr:"Voter",             en:"To vote",                 zh:"投票",          pos:"v.",    theme:"politique", ex:"Il est important de voter.",                              ex_en:"It is important to vote."},
+  {fr:"La démocratie",     en:"Democracy",               zh:"民主",          pos:"n.f.",  theme:"politique", ex:"La France est une démocratie.",                           ex_en:"France is a democracy."},
+  {fr:"Le citoyen",        en:"The citizen",             zh:"公民",          pos:"n.m.",  theme:"politique", ex:"Chaque citoyen a des droits et des devoirs.",             ex_en:"Every citizen has rights and duties."},
+  {fr:"La liberté",        en:"Freedom / Liberty",       zh:"自由",          pos:"n.f.",  theme:"politique", ex:"La liberté d'expression est fondamentale.",               ex_en:"Freedom of expression is fundamental."},
+  {fr:"L'égalité",         en:"Equality",                zh:"平等",          pos:"n.f.",  theme:"politique", ex:"L'égalité est une valeur républicaine.",                  ex_en:"Equality is a republican value."},
+  {fr:"La fraternité",     en:"Fraternity / Brotherhood", zh:"博爱",          pos:"n.f.",  theme:"politique", ex:"Liberté, Égalité, Fraternité est la devise française.", ex_en:"Liberty, Equality, Fraternity is the French motto."},
+  {fr:"L'impôt",           en:"Tax",                     zh:"税",            pos:"n.m.",  theme:"politique", ex:"Les impôts financent les services publics.",               ex_en:"Taxes finance public services."},
+  {fr:"Le syndicat",       en:"The trade union",         zh:"工会",          pos:"n.m.",  theme:"politique", ex:"Il est membre d'un syndicat.",                            ex_en:"He is a member of a trade union."},
+  {fr:"La grève",          en:"The strike",              zh:"罢工",          pos:"n.f.",  theme:"politique", ex:"Les transports sont perturbés à cause d'une grève.",      ex_en:"Transport is disrupted because of a strike."},
+  {fr:"Le débat",          en:"The debate",              zh:"辩论",          pos:"n.m.",  theme:"politique", ex:"Il y a eu un vif débat au parlement.",                    ex_en:"There was a heated debate in parliament."},
+  {fr:"Le parlement",      en:"The parliament",          zh:"议会",          pos:"n.m.",  theme:"politique", ex:"Le parlement vote les lois.",                             ex_en:"Parliament votes on laws."},
+
+  // ── MUSIQUE & ART ──
+  {fr:"Une chanson",       en:"A song",                  zh:"歌曲",          pos:"n.f.",  theme:"art", ex:"Cette chanson est un succès mondial.",                         ex_en:"This song is a worldwide hit."},
+  {fr:"Un musicien",       en:"A musician",              zh:"音乐家",        pos:"n.m.",  theme:"art", ex:"Il est musicien professionnel.",                               ex_en:"He is a professional musician."},
+  {fr:"Un tableau",        en:"A painting",              zh:"画作",          pos:"n.m.",  theme:"art", ex:"Ce tableau est exposé au musée.",                              ex_en:"This painting is displayed in the museum."},
+  {fr:"Un concert",        en:"A concert",               zh:"音乐会",        pos:"n.m.",  theme:"art", ex:"Je vais à un concert de jazz ce soir.",                        ex_en:"I'm going to a jazz concert tonight."},
+  {fr:"Un film",           en:"A film / Movie",          zh:"电影",          pos:"n.m.",  theme:"art", ex:"Ce film a gagné un César.",                                    ex_en:"This film won a César award."},
+  {fr:"Un roman",          en:"A novel",                 zh:"小说",          pos:"n.m.",  theme:"art", ex:"J'ai lu ce roman en deux jours.",                             ex_en:"I read this novel in two days."},
+  {fr:"Un poème",          en:"A poem",                  zh:"诗",            pos:"n.m.",  theme:"art", ex:"Ce poème a été écrit par Baudelaire.",                         ex_en:"This poem was written by Baudelaire."},
+  {fr:"La guitare",        en:"The guitar",              zh:"吉他",          pos:"n.f.",  theme:"art", ex:"Il joue de la guitare depuis l'âge de dix ans.",              ex_en:"He has been playing guitar since the age of ten."},
+  {fr:"Le piano",          en:"The piano",               zh:"钢琴",          pos:"n.m.",  theme:"art", ex:"Elle apprend le piano au conservatoire.",                      ex_en:"She is learning piano at the conservatory."},
+  {fr:"L'exposition",      en:"The exhibition",          zh:"展览",          pos:"n.f.",  theme:"art", ex:"Cette exposition attire des milliers de visiteurs.",           ex_en:"This exhibition attracts thousands of visitors."},
+  {fr:"Le spectacle",      en:"The show / Performance",  zh:"演出",          pos:"n.m.",  theme:"art", ex:"Le spectacle commence à 20h.",                                 ex_en:"The show starts at 8pm."},
+  {fr:"La danse",          en:"Dancing / Dance",         zh:"舞蹈",          pos:"n.f.",  theme:"art", ex:"Elle pratique la danse classique.",                            ex_en:"She practices classical dance."},
+  {fr:"Un chef-d'œuvre",   en:"A masterpiece",           zh:"杰作",          pos:"n.m.",  theme:"art", ex:"La Joconde est un chef-d'œuvre absolu.",                       ex_en:"The Mona Lisa is an absolute masterpiece."},
+  {fr:"Créer",             en:"To create",               zh:"创造",          pos:"v.",    theme:"art", ex:"L'artiste a créé une sculpture originale.",                    ex_en:"The artist created an original sculpture."},
+  {fr:"S'inspirer de",     en:"To be inspired by",       zh:"受…启发",       pos:"v.",    theme:"art", ex:"Elle s'inspire de la nature pour peindre.",                    ex_en:"She is inspired by nature to paint."},
+
+  // ── EXPRESSIONS IDIOMATIQUES ──
+  {fr:"Avoir le cafard",   en:"To feel down / blue",     zh:"情绪低落",      pos:"expr.", theme:"expressions", ex:"Il a le cafard depuis que son ami est parti.",          ex_en:"He has been feeling down since his friend left."},
+  {fr:"Casser les pieds",  en:"To be annoying",          zh:"令人烦恼",      pos:"expr.", theme:"expressions", ex:"Tu me casses les pieds avec tes questions !",           ex_en:"You're annoying me with your questions!"},
+  {fr:"Il pleut des cordes",en:"It's raining cats and dogs", zh:"倾盆大雨",  pos:"expr.", theme:"expressions", ex:"Ne sors pas, il pleut des cordes !",                    ex_en:"Don't go out, it's raining cats and dogs!"},
+  {fr:"Avoir le coup de foudre", en:"To fall in love at first sight", zh:"一见钟情", pos:"expr.", theme:"expressions", ex:"Il a eu le coup de foudre dès qu'il l'a vue.", ex_en:"He fell in love at first sight when he saw her."},
+  {fr:"Poser un lapin",    en:"To stand someone up",     zh:"放鸽子",        pos:"expr.", theme:"expressions", ex:"Elle m'a posé un lapin au restaurant.",                ex_en:"She stood me up at the restaurant."},
+  {fr:"Avoir du pain sur la planche", en:"To have a lot of work", zh:"有很多事要做", pos:"expr.", theme:"expressions", ex:"On a du pain sur la planche !",              ex_en:"We have a lot of work ahead of us!"},
+  {fr:"Mettre les pieds dans le plat", en:"To put your foot in it", zh:"说错话", pos:"expr.", theme:"expressions", ex:"Il a mis les pieds dans le plat lors du dîner.", ex_en:"He put his foot in it during dinner."},
+  {fr:"Faire la grasse matinée", en:"To sleep in",        zh:"睡懒觉",       pos:"expr.", theme:"expressions", ex:"Le week-end, j'aime faire la grasse matinée.",        ex_en:"On weekends, I like to sleep in."},
+  {fr:"Avoir la langue bien pendue", en:"To be a chatterbox", zh:"嘴巴不闲", pos:"expr.", theme:"expressions", ex:"Elle a vraiment la langue bien pendue.",              ex_en:"She really is a chatterbox."},
+  {fr:"Tomber dans les pommes", en:"To faint",            zh:"晕倒",          pos:"expr.", theme:"expressions", ex:"Il a failli tomber dans les pommes de chaleur.",      ex_en:"He almost fainted from the heat."},
+  {fr:"Avoir le beurre et l'argent du beurre", en:"To want to have it both ways", zh:"想两全其美", pos:"expr.", theme:"expressions", ex:"Tu ne peux pas avoir le beurre et l'argent du beurre.", ex_en:"You can't have it both ways."},
+  {fr:"Coûter les yeux de la tête", en:"To cost an arm and a leg", zh:"价格昂贵", pos:"expr.", theme:"expressions", ex:"Ce sac coûte les yeux de la tête.",             ex_en:"This bag costs an arm and a leg."},
+  {fr:"Avoir la flemme",   en:"To be lazy / To not feel like it", zh:"懒得动", pos:"expr.", theme:"expressions", ex:"J'ai la flemme de sortir ce soir.",                ex_en:"I can't be bothered to go out tonight."},
+  {fr:"C'est du gâteau",   en:"It's a piece of cake",    zh:"小菜一碟",      pos:"expr.", theme:"expressions", ex:"Cet exercice ? C'est du gâteau !",                    ex_en:"This exercise? It's a piece of cake!"},
+  {fr:"Avoir les yeux plus grands que le ventre", en:"To have eyes bigger than your stomach", zh:"眼大肚小", pos:"expr.", theme:"expressions", ex:"Tu as les yeux plus grands que le ventre !", ex_en:"Your eyes are bigger than your stomach!"},
+
+  // ── FAUX AMIS ──
+  {fr:"Actuellement",      en:"Currently (NOT 'actually')", zh:"目前（不是'实际上'）", pos:"adv.", theme:"faux_amis", ex:"Il travaille actuellement à Lyon.",            ex_en:"He is currently working in Lyon."},
+  {fr:"Sensible",          en:"Sensitive (NOT 'sensible')", zh:"敏感的（不是'理智的'）", pos:"adj.", theme:"faux_amis", ex:"Elle est très sensible à la critique.",       ex_en:"She is very sensitive to criticism."},
+  {fr:"Rester",            en:"To stay (NOT 'to rest')",  zh:"停留（不是'休息'）",   pos:"v.", theme:"faux_amis", ex:"Je reste chez moi ce soir.",                         ex_en:"I'm staying home tonight."},
+  {fr:"Assister à",        en:"To attend (NOT 'to assist')", zh:"参加（不是'协助'）", pos:"v.", theme:"faux_amis", ex:"J'assiste à une conférence.",                        ex_en:"I'm attending a conference."},
+  {fr:"Décevoir",          en:"To disappoint (NOT 'to deceive')", zh:"使失望（不是'欺骗'）", pos:"v.", theme:"faux_amis", ex:"Il m'a déçu avec ses mensonges.",         ex_en:"He disappointed me with his lies."},
+  {fr:"La librairie",      en:"The bookshop (NOT 'library')", zh:"书店（不是'图书馆'）", pos:"n.f.", theme:"faux_amis", ex:"J'achète des livres dans une librairie.",    ex_en:"I buy books in a bookshop."},
+  {fr:"Prétendre",         en:"To claim (NOT 'to pretend')", zh:"声称（不是'假装'）", pos:"v.", theme:"faux_amis", ex:"Il prétend être médecin.",                         ex_en:"He claims to be a doctor."},
+  {fr:"Sympathique",       en:"Nice/Friendly (NOT 'sympathetic')", zh:"友好的（不是'有同情心的'）", pos:"adj.", theme:"faux_amis", ex:"Elle est très sympathique.", ex_en:"She is very nice."},
+  {fr:"Une lecture",       en:"A reading (NOT 'a lecture')", zh:"阅读（不是'讲座'）", pos:"n.f.", theme:"faux_amis", ex:"J'ai fait une lecture de ce roman.",             ex_en:"I did a reading of this novel."},
+  {fr:"Formel",            en:"Formal (SAME meaning)",    zh:"正式的",        pos:"adj.", theme:"faux_amis", ex:"Ce style est trop formel pour cette occasion.",           ex_en:"This style is too formal for this occasion."},
+  {fr:"Éventer",           en:"To fan / To expose (NOT 'to invent')", zh:"扇风/透露（不是'发明'）", pos:"v.", theme:"faux_amis", ex:"On a éventé le secret.",          ex_en:"The secret was revealed."},
+  {fr:"Rude",              en:"Harsh/Tough (NOT 'rude')", zh:"严酷的（不是'粗鲁的'）", pos:"adj.", theme:"faux_amis", ex:"Il fait un temps rude en montagne.",           ex_en:"The weather is harsh in the mountains."},
+
+  // ── CORPS HUMAIN (extensions) ──
+  {fr:"Le cerveau",        en:"The brain",               zh:"大脑",          pos:"n.m.",  theme:"corps", ex:"Le cerveau contrôle toutes nos fonctions.",                   ex_en:"The brain controls all our functions."},
+  {fr:"Le cœur",           en:"The heart",               zh:"心脏",          pos:"n.m.",  theme:"corps", ex:"Son cœur bat vite après le sport.",                           ex_en:"His heart beats fast after exercise."},
+  {fr:"Les poumons",       en:"The lungs",               zh:"肺",            pos:"n.m.",  theme:"corps", ex:"Il faut protéger ses poumons.",                               ex_en:"You must protect your lungs."},
+  {fr:"L'estomac",         en:"The stomach",             zh:"胃",            pos:"n.m.",  theme:"corps", ex:"J'ai mal à l'estomac.",                                       ex_en:"I have a stomachache."},
+  {fr:"Le dos",            en:"The back",                zh:"背部",          pos:"n.m.",  theme:"corps", ex:"Il a mal au dos depuis son accident.",                         ex_en:"He has had back pain since his accident."},
+  {fr:"La gorge",          en:"The throat",              zh:"喉咙",          pos:"n.f.",  theme:"corps", ex:"J'ai mal à la gorge depuis hier.",                            ex_en:"I have had a sore throat since yesterday."},
+  {fr:"Le genou",          en:"The knee",                zh:"膝盖",          pos:"n.m.",  theme:"corps", ex:"Il s'est blessé au genou.",                                   ex_en:"He injured his knee."},
+  {fr:"La cheville",       en:"The ankle",               zh:"脚踝",          pos:"n.f.",  theme:"corps", ex:"Elle s'est tordu la cheville.",                               ex_en:"She sprained her ankle."},
+
+  // ── NATURE (extensions) ──
+  {fr:"La forêt",          en:"The forest",              zh:"森林",          pos:"n.f.",  theme:"nature", ex:"Ils se sont perdus dans la forêt.",                          ex_en:"They got lost in the forest."},
+  {fr:"La rivière",        en:"The river",               zh:"河流",          pos:"n.f.",  theme:"nature", ex:"La rivière traverse la vallée.",                              ex_en:"The river flows through the valley."},
+  {fr:"La montagne",       en:"The mountain",            zh:"山",            pos:"n.f.",  theme:"nature", ex:"En été, il fait frais en montagne.",                          ex_en:"In summer, it's cool in the mountains."},
+  {fr:"Le désert",         en:"The desert",              zh:"沙漠",          pos:"n.m.",  theme:"nature", ex:"Le désert du Sahara est immense.",                            ex_en:"The Sahara desert is immense."},
+  {fr:"La plage",          en:"The beach",               zh:"海滩",          pos:"n.f.",  theme:"nature", ex:"Nous allons à la plage en juillet.",                          ex_en:"We go to the beach in July."},
+  {fr:"La mer",            en:"The sea",                 zh:"海",            pos:"n.f.",  theme:"nature", ex:"La mer Méditerranée est bleue.",                              ex_en:"The Mediterranean sea is blue."},
+  {fr:"La campagne",       en:"The countryside",         zh:"乡村",          pos:"n.f.",  theme:"nature", ex:"J'adore me promener à la campagne.",                          ex_en:"I love walking in the countryside."},
+  {fr:"Le volcan",         en:"The volcano",             zh:"火山",          pos:"n.m.",  theme:"nature", ex:"Ce volcan est encore actif.",                                 ex_en:"This volcano is still active."},
+  {fr:"La cascade",        en:"The waterfall",           zh:"瀑布",          pos:"n.f.",  theme:"nature", ex:"La cascade fait un bruit impressionnant.",                    ex_en:"The waterfall makes an impressive sound."},
+  {fr:"La prairie",        en:"The meadow",              zh:"草原",          pos:"n.f.",  theme:"nature", ex:"Les vaches paissent dans la prairie.",                        ex_en:"The cows graze in the meadow."},
+
+  // ── ÉCOLE/TRAVAIL (extensions) ──
+  {fr:"Le bureau",         en:"The office / The desk",   zh:"办公室/书桌",   pos:"n.m.",  theme:"ecole", ex:"Il travaille dans un bureau au centre-ville.",                ex_en:"He works in an office in the city centre."},
+  {fr:"Un collègue",       en:"A colleague",             zh:"同事",          pos:"n.m.",  theme:"ecole", ex:"Mes collègues sont très sympas.",                             ex_en:"My colleagues are very nice."},
+  {fr:"Un projet",         en:"A project",               zh:"项目",          pos:"n.m.",  theme:"ecole", ex:"Nous travaillons sur un nouveau projet.",                     ex_en:"We are working on a new project."},
+  {fr:"La réunion",        en:"The meeting",             zh:"会议",          pos:"n.f.",  theme:"ecole", ex:"La réunion commence à 9h.",                                   ex_en:"The meeting starts at 9am."},
+  {fr:"La candidature",    en:"The application",         zh:"申请",          pos:"n.f.",  theme:"ecole", ex:"J'ai envoyé ma candidature hier.",                            ex_en:"I sent my application yesterday."},
+  {fr:"Le salaire",        en:"The salary",              zh:"薪水",          pos:"n.m.",  theme:"ecole", ex:"Il a demandé une augmentation de salaire.",                   ex_en:"He asked for a salary raise."},
+  {fr:"La formation",      en:"The training / Course",   zh:"培训",          pos:"n.f.",  theme:"ecole", ex:"Elle suit une formation en informatique.",                    ex_en:"She is doing a computer science course."},
+  {fr:"Le diplôme",        en:"The degree / Diploma",    zh:"文凭",          pos:"n.m.",  theme:"ecole", ex:"Il a obtenu son diplôme avec mention.",                       ex_en:"He got his degree with distinction."},
   {fr:'Améliorer',         en:'To improve',              zh:'改善',          pos:'v.',    theme:'verbes', ex:"Il cherche à améliorer son niveau.",                          ex_en:'He is trying to improve his level.'},
   {fr:'Proposer',          en:'To propose / To suggest', zh:'提议',          pos:'v.',    theme:'verbes', ex:"Je propose une autre solution.",                              ex_en:'I suggest another solution.'},
+  // ── FAMILLE (extensions) ──
+  {fr:"Le beau-frère",     en:"The brother-in-law",      zh:"大伯/内兄",     pos:"n.m.",  theme:"famille", ex:"Mon beau-frère est médecin.",                               ex_en:"My brother-in-law is a doctor."},
+  {fr:"La belle-sœur",     en:"The sister-in-law",       zh:"嫂子/小姑",     pos:"n.f.",  theme:"famille", ex:"Ma belle-sœur habite à Lyon.",                              ex_en:"My sister-in-law lives in Lyon."},
+  {fr:"Un jumeau",         en:"A twin",                  zh:"双胞胎",        pos:"n.m.",  theme:"famille", ex:"Il a un jumeau qui lui ressemble.",                           ex_en:"He has a twin who looks like him."},
+  {fr:"Un nourrisson",     en:"A baby / infant",         zh:"婴儿",          pos:"n.m.",  theme:"famille", ex:"Le nourrisson pleure la nuit.",                              ex_en:"The baby cries at night."},
+  {fr:"L'aîné",            en:"The eldest",              zh:"长子/长女",     pos:"n.m.",  theme:"famille", ex:"L'aîné prend soin de ses frères.",                           ex_en:"The eldest takes care of his brothers."},
+
+  // ── MAISON (extensions) ──
+  {fr:"Le couloir",        en:"The hallway / corridor",  zh:"走廊",          pos:"n.m.",  theme:"maison", ex:"Le couloir est trop sombre.",                                ex_en:"The hallway is too dark."},
+  {fr:"Le sous-sol",       en:"The basement",            zh:"地下室",        pos:"n.m.",  theme:"maison", ex:"Le sous-sol sert de salle de jeux.",                         ex_en:"The basement serves as a game room."},
+  {fr:"Le balcon",         en:"The balcony",             zh:"阳台",          pos:"n.m.",  theme:"maison", ex:"J'arrose mes fleurs sur le balcon.",                         ex_en:"I water my flowers on the balcony."},
+  {fr:"Le grenier",        en:"The attic",               zh:"阁楼",          pos:"n.m.",  theme:"maison", ex:"Il range ses vieux livres au grenier.",                      ex_en:"He stores his old books in the attic."},
+  {fr:"Le loyer",          en:"The rent",                zh:"房租",          pos:"n.m.",  theme:"maison", ex:"Le loyer a augmenté cette année.",                           ex_en:"The rent has increased this year."},
+
+  // ── VÊTEMENTS (extensions) ──
+  {fr:"Un imperméable",    en:"A raincoat",              zh:"雨衣",          pos:"n.m.",  theme:"vetements", ex:"Prends ton imperméable, il va pleuvoir.",                 ex_en:"Take your raincoat, it's going to rain."},
+  {fr:"Les lunettes",      en:"Glasses",                 zh:"眼镜",          pos:"n.f.",  theme:"vetements", ex:"Il a oublié ses lunettes sur la table.",                  ex_en:"He forgot his glasses on the table."},
+  {fr:"Une ceinture",      en:"A belt",                  zh:"腰带",          pos:"n.f.",  theme:"vetements", ex:"Cette ceinture est en cuir.",                             ex_en:"This belt is made of leather."},
+  {fr:"Des gants",         en:"Gloves",                  zh:"手套",          pos:"n.m.",  theme:"vetements", ex:"Il fait froid, mets tes gants.",                          ex_en:"It's cold, put on your gloves."},
+  {fr:"Une écharpe",       en:"A scarf",                 zh:"围巾",          pos:"n.f.",  theme:"vetements", ex:"Elle porte une belle écharpe rouge.",                     ex_en:"She is wearing a beautiful red scarf."},
+
+  // ── ADJECTIFS (extensions) ──
+  {fr:"Courageux(se)",     en:"Brave / Courageous",      zh:"勇敢的",        pos:"adj.",  theme:"adjectifs", ex:"Il est très courageux face au danger.",                  ex_en:"He is very brave in the face of danger."},
+  {fr:"Généreux(se)",      en:"Generous",                zh:"慷慨的",        pos:"adj.",  theme:"adjectifs", ex:"Elle est toujours généreuse avec ses amis.",              ex_en:"She is always generous with her friends."},
+  {fr:"Ambitieux(se)",     en:"Ambitious",               zh:"有抱负的",      pos:"adj.",  theme:"adjectifs", ex:"Il est ambitieux et travaille beaucoup.",                 ex_en:"He is ambitious and works a lot."},
+  {fr:"Méfiant(e)",        en:"Suspicious / Distrustful", zh:"多疑的",       pos:"adj.",  theme:"adjectifs", ex:"Elle est méfiante envers les inconnus.",                  ex_en:"She is distrustful of strangers."},
+  {fr:"Têtu(e)",           en:"Stubborn",                zh:"固执的",        pos:"adj.",  theme:"adjectifs", ex:"Il est trop têtu pour changer d'avis.",                  ex_en:"He is too stubborn to change his mind."},
+
+  // ── MÉTEO (extensions) ──
+  {fr:"Un orage",          en:"A thunderstorm",          zh:"暴风雨",        pos:"n.m.",  theme:"meteo", ex:"Un violent orage a frappé la région.",                       ex_en:"A violent thunderstorm hit the region."},
+  {fr:"Le brouillard",     en:"The fog",                 zh:"雾",            pos:"n.m.",  theme:"meteo", ex:"Il y a du brouillard sur l'autoroute.",                      ex_en:"There is fog on the motorway."},
+  {fr:"La grêle",          en:"Hail",                    zh:"冰雹",          pos:"n.f.",  theme:"meteo", ex:"La grêle a abîmé les voitures.",                             ex_en:"Hail has damaged the cars."},
+  {fr:"Une vague de chaleur", en:"A heat wave",          zh:"热浪",          pos:"n.f.",  theme:"meteo", ex:"Une vague de chaleur s'abat sur le pays.",                   ex_en:"A heat wave is hitting the country."},
+  {fr:"Le gel",            en:"Frost / Freezing",        zh:"霜冻",          pos:"n.m.",  theme:"meteo", ex:"Le gel a détruit les cultures.",                             ex_en:"Frost has destroyed the crops."},
+  // ── ANIMAUX (extensions) ──
+  {fr:"Un dauphin",        en:"A dolphin",               zh:"海豚",          pos:"n.m.",  theme:"animaux", ex:"Le dauphin est un animal très intelligent.",                ex_en:"The dolphin is a very intelligent animal."},
+  {fr:"Un loup",           en:"A wolf",                  zh:"狼",            pos:"n.m.",  theme:"animaux", ex:"On entend les loups hurler la nuit.",                       ex_en:"You can hear wolves howling at night."},
+  {fr:"Un aigle",          en:"An eagle",                zh:"鹰",            pos:"n.m.",  theme:"animaux", ex:"L'aigle vole très haut dans le ciel.",                      ex_en:"The eagle flies very high in the sky."},
+  {fr:"Un serpent",        en:"A snake",                 zh:"蛇",            pos:"n.m.",  theme:"animaux", ex:"Certains serpents sont venimeux.",                          ex_en:"Some snakes are venomous."},
+  {fr:"Un renard",         en:"A fox",                   zh:"狐狸",          pos:"n.m.",  theme:"animaux", ex:"Le renard est rusé selon la fable.",                        ex_en:"The fox is cunning according to the fable."},
+  // ── CHIFFRES (extensions) ──
+  {fr:"Un million",        en:"A million",               zh:"百万",          pos:"n.m.",  theme:"chiffres", ex:"Il y a un million d'habitants dans cette ville.",          ex_en:"There are a million inhabitants in this city."},
+  {fr:"Un milliard",       en:"A billion",               zh:"十亿",          pos:"n.m.",  theme:"chiffres", ex:"La dette publique atteint plusieurs milliards.",           ex_en:"The public debt reaches several billion."},
+  {fr:"Une douzaine",      en:"A dozen",                 zh:"一打",          pos:"n.f.",  theme:"chiffres", ex:"Achète une douzaine d'œufs.",                             ex_en:"Buy a dozen eggs."},
+  {fr:"Une centaine",      en:"About a hundred",         zh:"约一百",        pos:"n.f.",  theme:"chiffres", ex:"Une centaine de personnes étaient présentes.",            ex_en:"About a hundred people were present."},
+  {fr:"La moitié",         en:"Half",                    zh:"一半",          pos:"n.f.",  theme:"chiffres", ex:"Il a mangé la moitié du gâteau.",                         ex_en:"He ate half the cake."},
+  {fr:"Le quart",          en:"A quarter",               zh:"四分之一",      pos:"n.m.",  theme:"chiffres", ex:"Il est trois heures et quart.",                           ex_en:"It is quarter past three."},
 ];
 
 /* ── VOCAB QUIZ ── */
@@ -9240,7 +9405,7 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'🔓 Unlock all 55 premium lessons':lang==='zh'?'🔓 解锁全部55节高级课程':'🔓 Débloquer les 55 leçons premium';
+      const promoTitle = lang==='en'?'🔓 Unlock all 55 premium lessons':lang==='zh'?'🔓 解锁全部55节高级课程':'🔓 Débloquer les 53 leçons premium';
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
       const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
       unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
