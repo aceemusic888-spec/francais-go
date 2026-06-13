@@ -77,10 +77,12 @@
 
     /* ── Bottom Nav ── */
     nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: white; border-top: 1px solid var(--border); box-shadow: 0 -4px 24px rgba(0,0,0,0.07); z-index: 100; padding-bottom: env(safe-area-inset-bottom, 0px); }
-    nav button { flex: 1; padding: 10px 8px 8px; border: none; background: none; font-size: 10px; font-weight: 600; color: var(--muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.2s; border-top: 3px solid transparent; }
+    nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav button { flex: 0 0 auto; min-width: 52px; padding: 10px 6px 8px; border: none; background: none; font-size: 10px; font-weight: 600; color: var(--muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.2s; border-top: 3px solid transparent; }
     nav button.active { color: var(--indigo); border-top-color: var(--indigo); }
     .nav-icon { font-size: 22px; line-height: 1; }
-    .nav-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2px; }
+    .nav-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1px; }
 
     /* ── Main ── */
     main { padding: 16px; max-width: 600px; margin: 0 auto; }
@@ -936,6 +938,67 @@
     .dlg-back-btn2 { width:100%; background:var(--bg); color:var(--muted); border:2px solid var(--border); border-radius:14px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; }
     #dlg-play-view .back-btn { margin-bottom:6px; }
 
+    /* ═══════════════════════════════════
+       CONJUGAISON
+    ═══════════════════════════════════ */
+    .conj-mode-bar { display:flex; gap:8px; margin-bottom:16px; }
+    .conj-mode-btn { flex:1; padding:10px; border-radius:12px; border:2px solid var(--border); background:var(--card); color:var(--text); font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s; }
+    .conj-mode-btn.active { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:transparent; box-shadow:0 3px 10px rgba(79,70,229,0.3); }
+    #conj-verb-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .conj-verb-card { background:var(--card); border:2px solid var(--border); border-radius:16px; padding:14px 12px; cursor:pointer; text-align:center; transition:all 0.15s; }
+    .conj-verb-card:hover { border-color:var(--indigo); box-shadow:0 3px 12px rgba(79,70,229,0.15); }
+    .conj-verb-card:active { transform:scale(0.97); }
+    .conj-verb-inf { font-size:18px; font-weight:900; color:var(--indigo); letter-spacing:-0.4px; }
+    .conj-verb-tr  { font-size:11px; color:var(--muted); margin-top:2px; }
+    .conj-verb-hero { text-align:center; padding:10px 0 16px; }
+    .conj-verb-hero-inf { font-size:32px; font-weight:900; color:var(--text); letter-spacing:-1px; }
+    .conj-verb-hero-tr  { font-size:13px; color:var(--muted); margin-top:4px; }
+    .conj-tense-bar { display:flex; gap:6px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; margin-bottom:14px; }
+    .conj-tense-bar::-webkit-scrollbar { display:none; }
+    .conj-tense-tab { flex:0 0 auto; padding:7px 14px; border-radius:20px; border:2px solid var(--border); background:var(--card); color:var(--muted); font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; transition:all 0.15s; }
+    .conj-tense-tab.active { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:transparent; }
+    .conj-table { display:grid; grid-template-columns:auto 1fr; gap:0; border-radius:16px; overflow:hidden; border:2px solid var(--border); }
+    .conj-row-pron { padding:12px 14px; background:rgba(79,70,229,0.07); font-size:13px; font-weight:700; color:var(--indigo); border-bottom:1px solid var(--border); display:flex; align-items:center; }
+    .conj-row-form { padding:12px 14px; background:var(--card); font-size:14px; font-weight:600; color:var(--text); border-bottom:1px solid var(--border); display:flex; align-items:center; }
+    .conj-row-pron:last-child, .conj-row-form:last-child { border-bottom:none; }
+    .conj-quiz-prog-wrap { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+    .conj-quiz-prog-bg { flex:1; height:8px; background:var(--border); border-radius:99px; overflow:hidden; }
+    .conj-quiz-prog-fill { height:100%; background:linear-gradient(90deg,#4F46E5,#7C3AED); border-radius:99px; transition:width 0.4s ease; }
+    .conj-quiz-prog-txt { font-size:12px; font-weight:700; color:var(--muted); white-space:nowrap; }
+    .conj-quiz-q { background:var(--card); border:2px solid var(--border); border-radius:20px; padding:22px 18px; text-align:center; margin-bottom:16px; }
+    .conj-quiz-q-verb { font-size:26px; font-weight:900; color:var(--indigo); letter-spacing:-0.5px; }
+    .conj-quiz-q-info { font-size:14px; color:var(--muted); margin-top:6px; line-height:1.5; }
+    .conj-quiz-q-pron { font-size:18px; font-weight:800; color:var(--text); margin-top:8px; }
+    .conj-quiz-choices { display:flex; flex-direction:column; gap:8px; }
+    .conj-quiz-choice { background:var(--card); border:2px solid var(--border); border-radius:14px; padding:14px 16px; text-align:center; font-size:16px; font-weight:700; color:var(--text); cursor:pointer; transition:all 0.15s; }
+    .conj-quiz-choice:hover { border-color:var(--indigo); }
+    .conj-quiz-choice.correct { border-color:#10b981; background:rgba(16,185,129,0.1); color:#065f46; }
+    .conj-quiz-choice.wrong   { border-color:#ef4444; background:rgba(239,68,68,0.1);  color:#991b1b; }
+
+    /* ═══════════════════════════════════
+       ÉCOUTE
+    ═══════════════════════════════════ */
+    #ecoute-levels-grid { display:flex; flex-direction:column; gap:12px; }
+    .ecoute-level-card { background:var(--card); border:2px solid var(--border); border-radius:20px; padding:20px 18px; display:flex; align-items:center; gap:16px; cursor:pointer; transition:all 0.15s; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+    .ecoute-level-card:active { transform:scale(0.97); }
+    .ecoute-level-card:hover { box-shadow:0 4px 16px rgba(79,70,229,0.15); border-color:var(--indigo); }
+    .ecoute-level-emoji { font-size:36px; flex-shrink:0; }
+    .ecoute-level-info { flex:1; }
+    .ecoute-level-name { font-size:17px; font-weight:800; color:var(--text); }
+    .ecoute-level-desc { font-size:12px; color:var(--muted); margin-top:2px; }
+    .ecoute-level-count { font-size:11px; font-weight:700; margin-top:6px; padding:2px 10px; border-radius:8px; display:inline-block; color:white; }
+    .ecoute-prog-wrap { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+    .ecoute-prog-bg { flex:1; height:8px; background:var(--border); border-radius:99px; overflow:hidden; }
+    .ecoute-prog-fill { height:100%; background:linear-gradient(90deg,#4F46E5,#7C3AED); border-radius:99px; transition:width 0.4s ease; }
+    .ecoute-prog-txt { font-size:12px; font-weight:700; color:var(--muted); white-space:nowrap; }
+    .ecoute-player-card { background:var(--card); border:2px solid var(--border); border-radius:24px; padding:28px 20px 22px; text-align:center; margin-bottom:16px; }
+    .ecoute-level-badge { font-size:11px; font-weight:800; padding:3px 12px; border-radius:20px; display:inline-block; color:white; margin-bottom:14px; }
+    .ecoute-play-btn { width:72px; height:72px; border-radius:50%; border:none; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; font-size:26px; cursor:pointer; box-shadow:0 6px 20px rgba(79,70,229,0.4); transition:transform 0.15s,box-shadow 0.15s; display:inline-flex; align-items:center; justify-content:center; }
+    .ecoute-play-btn:active { transform:scale(0.94); box-shadow:0 3px 10px rgba(79,70,229,0.3); }
+    .ecoute-play-btn.playing { background:linear-gradient(135deg,#10b981,#059669); box-shadow:0 6px 20px rgba(16,185,129,0.4); }
+    .ecoute-play-label { font-size:12px; color:var(--muted); margin-top:8px; font-weight:600; }
+    .ecoute-hint { font-size:11px; color:var(--muted); margin-top:10px; font-style:italic; }
+
     /* ── TAB FADE TRANSITION ── */
     @keyframes sectionFadeIn {
       from { opacity: 0; transform: translateY(16px) scale(0.984); }
@@ -1128,8 +1191,10 @@
   <button id="nav-progress" onclick="showTab('progress')"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
   <button id="nav-flashcards" onclick="showTab('flashcards')"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
   <button id="nav-vocab" onclick="showTab('vocab')"><span class="nav-icon">📖</span><span class="nav-label" id="nav-lbl-vocab">Vocab</span></button>
-  <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
   <button id="nav-dialogues" onclick="showTab('dialogues')"><span class="nav-icon">💬</span><span class="nav-label" id="nav-lbl-dialogues">Dialogues</span></button>
+  <button id="nav-conjugaison" onclick="showTab('conjugaison')"><span class="nav-icon">🔤</span><span class="nav-label" id="nav-lbl-conjugaison">Conjugaison</span></button>
+  <button id="nav-ecoute" onclick="showTab('ecoute')"><span class="nav-icon">🔊</span><span class="nav-label" id="nav-lbl-ecoute">Écoute</span></button>
+  <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
 </nav>
 
 <main>
@@ -1540,6 +1605,76 @@
         <div class="dlg-result-tips" id="dlg-result-tips"></div>
         <button class="dlg-retry-btn" id="dlg-retry-btn" onclick="dlgRetry()"></button>
         <button class="dlg-back-btn2" onclick="dlgBackToList()">↩</button>
+      </div>
+    </div>
+  </div>
+
+<!-- CONJUGAISON -->
+  <div id="tab-conjugaison" class="section">
+    <div id="conj-list-view">
+      <div class="dlg-header-title" id="conj-title-main">🔤 Conjugaison</div>
+      <div class="dlg-header-sub" id="conj-sub-main">Maîtrisez les verbes français</div>
+      <div class="conj-mode-bar">
+        <button class="conj-mode-btn active" id="conj-btn-table" onclick="conjSetMode('table')"></button>
+        <button class="conj-mode-btn" id="conj-btn-quiz" onclick="conjSetMode('quiz')"></button>
+      </div>
+      <div id="conj-verb-grid"></div>
+    </div>
+    <div id="conj-detail-view" style="display:none">
+      <button class="back-btn" onclick="conjBackToList()">←</button>
+      <div class="conj-verb-hero" id="conj-verb-hero"></div>
+      <div class="conj-tense-bar" id="conj-tense-bar"></div>
+      <div class="conj-table" id="conj-table"></div>
+    </div>
+    <div id="conj-quiz-view" style="display:none">
+      <div class="conj-quiz-prog-wrap"><div class="conj-quiz-prog-bg"><div class="conj-quiz-prog-fill" id="conj-qprog-fill"></div></div><span class="conj-quiz-prog-txt" id="conj-qprog-txt"></span></div>
+      <div class="conj-quiz-q" id="conj-quiz-q"></div>
+      <div class="conj-quiz-choices" id="conj-quiz-choices"></div>
+      <div class="dlg-feedback-area" id="conj-quiz-fb" style="display:none"></div>
+      <button class="dlg-next-btn" id="conj-quiz-next" style="display:none" onclick="conjQuizNext()"></button>
+    </div>
+    <div id="conj-result-view" style="display:none">
+      <div class="dlg-result-card">
+        <div class="dlg-result-icon" id="conj-r-icon"></div>
+        <div class="dlg-result-title" id="conj-r-title"></div>
+        <div class="dlg-score-bar-wrap"><div class="dlg-score-bar-bg"><div class="dlg-score-bar-fill" id="conj-r-fill"></div></div></div>
+        <div class="dlg-result-score" id="conj-r-score"></div>
+        <div class="dlg-result-tips" id="conj-r-tips"></div>
+        <button class="dlg-retry-btn" id="conj-r-retry" onclick="conjRetry()"></button>
+        <button class="dlg-back-btn2" onclick="conjBackToList()">↩</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECOUTE -->
+  <div id="tab-ecoute" class="section">
+    <div id="ecoute-levels-view">
+      <div class="dlg-header-title" id="ecoute-title-main">🔊 Écoute</div>
+      <div class="dlg-header-sub" id="ecoute-sub-main">Entraînez votre oreille au français</div>
+      <div id="ecoute-levels-grid"></div>
+    </div>
+    <div id="ecoute-play-view" style="display:none">
+      <button class="back-btn" onclick="ecouteBackToLevels()">←</button>
+      <div class="ecoute-prog-wrap"><div class="ecoute-prog-bg"><div class="ecoute-prog-fill" id="ecoute-prog-fill"></div></div><span class="ecoute-prog-txt" id="ecoute-prog-txt"></span></div>
+      <div class="ecoute-player-card">
+        <div class="ecoute-level-badge" id="ecoute-level-badge"></div>
+        <button class="ecoute-play-btn" id="ecoute-play-btn" onclick="ecoutePlay()">▶</button>
+        <div class="ecoute-play-label" id="ecoute-play-label">Écouter</div>
+        <div class="ecoute-hint" id="ecoute-hint"></div>
+      </div>
+      <div class="dlg-choices-area" id="ecoute-choices"></div>
+      <div class="dlg-feedback-area" id="ecoute-fb" style="display:none"></div>
+      <button class="dlg-next-btn" id="ecoute-next-btn" style="display:none" onclick="ecouteNext()"></button>
+    </div>
+    <div id="ecoute-result-view" style="display:none">
+      <div class="dlg-result-card">
+        <div class="dlg-result-icon" id="ecoute-r-icon"></div>
+        <div class="dlg-result-title" id="ecoute-r-title"></div>
+        <div class="dlg-score-bar-wrap"><div class="dlg-score-bar-bg"><div class="dlg-score-bar-fill" id="ecoute-r-fill"></div></div></div>
+        <div class="dlg-result-score" id="ecoute-r-score"></div>
+        <div class="dlg-result-tips" id="ecoute-r-tips"></div>
+        <button class="dlg-retry-btn" id="ecoute-r-retry" onclick="ecouteRetry()"></button>
+        <button class="dlg-back-btn2" onclick="ecouteBackToLevels()">↩</button>
       </div>
     </div>
   </div>
@@ -18166,8 +18301,39 @@ function _detectLangCode(text) {
   if (/[éèêëàâùûîïôçœæ]/i.test(text)) return 'fr-FR';
   return null; // caller decides
 }
-function speak(text, forceLang) {
-  if (!window.speechSynthesis || !text) return;
+/* ── Cloud TTS — Google Neural2 via Netlify /api/tts proxy ── */
+var ttsCache = {};
+var _currentTTSAudio = null;
+function stopFr() {
+  if (_currentTTSAudio) { try { _currentTTSAudio.pause(); _currentTTSAudio.currentTime = 0; } catch(e){} _currentTTSAudio = null; }
+}
+function playFr(text, onEnd) {
+  if (!text) { if (onEnd) onEnd(); return; }
+  stopFr();
+  // Memory cache hit
+  if (ttsCache[text]) {
+    var a = new Audio(ttsCache[text]);
+    _currentTTSAudio = a;
+    if (onEnd) a.onended = onEnd;
+    a.play().catch(function(){ stopFr(); speakLocal(text, 'fr-FR', onEnd); });
+    return;
+  }
+  // Call Netlify Function proxy
+  fetch('/api/tts?q=' + encodeURIComponent(text))
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function(d){
+      if (!d.audio) { speakLocal(text, 'fr-FR', onEnd); return; }
+      var url = 'data:audio/mp3;base64,' + d.audio;
+      ttsCache[text] = url;
+      var a = new Audio(url);
+      _currentTTSAudio = a;
+      if (onEnd) a.onended = onEnd;
+      a.play().catch(function(){ stopFr(); speakLocal(text, 'fr-FR', onEnd); });
+    })
+    .catch(function(){ speakLocal(text, 'fr-FR', onEnd); });
+}
+function speakLocal(text, forceLang, onEnd) {
+  if (!window.speechSynthesis || !text) { if (onEnd) onEnd(); return; }
   window.speechSynthesis.cancel();
   var langCode = forceLang || _detectLangCode(text) || 'fr-FR';
   _getVoices(function(voices) {
@@ -18183,8 +18349,18 @@ function speak(text, forceLang) {
       var _wl = langCode.startsWith('fr') ? (lang==='en'?'French':lang==='zh'?'法语':'français') : (lang==='en'?'Chinese':lang==='zh'?'中文':'chinois');
       showStreakToast(lang==='en'?'⚠️ '+_wl+' voice not installed → Android Settings › TTS':lang==='zh'?'⚠️ 未安装'+_wl+'语音包 → 设置›文字转语音':'⚠️ Voix '+_wl+' manquante → Paramètres › Synthèse vocale');
     }
+    if (onEnd) u.onend = onEnd;
     window.speechSynthesis.speak(u);
   });
+}
+function speak(text, forceLang) {
+  if (!text) return;
+  var langCode = forceLang || _detectLangCode(text) || 'fr-FR';
+  if (langCode === 'fr-FR') {
+    playFr(text);
+  } else {
+    speakLocal(text, langCode);
+  }
 }
 function speakQuestion() {
   var el = document.getElementById('q-text') || document.getElementById('q-text3');
@@ -18309,7 +18485,7 @@ function showTab(tab) {
   });
   var vqv = document.getElementById('vocab-quiz-view');
   if (vqv) vqv.classList.remove('active');
-  ['home','lessons','progress','flashcards','settings','vocab','dialogues'].forEach(id => {
+  ['home','lessons','progress','flashcards','settings','vocab','dialogues','conjugaison','ecoute'].forEach(id => {
     const sec = document.getElementById('tab-'+id);
     const btn = document.getElementById('nav-'+id);
     if (sec) sec.classList.toggle('active', id===tab);
@@ -18322,6 +18498,8 @@ function showTab(tab) {
   if (tab==='settings')   renderSettings();
   if (tab==='vocab')      renderVocab();
   if (tab==='dialogues')  renderDialogues();
+  if (tab==='conjugaison') renderConjugaison();
+  if (tab==='ecoute')      renderEcoute();
 }
 function updateNav() {
   const navLabels = t('nav') || [];
@@ -18341,6 +18519,12 @@ function updateNav() {
   var dlgLbl = lang==='en'?'Dialogs':lang==='zh'?'对话':'Dialogues';
   var dlgNavEl = document.getElementById('nav-lbl-dialogues');
   if (dlgNavEl) dlgNavEl.textContent = dlgLbl;
+  var conjLbl = lang==='en'?'Conjugation':lang==='zh'?'变位':'Conjugaison';
+  var conjNavEl = document.getElementById('nav-lbl-conjugaison');
+  if (conjNavEl) conjNavEl.textContent = conjLbl;
+  var ecouteLbl = lang==='en'?'Listening':lang==='zh'?'听力':'Écoute';
+  var ecouteNavEl = document.getElementById('nav-lbl-ecoute');
+  if (ecouteNavEl) ecouteNavEl.textContent = ecouteLbl;
 }
 function renderCurrentView() {
   updateLangBtn();
@@ -20608,6 +20792,282 @@ var dlgData = [
       }
     ]
   }
+  ,
+  {
+    id: 'pharmacie',
+    emoji: '💊',
+    level: 'A1',
+    nameKey: { en: 'At the Pharmacy', fr: 'En pharmacie', zh: '在药店' },
+    descKey: { en: 'Buy medicine and ask for advice', fr: 'Acheter un médicament et demander conseil', zh: '购买药品并咨询' },
+    npcKey:  { en: 'Pharmacist', fr: 'Pharmacien', zh: '药剂师' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Hello! What can I do for you?', fr: 'Bonjour ! Je peux vous aider ?', zh: '您好！我能帮您吗？' },
+        choices: [
+          { text: { en: 'Hello! I have a headache. Do you have something for that?', fr: "Bonjour ! J'ai mal à la tête. Vous avez quelque chose pour ça ?", zh: '您好！我头痛。您有什么药吗？' }, score: 3,
+            fb: { en: 'Perfect! "J\'ai mal à la tête" is the exact expression.', fr: '"J\'ai mal à la tête" est l\'expression exacte.', zh: '"J\'ai mal à la tête"是头痛的准确表达。' } },
+          { text: { en: 'I need aspirin.', fr: "J'ai besoin d'aspirine.", zh: '我需要阿司匹林。' }, score: 2,
+            fb: { en: 'Clear, but add "Bonjour" first and "please" at the end.', fr: 'Clair, mais ajoutez "Bonjour" et "s\'il vous plaît".', zh: '清楚，但先说"Bonjour"，最后加"请"。' } },
+          { text: { en: 'Give me medicine.', fr: 'Donnez-moi des médicaments.', zh: '给我药。' }, score: 0,
+            fb: { en: 'Too vague and rude. Describe your symptom and say "please".', fr: 'Trop vague et impoli. Décrivez votre symptôme et dites "s\'il vous plaît".', zh: '太笼统且不礼貌。描述症状并说"请"。' } }
+        ]
+      },
+      {
+        npc: { en: 'I can give you paracetamol. Do you have any allergies?', fr: 'Je peux vous donner du paracétamol. Vous avez des allergies ?', zh: '我可以给您扑热息痛。您有过敏症状吗？' },
+        choices: [
+          { text: { en: 'No allergies. How many should I take?', fr: "Non, pas d'allergies. J'en prends combien ?", zh: '没有过敏。我需要服用多少？' }, score: 3,
+            fb: { en: 'Great! "J\'en prends combien ?" uses the pronoun "en" naturally.', fr: '"J\'en prends combien ?" utilise le pronom "en" naturellement.', zh: '"J\'en prends combien ?"自然地使用了代词"en"。' } },
+          { text: { en: "I'm allergic to aspirin.", fr: 'Je suis allergique à l\'aspirine.', zh: '我对阿司匹林过敏。' }, score: 3,
+            fb: { en: 'Very important info! "Je suis allergique à..." is essential.', fr: '"Je suis allergique à..." est une information vitale.', zh: '"Je suis allergique à..."是重要的医疗信息。' } },
+          { text: { en: 'OK.', fr: 'OK.', zh: '好。' }, score: 1,
+            fb: { en: 'Too short — also ask the dosage, it\'s important!', fr: 'Trop court — demandez aussi la posologie, c\'est important !', zh: '太简短——也要问一下用量，这很重要！' } }
+        ]
+      },
+      {
+        npc: { en: 'Two tablets every 6 hours. Do you need anything else?', fr: 'Deux comprimés toutes les 6 heures. Autre chose ?', zh: '每6小时服用两片。还需要别的吗？' },
+        choices: [
+          { text: { en: 'Yes, do you have something for a sore throat too?', fr: "Oui, vous avez aussi quelque chose pour le mal de gorge ?", zh: '是的，您也有治喉咙痛的药吗？' }, score: 3,
+            fb: { en: 'Great! Using "aussi" (also) makes the sentence flow naturally.', fr: '"Aussi" rend la phrase très fluide et naturelle.', zh: '"Aussi"让句子非常流畅自然。' } },
+          { text: { en: "No, that's all. How much is it?", fr: "Non, c'est tout. C'est combien ?", zh: '不了，就这些。多少钱？' }, score: 2,
+            fb: { en: '"C\'est tout" + asking the price — good reflexes.', fr: '"C\'est tout" + demande du prix — bons réflexes.', zh: '"C\'est tout"加上问价格——反应很好。' } },
+          { text: { en: 'Where are the vitamins?', fr: 'Les vitamines, elles sont où ?', zh: '维生素在哪里？' }, score: 2,
+            fb: { en: 'Good question! Natural French word order.', fr: 'Bonne question ! Ordre des mots naturel en français.', zh: '好问题！法语的自然词序。' } }
+        ]
+      },
+      {
+        npc: { en: 'That comes to 8.50€ please.', fr: "Ça fait 8,50€ s'il vous plaît.", zh: '总共8.50欧元，谢谢。' },
+        choices: [
+          { text: { en: 'Here you go. Do I need a prescription for these?', fr: "Voilà. Il faut une ordonnance pour ça ?", zh: '给您。这个需要处方吗？' }, score: 3,
+            fb: { en: '"Il faut une ordonnance ?" is a very useful question.', fr: '"Il faut une ordonnance ?" est une question très utile.', zh: '"Il faut une ordonnance ?"是非常有用的问题。' } },
+          { text: { en: 'Here is 10 euros. Keep the change.', fr: "Voilà 10 euros. Gardez la monnaie.", zh: '给您10欧元，不用找零了。' }, score: 2,
+            fb: { en: '"Gardez la monnaie" (keep the change) — great cultural phrase!', fr: '"Gardez la monnaie" — expression culturelle utile !', zh: '"Gardez la monnaie"（不用找零）——很有用的文化表达！' } },
+          { text: { en: "It's too expensive!", fr: "C'est trop cher !", zh: '太贵了！' }, score: 0,
+            fb: { en: 'This is a pharmacy with fixed prices — not the place to complain!', fr: "En pharmacie les prix sont fixes — c'est pas l'endroit pour se plaindre !", zh: '药店的价格是固定的——这里不是抱怨的地方！' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'banque',
+    emoji: '🏦',
+    level: 'A2',
+    nameKey: { en: 'At the Bank', fr: 'À la banque', zh: '在银行' },
+    descKey: { en: 'Open an account and make a transfer', fr: 'Ouvrir un compte et faire un virement', zh: '开户并转账' },
+    npcKey:  { en: 'Advisor', fr: 'Conseiller', zh: '顾问' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Good morning! Do you have an appointment?', fr: 'Bonjour ! Vous avez rendez-vous ?', zh: '早上好！您有预约吗？' },
+        choices: [
+          { text: { en: 'Good morning! No, but I\'d like to open a bank account.', fr: "Bonjour ! Non, mais je voudrais ouvrir un compte bancaire.", zh: '早上好！没有，但我想开一个银行账户。' }, score: 3,
+            fb: { en: 'Perfect! Clear purpose + polite request.', fr: "Parfait ! Objectif clair + demande polie.", zh: '完美！目的明确+礼貌请求。' } },
+          { text: { en: 'No appointment. I need a bank account.', fr: "Pas de rendez-vous. J'ai besoin d'un compte.", zh: '没有预约。我需要一个账户。' }, score: 1,
+            fb: { en: 'Missing greeting and too direct. Start with "Bonjour" and use "Je voudrais".', fr: 'Pas de salutation et trop direct. Commencez par "Bonjour" et utilisez "Je voudrais".', zh: '缺少问候语，太直接了。先说"Bonjour"，用"Je voudrais"。' } },
+          { text: { en: 'Yes, for 2 o\'clock.', fr: "Oui, pour 14h.", zh: '是的，2点钟的预约。' }, score: 2,
+            fb: { en: 'Clear answer! Note: in French, say "14h" not "2 heures".', fr: 'Réponse claire ! Note : en français formel on dit "14h".', zh: '回答清楚！注意：在正式法语中说"14h"。' } }
+        ]
+      },
+      {
+        npc: { en: 'Of course! What type of account — checking or savings?', fr: "Bien sûr ! Quel type de compte — courant ou épargne ?", zh: '当然！什么类型的账户——活期还是储蓄？' },
+        choices: [
+          { text: { en: 'A checking account for daily use, and maybe a savings account too.', fr: "Un compte courant pour le quotidien, et peut-être un livret d'épargne aussi.", zh: '一个用于日常使用的活期账户，也许还要一个储蓄账户。' }, score: 3,
+            fb: { en: '"Pour le quotidien" (for daily use) shows great vocabulary.', fr: '"Pour le quotidien" montre un excellent vocabulaire.', zh: '"Pour le quotidien"（用于日常）显示了很好的词汇量。' } },
+          { text: { en: 'A checking account please.', fr: "Un compte courant s'il vous plaît.", zh: '活期账户，谢谢。' }, score: 2,
+            fb: { en: 'Correct and polite. Good choice.', fr: 'Correct et poli. Bon choix.', zh: '正确且礼貌，选择很好。' } },
+          { text: { en: 'What is the difference?', fr: "Quelle est la différence ?", zh: '有什么区别？' }, score: 2,
+            fb: { en: 'Good reflex to ask — but phrased well with "Quelle est la différence ?".', fr: 'Bon réflexe de demander — bien formulé avec "Quelle est la différence ?".', zh: '问一下很好——"Quelle est la différence ?"表达很好。' } }
+        ]
+      },
+      {
+        npc: { en: 'I\'ll need an ID and proof of address. Do you have those with you?', fr: "J'aurai besoin d'une pièce d'identité et d'un justificatif de domicile. Vous les avez avec vous ?", zh: '我需要身份证明和住址证明。您带来了吗？' },
+        choices: [
+          { text: { en: 'Yes, I have my passport and a recent electricity bill.', fr: "Oui, j'ai mon passeport et une facture d'électricité récente.", zh: '是的，我带了护照和最近的电费账单。' }, score: 3,
+            fb: { en: 'Perfect! "Facture d\'électricité" (electricity bill) is a common proof of address.', fr: '"Facture d\'électricité" est un justificatif de domicile classique.', zh: '"Facture d\'électricité"（电费账单）是常见的住址证明。' } },
+          { text: { en: "I have my ID card but not my address proof.", fr: "J'ai ma carte d'identité mais pas de justificatif.", zh: '我有身份证但没有住址证明。' }, score: 2,
+            fb: { en: 'Honest and clear. You\'ll need to come back with the missing document.', fr: 'Honnête et clair. Vous devrez revenir avec le document manquant.', zh: '诚实而清楚。您需要带齐文件再来一次。' } },
+          { text: { en: 'What is a justificatif de domicile?', fr: "C'est quoi un justificatif de domicile ?", zh: '"住址证明"是什么？' }, score: 1,
+            fb: { en: 'Good to ask! It\'s a document proving your address — utility bill, rent receipt, etc.', fr: "C'est un document prouvant votre adresse — facture, quittance de loyer, etc.", zh: '问得好！这是证明您住址的文件——水电账单、租金收据等。' } }
+        ]
+      },
+      {
+        npc: { en: 'Great! Your account will be active in 48 hours. Any other questions?', fr: "Parfait ! Votre compte sera actif dans 48 heures. D'autres questions ?", zh: '太好了！您的账户将在48小时内激活。还有其他问题吗？' },
+        choices: [
+          { text: { en: 'Yes — can I do online banking? And is there a monthly fee?', fr: "Oui — est-ce que je peux faire de la banque en ligne ? Et il y a des frais mensuels ?", zh: '是的——我可以网上银行吗？有月费吗？' }, score: 3,
+            fb: { en: 'Excellent! Asking about online banking and fees — very practical.', fr: 'Excellent ! Demander la banque en ligne et les frais — très pratique.', zh: '很好！询问网上银行和费用——非常实际。' } },
+          { text: { en: 'No, everything is clear. Thank you.', fr: "Non, c'est clair. Merci.", zh: '没有，都清楚了。谢谢。' }, score: 2,
+            fb: { en: 'Polite ending. Well done.', fr: 'Fin polie. Bien fait.', zh: '礼貌的结束，做得好。' } },
+          { text: { en: 'When will I get my card?', fr: "Quand est-ce que j'aurai ma carte ?", zh: '我什么时候能拿到卡？' }, score: 2,
+            fb: { en: 'Practical question! The future "j\'aurai" is used correctly.', fr: 'Question pratique ! Le futur "j\'aurai" est bien utilisé.', zh: '实际的问题！将来时"j\'aurai"使用正确。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'poste',
+    emoji: '📬',
+    level: 'A1',
+    nameKey: { en: 'At the Post Office', fr: 'À la poste', zh: '在邮局' },
+    descKey: { en: 'Send a package and buy stamps', fr: 'Envoyer un colis et acheter des timbres', zh: '寄包裹并购买邮票' },
+    npcKey:  { en: 'Postal worker', fr: 'Employé', zh: '工作人员' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Hello! Next please!', fr: 'Bonjour ! Au suivant !', zh: '您好！下一位！' },
+        choices: [
+          { text: { en: 'Hello! I\'d like to send this package to Canada, please.', fr: "Bonjour ! Je voudrais envoyer ce colis au Canada, s'il vous plaît.", zh: '您好！我想把这个包裹寄到加拿大，谢谢。' }, score: 3,
+            fb: { en: 'Perfect! Destination + object + "s\'il vous plaît" = ideal.', fr: 'Parfait ! Destination + objet + "s\'il vous plaît" = idéal.', zh: '完美！目的地+物品+"谢谢"=理想。' } },
+          { text: { en: 'I want to send a package.', fr: 'Je veux envoyer un colis.', zh: '我要寄一个包裹。' }, score: 1,
+            fb: { en: '"Je veux" sounds direct. Use "Je voudrais" and add the destination.', fr: '"Je veux" est direct. Utilisez "Je voudrais" et ajoutez la destination.', zh: '"Je veux"听起来直接。用"Je voudrais"并加上目的地。' } },
+          { text: { en: 'Canada — how much?', fr: 'Canada — c\'est combien ?', zh: '加拿大——多少钱？' }, score: 1,
+            fb: { en: 'Missing greeting and not very clear. Give a complete sentence.', fr: 'Pas de salutation et peu clair. Donnez une phrase complète.', zh: '缺少问候语，不够清楚。请给出完整的句子。' } }
+        ]
+      },
+      {
+        npc: { en: 'What\'s in it? And is it urgent?', fr: "Qu'est-ce qu'il y a dedans ? Et c'est urgent ?", zh: '里面是什么？急件吗？' },
+        choices: [
+          { text: { en: 'Books and clothes, nothing fragile. No rush — economy is fine.', fr: "Des livres et des vêtements, rien de fragile. Pas urgent — l'économique c'est bien.", zh: '书籍和衣服，没有易碎品。不着急——经济快递就好。' }, score: 3,
+            fb: { en: 'Excellent! "Rien de fragile" and "l\'économique" — perfect vocabulary.', fr: '"Rien de fragile" et "l\'économique" — vocabulaire parfait.', zh: '"Rien de fragile"和"l\'économique"——完美词汇。' } },
+          { text: { en: 'Books. Not urgent.', fr: 'Des livres. Pas urgent.', zh: '书籍。不着急。' }, score: 2,
+            fb: { en: 'Correct but a bit short. Complete sentences are better.', fr: 'Correct mais un peu court. Des phrases complètes sont mieux.', zh: '正确但稍短。完整的句子更好。' } },
+          { text: { en: 'Personal items.', fr: 'Des affaires personnelles.', zh: '私人物品。' }, score: 2,
+            fb: { en: '"Affaires personnelles" is correct but vague — customs may require more detail.', fr: '"Affaires personnelles" est correct mais vague — la douane peut demander plus de détails.', zh: '"Affaires personnelles"正确但模糊——海关可能需要更多细节。' } }
+        ]
+      },
+      {
+        npc: { en: 'Economy to Canada: 12.40€ and about 2 weeks. Would you also like to buy stamps?', fr: "Économique pour le Canada : 12,40€ et environ 2 semaines. Vous voulez aussi des timbres ?", zh: '寄加拿大经济邮件：12.40欧元，约2周。您还要买邮票吗？' },
+        choices: [
+          { text: { en: 'Yes please, 10 stamps for postcards to France.', fr: "Oui s'il vous plaît, 10 timbres pour des cartes postales en France.", zh: '是的，谢谢，10张法国明信片邮票。' }, score: 3,
+            fb: { en: 'Perfect! Specifying the quantity and purpose is very useful.', fr: 'Parfait ! Préciser la quantité et l\'usage est très utile.', zh: '完美！指定数量和用途非常有用。' } },
+          { text: { en: 'No thanks, just the package.', fr: "Non merci, juste le colis.", zh: '不用了，谢谢，就寄包裹。' }, score: 2,
+            fb: { en: '"Juste le colis" — clear and polite. Good.', fr: '"Juste le colis" — clair et poli. Bien.', zh: '"Juste le colis"——清楚礼貌，很好。' } },
+          { text: { en: 'Two weeks is too long!', fr: "Deux semaines c'est trop long !", zh: '两周太长了！' }, score: 0,
+            fb: { en: 'That\'s international mail — complaining won\'t help. Accept it or choose express.', fr: "C'est le délai normal. Acceptez ou choisissez l'express.", zh: '这是正常的国际邮件时间。接受或选择快递。' } }
+        ]
+      },
+      {
+        npc: { en: 'That\'s 16.30€ in total. Do you need a receipt?', fr: "Ça fait 16,30€ en tout. Vous voulez un reçu ?", zh: '总共16.30欧元。您需要收据吗？' },
+        choices: [
+          { text: { en: 'Yes please. And can I track the package online?', fr: "Oui s'il vous plaît. Et je peux suivre le colis en ligne ?", zh: '是的，谢谢。我可以在线追踪包裹吗？' }, score: 3,
+            fb: { en: '"Suivre le colis" (track the package) — great modern vocabulary!', fr: '"Suivre le colis" — excellent vocabulaire moderne !', zh: '"Suivre le colis"（追踪包裹）——很好的现代词汇！' } },
+          { text: { en: 'Yes, and is there a tracking number?', fr: "Oui, et il y a un numéro de suivi ?", zh: '是的，有追踪号吗？' }, score: 3,
+            fb: { en: '"Numéro de suivi" (tracking number) — perfect practical vocabulary.', fr: '"Numéro de suivi" — vocabulaire pratique parfait.', zh: '"Numéro de suivi"（追踪号）——完美的实用词汇。' } },
+          { text: { en: 'No thanks, goodbye.', fr: "Non merci, au revoir.", zh: '不用了，谢谢，再见。' }, score: 2,
+            fb: { en: 'Polite ending. "Au revoir" is always correct.', fr: '"Au revoir" est toujours la bonne formule de politesse.', zh: '"Au revoir"（再见）总是正确的礼貌用语。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'coiffeur',
+    emoji: '✂️',
+    level: 'B1',
+    nameKey: { en: 'At the Hairdresser', fr: 'Chez le coiffeur', zh: '在理发店' },
+    descKey: { en: 'Book and describe your desired haircut', fr: 'Prendre RDV et décrire sa coupe souhaitée', zh: '预约并描述所需发型' },
+    npcKey:  { en: 'Hairdresser', fr: 'Coiffeur', zh: '发型师' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Hello! Do you have an appointment?', fr: 'Bonjour ! Vous avez rendez-vous ?', zh: '您好！您有预约吗？' },
+        choices: [
+          { text: { en: 'Hello! Yes, at 3 PM under the name Leroy.', fr: "Bonjour ! Oui, à 15h au nom de Leroy.", zh: '您好！是的，3点钟以"Leroy"预约的。' }, score: 3,
+            fb: { en: 'Perfect! Name + time = everything the receptionist needs.', fr: 'Parfait ! Nom + heure = tout ce dont le coiffeur a besoin.', zh: '完美！姓名+时间=发型师需要的一切。' } },
+          { text: { en: "No, but I'd like a quick trim if possible.", fr: "Non, mais je voudrais une petite coupe si c'est possible.", zh: '没有，但如果可以的话，我想简单修剪一下。' }, score: 3,
+            fb: { en: '"Si c\'est possible" is a very polite way to ask a favor.', fr: '"Si c\'est possible" est une façon très polie de demander un service.', zh: '"Si c\'est possible"是请求帮助的非常礼貌的方式。' } },
+          { text: { en: 'I want a haircut.', fr: 'Je veux une coupe.', zh: '我要剪头发。' }, score: 0,
+            fb: { en: 'Too abrupt. Use "Je voudrais" and say "Bonjour" first.', fr: 'Trop brusque. Utilisez "Je voudrais" et dites "Bonjour" d\'abord.', zh: '太唐突了。用"Je voudrais"并先说"Bonjour"。' } }
+        ]
+      },
+      {
+        npc: { en: 'Great! What would you like today?', fr: "Super ! Qu'est-ce que vous voulez comme coupe ?", zh: '太好了！您今天想要什么发型？' },
+        choices: [
+          { text: { en: 'I\'d like 3 cm off the length, and layers to add volume.', fr: "Je voudrais enlever 3 cm de longueur, et des dégradés pour ajouter du volume.", zh: '我想剪掉3厘米，做一些层次来增加发量。' }, score: 3,
+            fb: { en: 'Excellent! Precise length + technique — this is exactly what hairdressers need.', fr: 'Excellent ! Longueur précise + technique — c\'est exactement ce dont les coiffeurs ont besoin.', zh: '很好！精确的长度+技术——这正是发型师需要的。' } },
+          { text: { en: 'Just a trim — keep the length but clean up the ends.', fr: "Juste un rafraîchissement — garder la longueur mais couper les pointes.", zh: '只是修剪一下——保持长度但修整发梢。' }, score: 3,
+            fb: { en: '"Rafraîchissement" (touch-up) and "couper les pointes" (trim ends) — perfect vocabulary.', fr: '"Rafraîchissement" et "couper les pointes" — vocabulaire parfait.', zh: '"Rafraîchissement"（修整）和"couper les pointes"（修剪发梢）——完美词汇。' } },
+          { text: { en: 'Like the photo.', fr: 'Comme la photo.', zh: '像照片上那样。' }, score: 1,
+            fb: { en: 'Practical but you should also describe verbally — "les cheveux comme sur cette photo" is better.', fr: 'Pratique mais décrivez aussi en mots — "les cheveux comme sur cette photo" est mieux.', zh: '实用，但也应该口头描述——"les cheveux comme sur cette photo"更好。' } }
+        ]
+      },
+      {
+        npc: { en: 'What about the sides? And would you like a blow-dry?', fr: "Et sur les côtés ? Et vous voulez un brushing ?", zh: '两侧呢？您需要吹干吗？' },
+        choices: [
+          { text: { en: 'Keep the sides natural. Yes to the blow-dry, please.', fr: "Gardez les côtés naturels. Oui pour le brushing, s'il vous plaît.", zh: '两侧保持自然。需要吹干，谢谢。' }, score: 3,
+            fb: { en: 'Clear and complete answer. "Brushing" is the French word for blow-dry styling.', fr: '"Brushing" est le mot français pour séchage + mise en forme.', zh: '"Brushing"是法语中吹干造型的说法。' } },
+          { text: { en: 'Short on the sides and no blow-dry thanks.', fr: "Court sur les côtés et pas de brushing merci.", zh: '两侧短，不需要吹干，谢谢。' }, score: 2,
+            fb: { en: 'Clear! You could add "s\'il vous plaît" instead of "merci" here.', fr: 'Clair ! On pourrait dire "s\'il vous plaît" plutôt que "merci" ici.', zh: '清楚！这里可以用"s\'il vous plaît"代替"merci"。' } },
+          { text: { en: 'Same as before.', fr: 'Pareil que d\'habitude.', zh: '和以前一样。' }, score: 1,
+            fb: { en: '"Pareil que d\'habitude" only works if it\'s your regular hairdresser!', fr: '"Pareil que d\'habitude" ne marche que chez votre coiffeur habituel !', zh: '"Pareil que d\'habitude"只在您的固定发型师那里才有效！' } }
+        ]
+      },
+      {
+        npc: { en: '(After the cut) Here you go! Are you happy with the result?', fr: "(Après la coupe) Voilà ! Vous êtes content(e) du résultat ?", zh: '（剪完后）好了！您对结果满意吗？' },
+        choices: [
+          { text: { en: 'Yes, it\'s exactly what I wanted! How much is it?', fr: "Oui, c'est exactement ce que je voulais ! C'est combien ?", zh: '是的，这正是我想要的！多少钱？' }, score: 3,
+            fb: { en: '"C\'est exactement ce que je voulais" — perfect past tense use!', fr: '"C\'est exactement ce que je voulais" — parfaite utilisation de l\'imparfait !', zh: '"C\'est exactement ce que je voulais"——完美的过去时使用！' } },
+          { text: { en: 'Could you take a little more off the back?', fr: "Vous pourriez couper un peu plus derrière ?", zh: '后面能再剪短一点吗？' }, score: 3,
+            fb: { en: '"Vous pourriez" (conditional) is the polite way to ask for a correction.', fr: '"Vous pourriez" (conditionnel) — la façon polie de demander une correction.', zh: '"Vous pourriez"（条件式）——礼貌地要求修正的方式。' } },
+          { text: { en: 'It\'s OK.', fr: "C'est bien.", zh: '还好吧。' }, score: 1,
+            fb: { en: 'A little lukewarm! Be more expressive — "C\'est très bien" or "J\'adore !"', fr: 'Un peu tiède ! Soyez plus expressif — "C\'est très bien" ou "J\'adore !"', zh: '有点平淡！更有表现力一些——"C\'est très bien"或"J\'adore !"' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'aeroport',
+    emoji: '✈️',
+    level: 'A2',
+    nameKey: { en: 'At the Airport', fr: "À l'aéroport", zh: '在机场' },
+    descKey: { en: 'Check in and handle a delay', fr: "S'enregistrer et gérer un retard", zh: '办理登机和处理延误' },
+    npcKey:  { en: 'Agent', fr: 'Agent', zh: '工作人员' },
+    userKey: { en: 'You', fr: 'Vous', zh: '你' },
+    turns: [
+      {
+        npc: { en: 'Good morning! Your boarding pass and ID please.', fr: "Bonjour ! Votre carte d'embarquement et pièce d'identité s'il vous plaît.", zh: '早上好！请出示您的登机牌和身份证件。' },
+        choices: [
+          { text: { en: 'Good morning! Here they are. I also have a checked bag.', fr: "Bonjour ! Les voici. J'ai aussi un bagage en soute.", zh: '早上好！给您。我还有一件托运行李。' }, score: 3,
+            fb: { en: '"Les voici" (here they are) + proactively mentioning the bag — excellent!', fr: '"Les voici" + mentionner proactivement le bagage — excellent !', zh: '"Les voici"（给您）+主动提到行李——非常好！' } },
+          { text: { en: 'Here.', fr: 'Voilà.', zh: '给。' }, score: 1,
+            fb: { en: 'Too short. Add "Bonjour" and hand the documents politely.', fr: 'Trop court. Ajoutez "Bonjour" et tendez les documents poliment.', zh: '太简短了。加上"Bonjour"并礼貌地递上证件。' } },
+          { text: { en: 'I can\'t find my boarding pass.', fr: "Je ne retrouve pas ma carte d'embarquement.", zh: '我找不到我的登机牌了。' }, score: 2,
+            fb: { en: 'Honest! "Je ne retrouve pas" (I can\'t find) is more natural than "je n\'ai pas".', fr: '"Je ne retrouve pas" est plus naturel que "je n\'ai pas".', zh: '"Je ne retrouve pas"（找不到）比"je n\'ai pas"更自然。' } }
+        ]
+      },
+      {
+        npc: { en: 'Window or aisle?', fr: 'Fenêtre ou couloir ?', zh: '靠窗还是靠走廊？' },
+        choices: [
+          { text: { en: 'Window please. And can I sit near the emergency exit for more legroom?', fr: "Fenêtre s'il vous plaît. Et est-ce que je peux avoir un siège près des sorties de secours pour plus d'espace ?", zh: '靠窗，谢谢。我能坐在紧急出口旁边获得更多空间吗？' }, score: 3,
+            fb: { en: 'Excellent! "Sorties de secours" (emergency exits) + "espace" — great practical vocabulary.', fr: '"Sorties de secours" + "espace" — excellent vocabulaire pratique.', zh: '"Sorties de secours"（紧急出口）+"espace"——很好的实用词汇。' } },
+          { text: { en: 'Aisle please.', fr: "Couloir s'il vous plaît.", zh: '靠走廊，谢谢。' }, score: 2,
+            fb: { en: 'Clear and polite. Perfect.', fr: 'Clair et poli. Parfait.', zh: '清楚礼貌，完美。' } },
+          { text: { en: 'No preference.', fr: "Pas de préférence.", zh: '没有偏好。' }, score: 2,
+            fb: { en: '"Pas de préférence" is natural and correct.', fr: '"Pas de préférence" est naturel et correct.', zh: '"Pas de préférence"自然正确。' } }
+        ]
+      },
+      {
+        npc: { en: 'Sir/Madam — your flight is delayed by 2 hours due to weather.', fr: "Monsieur/Madame — votre vol est retardé de 2 heures en raison de la météo.", zh: '先生/女士——由于天气原因，您的航班延误2小时。' },
+        choices: [
+          { text: { en: 'I understand. Will we be compensated? And where can I wait?', fr: "Je comprends. Est-ce qu'il y a une compensation ? Et où puis-je patienter ?", zh: '我理解。会有补偿吗？我可以在哪里等候？' }, score: 3,
+            fb: { en: 'Perfect! "Compensation" + "patienter" (to wait politely) — excellent.', fr: '"Compensation" + "patienter" — excellent vocabulary.', zh: '"Compensation"（补偿）+"patienter"（等候）——非常好。' } },
+          { text: { en: 'Two hours! That\'s unacceptable!', fr: "Deux heures ! C'est inadmissible !", zh: '两个小时！这不能接受！' }, score: 1,
+            fb: { en: 'Frustration is understandable but being rude won\'t help. Try to stay calm.', fr: 'La frustration est compréhensible mais l\'impolitesse n\'aide pas. Restez calme.', zh: '沮丧可以理解，但无礼无济于事。尽量保持冷静。' } },
+          { text: { en: 'OK, no problem.', fr: "OK, pas de problème.", zh: '好的，没问题。' }, score: 2,
+            fb: { en: 'Calm and polite, though you could also ask about vouchers or waiting areas.', fr: 'Calme et poli, mais vous pourriez aussi demander un bon ou la salle d\'attente.', zh: '冷静礼貌，但也可以询问优惠券或等候区。' } }
+        ]
+      },
+      {
+        npc: { en: 'Your gate is B12. Boarding starts in 3 hours. Have a good flight!', fr: "Votre porte est B12. L'embarquement commence dans 3 heures. Bon vol !", zh: '您的登机口是B12。3小时后开始登机。祝您旅途愉快！' },
+        choices: [
+          { text: { en: 'Thank you! Is there a lounge where I can wait?', fr: "Merci ! Il y a un salon d'attente où je peux me reposer ?", zh: '谢谢！有候机室可以休息吗？' }, score: 3,
+            fb: { en: '"Salon d\'attente" (lounge) — great vocabulary for airports.', fr: '"Salon d\'attente" — excellent vocabulaire aéroportuaire.', zh: '"Salon d\'attente"（候机室）——很好的机场词汇。' } },
+          { text: { en: 'Thank you, and you too!', fr: "Merci, vous aussi !", zh: '谢谢，您也是！' }, score: 2,
+            fb: { en: '"Vous aussi" is the natural response to "Bon vol". Perfect reflex.', fr: '"Vous aussi" est la réponse naturelle à "Bon vol". Parfait réflexe.', zh: '"Vous aussi"是对"Bon vol"的自然回应，反应完美。' } },
+          { text: { en: 'Where is gate B12?', fr: "La porte B12, elle est où ?", zh: 'B12登机口在哪里？' }, score: 2,
+            fb: { en: 'Practical question! Good French word order for asking directions.', fr: 'Question pratique ! Bon ordre des mots en français pour demander un chemin.', zh: '实际的问题！问路时很好的法语词序。' } }
+        ]
+      }
+    ]
+  }
 ];
 
 var dlgState = { sceneIdx:0, turnIdx:0, scores:[], totalMax:0, done:false };
@@ -20700,6 +21160,7 @@ function dlgShowTurn() {
 }
 
 function dlgChoose(choiceIdx, btn) {
+  if (btn.disabled) return;
   var scene  = dlgData[dlgState.sceneIdx];
   var turn   = scene.turns[dlgState.turnIdx];
   var choice = turn.choices[choiceIdx];
@@ -20813,6 +21274,649 @@ function dlgBackToList() {
   document.getElementById('dlg-play-view').style.display = 'none';
   document.getElementById('dlg-result-view').style.display = 'none';
   document.getElementById('dlg-list-view').style.display = '';
+}
+
+// ═══════════════════════════════════════════
+// CONJUGAISON
+// ═══════════════════════════════════════════
+var conjPronouns = ['je','tu','il / elle','nous','vous','ils / elles'];
+var conjTenseKeys  = ['P','I','F','PC'];
+var conjTenseNames = {
+  en: {P:'Present', I:'Imperfect', F:'Future', PC:'Past perfect'},
+  fr: {P:'Présent', I:'Imparfait', F:'Futur simple', PC:'Passé composé'},
+  zh: {P:'现在时',  I:'未完成过去时', F:'将来时', PC:'复合过去时'}
+};
+
+// [je,tu,il-elle,nous,vous,ils-elles]
+var conjVerbs = [
+  {inf:'être',  en:'to be',       zh:'是/存在',
+   P: ['suis','es','est','sommes','êtes','sont'],
+   I: ['étais','étais','était','étions','étiez','étaient'],
+   F: ['serai','seras','sera','serons','serez','seront'],
+   PC:['ai été','as été','a été','avons été','avez été','ont été']},
+  {inf:'avoir', en:'to have',     zh:'有',
+   P: ['ai','as','a','avons','avez','ont'],
+   I: ['avais','avais','avait','avions','aviez','avaient'],
+   F: ['aurai','auras','aura','aurons','aurez','auront'],
+   PC:['ai eu','as eu','a eu','avons eu','avez eu','ont eu']},
+  {inf:'faire', en:'to do/make',  zh:'做',
+   P: ['fais','fais','fait','faisons','faites','font'],
+   I: ['faisais','faisais','faisait','faisions','faisiez','faisaient'],
+   F: ['ferai','feras','fera','ferons','ferez','feront'],
+   PC:['ai fait','as fait','a fait','avons fait','avez fait','ont fait']},
+  {inf:'aller', en:'to go',       zh:'去',
+   P: ['vais','vas','va','allons','allez','vont'],
+   I: ['allais','allais','allait','allions','alliez','allaient'],
+   F: ['irai','iras','ira','irons','irez','iront'],
+   PC:['suis allé(e)','es allé(e)','est allé(e)','sommes allé(e)s','êtes allé(e)s','sont allé(e)s']},
+  {inf:'venir', en:'to come',     zh:'来',
+   P: ['viens','viens','vient','venons','venez','viennent'],
+   I: ['venais','venais','venait','venions','veniez','venaient'],
+   F: ['viendrai','viendras','viendra','viendrons','viendrez','viendront'],
+   PC:['suis venu(e)','es venu(e)','est venu(e)','sommes venu(e)s','êtes venu(e)s','sont venu(e)s']},
+  {inf:'pouvoir',en:'to be able to',zh:'能/可以',
+   P: ['peux','peux','peut','pouvons','pouvez','peuvent'],
+   I: ['pouvais','pouvais','pouvait','pouvions','pouviez','pouvaient'],
+   F: ['pourrai','pourras','pourra','pourrons','pourrez','pourront'],
+   PC:['ai pu','as pu','a pu','avons pu','avez pu','ont pu']},
+  {inf:'vouloir',en:'to want',    zh:'想要',
+   P: ['veux','veux','veut','voulons','voulez','veulent'],
+   I: ['voulais','voulais','voulait','voulions','vouliez','voulaient'],
+   F: ['voudrai','voudras','voudra','voudrons','voudrez','voudront'],
+   PC:['ai voulu','as voulu','a voulu','avons voulu','avez voulu','ont voulu']},
+  {inf:'devoir', en:'to must/have to',zh:'必须/应该',
+   P: ['dois','dois','doit','devons','devez','doivent'],
+   I: ['devais','devais','devait','devions','deviez','devaient'],
+   F: ['devrai','devras','devra','devrons','devrez','devront'],
+   PC:['ai dû','as dû','a dû','avons dû','avez dû','ont dû']},
+  {inf:'prendre',en:'to take',    zh:'拿/取',
+   P: ['prends','prends','prend','prenons','prenez','prennent'],
+   I: ['prenais','prenais','prenait','prenions','preniez','prenaient'],
+   F: ['prendrai','prendras','prendra','prendrons','prendrez','prendront'],
+   PC:['ai pris','as pris','a pris','avons pris','avez pris','ont pris']},
+  {inf:'dire',  en:'to say/tell', zh:'说',
+   P: ['dis','dis','dit','disons','dites','disent'],
+   I: ['disais','disais','disait','disions','disiez','disaient'],
+   F: ['dirai','diras','dira','dirons','direz','diront'],
+   PC:['ai dit','as dit','a dit','avons dit','avez dit','ont dit']},
+  {inf:'voir',  en:'to see',      zh:'看见',
+   P: ['vois','vois','voit','voyons','voyez','voient'],
+   I: ['voyais','voyais','voyait','voyions','voyiez','voyaient'],
+   F: ['verrai','verras','verra','verrons','verrez','verront'],
+   PC:['ai vu','as vu','a vu','avons vu','avez vu','ont vu']},
+  {inf:'savoir',en:'to know',     zh:'知道',
+   P: ['sais','sais','sait','savons','savez','savent'],
+   I: ['savais','savais','savait','savions','saviez','savaient'],
+   F: ['saurai','sauras','saura','saurons','saurez','sauront'],
+   PC:['ai su','as su','a su','avons su','avez su','ont su']},
+  {inf:'partir',en:'to leave',    zh:'离开',
+   P: ['pars','pars','part','partons','partez','partent'],
+   I: ['partais','partais','partait','partions','partiez','partaient'],
+   F: ['partirai','partiras','partira','partirons','partirez','partiront'],
+   PC:['suis parti(e)','es parti(e)','est parti(e)','sommes parti(e)s','êtes parti(e)s','sont parti(e)s']},
+  {inf:'finir', en:'to finish',   zh:'结束/完成',
+   P: ['finis','finis','finit','finissons','finissez','finissent'],
+   I: ['finissais','finissais','finissait','finissions','finissiez','finissaient'],
+   F: ['finirai','finiras','finira','finirons','finirez','finiront'],
+   PC:['ai fini','as fini','a fini','avons fini','avez fini','ont fini']},
+  {inf:'mettre',en:'to put/place',zh:'放置',
+   P: ['mets','mets','met','mettons','mettez','mettent'],
+   I: ['mettais','mettais','mettait','mettions','mettiez','mettaient'],
+   F: ['mettrai','mettras','mettra','mettrons','mettrez','mettront'],
+   PC:['ai mis','as mis','a mis','avons mis','avez mis','ont mis']}
+];
+
+var conjState = { mode:'table', tense:'P', quizQ:[], quizIdx:0, quizScore:0 };
+
+function renderConjugaison() {
+  var lv = document.getElementById('conj-list-view');
+  var dv = document.getElementById('conj-detail-view');
+  var qv = document.getElementById('conj-quiz-view');
+  var rv = document.getElementById('conj-result-view');
+  lv.style.display = ''; dv.style.display = 'none'; qv.style.display = 'none'; rv.style.display = 'none';
+
+  var t = document.getElementById('conj-title-main');
+  var s = document.getElementById('conj-sub-main');
+  if (t) t.textContent = lang==='en'?'🔤 Conjugation':lang==='zh'?'🔤 动词变位':'🔤 Conjugaison';
+  if (s) s.textContent = lang==='en'?'Master French verbs':lang==='zh'?'掌握法语动词变位':'Maîtrisez les verbes français';
+
+  var tb = document.getElementById('conj-btn-table');
+  var qb = document.getElementById('conj-btn-quiz');
+  var tbl = lang==='en'?'📋 Table':lang==='zh'?'📋 表格':'📋 Tableau';
+  var qzl = lang==='en'?'🎯 Quiz':lang==='zh'?'🎯 测验':'🎯 Quiz';
+  if (tb) { tb.textContent = tbl; tb.className = 'conj-mode-btn' + (conjState.mode==='table'?' active':''); }
+  if (qb) { qb.textContent = qzl; qb.className = 'conj-mode-btn' + (conjState.mode==='quiz'?' active':''); }
+
+  if (conjState.mode === 'table') {
+    var grid = document.getElementById('conj-verb-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    conjVerbs.forEach(function(v, i) {
+      var card = document.createElement('div');
+      card.className = 'conj-verb-card';
+      var tr = lang==='en' ? v.en : lang==='zh' ? v.zh : '';
+      card.innerHTML = '<div class="conj-verb-inf">'+v.inf+'</div><div class="conj-verb-tr">'+tr+'</div>';
+      card.onclick = function() { conjShowVerb(i); };
+      grid.appendChild(card);
+    });
+  } else {
+    conjStartQuiz();
+  }
+}
+
+function conjSetMode(mode) {
+  conjState.mode = mode;
+  renderConjugaison();
+}
+
+function conjShowVerb(idx) {
+  var v = conjVerbs[idx];
+  conjState.verbIdx = idx;
+  conjState.tense = conjState.tense || 'P';
+  document.getElementById('conj-list-view').style.display = 'none';
+  document.getElementById('conj-detail-view').style.display = '';
+
+  var hero = document.getElementById('conj-verb-hero');
+  var tr = lang==='en' ? v.en : lang==='zh' ? v.zh : '';
+  if (hero) hero.innerHTML = '<div class="conj-verb-hero-inf">'+v.inf+'</div><div class="conj-verb-hero-tr">'+tr+'</div>';
+
+  // Tense tabs
+  var bar = document.getElementById('conj-tense-bar');
+  if (bar) {
+    bar.innerHTML = '';
+    var tnames = conjTenseNames[lang] || conjTenseNames.fr;
+    conjTenseKeys.forEach(function(k) {
+      var btn = document.createElement('button');
+      btn.className = 'conj-tense-tab' + (k===conjState.tense?' active':'');
+      btn.textContent = tnames[k];
+      btn.onclick = function() {
+        conjState.tense = k;
+        conjRenderTable(v);
+        bar.querySelectorAll('.conj-tense-tab').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+      };
+      bar.appendChild(btn);
+    });
+  }
+  conjRenderTable(v);
+}
+
+function conjRenderTable(v) {
+  var tbl = document.getElementById('conj-table');
+  if (!tbl) return;
+  tbl.innerHTML = '';
+  var forms = v[conjState.tense] || [];
+  conjPronouns.forEach(function(pron, i) {
+    var pd = document.createElement('div'); pd.className = 'conj-row-pron'; pd.textContent = pron;
+    var fd = document.createElement('div'); fd.className = 'conj-row-form'; fd.textContent = forms[i] || '';
+    tbl.appendChild(pd); tbl.appendChild(fd);
+  });
+}
+
+function conjBackToList() {
+  conjState.mode = 'table';
+  renderConjugaison();
+}
+
+function conjStartQuiz() {
+  document.getElementById('conj-list-view').style.display = 'none';
+  document.getElementById('conj-quiz-view').style.display = '';
+  document.getElementById('conj-result-view').style.display = 'none';
+
+  // Generate 10 random questions
+  var qs = [];
+  for (var i = 0; i < 10; i++) {
+    var vi  = Math.floor(Math.random() * conjVerbs.length);
+    var pi  = Math.floor(Math.random() * 6);
+    var ti  = Math.floor(Math.random() * conjTenseKeys.length);
+    var tk  = conjTenseKeys[ti];
+    var correct = conjVerbs[vi][tk][pi];
+    // Generate 2 wrong answers from other verbs/forms
+    var wrongs = [];
+    var attempts = 0;
+    while (wrongs.length < 2 && attempts < 50) {
+      attempts++;
+      var wi = Math.floor(Math.random() * conjVerbs.length);
+      var wf = conjVerbs[wi][tk][pi];
+      if (wf !== correct && wrongs.indexOf(wf) === -1) wrongs.push(wf);
+    }
+    if (wrongs.length < 2) { // fallback
+      var allForms = conjVerbs[vi][tk];
+      allForms.forEach(function(f){ if (f!==correct && wrongs.length<2 && wrongs.indexOf(f)===-1) wrongs.push(f); });
+    }
+    var choices = [correct, wrongs[0]||'?', wrongs[1]||'??'];
+    // Shuffle choices
+    for (var j = choices.length-1; j > 0; j--) {
+      var k2 = Math.floor(Math.random()*(j+1));
+      var tmp = choices[j]; choices[j]=choices[k2]; choices[k2]=tmp;
+    }
+    qs.push({ vi:vi, pi:pi, tk:tk, correct:correct, choices:choices });
+  }
+  conjState.quizQ = qs;
+  conjState.quizIdx = 0;
+  conjState.quizScore = 0;
+  conjShowQuizQuestion();
+}
+
+function conjShowQuizQuestion() {
+  var q = conjState.quizQ[conjState.quizIdx];
+  if (!q) { conjShowResult(); return; }
+  var v = conjVerbs[q.vi];
+  var tnames = conjTenseNames[lang] || conjTenseNames.fr;
+
+  // Progress
+  var fill = document.getElementById('conj-qprog-fill');
+  var ptxt = document.getElementById('conj-qprog-txt');
+  var pct  = Math.round(conjState.quizIdx / conjState.quizQ.length * 100);
+  if (fill) fill.style.width = pct + '%';
+  if (ptxt) ptxt.textContent = (conjState.quizIdx+1) + ' / ' + conjState.quizQ.length;
+
+  // Question
+  var qDiv = document.getElementById('conj-quiz-q');
+  if (qDiv) {
+    var tenseLabel = tnames[q.tk];
+    var vtr = lang==='en' ? v.en : lang==='zh' ? v.zh : '';
+    var qlabel = lang==='en'?'Conjugate:':lang==='zh'?'变位:':'Conjuguez :';
+    var tlabel = lang==='en'?'Tense: ':lang==='zh'?'时态：':'Temps : ';
+    qDiv.innerHTML =
+      '<div class="conj-quiz-q-verb">'+v.inf+'</div>'+
+      '<div class="conj-quiz-q-info">'+(vtr?'('+vtr+') ':'')+tlabel+'<strong>'+tenseLabel+'</strong></div>'+
+      '<div class="conj-quiz-q-pron">'+conjPronouns[q.pi]+' …</div>';
+  }
+
+  // Choices
+  var cDiv = document.getElementById('conj-quiz-choices');
+  if (cDiv) {
+    cDiv.innerHTML = '';
+    q.choices.forEach(function(c, ci) {
+      var btn = document.createElement('button');
+      btn.className = 'conj-quiz-choice';
+      btn.textContent = c;
+      btn.onclick = function() { conjQuizChoose(c, btn); };
+      cDiv.appendChild(btn);
+    });
+  }
+
+  var fb = document.getElementById('conj-quiz-fb');
+  if (fb) fb.style.display = 'none';
+  var nb = document.getElementById('conj-quiz-next');
+  if (nb) nb.style.display = 'none';
+}
+
+function conjQuizChoose(chosen, btn) {
+  var q = conjState.quizQ[conjState.quizIdx];
+  if (!q || btn.disabled) return;
+  var isCorrect = chosen === q.correct;
+  if (isCorrect) conjState.quizScore++;
+
+  // Disable all
+  var cDiv = document.getElementById('conj-quiz-choices');
+  Array.from(cDiv.children).forEach(function(b) {
+    b.disabled = true;
+    if (b.textContent === q.correct) b.classList.add('correct');
+    else if (b === btn && !isCorrect) b.classList.add('wrong');
+  });
+
+  // Feedback
+  var fb = document.getElementById('conj-quiz-fb');
+  var v = conjVerbs[q.vi];
+  var tnames = conjTenseNames[lang] || conjTenseNames.fr;
+  var fbText = isCorrect
+    ? (lang==='en'?'✅ Correct!':lang==='zh'?'✅ 正确！':'✅ Correct !')
+    : (lang==='en'?'❌ Incorrect. The answer is: ':lang==='zh'?'❌ 错误。答案是：':'❌ Incorrect. La réponse est : ') + q.correct;
+  if (fb) {
+    fb.textContent = fbText;
+    fb.className = 'dlg-feedback-area ' + (isCorrect ? 'good' : 'bad');
+    fb.style.display = '';
+  }
+
+  var nb = document.getElementById('conj-quiz-next');
+  var isLast = conjState.quizIdx >= conjState.quizQ.length - 1;
+  if (nb) {
+    nb.textContent = isLast
+      ? (lang==='en'?'See results':lang==='zh'?'查看结果':'Voir les résultats')
+      : (lang==='en'?'Next →':lang==='zh'?'下一步 →':'Suivant →');
+    nb.style.display = '';
+  }
+}
+
+function conjQuizNext() {
+  conjState.quizIdx++;
+  if (conjState.quizIdx >= conjState.quizQ.length) {
+    conjShowResult();
+  } else {
+    conjShowQuizQuestion();
+  }
+}
+
+function conjShowResult() {
+  document.getElementById('conj-quiz-view').style.display = 'none';
+  document.getElementById('conj-result-view').style.display = '';
+  var s = conjState.quizScore, m = conjState.quizQ.length;
+  var pct = Math.round(s/m*100);
+  var icon = pct>=80?'🏆':pct>=50?'👍':'📚';
+  var title, score, tips;
+  if (lang==='en') {
+    title = pct>=80?'Excellent!':pct>=50?'Good job!':'Keep practicing!';
+    score = 'Score: '+s+' / '+m+' ('+pct+'%)';
+    tips  = pct>=80?'Your conjugations are solid! Try harder tenses.':pct>=50?'Good progress! Review the irregular verbs.':'Focus on être, avoir, faire — the most common verbs.';
+  } else if (lang==='zh') {
+    title = pct>=80?'太棒了！':pct>=50?'做得好！':'继续练习！';
+    score = '得分：'+s+' / '+m+' ('+pct+'%)';
+    tips  = pct>=80?'您的变位很扎实！试试更难的时态。':pct>=50?'进步不错！复习不规则动词。':'重点练习être、avoir、faire——最常用的动词。';
+  } else {
+    title = pct>=80?'Excellent !':pct>=50?'Bien joué !':'Continuez !';
+    score = 'Score : '+s+' / '+m+' ('+pct+'%)';
+    tips  = pct>=80?'Vos conjugaisons sont solides ! Essayez des temps plus difficiles.':pct>=50?'Bons progrès ! Révisez les verbes irréguliers.':'Concentrez-vous sur être, avoir, faire — les plus courants.';
+  }
+  document.getElementById('conj-r-icon').textContent  = icon;
+  document.getElementById('conj-r-title').textContent = title;
+  document.getElementById('conj-r-score').textContent = score;
+  document.getElementById('conj-r-tips').textContent  = tips;
+  var retry = document.getElementById('conj-r-retry');
+  if (retry) retry.textContent = lang==='en'?'↺ Retry':lang==='zh'?'↺ 重试':'↺ Rejouer';
+  var fill = document.getElementById('conj-r-fill');
+  if (fill) { fill.style.width='0%'; setTimeout(function(){ fill.style.width=pct+'%'; },100); }
+  window.scrollTo(0,0);
+}
+
+function conjRetry() {
+  conjState.mode = 'quiz';
+  renderConjugaison();
+}
+
+// ═══════════════════════════════════════════
+// ÉCOUTE
+// ═══════════════════════════════════════════
+var ecouteData = [
+  { level:'A1', color:'#10b981',
+    nameKey:{en:'Beginner',fr:'Débutant',zh:'初级'},
+    descKey:{en:'Simple daily sentences',fr:'Phrases simples du quotidien',zh:'简单的日常句子'},
+    emoji:'🌱',
+    exercises:[
+      {t:"Bonjour, je m'appelle Marie.",
+       c:["Bonjour, je m'appelle Marie.","Bonsoir, je m'appelle Marie.","Bonjour, tu t'appelles Marie."],r:0},
+      {t:"J'ai vingt ans.",
+       c:["J'ai vingt ans.","J'ai trente ans.","Il a vingt ans."],r:0},
+      {t:"Il fait beau aujourd'hui.",
+       c:["Il fait beau aujourd'hui.","Il fait chaud aujourd'hui.","Il fait beau demain."],r:0},
+      {t:"Je voudrais un café, s'il vous plaît.",
+       c:["Je voudrais un café, s'il vous plaît.","Je voudrais un thé, s'il vous plaît.","Je veux un café, s'il vous plaît."],r:0},
+      {t:"Où est la gare ?",
+       c:["Où est la gare ?","Où est la mairie ?","Où est la gare centrale ?"],r:0},
+      {t:"C'est combien ?",
+       c:["C'est combien ?","C'est comment ?","C'est quand ?"],r:0},
+      {t:"Je suis étudiant.",
+       c:["Je suis étudiant.","Je suis enseignant.","Il est étudiant."],r:0},
+      {t:"Merci beaucoup, au revoir !",
+       c:["Merci beaucoup, au revoir !","Merci bien, au revoir !","Merci beaucoup, bonsoir !"],r:0},
+      {t:"Parlez-vous français ?",
+       c:["Parlez-vous français ?","Parlez-vous anglais ?","Parles-tu français ?"],r:0},
+      {t:"J'habite à Paris depuis deux ans.",
+       c:["J'habite à Paris depuis deux ans.","J'habite à Lyon depuis deux ans.","J'habite à Paris depuis six mois."],r:0}
+    ]
+  },
+  { level:'A2', color:'#3b82f6',
+    nameKey:{en:'Elementary',fr:'Élémentaire',zh:'基础级'},
+    descKey:{en:'Everyday situations',fr:'Situations du quotidien',zh:'日常生活情境'},
+    emoji:'📘',
+    exercises:[
+      {t:"Est-ce que vous pouvez m'aider, s'il vous plaît ?",
+       c:["Est-ce que vous pouvez m'aider, s'il vous plaît ?","Est-ce que tu peux m'aider ?","Est-ce que vous voulez m'aider ?"],r:0},
+      {t:"Je cherche un hôtel pas trop cher.",
+       c:["Je cherche un hôtel pas trop cher.","Je cherche un appartement pas trop cher.","Il cherche un hôtel pas trop loin."],r:0},
+      {t:"Le train part à quinze heures trente.",
+       c:["Le train part à quinze heures trente.","Le train arrive à quinze heures trente.","Le bus part à quinze heures trente."],r:0},
+      {t:"Nous sommes allés au musée hier.",
+       c:["Nous sommes allés au musée hier.","Nous sommes allés au cinéma hier.","Ils sont allés au musée hier."],r:0},
+      {t:"Il faut tourner à gauche après le feu rouge.",
+       c:["Il faut tourner à gauche après le feu rouge.","Il faut tourner à droite après le feu rouge.","Il faut aller tout droit après le feu rouge."],r:0},
+      {t:"Je préfère boire du café le matin.",
+       c:["Je préfère boire du café le matin.","Je préfère boire du thé le matin.","Elle préfère boire du café le soir."],r:0},
+      {t:"Vous avez réservé une table pour deux ?",
+       c:["Vous avez réservé une table pour deux ?","Vous avez réservé une chambre pour deux ?","Vous avez réservé une table pour quatre ?"],r:0},
+      {t:"Il y a beaucoup de monde dans ce restaurant.",
+       c:["Il y a beaucoup de monde dans ce restaurant.","Il n'y a personne dans ce restaurant.","Il y a beaucoup de monde dans ce café."],r:0},
+      {t:"Je ne comprends pas, vous pouvez répéter ?",
+       c:["Je ne comprends pas, vous pouvez répéter ?","Je ne parle pas, vous pouvez répéter ?","Je ne comprends pas, vous pouvez parler moins vite ?"],r:0},
+      {t:"Elle a acheté une belle robe rouge.",
+       c:["Elle a acheté une belle robe rouge.","Elle a acheté une belle robe bleue.","Il a acheté une belle robe rouge."],r:0}
+    ]
+  },
+  { level:'B1', color:'#8b5cf6',
+    nameKey:{en:'Intermediate',fr:'Intermédiaire',zh:'中级'},
+    descKey:{en:'Complex structures',fr:'Structures complexes',zh:'复杂结构'},
+    emoji:'🎯',
+    exercises:[
+      {t:"Si j'avais plus de temps, je voyagerais davantage.",
+       c:["Si j'avais plus de temps, je voyagerais davantage.","Si j'avais plus d'argent, je voyagerais davantage.","Si j'avais plus de temps, je travaillerais davantage."],r:0},
+      {t:"Il faudrait que tu prennes rendez-vous avant de venir.",
+       c:["Il faudrait que tu prennes rendez-vous avant de venir.","Il faut que tu prennes rendez-vous avant de venir.","Il faudrait que vous preniez rendez-vous avant de venir."],r:0},
+      {t:"Les résultats sont meilleurs que prévu.",
+       c:["Les résultats sont meilleurs que prévu.","Les résultats sont moins bons que prévu.","Les résultats sont aussi bons que prévu."],r:0},
+      {t:"Je me demande si elle a bien reçu mon message.",
+       c:["Je me demande si elle a bien reçu mon message.","Je me demande si elle a bien lu mon message.","Il se demande si elle a bien reçu son message."],r:0},
+      {t:"Bien que ce soit difficile, je continue mes efforts.",
+       c:["Bien que ce soit difficile, je continue mes efforts.","Parce que c'est difficile, je continue mes efforts.","Bien que ce soit facile, je continue mes efforts."],r:0},
+      {t:"Il m'a dit qu'il arriverait vers midi.",
+       c:["Il m'a dit qu'il arriverait vers midi.","Il m'a dit qu'il partirait vers midi.","Elle m'a dit qu'il arriverait vers midi."],r:0},
+      {t:"Les voisins font beaucoup trop de bruit le soir.",
+       c:["Les voisins font beaucoup trop de bruit le soir.","Les voisins font beaucoup trop de bruit le matin.","Les enfants font beaucoup trop de bruit le soir."],r:0},
+      {t:"Tu aurais pu me prévenir un peu plus tôt !",
+       c:["Tu aurais pu me prévenir un peu plus tôt !","Tu aurais dû me prévenir un peu plus tôt !","Il aurait pu me prévenir un peu plus tôt !"],r:0},
+      {t:"Le film dont tu parles est sorti l'année dernière.",
+       c:["Le film dont tu parles est sorti l'année dernière.","La série dont tu parles est sortie l'année dernière.","Le film dont il parle est sorti l'année dernière."],r:0},
+      {t:"Je suis en train de préparer le dîner pour ce soir.",
+       c:["Je suis en train de préparer le dîner pour ce soir.","Je suis en train de préparer le déjeuner pour ce soir.","Elle est en train de préparer le dîner pour ce soir."],r:0}
+    ]
+  }
+];
+
+var ecouteState = { levelIdx:0, exIdx:0, score:0, playing:false };
+
+function renderEcoute() {
+  var lv = document.getElementById('ecoute-levels-view');
+  var pv = document.getElementById('ecoute-play-view');
+  var rv = document.getElementById('ecoute-result-view');
+  lv.style.display = ''; pv.style.display = 'none'; rv.style.display = 'none';
+
+  var t = document.getElementById('ecoute-title-main');
+  var s = document.getElementById('ecoute-sub-main');
+  if (t) t.textContent = lang==='en'?'🔊 Listening':lang==='zh'?'🔊 听力':'🔊 Écoute';
+  if (s) s.textContent = lang==='en'?'Train your French ear':lang==='zh'?'训练您的法语耳朵':'Entraînez votre oreille au français';
+
+  var grid = document.getElementById('ecoute-levels-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  ecouteData.forEach(function(lvl, i) {
+    var card = document.createElement('div');
+    card.className = 'ecoute-level-card';
+    var name = lvl.nameKey[lang] || lvl.nameKey.fr;
+    var desc = lvl.descKey[lang] || lvl.descKey.fr;
+    var exLabel = lang==='en'?lvl.exercises.length+' exercises':lang==='zh'?lvl.exercises.length+'道题':lvl.exercises.length+' exercices';
+    card.innerHTML =
+      '<div class="ecoute-level-emoji">'+lvl.emoji+'</div>'+
+      '<div class="ecoute-level-info">'+
+        '<div class="ecoute-level-name">'+name+' <span style="font-size:13px;font-weight:700;color:'+lvl.color+'">'+lvl.level+'</span></div>'+
+        '<div class="ecoute-level-desc">'+desc+'</div>'+
+        '<div class="ecoute-level-count" style="background:'+lvl.color+'">'+exLabel+'</div>'+
+      '</div>'+
+      '<div style="font-size:20px;color:var(--muted);">›</div>';
+    card.onclick = function() { ecouteStartLevel(i); };
+    grid.appendChild(card);
+  });
+}
+
+function ecouteStartLevel(idx) {
+  ecouteState.levelIdx = idx;
+  ecouteState.exIdx = 0;
+  ecouteState.score = 0;
+  document.getElementById('ecoute-levels-view').style.display = 'none';
+  document.getElementById('ecoute-result-view').style.display = 'none';
+  document.getElementById('ecoute-play-view').style.display = '';
+  ecouteShowExercise();
+}
+
+function ecouteShowExercise() {
+  var lvl = ecouteData[ecouteState.levelIdx];
+  var ex  = lvl.exercises[ecouteState.exIdx];
+  if (!ex) { ecouteShowResult(); return; }
+
+  // Progress
+  var fill = document.getElementById('ecoute-prog-fill');
+  var ptxt = document.getElementById('ecoute-prog-txt');
+  var pct  = Math.round(ecouteState.exIdx / lvl.exercises.length * 100);
+  if (fill) fill.style.width = pct + '%';
+  if (ptxt) ptxt.textContent = (ecouteState.exIdx+1) + ' / ' + lvl.exercises.length;
+
+  // Badge
+  var badge = document.getElementById('ecoute-level-badge');
+  if (badge) { badge.textContent = lvl.level; badge.style.background = lvl.color; }
+
+  // Reset play button
+  var playBtn = document.getElementById('ecoute-play-btn');
+  if (playBtn) { playBtn.textContent = '▶'; playBtn.className = 'ecoute-play-btn'; }
+
+  var playLbl = document.getElementById('ecoute-play-label');
+  if (playLbl) playLbl.textContent = lang==='en'?'Tap to listen':lang==='zh'?'点击收听':'Appuyer pour écouter';
+
+  var hint = document.getElementById('ecoute-hint');
+  if (hint) hint.textContent = lang==='en'?'You can listen multiple times':lang==='zh'?'可以多次收听':'Vous pouvez écouter plusieurs fois';
+
+  // Shuffle choices
+  var shuffled = ex.c.slice();
+  for (var j = shuffled.length-1; j > 0; j--) {
+    var k = Math.floor(Math.random()*(j+1));
+    var tmp = shuffled[j]; shuffled[j] = shuffled[k]; shuffled[k] = tmp;
+  }
+  var correctText = ex.c[ex.r];
+
+  var cArea = document.getElementById('ecoute-choices');
+  if (cArea) {
+    cArea.innerHTML = '';
+    shuffled.forEach(function(choice, ci) {
+      var btn = document.createElement('button');
+      btn.className = 'dlg-choice-btn';
+      btn.textContent = choice;
+      btn.onclick = function() { ecouteChoose(choice, correctText, btn, cArea); };
+      cArea.appendChild(btn);
+    });
+  }
+
+  var fb = document.getElementById('ecoute-fb');
+  if (fb) fb.style.display = 'none';
+  var nb = document.getElementById('ecoute-next-btn');
+  if (nb) nb.style.display = 'none';
+
+  // Auto-play after a short delay
+  setTimeout(function() { ecoutePlay(); }, 400);
+}
+
+function ecoutePlay() {
+  var lvl = ecouteData[ecouteState.levelIdx];
+  var ex  = lvl.exercises[ecouteState.exIdx];
+  if (!ex) return;
+  var playBtn = document.getElementById('ecoute-play-btn');
+  var playLbl = document.getElementById('ecoute-play-label');
+  if (playBtn) { playBtn.textContent = '🔊'; playBtn.className = 'ecoute-play-btn playing'; }
+  if (playLbl) playLbl.textContent = lang==='en'?'Playing...':lang==='zh'?'播放中...':'Lecture...';
+  var resetPlayBtn = function() {
+    if (playBtn) { playBtn.textContent = '▶'; playBtn.className = 'ecoute-play-btn'; }
+    if (playLbl) playLbl.textContent = lang==='en'?'Tap to listen again':lang==='zh'?'再次点击收听':'Écouter à nouveau';
+  };
+  playFr(ex.t, resetPlayBtn);
+}
+
+function ecouteChoose(chosen, correct, btn, cArea) {
+  if (btn.disabled) return;
+  var isCorrect = chosen === correct;
+  if (isCorrect) ecouteState.score++;
+
+  Array.from(cArea.children).forEach(function(b) {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('selected-good');
+    else if (b === btn && !isCorrect) b.classList.add('selected-bad');
+  });
+
+  var fb = document.getElementById('ecoute-fb');
+  if (fb) {
+    fb.textContent = isCorrect
+      ? (lang==='en'?'✅ Correct!':lang==='zh'?'✅ 正确！':'✅ Correct !')
+      : (lang==='en'?'❌ The correct sentence was: ':lang==='zh'?'❌ 正确的句子是：':'❌ La bonne phrase était : ') + correct;
+    fb.className = 'dlg-feedback-area ' + (isCorrect ? 'good' : 'bad');
+    fb.style.display = '';
+  }
+
+  var lvl = ecouteData[ecouteState.levelIdx];
+  var isLast = ecouteState.exIdx >= lvl.exercises.length - 1;
+  var nb = document.getElementById('ecoute-next-btn');
+  if (nb) {
+    nb.textContent = isLast
+      ? (lang==='en'?'See results':lang==='zh'?'查看结果':'Voir les résultats')
+      : (lang==='en'?'Next →':lang==='zh'?'下一步 →':'Suivant →');
+    nb.style.display = '';
+  }
+  window.speechSynthesis && window.speechSynthesis.cancel();
+}
+
+function ecouteNext() {
+  ecouteState.exIdx++;
+  var lvl = ecouteData[ecouteState.levelIdx];
+  if (ecouteState.exIdx >= lvl.exercises.length) {
+    ecouteShowResult();
+  } else {
+    var fb = document.getElementById('ecoute-fb');
+    if (fb) fb.style.display = 'none';
+    var nb = document.getElementById('ecoute-next-btn');
+    if (nb) nb.style.display = 'none';
+    ecouteShowExercise();
+  }
+}
+
+function ecouteShowResult() {
+  document.getElementById('ecoute-play-view').style.display = 'none';
+  document.getElementById('ecoute-result-view').style.display = '';
+  window.speechSynthesis && window.speechSynthesis.cancel();
+
+  var lvl = ecouteData[ecouteState.levelIdx];
+  var s = ecouteState.score, m = lvl.exercises.length;
+  var pct = Math.round(s/m*100);
+  var icon = pct>=80?'🏆':pct>=50?'👍':'📚';
+  var title, score, tips;
+  if (lang==='en') {
+    title = pct>=80?'Excellent listening!':pct>=50?'Good ear!':'Keep training!';
+    score = 'Score: '+s+' / '+m+' ('+pct+'%)';
+    tips  = pct>=80?'Your ear for French is sharp! Try the next level.':pct>=50?'Good progress! Listen to French music and podcasts.':'Listen carefully to each word — French links words together a lot.';
+  } else if (lang==='zh') {
+    title = pct>=80?'听力很棒！':pct>=50?'耳力不错！':'继续训练！';
+    score = '得分：'+s+' / '+m+' ('+pct+'%)';
+    tips  = pct>=80?'您的法语听力很准！试试下一个级别。':pct>=50?'进步不错！多听法语音乐和播客。':'仔细听每个单词——法语词与词之间连读很多。';
+  } else {
+    title = pct>=80?'Excellent !':pct>=50?'Bonne oreille !':'Continuez !';
+    score = 'Score : '+s+' / '+m+' ('+pct+'%)';
+    tips  = pct>=80?'Votre oreille est bien entraînée ! Passez au niveau suivant.':pct>=50?'Bons progrès ! Écoutez de la musique et des podcasts en français.':'Écoutez attentivement chaque mot — le français lie beaucoup les mots.';
+  }
+  document.getElementById('ecoute-r-icon').textContent  = icon;
+  document.getElementById('ecoute-r-title').textContent = title;
+  document.getElementById('ecoute-r-score').textContent = score;
+  document.getElementById('ecoute-r-tips').textContent  = tips;
+  var retry = document.getElementById('ecoute-r-retry');
+  if (retry) retry.textContent = lang==='en'?'↺ Retry':lang==='zh'?'↺ 重试':'↺ Rejouer';
+  var fill = document.getElementById('ecoute-r-fill');
+  if (fill) { fill.style.width='0%'; setTimeout(function(){ fill.style.width=pct+'%'; },100); }
+  window.scrollTo(0,0);
+}
+
+function ecouteRetry() {
+  ecouteStartLevel(ecouteState.levelIdx);
+}
+
+function ecouteBackToLevels() {
+  stopFr();
+  ecouteState.playing = false;
+  document.getElementById('ecoute-play-view').style.display = 'none';
+  document.getElementById('ecoute-result-view').style.display = 'none';
+  document.getElementById('ecoute-levels-view').style.display = '';
 }
 
 </script>
