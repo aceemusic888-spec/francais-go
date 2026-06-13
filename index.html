@@ -89,6 +89,9 @@
     .section { display: none; }
     .section.active { display: block; animation: sectionIn 0.28s cubic-bezier(0.34,1,0.64,1); }
     @keyframes sectionIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
     /* ── Card stagger entry ── */
@@ -541,6 +544,37 @@
       .hero-card { filter: saturate(0.88); }
     }
     /* ── Streak Toast ── */
+    /* PWA Install banner */
+    #install-banner { position:fixed; bottom:72px; left:12px; right:12px; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:#fff; border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:10px; z-index:8500; box-shadow:0 8px 32px rgba(79,70,229,0.4); transform:translateY(120%); transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1); }
+    #install-banner.show { transform:translateY(0); }
+    #install-banner .ib-icon { font-size:26px; flex-shrink:0; }
+    #install-banner .ib-text { flex:1; min-width:0; }
+    #install-banner .ib-title { font-size:13px; font-weight:800; }
+    #install-banner .ib-sub { font-size:11px; opacity:0.82; }
+    #install-banner .ib-btn { background:white; color:#4F46E5; font-weight:800; font-size:12px; border:none; border-radius:10px; padding:8px 14px; cursor:pointer; white-space:nowrap; }
+    #install-banner .ib-close { background:none; border:none; color:rgba(255,255,255,0.7); font-size:18px; cursor:pointer; padding:4px; line-height:1; flex-shrink:0; }
+    /* Offline banner */
+    #offline-banner { position:fixed; top:0; left:0; right:0; background:#ef4444; color:#fff; text-align:center; font-size:13px; font-weight:700; padding:7px 12px; z-index:9999; transform:translateY(-100%); transition:transform 0.3s ease; display:flex; align-items:center; justify-content:center; gap:6px; }
+    #offline-banner.show { transform:translateY(0); }
+    body.dark #offline-banner { background:#7f1d1d; }
+    /* Révision rapide */
+    .quick-review-btn { width:100%; background:linear-gradient(135deg,#0ea5e9,#6366f1); border:none; border-radius:16px; padding:14px 18px; color:white; display:flex; align-items:center; gap:12px; cursor:pointer; text-align:left; margin-bottom:14px; box-shadow:0 4px 18px rgba(99,102,241,0.25); transition:transform 0.15s, box-shadow 0.15s; }
+    .quick-review-btn:active { transform:scale(0.97); }
+    .quick-review-btn .qr-icon { font-size:28px; flex-shrink:0; }
+    .quick-review-btn .qr-text { flex:1; }
+    .quick-review-btn .qr-title { font-size:14px; font-weight:800; }
+    .quick-review-btn .qr-sub   { font-size:11.5px; opacity:0.85; margin-top:1px; }
+    .quick-review-btn .qr-arrow { font-size:18px; opacity:0.7; }
+    /* Quiz timer */
+    .quiz-timer-wrap { display:flex; align-items:center; gap:7px; margin-bottom:8px; }
+    .quiz-timer-bar-bg { flex:1; background:var(--border); border-radius:99px; height:5px; overflow:hidden; }
+    .quiz-timer-bar-fill { height:5px; border-radius:99px; background:var(--indigo); transition:width 1s linear; }
+    .quiz-timer-bar-fill.urgent { background:#ef4444; }
+    .quiz-timer-num { font-size:12px; font-weight:800; color:var(--muted); min-width:18px; text-align:right; }
+    .quiz-timer-num.urgent { color:#ef4444; }
+    /* Quiz combo badge */
+    .quiz-combo-badge { display:inline-block; font-size:13px; font-weight:900; color:#f59e0b; margin-left:8px; animation:comboPop 0.35s cubic-bezier(0.34,1.6,0.64,1) both; }
+    @keyframes comboPop { from { transform:scale(0.4); opacity:0; } to { transform:scale(1); opacity:1; } }
     .streak-toast { position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); background:linear-gradient(135deg,#F59E0B,#EF4444); color:white; font-size:15px; font-weight:800; padding:11px 22px; border-radius:24px; box-shadow:0 6px 24px rgba(239,68,68,0.45); z-index:8000; opacity:0; transition:opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.2,0.64,1); pointer-events:none; white-space:nowrap; }
     .streak-toast.streak-toast-show { opacity:1; transform:translateX(-50%) translateY(0); }
 
@@ -894,6 +928,16 @@
     .dlg-scene-card:active { transform:scale(0.97); }
     .dlg-scene-card:hover { border-color:var(--indigo); box-shadow:0 4px 18px rgba(79,70,229,0.15); }
     .dlg-scene-card.done { border-color:#10b981; }
+    .dlg-scene-card.completed-good { border-color:#10b981; }
+    .dlg-scene-card.completed-ok   { border-color:#f59e0b; }
+    .dlg-scene-card.completed-done { border-color:#94a3b8; }
+    .dlg-scene-done-badge { font-size:11px; font-weight:800; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+    .dlg-scene-done-badge.good { background:#d1fae5; color:#065f46; }
+    .dlg-scene-done-badge.ok   { background:#fef3c7; color:#92400e; }
+    .dlg-scene-done-badge.done { background:#f1f5f9; color:#64748b; }
+    body.dark .dlg-scene-done-badge.good { background:rgba(16,185,129,0.18); color:#6ee7b7; }
+    body.dark .dlg-scene-done-badge.ok   { background:rgba(245,158,11,0.18); color:#fcd34d; }
+    body.dark .dlg-scene-done-badge.done { background:rgba(148,163,184,0.12); color:#94a3b8; }
     .dlg-scene-emoji { font-size:36px; line-height:1; flex-shrink:0; }
     .dlg-scene-info { flex:1; min-width:0; }
     .dlg-scene-name { font-size:16px; font-weight:800; color:var(--text); margin-bottom:2px; }
@@ -917,6 +961,18 @@
     .dlg-choice-btn { background:var(--card); border:2px solid var(--border); border-radius:14px; padding:12px 16px; text-align:left; font-size:13.5px; font-weight:600; color:var(--text); cursor:pointer; line-height:1.45; transition:border-color 0.15s,background 0.15s,transform 0.1s; }
     .dlg-choice-btn:hover { border-color:var(--indigo); background:rgba(79,70,229,0.05); }
     .dlg-choice-btn:active { transform:scale(0.98); }
+    .dlg-bubble-hint { font-size:11px; opacity:0.58; margin-top:4px; font-style:italic; font-weight:400; }
+    .dlg-choice-hint { display:block; font-size:11px; opacity:0.58; margin-top:3px; font-style:italic; font-weight:400; }
+    .dlg-replay-btn { background:none; border:none; font-size:13px; cursor:pointer; opacity:0.42; padding:2px 5px; border-radius:8px; margin-top:3px; transition:opacity 0.15s,background 0.15s; display:inline-block; line-height:1; }
+    .dlg-replay-btn:hover { opacity:0.88; background:rgba(99,102,241,0.09); }
+    .dlg-replay-btn.tts-loading { animation: tts-spin 0.75s linear infinite; opacity:0.72; }
+    .tts-speed-btn { background:none; border:2px solid var(--border); border-radius:10px; padding:4px 9px; font-size:12px; cursor:pointer; color:var(--muted); transition:all 0.18s; font-weight:700; white-space:nowrap; }
+    .tts-speed-btn:hover { border-color:var(--indigo); color:var(--indigo); }
+    .tts-speed-btn.slow { border-color:var(--indigo); color:var(--indigo); background:rgba(99,102,241,0.1); }
+    body.dark .tts-speed-btn { border-color:var(--border); color:var(--muted); }
+    body.dark .tts-speed-btn:hover { border-color:#6366f1; color:#818cf8; }
+    body.dark .tts-speed-btn.slow { border-color:#6366f1; color:#818cf8; background:rgba(99,102,241,0.22); }
+    body.dark .dlg-replay-btn:hover { background:rgba(99,102,241,0.15); color:#a5b4fc; }
     .dlg-choice-btn.selected-good { border-color:#10b981; background:rgba(16,185,129,0.08); color:#065f46; }
     .dlg-choice-btn.selected-ok   { border-color:#f59e0b; background:rgba(245,158,11,0.08); color:#92400e; }
     .dlg-choice-btn.selected-bad  { border-color:#ef4444; background:rgba(239,68,68,0.08); color:#991b1b; }
@@ -937,6 +993,10 @@
     .dlg-retry-btn { width:100%; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border:none; border-radius:14px; padding:13px; font-size:15px; font-weight:800; cursor:pointer; margin-bottom:10px; box-shadow:0 4px 14px rgba(79,70,229,0.3); }
     .dlg-back-btn2 { width:100%; background:var(--bg); color:var(--muted); border:2px solid var(--border); border-radius:14px; padding:11px; font-size:14px; font-weight:700; cursor:pointer; }
     #dlg-play-view .back-btn { margin-bottom:6px; }
+    .dlg-live-bar-wrap { margin:4px 0 8px; display:flex; align-items:center; gap:8px; }
+    .dlg-live-bar-bg { flex:1; background:var(--border); border-radius:99px; height:6px; overflow:hidden; }
+    .dlg-live-bar-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,#4F46E5,#7C3AED); transition:width 0.4s ease; }
+    .dlg-live-turn-txt { font-size:11px; color:var(--muted); white-space:nowrap; font-weight:600; }
 
     /* ═══════════════════════════════════
        CONJUGAISON
@@ -996,6 +1056,10 @@
     .ecoute-play-btn { width:72px; height:72px; border-radius:50%; border:none; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; font-size:26px; cursor:pointer; box-shadow:0 6px 20px rgba(79,70,229,0.4); transition:transform 0.15s,box-shadow 0.15s; display:inline-flex; align-items:center; justify-content:center; }
     .ecoute-play-btn:active { transform:scale(0.94); box-shadow:0 3px 10px rgba(79,70,229,0.3); }
     .ecoute-play-btn.playing { background:linear-gradient(135deg,#10b981,#059669); box-shadow:0 6px 20px rgba(16,185,129,0.4); }
+    @keyframes tts-spin { to { transform: rotate(360deg); } }
+    .tts-loading { opacity: 0.72 !important; pointer-events: none !important; }
+    .ecoute-play-btn.tts-loading,
+    .fc-speak-btn.tts-loading,
     .ecoute-play-label { font-size:12px; color:var(--muted); margin-top:8px; font-weight:600; }
     .ecoute-hint { font-size:11px; color:var(--muted); margin-top:10px; font-style:italic; }
 
@@ -1091,7 +1155,7 @@
     </div>
     <span class="ob-emoji">🦊</span>
     <div class="ob-title ob-i18n" data-fr="Bienvenue sur FrenchGo !" data-en="Welcome to FrenchGo!" data-zh="欢迎使用 FrenchGo！">Bienvenue sur FrenchGo !</div>
-    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié." data-en="Learn French at your own pace with 65 interactive lessons, quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，65节互动课程、测验和游戏化进度系统。">Apprenez le français à votre rythme avec 65 leçons interactives, des quiz et un système de progression gamifié.</div>
+    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 70 leçons interactives, 365 quiz et un système de progression gamifié." data-en="Learn French at your own pace with 70 interactive lessons, 365 quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，70节互动课程、365道测验和游戏化进度系统。">Apprenez le français à votre rythme avec 70 leçons interactives, 365 quiz et un système de progression gamifié.</div>
   </div>
 
   <!-- Slide 1 : fonctionnalités -->
@@ -1102,14 +1166,14 @@
       <div class="ob-feat">
         <span class="ob-feat-icon">📚</span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="65 leçons structurées"    data-en="65 structured lessons"    data-zh="65节结构化课程">65 leçons structurées</strong>
+          <strong class="ob-i18n" data-fr="70 leçons structurées"    data-en="70 structured lessons"    data-zh="70节结构化课程">70 leçons structurées</strong>
           <span   class="ob-i18n" data-fr="Du débutant au niveau avancé" data-en="From beginner to advanced" data-zh="从初级到高级">Du débutant au niveau avancé</span>
         </div>
       </div>
       <div class="ob-feat">
         <span class="ob-feat-icon">🎯</span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="275 quiz interactifs"    data-en="275 interactive quizzes"   data-zh="275道互动测验">275 quiz interactifs</strong>
+          <strong class="ob-i18n" data-fr="365 quiz interactifs"    data-en="365 interactive quizzes"   data-zh="365道互动测验">365 quiz interactifs</strong>
           <span   class="ob-i18n" data-fr="Testez vos connaissances à chaque étape" data-en="Test your knowledge at every step" data-zh="每一步测试您的知识">Testez vos connaissances à chaque étape</span>
         </div>
       </div>
@@ -1185,12 +1249,12 @@
   </div>
 </header>
 
-<nav>
-  <button id="nav-home" class="active" onclick="showTab('home')"><span class="nav-icon">🏠</span><span class="nav-label" id="nav-lbl-home">Accueil</span></button>
-  <button id="nav-lessons" onclick="showTab('lessons')"><span class="nav-icon">📚</span><span class="nav-label" id="nav-lbl-lessons">Leçons</span></button>
-  <button id="nav-progress" onclick="showTab('progress')"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
-  <button id="nav-flashcards" onclick="showTab('flashcards')"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
-  <button id="nav-vocab" onclick="showTab('vocab')"><span class="nav-icon">📖</span><span class="nav-label" id="nav-lbl-vocab">Vocab</span></button>
+<nav role="navigation" aria-label="Navigation principale">
+  <button id="nav-home" class="active" onclick="showTab('home')" aria-label="Accueil" aria-current="page"><span class="nav-icon">🏠</span><span class="nav-label" id="nav-lbl-home">Accueil</span></button>
+  <button id="nav-lessons" onclick="showTab('lessons')" aria-label="Leçons"><span class="nav-icon">📚</span><span class="nav-label" id="nav-lbl-lessons">Leçons</span></button>
+  <button id="nav-progress" onclick="showTab('progress')" aria-label="Progrès"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
+  <button id="nav-flashcards" onclick="showTab('flashcards')" aria-label="Cartes mémoire"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
+  <button id="nav-vocab" onclick="showTab('vocab')" aria-label="Vocabulaire"><span class="nav-icon">📖</span><span class="nav-label" id="nav-lbl-vocab">Vocab</span></button>
   <button id="nav-dialogues" onclick="showTab('dialogues')"><span class="nav-icon">💬</span><span class="nav-label" id="nav-lbl-dialogues">Dialogues</span></button>
   <button id="nav-conjugaison" onclick="showTab('conjugaison')"><span class="nav-icon">🔤</span><span class="nav-label" id="nav-lbl-conjugaison">Conjugaison</span></button>
   <button id="nav-ecoute" onclick="showTab('ecoute')"><span class="nav-icon">🔊</span><span class="nav-label" id="nav-lbl-ecoute">Écoute</span></button>
@@ -1236,6 +1300,9 @@
       <div class="hero-mascot" id="home-mascot"></div>
     </div>
     <div id="home-unlocked"></div>
+    <div id="home-goal-tip"></div>
+    <div id="home-level-prog"></div>
+    <div id="home-quick-review-wrap"></div>
     <div class="section-title" id="home-continue-title"></div>
     <div id="home-continue"></div>
     <div class="section-title" id="home-start-title"></div>
@@ -1535,6 +1602,10 @@
     <button class="back-btn" id="quiz-back-btn" onclick="closeQuiz()"></button>
     <div class="card">
       <div class="quiz-progress" id="quiz-dots"></div>
+      <div class="quiz-timer-wrap" id="quiz-timer-wrap" style="display:none">
+        <div class="quiz-timer-bar-bg"><div class="quiz-timer-bar-fill" id="quiz-timer-fill" style="width:100%"></div></div>
+        <span class="quiz-timer-num" id="quiz-timer-num">15</span>
+      </div>
       <div class="quiz-question-num" id="q-num"></div>
       <div class="quiz-question" id="q-text"></div>
       <div class="quiz-options" id="q-options"></div>
@@ -1569,6 +1640,16 @@
     </div>
   </div>
   <!-- BADGE TOAST -->
+  <div id="install-banner" role="complementary" aria-label="Installer l'application">
+    <span class="ib-icon">📲</span>
+    <div class="ib-text">
+      <div class="ib-title" id="ib-title">Installer FrenchGo</div>
+      <div class="ib-sub" id="ib-sub">Accès rapide depuis l'écran d'accueil</div>
+    </div>
+    <button class="ib-btn" id="ib-install-btn" onclick="triggerInstall()">Installer</button>
+    <button class="ib-close" onclick="dismissInstallBanner()" aria-label="Fermer">✕</button>
+  </div>
+  <div id="offline-banner" role="status" aria-live="polite">📡 <span id="offline-msg">Hors ligne — voix locale activée</span></div>
   <div id="badge-toast">
     <div class="badge-toast-emoji" id="bt-emoji">🏆</div>
     <div>
@@ -1588,9 +1669,13 @@
       <div id="dlg-scenes-grid"></div>
     </div>
     <div id="dlg-play-view" style="display:none">
-      <button class="back-btn" onclick="dlgBackToList()">←</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <button class="back-btn" onclick="dlgBackToList()" style="margin-bottom:0">←</button>
+        <button class="tts-speed-btn" id="dlg-speed-btn" onclick="toggleTTSSpeed(this)">🐢 Lent</button>
+      </div>
       <div class="dlg-scene-badge" id="dlg-scene-badge"></div>
       <div class="dlg-scene-title" id="dlg-scene-title"></div>
+      <div class="dlg-live-bar-wrap"><div class="dlg-live-bar-bg"><div class="dlg-live-bar-fill" id="dlg-live-fill" style="width:0%"></div></div><span class="dlg-live-turn-txt" id="dlg-live-txt"></span></div>
       <div id="dlg-chat-area" class="dlg-chat-area"></div>
       <div id="dlg-choices-area" class="dlg-choices-area"></div>
       <div id="dlg-feedback-area" class="dlg-feedback-area" style="display:none"></div>
@@ -1660,6 +1745,7 @@
         <div class="ecoute-level-badge" id="ecoute-level-badge"></div>
         <button class="ecoute-play-btn" id="ecoute-play-btn" onclick="ecoutePlay()">▶</button>
         <div class="ecoute-play-label" id="ecoute-play-label">Écouter</div>
+        <button class="tts-speed-btn" id="ecoute-speed-btn" onclick="toggleTTSSpeed(this)" style="margin:6px auto 0;display:block;">🐢 Lent</button>
         <div class="ecoute-hint" id="ecoute-hint"></div>
       </div>
       <div class="dlg-choices-area" id="ecoute-choices"></div>
@@ -1725,7 +1811,7 @@
     <div class="modal-sub" id="modal-sub">Débloquez les 58 leçons avancées et progressez rapidement en français.</div>
     <div class="modal-features">
       <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">58 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
-      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">325 exercices de quiz interactifs</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">365 exercices de quiz interactifs</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🔄</span><span id="mf3">Mises à jour gratuites à vie</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🌍</span><span id="mf4">Interface trilingue FR / EN / 中文</span></div>
     </div>
@@ -1904,8 +1990,8 @@ function initMascot() {
 function hideSplash() {
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
-  // 1.5s minimum only in TWA/standalone APK — instant on web browser
-  var minDelay = isStandaloneApp() ? 2000 : 1500;
+  // Min 3s on all platforms — la page fait ~1MB, le parsing peut prendre 1s+
+  var minDelay = isStandaloneApp() ? 3500 : 3000;
   var elapsed = Date.now() - (window._splashStart || Date.now());
   var remaining = Math.max(0, minDelay - elapsed);
   setTimeout(function() {
@@ -10695,7 +10781,7 @@ const LESSONS = [
 <tr><td>Le Premier ministre</td><td>Chef du gouvernement fédéral</td></tr>
 <tr><td>Le Parlement</td><td>Chambre des communes + Sénat</td></tr>
 </table>
-<h3>Immigration — Vocabulaire essentiel</html></h3>
+<h3>Immigration — Vocabulaire essentiel</h3>
 <table class="vocab-table">
 <tr><td>la résidence permanente (RP)</td><td>permanent residency</td></tr>
 <tr><td>la citoyenneté</td><td>citizenship</td></tr>
@@ -18255,6 +18341,9 @@ function renderVocab() {
 let quizIndex   = 0;
 let quizScore   = 0;
 let quizAnswered = false;
+let quizCombo   = 0;  // consecutive correct answers
+var _quizTimerInterval = null;
+var _quizTimerSec = 15;
 let currentLevelFilter = 'all';
 let fcFilter = 'all';
 let fcTheme = 'all';
@@ -18304,33 +18393,77 @@ function _detectLangCode(text) {
 /* ── Cloud TTS — Google Neural2 via Netlify /api/tts proxy ── */
 var ttsCache = {};
 var _currentTTSAudio = null;
+var _ttsSlowMode = !!parseInt(localStorage.getItem('ff_tts_slow')||'0');
+
+// ── TTS daily quota (50 API calls/day for free users) ──────────
+var TTS_DAILY_LIMIT = 50;
+function _ttsGetQuota() {
+  var today = new Date().toISOString().slice(0, 10);
+  try {
+    var q = JSON.parse(localStorage.getItem('ff_tts_q') || '{}');
+    if (q.d !== today) return { d: today, n: 0 };
+    return q;
+  } catch(e) { return { d: today, n: 0 }; }
+}
+function _ttsIncrQuota() {
+  var q = _ttsGetQuota();
+  q.n = (q.n || 0) + 1;
+  try { localStorage.setItem('ff_tts_q', JSON.stringify(q)); } catch(e) {}
+  return q.n;
+}
+function _ttsQuotaExceeded() {
+  return _ttsGetQuota().n >= TTS_DAILY_LIMIT;
+}
+function toggleTTSSpeed(triggeredBtn) {
+  _ttsSlowMode = !_ttsSlowMode;
+  localStorage.setItem('ff_tts_slow', _ttsSlowMode ? '1' : '0');
+  document.querySelectorAll('.tts-speed-btn').forEach(function(b) {
+    b.classList.toggle('slow', _ttsSlowMode);
+  });
+}
 function stopFr() {
   if (_currentTTSAudio) { try { _currentTTSAudio.pause(); _currentTTSAudio.currentTime = 0; } catch(e){} _currentTTSAudio = null; }
 }
-function playFr(text, onEnd) {
+function playFr(text, onEnd, btnEl) {
   if (!text) { if (onEnd) onEnd(); return; }
   stopFr();
-  // Memory cache hit
-  if (ttsCache[text]) {
-    var a = new Audio(ttsCache[text]);
+  var slow = _ttsSlowMode;
+  var cacheKey = text + (slow ? '||slow' : '');
+  // Loading state helpers
+  function _setLoading(on) {
+    if (!btnEl) return;
+    if (on) { btnEl.classList.add('tts-loading'); btnEl.disabled = true; }
+    else    { btnEl.classList.remove('tts-loading'); btnEl.disabled = false; }
+  }
+  // Memory cache hit — instant, no loading needed
+  if (ttsCache[cacheKey]) {
+    var a = new Audio(ttsCache[cacheKey]);
     _currentTTSAudio = a;
     if (onEnd) a.onended = onEnd;
     a.play().catch(function(){ stopFr(); speakLocal(text, 'fr-FR', onEnd); });
     return;
   }
-  // Call Netlify Function proxy
-  fetch('/api/tts?q=' + encodeURIComponent(text))
+  // Network fetch — check daily quota first
+  if (_ttsQuotaExceeded()) {
+    // Limit reached: fallback to browser voice silently
+    speakLocal(text, 'fr-FR', onEnd);
+    return;
+  }
+  _setLoading(true);
+  fetch('/api/tts?q=' + encodeURIComponent(text) + (slow ? '&speed=slow' : ''))
     .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
     .then(function(d){
+      _setLoading(false);
       if (!d.audio) { speakLocal(text, 'fr-FR', onEnd); return; }
+      _ttsIncrQuota();
       var url = 'data:audio/mp3;base64,' + d.audio;
-      ttsCache[text] = url;
+      ttsCache[cacheKey] = url;
       var a = new Audio(url);
       _currentTTSAudio = a;
       if (onEnd) a.onended = onEnd;
       a.play().catch(function(){ stopFr(); speakLocal(text, 'fr-FR', onEnd); });
     })
-    .catch(function(){ speakLocal(text, 'fr-FR', onEnd); });
+    .catch(function(){ _setLoading(false); speakLocal(text, 'fr-FR', onEnd); });
 }
 function speakLocal(text, forceLang, onEnd) {
   if (!window.speechSynthesis || !text) { if (onEnd) onEnd(); return; }
@@ -18371,12 +18504,13 @@ function speakQuestion() {
   var langCode = lang === 'en' ? 'en-US' : lang === 'zh' ? 'zh-CN' : 'fr-FR';
   speak(text, langCode);
 }
-function speakCurrentCard() {
+function speakCurrentCard(btn) {
   const card = fcDeck[fcIndex];
-  if (card) speak(card.fr, 'fr-FR');
+  if (card) playFr(card.fr, null, btn || null);
 }
 function addVocabSpeakBtns(container) {
   if (!container) return;
+  // Vocab table cells — upgrade to Cloud TTS
   container.querySelectorAll('table.vocab-table tr').forEach(row => {
     const td = row.querySelector('td:first-child');
     if (!td || td.querySelector('.speak-btn')) return;
@@ -18386,8 +18520,31 @@ function addVocabSpeakBtns(container) {
     btn.className = 'speak-btn';
     btn.textContent = '🔊';
     btn.title = 'Écouter';
-    btn.onclick = e => { e.stopPropagation(); speak(text); };
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      if (typeof playFr === 'function') playFr(text, null, btn);
+      else speak(text);
+    };
     td.appendChild(btn);
+  });
+  // Example boxes — add a "🔊 Écouter" button before each example-box
+  container.querySelectorAll('.example-box').forEach(function(box) {
+    if (box.querySelector('.example-speak-btn')) return;
+    var rawText = box.textContent.trim();
+    // Extract only the French line (first line, before ' — ')
+    var frLine = rawText.split('\n')[0].replace(/^[—–-]\s*/, '').trim();
+    if (!frLine) return;
+    var btn = document.createElement('button');
+    btn.className = 'example-speak-btn speak-btn';
+    btn.textContent = '🔊';
+    btn.title = 'Écouter l\'exemple';
+    btn.style.cssText = 'float:right;margin:-2px 0 4px 8px;';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      if (typeof playFr === 'function') playFr(frLine, null, btn);
+      else speak(frLine);
+    };
+    box.insertBefore(btn, box.firstChild);
   });
 }
 
@@ -18489,7 +18646,11 @@ function showTab(tab) {
     const sec = document.getElementById('tab-'+id);
     const btn = document.getElementById('nav-'+id);
     if (sec) sec.classList.toggle('active', id===tab);
-    if (btn) btn.classList.toggle('active', id===tab);
+    if (btn) {
+      btn.classList.toggle('active', id===tab);
+      if (id===tab) btn.setAttribute('aria-current','page');
+      else btn.removeAttribute('aria-current');
+    }
   });
   if (tab==='home')       renderHome();
   if (tab==='lessons')    renderLessonsList();
@@ -18549,6 +18710,28 @@ function renderCurrentView() {
 /* ══════════════════════════════════════
    HOME
 ══════════════════════════════════════ */
+function startQuickReview() {
+  // Pick 10 random flashcards
+  var deck = FLASHCARDS.slice();
+  // Fisher-Yates shuffle
+  for (var i = deck.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
+  }
+  var quickDeck = deck.slice(0, 10);
+  // Navigate to flashcards tab with a pre-loaded quick deck
+  window._quickReviewDeck = quickDeck;
+  showTab('flashcards');
+  // Small delay to let the tab render, then start
+  setTimeout(function() {
+    if (typeof startQuickReviewDeck === 'function') startQuickReviewDeck(quickDeck);
+    else {
+      // Fallback: just open the flashcards tab
+      window._quickReviewDeck = null;
+    }
+  }, 200);
+}
+
 function renderHome() {
   updateXPDisplay();
   const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
@@ -18605,6 +18788,119 @@ function renderHome() {
       unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
     }
   }
+  // ── Bloc objectif personnalisé ──
+  var goalEl = document.getElementById('home-goal-tip');
+  if (goalEl) {
+    var goal = localStorage.getItem('ff_goal') || '';
+    var goalCfg = {
+      immigration: {
+        emoji: '🍁',
+        fr: 'Votre objectif : Immigration Canada',
+        en: 'Your goal: Canadian Immigration',
+        zh: '您的目标：加拿大移民',
+        sub_fr: 'Les leçons TCF/TEF sont prioritaires pour vous.',
+        sub_en: 'TCF/TEF lessons are your priority.',
+        sub_zh: 'TCF/TEF课程是您的重点。',
+        tab: 'lessons', filter: 'tcf', cta_fr: 'Voir les leçons TCF/TEF →', cta_en: 'View TCF/TEF lessons →', cta_zh: '查看TCF/TEF课程 →',
+        color: '#059669'
+      },
+      travel: {
+        emoji: '✈️',
+        fr: 'Votre objectif : Voyage',
+        en: 'Your goal: Travel',
+        zh: '您的目标：旅游',
+        sub_fr: 'Maîtrisez les bases pour voyager sereinement.',
+        sub_en: 'Master the basics for confident travel.',
+        sub_zh: '掌握基础知识，自信旅行。',
+        tab: 'lessons', filter: 'beginner', cta_fr: 'Leçons débutant →', cta_en: 'Beginner lessons →', cta_zh: '初级课程 →',
+        color: '#3B82F6'
+      },
+      pro: {
+        emoji: '💼',
+        fr: 'Votre objectif : Professionnel',
+        en: 'Your goal: Professional',
+        zh: '您的目标：职业发展',
+        sub_fr: 'Renforcez votre français des affaires.',
+        sub_en: 'Strengthen your business French.',
+        sub_zh: '提升您的商务法语水平。',
+        tab: 'lessons', filter: 'advanced', cta_fr: 'Leçons avancées →', cta_en: 'Advanced lessons →', cta_zh: '高级课程 →',
+        color: '#7C3AED'
+      },
+      fluent: {
+        emoji: '🌟',
+        fr: 'Votre objectif : Maîtrise totale',
+        en: 'Your goal: Full mastery',
+        zh: '您的目标：完全掌握',
+        sub_fr: 'Complétez toutes les leçons pour atteindre la fluidité.',
+        sub_en: 'Complete all lessons to reach fluency.',
+        sub_zh: '完成所有课程以达到流利水平。',
+        tab: 'progress', filter: '', cta_fr: 'Voir ma progression →', cta_en: 'View my progress →', cta_zh: '查看我的进度 →',
+        color: '#D97706'
+      }
+    };
+    var cfg = goalCfg[goal];
+    if (cfg) {
+      var title = cfg[lang] || cfg.fr;
+      var sub   = cfg['sub_'+lang] || cfg.sub_fr;
+      var cta   = cfg['cta_'+lang] || cfg.cta_fr;
+      goalEl.innerHTML = '<div onclick="showTab(\'' + cfg.tab + '\')" style="cursor:pointer;background:linear-gradient(135deg,'+cfg.color+'22,'+cfg.color+'11);border:1.5px solid '+cfg.color+'44;border-radius:14px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">'
+        + '<span style="font-size:26px;flex-shrink:0;">'+cfg.emoji+'</span>'
+        + '<div style="flex:1;min-width:0;">'
+        + '<div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:2px;">'+title+'</div>'
+        + '<div style="font-size:11.5px;color:var(--muted);line-height:1.4;">'+sub+'</div>'
+        + '</div>'
+        + '<span style="font-size:11px;font-weight:700;color:'+cfg.color+';white-space:nowrap;">'+cta+'</span>'
+        + '</div>';
+    } else {
+      goalEl.innerHTML = '';
+    }
+  }
+
+  // ── Progression par niveau ──
+  var lvlProgEl = document.getElementById('home-level-prog');
+  if (lvlProgEl) {
+    var lvlGroups = { beginner:[], intermediate:[], advanced:[], tcf:[] };
+    LESSONS.forEach(function(l) { if (lvlGroups[l.level]) lvlGroups[l.level].push(l); });
+    var lvlLabels = {
+      beginner:  lang==='en'?'Beginner':lang==='zh'?'初级':'Débutant',
+      intermediate: lang==='en'?'Intermediate':lang==='zh'?'中级':'Intermédiaire',
+      advanced:  lang==='en'?'Advanced':lang==='zh'?'高级':'Avancé',
+      tcf:       lang==='en'?'TCF/TEF':lang==='zh'?'TCF/TEF':'TCF/TEF'
+    };
+    var lvlColors = { beginner:'#10b981', intermediate:'#3b82f6', advanced:'#7c3aed', tcf:'#f59e0b' };
+    var html = '<div style="margin-bottom:14px;">';
+    html += '<div class="section-title" style="margin-top:0;margin-bottom:8px;">'+(lang==='en'?'Progress by level':lang==='zh'?'按级别进度':'Progression par niveau')+'</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+    ['beginner','intermediate','advanced','tcf'].forEach(function(lv) {
+      var group = lvlGroups[lv];
+      if (!group.length) return;
+      var doneCnt = group.filter(function(l){ return state[l.id] && state[l.id].completed; }).length;
+      var pct = Math.round(doneCnt / group.length * 100);
+      var color = lvlColors[lv];
+      html += '<div style="background:var(--card);border-radius:12px;padding:10px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);">'
+        + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">'
+        + '<span style="font-size:11px;font-weight:800;color:'+color+';">'+lvlLabels[lv]+'</span>'
+        + '<span style="font-size:11px;font-weight:700;color:var(--muted);">'+doneCnt+'/'+group.length+'</span>'
+        + '</div>'
+        + '<div style="background:var(--border);border-radius:99px;height:5px;overflow:hidden;">'
+        + '<div style="background:'+color+';height:5px;border-radius:99px;width:'+pct+'%;transition:width 0.5s;"></div>'
+        + '</div></div>';
+    });
+    html += '</div></div>';
+    lvlProgEl.innerHTML = html;
+  }
+
+  // ── Bouton Révision rapide ──
+  var qrWrap = document.getElementById('home-quick-review-wrap');
+  if (qrWrap) {
+    var qrTitle = lang==='en' ? '⚡ Quick Review' : lang==='zh' ? '⚡ 快速复习' : '⚡ Révision rapide';
+    var qrSub   = lang==='en' ? '10 random flashcards — 2 min' : lang==='zh' ? '10张随机闪卡 — 2分钟' : '10 cartes aléatoires — 2 min';
+    qrWrap.innerHTML = '<button class="quick-review-btn" onclick="startQuickReview()" aria-label="' + qrTitle + '">'
+      + '<span class="qr-icon">🃏</span>'
+      + '<div class="qr-text"><div class="qr-title">' + qrTitle + '</div><div class="qr-sub">' + qrSub + '</div></div>'
+      + '<span class="qr-arrow">→</span></button>';
+  }
+
   const first = LESSONS[0]; const s0 = state[first.id]||{};
   const pct0 = s0.completed ? 100 : (s0.score ? Math.round(s0.score/first.quiz.length*100) : 0);
   set('home-first-tag', t('beginner'));
@@ -18705,19 +19001,24 @@ function renderLessonsList() {
    LESSON DETAIL
 ══════════════════════════════════════ */
 function openLesson(id) {
-  if (isPremium(id) && !isUnlocked()) { openPaywall(); return; }
-  currentLesson = LESSONS.find(l => l.id===id);
-  if (!currentLesson) return;
-  const rawContent = (lang==='zh' && CONTENT_ZH[id]) ? CONTENT_ZH[id] :
-                     (lang==='en' && CONTENT_EN && CONTENT_EN[id]) ? CONTENT_EN[id] :
-                     currentLesson.content;
-  lessonPages = Array.isArray(rawContent) ? rawContent : [rawContent];
-  currentLessonPageIdx = 0;
-  // Hide all tab sections so lesson-view is the only thing visible
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('lesson-view').classList.add('active');
-  window.scrollTo(0, 0);
-  renderLessonPage();
+  try {
+    if (isPremium(id) && !isUnlocked()) { openPaywall(); return; }
+    currentLesson = LESSONS.find(l => l.id===id);
+    if (!currentLesson) { console.warn('openLesson: lesson not found', id); return; }
+    const rawContent = (lang==='zh' && CONTENT_ZH[id]) ? CONTENT_ZH[id] :
+                       (lang==='en' && CONTENT_EN && CONTENT_EN[id]) ? CONTENT_EN[id] :
+                       currentLesson.content;
+    lessonPages = Array.isArray(rawContent) ? rawContent : [rawContent];
+    currentLessonPageIdx = 0;
+    // Hide all tab sections so lesson-view is the only thing visible
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('lesson-view').classList.add('active');
+    window.scrollTo(0, 0);
+    renderLessonPage();
+  } catch(err) {
+    console.error('openLesson error:', err);
+    showStreakToast(lang==='en' ? 'Error loading lesson' : 'Erreur de chargement');
+  }
 }
 function renderLessonPage() {
   const l = currentLesson;
@@ -18821,11 +19122,41 @@ function startQuiz() {
   if (!currentLesson) return;
   var l = currentLesson;
   var rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] : l.quiz;
-  quizIndex = 0; quizScore = 0; quizAnswered = false; window.wrongAnswersList = [];
+  quizIndex = 0; quizScore = 0; quizAnswered = false; quizCombo = 0; window.wrongAnswersList = []; _clearQuizTimer();
   _quizData = _buildQuizData(rawQuiz);
   document.getElementById('lesson-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
   _renderQD(_quizData);
+}
+
+function _clearQuizTimer() {
+  if (_quizTimerInterval) { clearInterval(_quizTimerInterval); _quizTimerInterval = null; }
+  var wrap = document.getElementById('quiz-timer-wrap');
+  if (wrap) wrap.style.display = 'none';
+}
+function _startQuizTimer() {
+  _clearQuizTimer();
+  var wrap = document.getElementById('quiz-timer-wrap');
+  var fill = document.getElementById('quiz-timer-fill');
+  var num  = document.getElementById('quiz-timer-num');
+  if (!wrap) return;
+  wrap.style.display = 'flex';
+  _quizTimerSec = 15;
+  if (fill) { fill.style.transition='none'; fill.style.width='100%'; fill.classList.remove('urgent'); }
+  if (num)  { num.textContent = _quizTimerSec; num.classList.remove('urgent'); }
+  setTimeout(function() {
+    if (fill) fill.style.transition = 'width 1s linear';
+    _quizTimerInterval = setInterval(function() {
+      _quizTimerSec--;
+      var pct = Math.max(0, _quizTimerSec / 15 * 100);
+      if (fill) { fill.style.width = pct + '%'; fill.classList.toggle('urgent', _quizTimerSec <= 5); }
+      if (num)  { num.textContent = _quizTimerSec; num.classList.toggle('urgent', _quizTimerSec <= 5); }
+      if (_quizTimerSec <= 0) {
+        _clearQuizTimer();
+        if (!quizAnswered) _selectAnswer(-1); // timeout = wrong answer
+      }
+    }, 1000);
+  }, 50);
 }
 
 function _renderQD(dataArr) {
@@ -18850,6 +19181,7 @@ function _renderQD(dataArr) {
   if (d.type === 'fill') _renderFill(d);
   else if (d.type === 'bubbles') _renderBubbles(d);
   else _renderMCQ(d);
+  _startQuizTimer();
 }
 
 function _esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -18905,10 +19237,17 @@ function _selectAnswer(i) {
   var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
   if (quizAnswered) return;
   quizAnswered = true;
+  _clearQuizTimer();
   var d = dataArr[quizIndex];
   var correct = i === d.ans;
-  if (correct) quizScore++;
-  else { if (!window.wrongAnswersList) window.wrongAnswersList = []; window.wrongAnswersList.push(quizIndex); }
+  if (correct) {
+    quizScore++;
+    quizCombo++;
+  } else {
+    quizCombo = 0;
+    if (!window.wrongAnswersList) window.wrongAnswersList = [];
+    window.wrongAnswersList.push(quizIndex);
+  }
   var opts = document.querySelectorAll('.quiz-option');
   opts.forEach(function(btn, j) {
     btn.disabled = true;
@@ -18926,7 +19265,15 @@ function _selectAnswer(i) {
   if (fb) {
     fb.className = 'feedback-box show ' + (correct ? 'correct' : 'wrong');
     if (correct) {
-      fb.innerHTML = '<div>' + t('correctMsg') + '</div>';
+      var comboHtml = '';
+      var xpBonus = 0;
+      if (quizCombo >= 3) {
+        xpBonus = 10;
+        var comboLbl = lang==='en' ? quizCombo+'× Combo! 🔥' : lang==='zh' ? quizCombo+'连击！🔥' : quizCombo+'× Combo ! 🔥';
+        comboHtml = '<span class="quiz-combo-badge">' + comboLbl + ' +' + xpBonus + ' XP</span>';
+        if (xpBonus > 0 && typeof addBonusXP === 'function') addBonusXP(xpBonus);
+      }
+      fb.innerHTML = '<div>' + t('correctMsg') + comboHtml + '</div>';
     } else {
       var q = d.q;
       var expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
@@ -18963,6 +19310,7 @@ function nextQuestion() {
 
 
 function showResult() {
+  _clearQuizTimer();
   var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
   var total = dataArr.length;
   var pct = total > 0 ? Math.round(quizScore / total * 100) : 0;
@@ -19085,7 +19433,7 @@ function retryWrongAnswers() {
   if (!window.wrongAnswersList || window.wrongAnswersList.length === 0) return;
   window._wrongOnlyQuizData = window.wrongAnswersList.map(function(i){ return _quizData[i]; });
   window._wrongMode = true;
-  quizIndex = 0; quizScore = 0; quizAnswered = false; window.wrongAnswersList = [];
+  quizIndex = 0; quizScore = 0; quizAnswered = false; quizCombo = 0; window.wrongAnswersList = [];
   document.getElementById('result-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
   _renderQD(window._wrongOnlyQuizData);
@@ -19517,6 +19865,7 @@ function clearLessonSearch() {
   if (input) { input.value = ''; filterLessons(''); input.focus(); }
 }
 function closeQuiz() {
+  _clearQuizTimer();
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('lesson-view').classList.add('active');
   renderLessonPage();
@@ -19578,6 +19927,16 @@ function buildFCDeck() {
   }
   fcDeck = pool; fcIndex = 0; fcFlipped = false;
 }
+function startQuickReviewDeck(deck) {
+  fcDeck = deck;
+  fcIndex = 0;
+  fcFlipped = false;
+  renderFlashcard();
+  // Show a toast
+  var msg = lang==='en' ? '⚡ Quick Review — 10 cards!' : lang==='zh' ? '⚡ 快速复习 — 10张卡片！' : '⚡ Révision rapide — 10 cartes !';
+  showStreakToast(msg);
+}
+
 function fcReset() {
   fcIndex = 0; fcFlipped = false;
   renderFlashcard();
@@ -19637,12 +19996,12 @@ function renderFlashcard() {
     +'<div class="fc-card'+(fcFlipped?' flipped':'')+'" onclick="fcFlip()">'
     +'<div class="fc-front">'
     +'<div class="fc-word">'+card.fr+'</div>'
-    +'<button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>'
+    +'<button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard(this);" title="Écouter">🔊</button>'
     +(fcFlipped?'':'<div class="fc-tap-hint">'+tapHint+'</div>')
     +'</div>'
     +'<div class="fc-back">'
     +'<div class="fc-word">'+back+'</div>'
-    +'<button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard();" title="Écouter">🔊</button>'
+    +'<button class="fc-speak-btn" onclick="event.stopPropagation();speakCurrentCard(this);" title="Écouter">🔊</button>'
     +exLine
     +'</div>'
     +'</div>'
@@ -19923,7 +20282,7 @@ function renderSettings() {
   updateLangBtn();
 }
 function openPrivacy() {
-  window.open('https://francaisgo.netlify.app/privacy', '_blank');
+  window.open('/privacy-policy.html', '_blank', 'noopener');
 }
 
 /* ══════════════════════════════════════
@@ -19939,9 +20298,9 @@ function openPaywall() {
   const setH = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
   if (lang==='en') {
     set('modal-title','Premium Content 🔓');
-    set('modal-sub','Unlock 55 advanced lessons and progress quickly in French.');
+    set('modal-sub','Unlock 58 advanced lessons and progress quickly in French.');
     set('mf1','58 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
-    set('mf2','325 interactive quiz exercises');
+    set('mf2','365 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
     set('modal-price-label','Full access — one-time payment');
@@ -19953,7 +20312,7 @@ function openPaywall() {
     set('modal-title','高级内容 🔓');
     set('modal-sub','解锁58节高级课程，快速提升法语水平。');
     set('mf1','58节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
-    set('mf2','325道互动测验');
+    set('mf2','365道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
     set('modal-price-label','完整访问 — 一次性付款');
@@ -19965,7 +20324,7 @@ function openPaywall() {
     set('modal-title','Contenu Premium 🔓');
     set('modal-sub','Débloquez les 58 leçons avancées et progressez rapidement en français.');
     set('mf1','58 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
-    set('mf2','325 exercices de quiz interactifs');
+    set('mf2','365 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
     set('modal-price-label','Accès complet — paiement unique');
@@ -20174,13 +20533,15 @@ function finishOnboarding() {
 ══════════════════════════════════════ */
 function initApp() {
   buildFCDeck();
+  // Restore TTS speed preference
+  if (_ttsSlowMode) document.querySelectorAll('.tts-speed-btn').forEach(function(b){ b.classList.add('slow'); });
   applyDarkMode();
   updateLangBtn();
   updateXPDisplay();
   initMascot();
   showTab('home');
   updateNav();
-  hideSplash();
+  // hideSplash() est appelé dans le boot IIFE (après décision onboarding)
   checkPendingNotification();
   updateLastActive();
   // Wire up onboarding lang buttons
@@ -20231,14 +20592,75 @@ function initApp() {
   initApp();
   const onboarded = localStorage.getItem('ff_onboarded');
   if (!onboarded) {
+    // Nouvel utilisateur : afficher l'onboarding derrière le splash,
+    // puis lancer la transition splash→onboarding
     const ob = document.getElementById('onboarding');
     if (ob) ob.classList.remove('hidden');
     obUpdateLang(lang);
   }
+  // Toujours appeler hideSplash() après la décision onboarding
+  // (délai calculé depuis _splashStart, min 3s)
+  hideSplash();
 })();
 /* ══════════════════════════════════════
    SERVICE WORKER REGISTRATION
 ══════════════════════════════════════ */
+// ── PWA Install prompt ──
+var _deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+  // Show banner only after 2nd session (not first visit)
+  var sessions = parseInt(localStorage.getItem('ff_sessions') || '0', 10) + 1;
+  localStorage.setItem('ff_sessions', sessions);
+  if (sessions >= 2 && !localStorage.getItem('ff_install_dismissed') && !isStandaloneApp()) {
+    setTimeout(function() { showInstallBanner(); }, 4000);
+  }
+});
+function showInstallBanner() {
+  var b = document.getElementById('install-banner');
+  if (!b) return;
+  var t1 = lang==='en' ? 'Install FrenchGo' : lang==='zh' ? '安装 FrenchGo' : 'Installer FrenchGo';
+  var t2 = lang==='en' ? 'Quick access from home screen' : lang==='zh' ? '从主屏幕快速访问' : 'Accès rapide depuis l\'écran d\'accueil';
+  var t3 = lang==='en' ? 'Install' : lang==='zh' ? '安装' : 'Installer';
+  var tEl = document.getElementById('ib-title'); if (tEl) tEl.textContent = t1;
+  var sEl = document.getElementById('ib-sub');   if (sEl) sEl.textContent = t2;
+  var bEl = document.getElementById('ib-install-btn'); if (bEl) bEl.textContent = t3;
+  b.classList.add('show');
+}
+function triggerInstall() {
+  if (!_deferredInstallPrompt) return;
+  _deferredInstallPrompt.prompt();
+  _deferredInstallPrompt.userChoice.then(function(res) {
+    if (res.outcome === 'accepted') localStorage.setItem('ff_install_dismissed', '1');
+    _deferredInstallPrompt = null;
+  });
+  dismissInstallBanner();
+}
+function dismissInstallBanner() {
+  var b = document.getElementById('install-banner');
+  if (b) b.classList.remove('show');
+  localStorage.setItem('ff_install_dismissed', '1');
+}
+
+// ── Offline / Online detection ──
+(function() {
+  var banner = document.getElementById('offline-banner');
+  var msg    = document.getElementById('offline-msg');
+  function updateOffline(isOffline) {
+    if (!banner) return;
+    if (isOffline) {
+      banner.classList.add('show');
+      if (msg) msg.textContent = lang==='en' ? 'Offline — local voice activated' : lang==='zh' ? '离线 — 已启用本地语音' : 'Hors ligne — voix locale activée';
+    } else {
+      banner.classList.remove('show');
+    }
+  }
+  window.addEventListener('offline', function() { updateOffline(true); });
+  window.addEventListener('online',  function() { updateOffline(false); });
+  if (!navigator.onLine) updateOffline(true);
+})();
+
 document.addEventListener('click', function(e) {
   var sel = document.getElementById('vocab-theme-selector');
   if (sel && !sel.contains(e.target)) closeThemeDropdown();
@@ -21088,11 +21510,19 @@ function renderDialogues() {
   var grid = document.getElementById('dlg-scenes-grid');
   if (!grid) return;
   grid.innerHTML = '';
+  var dlgProg = JSON.parse(localStorage.getItem('ff_dlg_progress') || '{}');
   dlgData.forEach(function(scene, idx) {
     var card = document.createElement('div');
-    card.className = 'dlg-scene-card';
+    var prog = dlgProg['dlg_' + idx];
+    var bestPct = prog ? (prog.best || 0) : 0;
+    var doneClass = prog ? (bestPct >= 80 ? 'completed-good' : bestPct >= 50 ? 'completed-ok' : 'completed-done') : '';
+    card.className = 'dlg-scene-card' + (doneClass ? ' ' + doneClass : '');
     var name = scene.nameKey[lang] || scene.nameKey.fr;
     var desc = scene.descKey[lang] || scene.descKey.fr;
+    var badgeHtml = prog
+      ? '<span class="dlg-scene-done-badge '+(bestPct>=80?'good':bestPct>=50?'ok':'done')+'">'+
+        (bestPct>=80?'✓ '+bestPct+'%':bestPct>=50?'~ '+bestPct+'%':'✓')+'</span>'
+      : '';
     card.innerHTML =
       '<div class="dlg-scene-emoji">'+scene.emoji+'</div>'+
       '<div class="dlg-scene-info">'+
@@ -21100,7 +21530,7 @@ function renderDialogues() {
         '<div class="dlg-scene-desc">'+desc+'</div>'+
         '<div class="dlg-scene-meta">'+
           '<span class="dlg-scene-level">'+scene.level+'</span>'+
-          '<span class="dlg-scene-stars">'+Array(scene.turns.length+1).join('💬')+'</span>'+
+          badgeHtml+
         '</div>'+
       '</div>'+
       '<div style="font-size:20px;color:var(--muted);">›</div>';
@@ -21111,7 +21541,21 @@ function renderDialogues() {
 
 function dlgStartScene(idx) {
   var scene = dlgData[idx];
-  dlgState = { sceneIdx:idx, turnIdx:0, scores:[], totalMax: scene.turns.length * 3, done:false };
+  // Try to resume an interrupted session for this scene
+  var resumed = false;
+  try {
+    var saved = sessionStorage.getItem('ff_dlg_resume');
+    if (saved) {
+      var s = JSON.parse(saved);
+      if (s && s.sceneIdx === idx && s.turnIdx > 0 && s.turnIdx < scene.turns.length) {
+        dlgState = s;
+        resumed = true;
+      }
+    }
+  } catch(e) {}
+  if (!resumed) {
+    dlgState = { sceneIdx:idx, turnIdx:0, scores:[], totalMax: scene.turns.length * 3, done:false };
+  }
 
   document.getElementById('dlg-list-view').style.display = 'none';
   document.getElementById('dlg-result-view').style.display = 'none';
@@ -21134,16 +21578,37 @@ function dlgShowTurn() {
   var scene = dlgData[dlgState.sceneIdx];
   var turn  = scene.turns[dlgState.turnIdx];
   if (!turn) { dlgShowResult(); return; }
+  // Update live progress bar
+  (function() {
+    var total = scene.turns.length;
+    var done  = dlgState.turnIdx;
+    var pct   = total > 0 ? Math.round(done / total * 100) : 0;
+    var fill  = document.getElementById('dlg-live-fill');
+    var txt   = document.getElementById('dlg-live-txt');
+    if (fill) fill.style.width = pct + '%';
+    if (txt)  txt.textContent = (done + 1) + ' / ' + total;
+  })();
 
   var npcName  = scene.npcKey[lang]  || scene.npcKey.fr;
   var chatArea = document.getElementById('dlg-chat-area');
 
+  // NPC bubble — always French + optional translation hint
+  var npcFr   = turn.npc.fr;
+  var npcHint = (lang !== 'fr' && turn.npc[lang]) ? '<div class="dlg-bubble-hint">'+turn.npc[lang]+'</div>' : '';
   var wrap = document.createElement('div');
   wrap.className = 'dlg-bubble-wrap npc';
-  wrap.innerHTML = '<div class="dlg-bubble-name">'+npcName+'</div><div class="dlg-bubble npc">'+
-    (turn.npc[lang] || turn.npc.fr) + '</div>';
+  wrap.innerHTML = '<div class="dlg-bubble-name">'+npcName+'</div>'
+    + '<div class="dlg-bubble npc">'+npcFr+npcHint+'</div>'
+    + '<button class="dlg-replay-btn" title="'+(lang==='en'?'Replay':lang==='zh'?'重播':'Rejouer')+'">🔊</button>';
+  // Replay button — closure over npcFr, passes self as btnEl for loading state
+  (function(replayBtn, text) {
+    replayBtn.onclick = function() { playFr(text, null, replayBtn); };
+  })(wrap.querySelector('.dlg-replay-btn'), npcFr);
   chatArea.appendChild(wrap);
   chatArea.scrollTop = chatArea.scrollHeight;
+
+  // Auto-play NPC speech in French
+  playFr(npcFr);
 
   var choicesArea = document.getElementById('dlg-choices-area');
   choicesArea.innerHTML = '';
@@ -21151,7 +21616,9 @@ function dlgShowTurn() {
   turn.choices.forEach(function(choice, ci) {
     var btn = document.createElement('button');
     btn.className = 'dlg-choice-btn';
-    btn.textContent = userLbl + (choice.text[lang] || choice.text.fr);
+    // Choice always in French; translation hint as subtitle
+    var chHint = (lang !== 'fr' && choice.text[lang]) ? '<span class="dlg-choice-hint">'+choice.text[lang]+'</span>' : '';
+    btn.innerHTML = userLbl + choice.text.fr + chHint;
     btn.onclick = function() { dlgChoose(ci, btn); };
     choicesArea.appendChild(btn);
   });
@@ -21178,11 +21645,16 @@ function dlgChoose(choiceIdx, btn) {
   var userWrap = document.createElement('div');
   userWrap.className = 'dlg-bubble-wrap user';
   var bubbleClass = choice.score === 3 ? 'user' : (choice.score >= 1 ? 'user ok' : 'user wrong');
-  var userText = choice.text[lang] || choice.text.fr;
+  var choiceFr = choice.text.fr;
+  var choiceHint = (lang !== 'fr' && choice.text[lang]) ? '<div class="dlg-bubble-hint" style="text-align:left">'+choice.text[lang]+'</div>' : '';
   var userNameTxt = scene.userKey[lang] || scene.userKey.fr;
-  userWrap.innerHTML = '<div class="dlg-bubble-name" style="text-align:right">'+userNameTxt+'</div><div class="dlg-bubble '+bubbleClass+'">'+userText+'</div>';
+  userWrap.innerHTML = '<div class="dlg-bubble-name" style="text-align:right">'+userNameTxt+'</div>'
+    + '<div class="dlg-bubble '+bubbleClass+'">'+choiceFr+choiceHint+'</div>';
   chatArea.appendChild(userWrap);
   chatArea.scrollTop = chatArea.scrollHeight;
+
+  // Play the chosen French phrase
+  playFr(choiceFr);
 
   var fb = document.getElementById('dlg-feedback-area');
   var fbText = choice.fb[lang] || choice.fb.fr;
@@ -21204,6 +21676,8 @@ function dlgChoose(choiceIdx, btn) {
 function dlgNext() {
   dlgState.turnIdx++;
   var scene = dlgData[dlgState.sceneIdx];
+  // Persist mid-session state for resume
+  try { sessionStorage.setItem('ff_dlg_resume', JSON.stringify(dlgState)); } catch(e) {}
   if (dlgState.turnIdx >= scene.turns.length) {
     dlgShowResult();
   } else {
@@ -21263,6 +21737,27 @@ function dlgShowResult() {
     fill.style.width = '0%';
     setTimeout(function() { fill.style.width = pct + '%'; }, 100);
   }
+
+  // ── Save dialogue progress + award XP ──
+  var dlgProg = JSON.parse(localStorage.getItem('ff_dlg_progress') || '{}');
+  var key     = 'dlg_' + dlgState.sceneIdx;
+  var prevPct = dlgProg[key] ? (dlgProg[key].best || 0) : 0;
+  var isFirst = !dlgProg[key];
+  dlgProg[key] = { best: Math.max(prevPct, pct), completed: true, ts: Date.now() };
+  localStorage.setItem('ff_dlg_progress', JSON.stringify(dlgProg));
+  try { sessionStorage.removeItem('ff_dlg_resume'); } catch(e) {}
+
+  // Award XP only for new completions or improvement
+  var xpNew  = pct >= 80 ? 30 : pct >= 50 ? 20 : 10;
+  var xpPrev = prevPct >= 80 ? 30 : prevPct >= 50 ? 20 : prevPct > 0 ? 10 : 0;
+  var xpGain = isFirst ? xpNew : Math.max(0, xpNew - xpPrev);
+  if (xpGain > 0) {
+    addBonusXP(xpGain);
+    updateStreak();
+    checkBadges();
+  }
+  if (pct >= 80) { try { launchConfetti(); } catch(e) {} }
+
   window.scrollTo(0, 0);
 }
 
@@ -21271,99 +21766,180 @@ function dlgRetry() {
 }
 
 function dlgBackToList() {
+  try { sessionStorage.removeItem('ff_dlg_resume'); } catch(e) {}
   document.getElementById('dlg-play-view').style.display = 'none';
   document.getElementById('dlg-result-view').style.display = 'none';
   document.getElementById('dlg-list-view').style.display = '';
+  // Refresh badges immediately
+  if (typeof renderDialogues === 'function') renderDialogues();
 }
 
 // ═══════════════════════════════════════════
 // CONJUGAISON
 // ═══════════════════════════════════════════
 var conjPronouns = ['je','tu','il / elle','nous','vous','ils / elles'];
-var conjTenseKeys  = ['P','I','F','PC'];
+var conjTenseKeys  = ['P','PC','I','F','CO'];
 var conjTenseNames = {
-  en: {P:'Present', I:'Imperfect', F:'Future', PC:'Past perfect'},
-  fr: {P:'Présent', I:'Imparfait', F:'Futur simple', PC:'Passé composé'},
-  zh: {P:'现在时',  I:'未完成过去时', F:'将来时', PC:'复合过去时'}
+  en: {P:'Present',       PC:'Past Tense',   I:'Imperfect', F:'Future',      CO:'Conditional'},
+  fr: {P:'Présent',       PC:'Passé composé',I:'Imparfait', F:'Futur simple',CO:'Conditionnel'},
+  zh: {P:'现在时',         PC:'复合过去时',    I:'未完成过去时',F:'将来时',     CO:'条件式'}
 };
 
 // [je,tu,il-elle,nous,vous,ils-elles]
 var conjVerbs = [
-  {inf:'être',  en:'to be',       zh:'是/存在',
-   P: ['suis','es','est','sommes','êtes','sont'],
-   I: ['étais','étais','était','étions','étiez','étaient'],
-   F: ['serai','seras','sera','serons','serez','seront'],
-   PC:['ai été','as été','a été','avons été','avez été','ont été']},
-  {inf:'avoir', en:'to have',     zh:'有',
-   P: ['ai','as','a','avons','avez','ont'],
-   I: ['avais','avais','avait','avions','aviez','avaient'],
-   F: ['aurai','auras','aura','aurons','aurez','auront'],
-   PC:['ai eu','as eu','a eu','avons eu','avez eu','ont eu']},
-  {inf:'faire', en:'to do/make',  zh:'做',
-   P: ['fais','fais','fait','faisons','faites','font'],
-   I: ['faisais','faisais','faisait','faisions','faisiez','faisaient'],
-   F: ['ferai','feras','fera','ferons','ferez','feront'],
-   PC:['ai fait','as fait','a fait','avons fait','avez fait','ont fait']},
-  {inf:'aller', en:'to go',       zh:'去',
-   P: ['vais','vas','va','allons','allez','vont'],
-   I: ['allais','allais','allait','allions','alliez','allaient'],
-   F: ['irai','iras','ira','irons','irez','iront'],
-   PC:['suis allé(e)','es allé(e)','est allé(e)','sommes allé(e)s','êtes allé(e)s','sont allé(e)s']},
-  {inf:'venir', en:'to come',     zh:'来',
-   P: ['viens','viens','vient','venons','venez','viennent'],
-   I: ['venais','venais','venait','venions','veniez','venaient'],
-   F: ['viendrai','viendras','viendra','viendrons','viendrez','viendront'],
-   PC:['suis venu(e)','es venu(e)','est venu(e)','sommes venu(e)s','êtes venu(e)s','sont venu(e)s']},
-  {inf:'pouvoir',en:'to be able to',zh:'能/可以',
-   P: ['peux','peux','peut','pouvons','pouvez','peuvent'],
-   I: ['pouvais','pouvais','pouvait','pouvions','pouviez','pouvaient'],
-   F: ['pourrai','pourras','pourra','pourrons','pourrez','pourront'],
-   PC:['ai pu','as pu','a pu','avons pu','avez pu','ont pu']},
-  {inf:'vouloir',en:'to want',    zh:'想要',
-   P: ['veux','veux','veut','voulons','voulez','veulent'],
-   I: ['voulais','voulais','voulait','voulions','vouliez','voulaient'],
-   F: ['voudrai','voudras','voudra','voudrons','voudrez','voudront'],
-   PC:['ai voulu','as voulu','a voulu','avons voulu','avez voulu','ont voulu']},
-  {inf:'devoir', en:'to must/have to',zh:'必须/应该',
-   P: ['dois','dois','doit','devons','devez','doivent'],
-   I: ['devais','devais','devait','devions','deviez','devaient'],
-   F: ['devrai','devras','devra','devrons','devrez','devront'],
-   PC:['ai dû','as dû','a dû','avons dû','avez dû','ont dû']},
-  {inf:'prendre',en:'to take',    zh:'拿/取',
-   P: ['prends','prends','prend','prenons','prenez','prennent'],
-   I: ['prenais','prenais','prenait','prenions','preniez','prenaient'],
-   F: ['prendrai','prendras','prendra','prendrons','prendrez','prendront'],
-   PC:['ai pris','as pris','a pris','avons pris','avez pris','ont pris']},
-  {inf:'dire',  en:'to say/tell', zh:'说',
-   P: ['dis','dis','dit','disons','dites','disent'],
-   I: ['disais','disais','disait','disions','disiez','disaient'],
-   F: ['dirai','diras','dira','dirons','direz','diront'],
-   PC:['ai dit','as dit','a dit','avons dit','avez dit','ont dit']},
-  {inf:'voir',  en:'to see',      zh:'看见',
-   P: ['vois','vois','voit','voyons','voyez','voient'],
-   I: ['voyais','voyais','voyait','voyions','voyiez','voyaient'],
-   F: ['verrai','verras','verra','verrons','verrez','verront'],
-   PC:['ai vu','as vu','a vu','avons vu','avez vu','ont vu']},
-  {inf:'savoir',en:'to know',     zh:'知道',
-   P: ['sais','sais','sait','savons','savez','savent'],
-   I: ['savais','savais','savait','savions','saviez','savaient'],
-   F: ['saurai','sauras','saura','saurons','saurez','sauront'],
-   PC:['ai su','as su','a su','avons su','avez su','ont su']},
-  {inf:'partir',en:'to leave',    zh:'离开',
-   P: ['pars','pars','part','partons','partez','partent'],
-   I: ['partais','partais','partait','partions','partiez','partaient'],
-   F: ['partirai','partiras','partira','partirons','partirez','partiront'],
-   PC:['suis parti(e)','es parti(e)','est parti(e)','sommes parti(e)s','êtes parti(e)s','sont parti(e)s']},
-  {inf:'finir', en:'to finish',   zh:'结束/完成',
-   P: ['finis','finis','finit','finissons','finissez','finissent'],
-   I: ['finissais','finissais','finissait','finissions','finissiez','finissaient'],
-   F: ['finirai','finiras','finira','finirons','finirez','finiront'],
-   PC:['ai fini','as fini','a fini','avons fini','avez fini','ont fini']},
-  {inf:'mettre',en:'to put/place',zh:'放置',
-   P: ['mets','mets','met','mettons','mettez','mettent'],
-   I: ['mettais','mettais','mettait','mettions','mettiez','mettaient'],
-   F: ['mettrai','mettras','mettra','mettrons','mettrez','mettront'],
-   PC:['ai mis','as mis','a mis','avons mis','avez mis','ont mis']}
+  // ── Verbes irréguliers essentiels ──────────────────────────────
+  {inf:'être',    en:'to be',            zh:'是/存在',
+   P:  ['suis','es','est','sommes','êtes','sont'],
+   PC: ['ai été','as été','a été','avons été','avez été','ont été'],
+   I:  ['étais','étais','était','étions','étiez','étaient'],
+   F:  ['serai','seras','sera','serons','serez','seront'],
+   CO: ['serais','serais','serait','serions','seriez','seraient']},
+  {inf:'avoir',   en:'to have',          zh:'有',
+   P:  ['ai','as','a','avons','avez','ont'],
+   PC: ['ai eu','as eu','a eu','avons eu','avez eu','ont eu'],
+   I:  ['avais','avais','avait','avions','aviez','avaient'],
+   F:  ['aurai','auras','aura','aurons','aurez','auront'],
+   CO: ['aurais','aurais','aurait','aurions','auriez','auraient']},
+  {inf:'faire',   en:'to do / make',     zh:'做',
+   P:  ['fais','fais','fait','faisons','faites','font'],
+   PC: ['ai fait','as fait','a fait','avons fait','avez fait','ont fait'],
+   I:  ['faisais','faisais','faisait','faisions','faisiez','faisaient'],
+   F:  ['ferai','feras','fera','ferons','ferez','feront'],
+   CO: ['ferais','ferais','ferait','ferions','feriez','feraient']},
+  {inf:'aller',   en:'to go',            zh:'去',
+   P:  ['vais','vas','va','allons','allez','vont'],
+   PC: ['suis allé(e)','es allé(e)','est allé(e)','sommes allé(e)s','êtes allé(e)s','sont allé(e)s'],
+   I:  ['allais','allais','allait','allions','alliez','allaient'],
+   F:  ['irai','iras','ira','irons','irez','iront'],
+   CO: ['irais','irais','irait','irions','iriez','iraient']},
+  {inf:'venir',   en:'to come',          zh:'来',
+   P:  ['viens','viens','vient','venons','venez','viennent'],
+   PC: ['suis venu(e)','es venu(e)','est venu(e)','sommes venu(e)s','êtes venu(e)s','sont venu(e)s'],
+   I:  ['venais','venais','venait','venions','veniez','venaient'],
+   F:  ['viendrai','viendras','viendra','viendrons','viendrez','viendront'],
+   CO: ['viendrais','viendrais','viendrait','viendrions','viendriez','viendraient']},
+  {inf:'pouvoir', en:'to be able to',    zh:'能/可以',
+   P:  ['peux','peux','peut','pouvons','pouvez','peuvent'],
+   PC: ['ai pu','as pu','a pu','avons pu','avez pu','ont pu'],
+   I:  ['pouvais','pouvais','pouvait','pouvions','pouviez','pouvaient'],
+   F:  ['pourrai','pourras','pourra','pourrons','pourrez','pourront'],
+   CO: ['pourrais','pourrais','pourrait','pourrions','pourriez','pourraient']},
+  {inf:'vouloir', en:'to want',          zh:'想要',
+   P:  ['veux','veux','veut','voulons','voulez','veulent'],
+   PC: ['ai voulu','as voulu','a voulu','avons voulu','avez voulu','ont voulu'],
+   I:  ['voulais','voulais','voulait','voulions','vouliez','voulaient'],
+   F:  ['voudrai','voudras','voudra','voudrons','voudrez','voudront'],
+   CO: ['voudrais','voudrais','voudrait','voudrions','voudriez','voudraient']},
+  {inf:'devoir',  en:'to have to / must',zh:'必须/应该',
+   P:  ['dois','dois','doit','devons','devez','doivent'],
+   PC: ['ai dû','as dû','a dû','avons dû','avez dû','ont dû'],
+   I:  ['devais','devais','devait','devions','deviez','devaient'],
+   F:  ['devrai','devras','devra','devrons','devrez','devront'],
+   CO: ['devrais','devrais','devrait','devrions','devriez','devraient']},
+  {inf:'savoir',  en:'to know (a fact)',  zh:'知道',
+   P:  ['sais','sais','sait','savons','savez','savent'],
+   PC: ['ai su','as su','a su','avons su','avez su','ont su'],
+   I:  ['savais','savais','savait','savions','saviez','savaient'],
+   F:  ['saurai','sauras','saura','saurons','saurez','sauront'],
+   CO: ['saurais','saurais','saurait','saurions','sauriez','sauraient']},
+  {inf:'prendre', en:'to take',           zh:'拿/取',
+   P:  ['prends','prends','prend','prenons','prenez','prennent'],
+   PC: ['ai pris','as pris','a pris','avons pris','avez pris','ont pris'],
+   I:  ['prenais','prenais','prenait','prenions','preniez','prenaient'],
+   F:  ['prendrai','prendras','prendra','prendrons','prendrez','prendront'],
+   CO: ['prendrais','prendrais','prendrait','prendrions','prendriez','prendraient']},
+  {inf:'voir',    en:'to see',            zh:'看见',
+   P:  ['vois','vois','voit','voyons','voyez','voient'],
+   PC: ['ai vu','as vu','a vu','avons vu','avez vu','ont vu'],
+   I:  ['voyais','voyais','voyait','voyions','voyiez','voyaient'],
+   F:  ['verrai','verras','verra','verrons','verrez','verront'],
+   CO: ['verrais','verrais','verrait','verrions','verriez','verraient']},
+  {inf:'dire',    en:'to say / tell',     zh:'说',
+   P:  ['dis','dis','dit','disons','dites','disent'],
+   PC: ['ai dit','as dit','a dit','avons dit','avez dit','ont dit'],
+   I:  ['disais','disais','disait','disions','disiez','disaient'],
+   F:  ['dirai','diras','dira','dirons','direz','diront'],
+   CO: ['dirais','dirais','dirait','dirions','diriez','diraient']},
+  {inf:'mettre',  en:'to put / place',    zh:'放置',
+   P:  ['mets','mets','met','mettons','mettez','mettent'],
+   PC: ['ai mis','as mis','a mis','avons mis','avez mis','ont mis'],
+   I:  ['mettais','mettais','mettait','mettions','mettiez','mettaient'],
+   F:  ['mettrai','mettras','mettra','mettrons','mettrez','mettront'],
+   CO: ['mettrais','mettrais','mettrait','mettrions','mettriez','mettraient']},
+  {inf:'partir',  en:'to leave',          zh:'离开',
+   P:  ['pars','pars','part','partons','partez','partent'],
+   PC: ['suis parti(e)','es parti(e)','est parti(e)','sommes parti(e)s','êtes parti(e)s','sont parti(e)s'],
+   I:  ['partais','partais','partait','partions','partiez','partaient'],
+   F:  ['partirai','partiras','partira','partirons','partirez','partiront'],
+   CO: ['partirais','partirais','partirait','partirions','partiriez','partiraient']},
+  {inf:'finir',   en:'to finish',         zh:'结束/完成',
+   P:  ['finis','finis','finit','finissons','finissez','finissent'],
+   PC: ['ai fini','as fini','a fini','avons fini','avez fini','ont fini'],
+   I:  ['finissais','finissais','finissait','finissions','finissiez','finissaient'],
+   F:  ['finirai','finiras','finira','finirons','finirez','finiront'],
+   CO: ['finirais','finirais','finirait','finirions','finiriez','finiraient']},
+  // ── Verbes réguliers courants ────────────────────────────────────
+  {inf:'parler',  en:'to speak',          zh:'说话',
+   P:  ['parle','parles','parle','parlons','parlez','parlent'],
+   PC: ['ai parlé','as parlé','a parlé','avons parlé','avez parlé','ont parlé'],
+   I:  ['parlais','parlais','parlait','parlions','parliez','parlaient'],
+   F:  ['parlerai','parleras','parlera','parlerons','parlerez','parleront'],
+   CO: ['parlerais','parlerais','parlerait','parlerions','parleriez','parleraient']},
+  {inf:'manger',  en:'to eat',            zh:'吃',
+   P:  ['mange','manges','mange','mangeons','mangez','mangent'],
+   PC: ['ai mangé','as mangé','a mangé','avons mangé','avez mangé','ont mangé'],
+   I:  ['mangeais','mangeais','mangeait','mangions','mangiez','mangeaient'],
+   F:  ['mangerai','mangeras','mangera','mangerons','mangerez','mangeront'],
+   CO: ['mangerais','mangerais','mangerait','mangerions','mangeriez','mangeraient']},
+  {inf:'donner',  en:'to give',           zh:'给',
+   P:  ['donne','donnes','donne','donnons','donnez','donnent'],
+   PC: ['ai donné','as donné','a donné','avons donné','avez donné','ont donné'],
+   I:  ['donnais','donnais','donnait','donnions','donniez','donnaient'],
+   F:  ['donnerai','donneras','donnera','donnerons','donnerez','donneront'],
+   CO: ['donnerais','donnerais','donnerait','donnerions','donneriez','donneraient']},
+  {inf:'trouver', en:'to find',           zh:'找到',
+   P:  ['trouve','trouves','trouve','trouvons','trouvez','trouvent'],
+   PC: ['ai trouvé','as trouvé','a trouvé','avons trouvé','avez trouvé','ont trouvé'],
+   I:  ['trouvais','trouvais','trouvait','trouvions','trouviez','trouvaient'],
+   F:  ['trouverai','trouveras','trouvera','trouverons','trouverez','trouveront'],
+   CO: ['trouverais','trouverais','trouverait','trouverions','trouveriez','trouveraient']},
+  {inf:'attendre',en:'to wait',           zh:'等待',
+   P:  ['attends','attends','attend','attendons','attendez','attendent'],
+   PC: ['ai attendu','as attendu','a attendu','avons attendu','avez attendu','ont attendu'],
+   I:  ['attendais','attendais','attendait','attendions','attendiez','attendaient'],
+   F:  ['attendrai','attendras','attendra','attendrons','attendrez','attendront'],
+   CO: ['attendrais','attendrais','attendrait','attendrions','attendriez','attendraient']},
+  // ── Verbes irréguliers supplémentaires ───────────────────────────
+  {inf:'lire',    en:'to read',           zh:'阅读',
+   P:  ['lis','lis','lit','lisons','lisez','lisent'],
+   PC: ['ai lu','as lu','a lu','avons lu','avez lu','ont lu'],
+   I:  ['lisais','lisais','lisait','lisions','lisiez','lisaient'],
+   F:  ['lirai','liras','lira','lirons','lirez','liront'],
+   CO: ['lirais','lirais','lirait','lirions','liriez','liraient']},
+  {inf:'écrire',  en:'to write',          zh:'写作',
+   P:  ['écris','écris','écrit','écrivons','écrivez','écrivent'],
+   PC: ['ai écrit','as écrit','a écrit','avons écrit','avez écrit','ont écrit'],
+   I:  ['écrivais','écrivais','écrivait','écrivions','écriviez','écrivaient'],
+   F:  ['écrirai','écriras','écrira','écrirons','écrirez','écriront'],
+   CO: ['écrirais','écrirais','écrirait','écririons','écririez','écriraient']},
+  {inf:'comprendre',en:'to understand',   zh:'理解',
+   P:  ['comprends','comprends','comprend','comprenons','comprenez','comprennent'],
+   PC: ['ai compris','as compris','a compris','avons compris','avez compris','ont compris'],
+   I:  ['comprenais','comprenais','comprenait','comprenions','compreniez','comprenaient'],
+   F:  ['comprendrai','comprendras','comprendra','comprendrons','comprendrez','comprendront'],
+   CO: ['comprendrais','comprendrais','comprendrait','comprendrions','comprendriez','comprendraient']},
+  {inf:'connaître',en:'to know (s.o.)',   zh:'认识',
+   P:  ['connais','connais','connaît','connaissons','connaissez','connaissent'],
+   PC: ['ai connu','as connu','a connu','avons connu','avez connu','ont connu'],
+   I:  ['connaissais','connaissais','connaissait','connaissions','connaissiez','connaissaient'],
+   F:  ['connaîtrai','connaîtras','connaîtra','connaîtrons','connaîtrez','connaîtront'],
+   CO: ['connaîtrais','connaîtrais','connaîtrait','connaîtrions','connaîtriez','connaîtraient']},
+  {inf:'vivre',   en:'to live',           zh:'生活',
+   P:  ['vis','vis','vit','vivons','vivez','vivent'],
+   PC: ['ai vécu','as vécu','a vécu','avons vécu','avez vécu','ont vécu'],
+   I:  ['vivais','vivais','vivait','vivions','viviez','vivaient'],
+   F:  ['vivrai','vivras','vivra','vivrons','vivrez','vivront'],
+   CO: ['vivrais','vivrais','vivrait','vivrions','vivriez','vivraient']}
 ];
 
 var conjState = { mode:'table', tense:'P', quizQ:[], quizIdx:0, quizScore:0 };
@@ -21463,32 +22039,41 @@ function conjStartQuiz() {
   document.getElementById('conj-quiz-view').style.display = '';
   document.getElementById('conj-result-view').style.display = 'none';
 
-  // Generate 10 random questions
+  // Generate 15 questions — at least 1 of each tense + rest random
   var qs = [];
-  for (var i = 0; i < 10; i++) {
-    var vi  = Math.floor(Math.random() * conjVerbs.length);
-    var pi  = Math.floor(Math.random() * 6);
-    var ti  = Math.floor(Math.random() * conjTenseKeys.length);
-    var tk  = conjTenseKeys[ti];
+  // Guarantee each tense appears at least once
+  var shuffledTenses = conjTenseKeys.slice();
+  for (var s = shuffledTenses.length-1; s > 0; s--) {
+    var r = Math.floor(Math.random()*(s+1));
+    var tmp = shuffledTenses[s]; shuffledTenses[s]=shuffledTenses[r]; shuffledTenses[r]=tmp;
+  }
+  for (var i = 0; i < 15; i++) {
+    var tk = i < conjTenseKeys.length
+      ? shuffledTenses[i]
+      : conjTenseKeys[Math.floor(Math.random() * conjTenseKeys.length)];
+    var vi      = Math.floor(Math.random() * conjVerbs.length);
+    var pi      = Math.floor(Math.random() * 6);
     var correct = conjVerbs[vi][tk][pi];
-    // Generate 2 wrong answers from other verbs/forms
+    // Build distractors: prefer same tense, different verb
     var wrongs = [];
     var attempts = 0;
-    while (wrongs.length < 2 && attempts < 50) {
+    while (wrongs.length < 3 && attempts < 80) {
       attempts++;
       var wi = Math.floor(Math.random() * conjVerbs.length);
       var wf = conjVerbs[wi][tk][pi];
       if (wf !== correct && wrongs.indexOf(wf) === -1) wrongs.push(wf);
     }
-    if (wrongs.length < 2) { // fallback
-      var allForms = conjVerbs[vi][tk];
-      allForms.forEach(function(f){ if (f!==correct && wrongs.length<2 && wrongs.indexOf(f)===-1) wrongs.push(f); });
+    // Fallback: other pronouns of same verb+tense
+    if (wrongs.length < 3) {
+      conjVerbs[vi][tk].forEach(function(f) {
+        if (f !== correct && wrongs.length < 3 && wrongs.indexOf(f) === -1) wrongs.push(f);
+      });
     }
-    var choices = [correct, wrongs[0]||'?', wrongs[1]||'??'];
-    // Shuffle choices
+    var choices = [correct, wrongs[0]||'—', wrongs[1]||'—', wrongs[2]||'—'];
+    // Shuffle
     for (var j = choices.length-1; j > 0; j--) {
       var k2 = Math.floor(Math.random()*(j+1));
-      var tmp = choices[j]; choices[j]=choices[k2]; choices[k2]=tmp;
+      var t2 = choices[j]; choices[j]=choices[k2]; choices[k2]=t2;
     }
     qs.push({ vi:vi, pi:pi, tk:tk, correct:correct, choices:choices });
   }
@@ -21599,15 +22184,27 @@ function conjShowResult() {
   if (lang==='en') {
     title = pct>=80?'Excellent!':pct>=50?'Good job!':'Keep practicing!';
     score = 'Score: '+s+' / '+m+' ('+pct+'%)';
-    tips  = pct>=80?'Your conjugations are solid! Try harder tenses.':pct>=50?'Good progress! Review the irregular verbs.':'Focus on être, avoir, faire — the most common verbs.';
+    tips  = pct>=80
+      ? 'Perfect command of all 5 tenses — including the conditional!'
+      : pct>=50
+      ? 'Good progress! Review the conditional and the irregular past tenses.'
+      : 'Focus on the present first, then tackle the passé composé and imperfect.';
   } else if (lang==='zh') {
     title = pct>=80?'太棒了！':pct>=50?'做得好！':'继续练习！';
     score = '得分：'+s+' / '+m+' ('+pct+'%)';
-    tips  = pct>=80?'您的变位很扎实！试试更难的时态。':pct>=50?'进步不错！复习不规则动词。':'重点练习être、avoir、faire——最常用的动词。';
+    tips  = pct>=80
+      ? '五种时态都掌握了，包括条件式！'
+      : pct>=50
+      ? '进步不错！复习条件式和不规则过去时。'
+      : '先练好现在时，再学复合过去时和未完成过去时。';
   } else {
     title = pct>=80?'Excellent !':pct>=50?'Bien joué !':'Continuez !';
     score = 'Score : '+s+' / '+m+' ('+pct+'%)';
-    tips  = pct>=80?'Vos conjugaisons sont solides ! Essayez des temps plus difficiles.':pct>=50?'Bons progrès ! Révisez les verbes irréguliers.':'Concentrez-vous sur être, avoir, faire — les plus courants.';
+    tips  = pct>=80
+      ? 'Maîtrise parfaite des 5 temps — y compris le conditionnel !'
+      : pct>=50
+      ? 'Bons progrès ! Révisez le conditionnel et les passés composés irréguliers.'
+      : 'Commencez par le présent, puis attaquez le passé composé et l'imparfait.';
   }
   document.getElementById('conj-r-icon').textContent  = icon;
   document.getElementById('conj-r-title').textContent = title;
@@ -21818,13 +22415,23 @@ function ecoutePlay() {
   if (!ex) return;
   var playBtn = document.getElementById('ecoute-play-btn');
   var playLbl = document.getElementById('ecoute-play-label');
-  if (playBtn) { playBtn.textContent = '🔊'; playBtn.className = 'ecoute-play-btn playing'; }
-  if (playLbl) playLbl.textContent = lang==='en'?'Playing...':lang==='zh'?'播放中...':'Lecture...';
+  if (playBtn) { playBtn.textContent = '▶'; playBtn.className = 'ecoute-play-btn'; }
+  if (playLbl) playLbl.textContent = lang==='en'?'Loading...':lang==='zh'?'加载中...':'Chargement...';
   var resetPlayBtn = function() {
     if (playBtn) { playBtn.textContent = '▶'; playBtn.className = 'ecoute-play-btn'; }
     if (playLbl) playLbl.textContent = lang==='en'?'Tap to listen again':lang==='zh'?'再次点击收听':'Écouter à nouveau';
   };
-  playFr(ex.t, resetPlayBtn);
+  // If cached: instant play; else show loading spinner → playing state once resolved
+  if (ttsCache[ex.t]) {
+    if (playBtn) { playBtn.textContent = '🔊'; playBtn.className = 'ecoute-play-btn playing'; }
+    if (playLbl) playLbl.textContent = lang==='en'?'Playing...':lang==='zh'?'播放中...':'Lecture...';
+  } else {
+    if (playBtn) { playBtn.classList.add('tts-loading'); playBtn.disabled = true; }
+  }
+  playFr(ex.t, function() {
+    if (playBtn) { playBtn.disabled = false; playBtn.classList.remove('tts-loading'); }
+    resetPlayBtn();
+  });
 }
 
 function ecouteChoose(chosen, correct, btn, cArea) {

@@ -22,6 +22,7 @@ export default async (req, context) => {
 
   const url = new URL(req.url);
   const text = url.searchParams.get('q') || '';
+  const slow  = url.searchParams.get('speed') === 'slow';
 
   // Basic validation
   if (!text || text.length > 500) {
@@ -54,7 +55,7 @@ export default async (req, context) => {
           },
           audioConfig: {
             audioEncoding: 'MP3',
-            speakingRate: 0.90,        // slightly slower for learners
+            speakingRate: slow ? 0.65 : 0.90,
             pitch: 0,
             volumeGainDb: 0,
           },

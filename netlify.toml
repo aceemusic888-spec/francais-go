@@ -11,3 +11,10 @@
 # Run daily reminder every day at 9:00 UTC
 [functions."daily-reminder"]
   schedule = "0 9 * * *"
+
+# Ensure /.well-known/assetlinks.json is served with correct Content-Type for TWA
+[[headers]]
+  for = "/.well-known/assetlinks.json"
+  [headers.values]
+    Content-Type = "application/json"
+    Access-Control-Allow-Origin = "*"

@@ -39,7 +39,8 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 // ── Cache strategy ────────────────────────────────────────
-const CACHE_NAME = 'frenchgo-v6.1';
+const CACHE_NAME = 'frenchgo-v6.2';
+const TTS_CACHE  = 'frenchgo-tts-v1';   // TTS audio — cache séparé, survit aux mises à jour app
 const ASSETS = [
   '/manifest.json',
   '/icon-192.png',
@@ -61,7 +62,9 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys =>
-    Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    Promise.all(keys
+      .filter(k => k !== CACHE_NAME && k !== TTS_CACHE)
+      .map(k => caches.delete(k)))
   ));
   self.clients.claim();
 });
@@ -69,6 +72,24 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = e.request.url;
   if (BYPASS.some(b => url.includes(b))) return;
+
+  // ── TTS API — Cache-First dans un cache séparé longue durée ──
+  if (url.includes('/api/tts')) {
+    e.respondWith(
+      caches.open(TTS_CACHE).then(function(cache) {
+        return cache.match(e.request).then(function(cached) {
+          if (cached) return cached;
+          return fetch(e.request).then(function(res) {
+            if (res && res.status === 200) cache.put(e.request, res.clone());
+            return res;
+          }).catch(function() { return new Response('{"error":"offline"}',
+            { status: 503, headers: { 'Content-Type': 'application/json' } }); });
+        });
+      })
+    );
+    return;
+  }
+
   const isHTML = e.request.mode === 'navigate' || e.request.destination === 'document'
     || url.endsWith('/') || url.endsWith('/index.html');
   if (isHTML) {
