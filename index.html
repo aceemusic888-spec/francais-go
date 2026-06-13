@@ -544,15 +544,6 @@
       .hero-card { filter: saturate(0.88); }
     }
     /* ── Streak Toast ── */
-    /* PWA Install banner */
-    #install-banner { position:fixed; bottom:calc(env(safe-area-inset-bottom,0px) + 76px); left:12px; right:12px; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:#fff; border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:10px; z-index:8500; box-shadow:0 8px 32px rgba(79,70,229,0.4); transform:translateY(120%); transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1); }
-    #install-banner.show { transform:translateY(0); }
-    #install-banner .ib-icon { font-size:26px; flex-shrink:0; }
-    #install-banner .ib-text { flex:1; min-width:0; }
-    #install-banner .ib-title { font-size:13px; font-weight:800; }
-    #install-banner .ib-sub { font-size:11px; opacity:0.82; }
-    #install-banner .ib-btn { background:white; color:#4F46E5; font-weight:800; font-size:12px; border:none; border-radius:10px; padding:8px 14px; cursor:pointer; white-space:nowrap; }
-    #install-banner .ib-close { background:none; border:none; color:rgba(255,255,255,0.7); font-size:18px; cursor:pointer; padding:4px; line-height:1; flex-shrink:0; }
     /* Offline banner */
     #offline-banner { position:fixed; top:0; left:0; right:0; background:#ef4444; color:#fff; text-align:center; font-size:13px; font-weight:700; padding:7px 12px; z-index:9999; transform:translateY(-100%); transition:transform 0.3s ease; display:flex; align-items:center; justify-content:center; gap:6px; }
     #offline-banner.show { transform:translateY(0); }
@@ -1640,16 +1631,6 @@
     </div>
   </div>
   <!-- BADGE TOAST -->
-  <div id="install-banner" role="complementary" aria-label="Installer l'application">
-    <span class="ib-icon">📲</span>
-    <div class="ib-text">
-      <div class="ib-title" id="ib-title">Installer FrenchGo</div>
-      <div class="ib-sub" id="ib-sub">Accès rapide depuis l'écran d'accueil</div>
-    </div>
-    <button class="ib-btn" id="ib-install-btn" onclick="triggerInstall()">Installer</button>
-    <button class="ib-close" onclick="dismissInstallBanner()" aria-label="Fermer">✕</button>
-  </div>
-  <div id="offline-banner" role="status" aria-live="polite">📡 <span id="offline-msg">Hors ligne — voix locale activée</span></div>
   <div id="badge-toast">
     <div class="badge-toast-emoji" id="bt-emoji">🏆</div>
     <div>
@@ -20606,44 +20587,6 @@ function initApp() {
 /* ══════════════════════════════════════
    SERVICE WORKER REGISTRATION
 ══════════════════════════════════════ */
-// ── PWA Install prompt ──
-var _deferredInstallPrompt = null;
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  _deferredInstallPrompt = e;
-  // Show banner only after 2nd session (not first visit)
-  var sessions = parseInt(localStorage.getItem('ff_sessions') || '0', 10) + 1;
-  localStorage.setItem('ff_sessions', sessions);
-  if (sessions >= 2 && !localStorage.getItem('ff_install_dismissed') && !isStandaloneApp()) {
-    setTimeout(function() { showInstallBanner(); }, 4000);
-  }
-});
-function showInstallBanner() {
-  var b = document.getElementById('install-banner');
-  if (!b || !_deferredInstallPrompt) return;
-  var t1 = lang==='en' ? 'Install FrenchGo' : lang==='zh' ? '安装 FrenchGo' : 'Installer FrenchGo';
-  var t2 = lang==='en' ? 'Quick access from home screen' : lang==='zh' ? '从主屏幕快速访问' : 'Accès rapide depuis l\'écran d\'accueil';
-  var t3 = lang==='en' ? 'Install' : lang==='zh' ? '安装' : 'Installer';
-  var tEl = document.getElementById('ib-title'); if (tEl) tEl.textContent = t1;
-  var sEl = document.getElementById('ib-sub');   if (sEl) sEl.textContent = t2;
-  var bEl = document.getElementById('ib-install-btn'); if (bEl) bEl.textContent = t3;
-  b.classList.add('show');
-}
-function triggerInstall() {
-  if (!_deferredInstallPrompt) return;
-  _deferredInstallPrompt.prompt();
-  _deferredInstallPrompt.userChoice.then(function(res) {
-    if (res.outcome === 'accepted') localStorage.setItem('ff_install_dismissed', '1');
-    _deferredInstallPrompt = null;
-  });
-  dismissInstallBanner();
-}
-function dismissInstallBanner() {
-  var b = document.getElementById('install-banner');
-  if (b) b.classList.remove('show');
-  localStorage.setItem('ff_install_dismissed', '1');
-}
-
 // ── Offline / Online detection ──
 (function() {
   var banner = document.getElementById('offline-banner');
