@@ -20543,7 +20543,8 @@ function initApp() {
   updateNav();
   // hideSplash() est appelé dans le boot IIFE (après décision onboarding)
   checkPendingNotification();
-  updateLastActive();
+  // Defer updateLastActive — defined in Firebase script block (loaded after this one)
+  setTimeout(function(){ if (typeof updateLastActive === 'function') updateLastActive(); }, 200);
   // Wire up onboarding lang buttons
   ['fr','en','zh'].forEach(l => {
     const b = document.getElementById('ob-lang-'+l);
@@ -20823,7 +20824,7 @@ function updateAuthUI(user) {
     const emailEl = document.getElementById('account-email-lbl');
     const avatarEl = document.getElementById('account-avatar');
     const avatarPh = document.getElementById('account-avatar-ph');
-    if (nameEl) nameEl.textContent = user.displayName || user.email.split('@')[0];
+    if (nameEl) nameEl.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Utilisateur');
     if (emailEl) emailEl.textContent = user.email;
     if (user.photoURL) {
       if (avatarEl) { avatarEl.src = user.photoURL; avatarEl.style.display = ''; }
