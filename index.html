@@ -545,7 +545,7 @@
     }
     /* ── Streak Toast ── */
     /* PWA Install banner */
-    #install-banner { position:fixed; bottom:72px; left:12px; right:12px; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:#fff; border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:10px; z-index:8500; box-shadow:0 8px 32px rgba(79,70,229,0.4); transform:translateY(120%); transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1); }
+    #install-banner { position:fixed; bottom:calc(env(safe-area-inset-bottom,0px) + 76px); left:12px; right:12px; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:#fff; border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:10px; z-index:8500; box-shadow:0 8px 32px rgba(79,70,229,0.4); transform:translateY(120%); transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1); }
     #install-banner.show { transform:translateY(0); }
     #install-banner .ib-icon { font-size:26px; flex-shrink:0; }
     #install-banner .ib-text { flex:1; min-width:0; }
@@ -20620,7 +20620,7 @@ window.addEventListener('beforeinstallprompt', function(e) {
 });
 function showInstallBanner() {
   var b = document.getElementById('install-banner');
-  if (!b) return;
+  if (!b || !_deferredInstallPrompt) return;
   var t1 = lang==='en' ? 'Install FrenchGo' : lang==='zh' ? '安装 FrenchGo' : 'Installer FrenchGo';
   var t2 = lang==='en' ? 'Quick access from home screen' : lang==='zh' ? '从主屏幕快速访问' : 'Accès rapide depuis l\'écran d\'accueil';
   var t3 = lang==='en' ? 'Install' : lang==='zh' ? '安装' : 'Installer';
