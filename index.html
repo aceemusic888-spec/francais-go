@@ -20898,14 +20898,16 @@ function submitEmailAuth() {
     });
 }
 function signOutUser() {
+  if (!confirm(lang==='en'?'Sign out and reset all local progress?':lang==='zh'?'退出并重置所有本地进度？':'Se déconnecter et effacer la progression locale ?')) return;
+  // Clear all progress-related keys, keep lang/goal/notif prefs
+  var keepKeys = ['ff_lang','ff_goal','ff_daily_goal','ff_notif','ff_dark'];
+  var toRemove = ['ff_state','ff_streak','ff_streak_max','ff_badges','ff_dlg_progress',
+    'ff_srs','ff_xp_bonus','ff_daily_xp','ff_tts_q','ff_unlocked','ff_last_active',
+    'ff_onboarded','ff_lang_changed','ff_notif_last','ff_tts_slow'];
+  toRemove.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
   localStorage.setItem('ff_signed_out', '1');
   window._fbAuth.signOut().then(function() {
-    updateAuthUI(null);
-    // Show sign-in option in settings
-    var si = document.getElementById('set-row-signin');
-    var so = document.getElementById('set-row-signout');
-    if (si) si.style.display = '';
-    if (so) so.style.display = 'none';
+    window.location.reload();
   });
 }
 
