@@ -18923,6 +18923,8 @@ function toggleLang() {
   localStorage.setItem('ff_lang', lang);
   updateLangBtn();
   renderCurrentView();
+  // Sync lang to Firestore so push notifs use correct language
+  setTimeout(function(){ if (typeof updateLastActive === 'function') updateLastActive(); }, 300);
 }
 function setLang(l) {
   if (l !== lang) localStorage.setItem('ff_lang_changed', '1');
@@ -19762,6 +19764,7 @@ function showResult() {
     }
     updateXPDisplay();
     checkBadges();
+    _maybePromptNotif();
     // Level-up check
     var lvlBefore = getLevelInfo(xpBefore);
     var lvlAfter  = getLevelInfo(xpAfter);
@@ -20649,6 +20652,45 @@ function initNotifications() {
   if (toggle) toggle.classList.toggle('on', enabled);
 }
 
+async function _maybePromptNotif() {
+  // Show a non-intrusive notification prompt after first lesson completed
+  try {
+    if (!('Notification' in window)) return;
+    if (localStorage.getItem('ff_notif') === '1') return;
+    if (localStorage.getItem('ff_notif_prompted')) return;
+    var s = JSON.parse(localStorage.getItem('ff_state') || '{}');
+    var completed = Object.values(s).filter(function(v){ return v && v.completed; }).length;
+    if (completed < 1) return;
+    localStorage.setItem('ff_notif_prompted', '1');
+    var msg = lang==='en'
+      ? '🔔 Get daily reminders to practice French?'
+      : lang==='zh' ? '🔔 开启每日法语练习提醒？'
+      : '🔔 Recevoir des rappels quotidiens pour pratiquer ?';
+    var yes = lang==='en' ? 'Yes, remind me' : lang==='zh' ? '好，提醒我' : 'Oui, me rappeler';
+    var no  = lang==='en' ? 'Not now'        : lang==='zh' ? '暂时不用'  : 'Pas maintenant';
+    var card = document.createElement('div');
+    card.id = 'notif-prompt-card';
+    card.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);'
+      + 'background:var(--card);border-radius:16px;padding:14px 18px;'
+      + 'box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:500;'
+      + 'max-width:320px;width:90%;animation:slideUp 0.3s ease;border:1px solid var(--border);';
+    card.innerHTML = '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;">'
+      + msg + '</div><div style="display:flex;gap:8px;">'
+      + '<button id="notif-yes-btn" style="flex:1;padding:9px;background:#4F46E5;color:white;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">' + yes + '</button>'
+      + '<button id="notif-no-btn"  style="flex:1;padding:9px;background:var(--border);color:var(--text);border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">' + no + '</button>'
+      + '</div>';
+    document.body.appendChild(card);
+    document.getElementById('notif-yes-btn').onclick = function(){ card.remove(); toggleNotifications(); };
+    document.getElementById('notif-no-btn').onclick  = function(){ card.remove(); };
+    setTimeout(function(){ if (card.parentNode) card.remove(); }, 8000);
+  } catch(e) {}
+}
+
+function _acceptNotifPrompt(card) {
+  if (card) card.remove();
+  toggleNotifications();
+}
+
 async function toggleNotifications() {
   const toggle = document.getElementById('notif-toggle');
   const current = localStorage.getItem('ff_notif') === '1';
@@ -21165,9 +21207,9 @@ function updateLastActive() {
   if (!window._fbDb || !window._fbAuth) return;
   const user = window._fbAuth.currentUser;
   if (!user) return;
-  window._fbDb.collection('users').doc(user.uid).set(
-    { lastActive: Date.now() }, { merge: true }
-  ).catch(console.warn);
+  var payload = { lastActive: Date.now(), lang: lang || 'fr' };
+  try { payload.tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e){}
+  window._fbDb.collection('users').doc(user.uid).set(payload, { merge: true }).catch(console.warn);
 }
 
 function scheduleCloudSync() {
