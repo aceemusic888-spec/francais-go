@@ -13479,7 +13479,7 @@ const LESSONS = [
 ══════════════════════════════════════ */
 let state      = JSON.parse(localStorage.getItem('ff_state') || '{}');
 let lang       = localStorage.getItem('ff_lang') || 'fr';
-let darkMode   = localStorage.getItem('ff_dark') === '1';
+let darkMode   = !isStandaloneApp() && localStorage.getItem('ff_dark') === '1';
 let currentTab = 'home';
 let currentLesson = null;
 let currentLessonPageIdx = 0;
