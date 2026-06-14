@@ -1939,7 +1939,7 @@
 ══════════════════════════════════════ */
 const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35, 65, 68]; // IDs des leçons gratuites
 const UNLOCK_CODE_HASH = '9b603d420459bde57879ed37f77899dd9ebfe468709a5153a5558bde5bf3e8cf'; // SHA-256 du code
-const GUMROAD_URL   = 'https://francaisgo.netlify.app'; // redirects to website (no in-app purchase)
+const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld'; // purchase page — web only, not shown in TWA app
 
 function isStandaloneApp() {
   var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
@@ -19148,9 +19148,12 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'📚 63 premium lessons available':lang==='zh'?'📚 63节高级课程':"📚 63 leçons premium disponibles";
+      const promoTitle = lang==='en'?'🔓 Unlock 63 premium lessons':lang==='zh'?'🔓 解锁63节高级课程':"🔓 Débloquer les 63 leçons premium";
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
-      const promoCta   = lang==='en'?'Discover all lessons on our website →':lang==='zh'?'访问我们的网站了解更多 →':'Découvrir toutes les leçons sur notre site →';
+      const isApp = isStandaloneApp();
+      const promoCta   = isApp
+        ? (lang==='en'?'Discover all content on our website →':lang==='zh'?'访问网站了解更多 →':'Découvrir tout le contenu sur notre site →')
+        : (lang==='en'?'Get full access — €9.99 (lifetime) →':lang==='zh'?'立即解锁 — €9.99（终身）→':'Accès complet — 9,99 € à vie →');
       unlockedEl.innerHTML = `<div onclick="window.open('https://francaisgo.netlify.app','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
     }
   }
@@ -20828,40 +20831,70 @@ function openPaywall() {
   const mm = document.getElementById('modal-mascot');
   if (mm) mm.innerHTML = getMascotSVG('happy', 70);
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  const setH = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
+  const inApp = isStandaloneApp();
+
   if (lang==='en') {
-    set('modal-title','Premium Content 🔒');
-    set('modal-sub','This content is available on our website. Visit francaisgo.netlify.app to access all lessons.');
+    set('modal-title', inApp ? 'Premium Content 🔒' : '🔓 Unlock Premium');
+    set('modal-sub', inApp
+      ? 'This content is available on our website. Visit francaisgo.netlify.app to access all lessons.'
+      : 'One-time payment — lifetime access. No subscription.');
     set('mf1','63 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
     set('mf2','365 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
-    set('btn-website','🌐 Visit our website');
+    if (inApp) {
+      set('btn-website','🌐 Visit our website');
+    } else {
+      setH('btn-website','🛒 Get full access — <strong>€9.99</strong>');
+    }
     set('modal-validate-btn','✓ Validate');
     set('modal-close-btn','Later');
     set('modal-code-btn','🔑 I already have an access code');
   } else if (lang==='zh') {
-    set('modal-title','高级内容 🔒');
-    set('modal-sub','此内容可在我们的网站上获取。请访问 francaisgo.netlify.app 获取所有课程。');
+    set('modal-title', inApp ? '高级内容 🔒' : '🔓 解锁高级内容');
+    set('modal-sub', inApp
+      ? '此内容可在我们的网站上获取。请访问 francaisgo.netlify.app 获取所有课程。'
+      : '一次性付款，终身使用。无需订阅。');
     set('mf1','63节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
     set('mf2','365道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
-    set('btn-website','🌐 访问我们的网站');
+    if (inApp) {
+      set('btn-website','🌐 访问我们的网站');
+    } else {
+      setH('btn-website','🛒 立即解锁 — <strong>€9.99</strong>');
+    }
     set('modal-validate-btn','✓ 验证');
     set('modal-close-btn','稍后');
     set('modal-code-btn','🔑 我已有访问码');
   } else {
-    set('modal-title','Contenu Premium 🔒');
-    set('modal-sub','Ce contenu est disponible sur notre site web. Visitez francaisgo.netlify.app pour accéder à toutes les leçons.');
+    set('modal-title', inApp ? 'Contenu Premium 🔒' : '🔓 Accès Premium');
+    set('modal-sub', inApp
+      ? 'Ce contenu est disponible sur notre site web. Visitez francaisgo.netlify.app pour accéder à toutes les leçons.'
+      : 'Paiement unique — accès à vie. Aucun abonnement.');
     set('mf1','63 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
     set('mf2','365 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
-    set('btn-website','🌐 Visiter notre site web');
+    if (inApp) {
+      set('btn-website','🌐 Visiter notre site web');
+    } else {
+      setH('btn-website','🛒 Obtenir l'accès complet — <strong>€9,99</strong>');
+    }
     set('modal-validate-btn','✓ Valider');
     set('modal-close-btn','Plus tard');
     set('modal-code-btn',"🔑 J'ai déjà un code d'accès");
   }
+
+  // Sur le site web : le bouton ouvre Gumroad. Dans l'app : ouvre le site.
+  const btn = document.getElementById('btn-website');
+  if (btn) {
+    btn.onclick = function() {
+      window.open(inApp ? 'https://francaisgo.netlify.app' : GUMROAD_URL, '_blank');
+    };
+  }
+
   const ca = document.getElementById('code-area');
   if (ca) ca.style.display='none';
   const ce = document.getElementById('code-error');
