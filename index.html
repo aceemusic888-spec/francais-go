@@ -19154,7 +19154,8 @@ function renderHome() {
       const promoCta   = isApp
         ? (lang==='en'?'Discover all content on our website →':lang==='zh'?'访问网站了解更多 →':'Découvrir tout le contenu sur notre site →')
         : (lang==='en'?'Get full access — €9.99 (lifetime) →':lang==='zh'?'立即解锁 — €9.99（终身）→':'Accès complet — 9,99 € à vie →');
-      unlockedEl.innerHTML = `<div onclick="window.open('https://francaisgo.netlify.app','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
+      var promoLink = isApp ? 'https://francaisgo.netlify.app' : GUMROAD_URL;
+      unlockedEl.innerHTML = `<div onclick="window.open('${promoLink}','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
     }
   }
   // ── Bloc objectif personnalisé ──
@@ -20880,7 +20881,7 @@ function openPaywall() {
     if (inApp) {
       set('btn-website','🌐 Visiter notre site web');
     } else {
-      setH('btn-website','🛒 Obtenir l'accès complet — <strong>€9,99</strong>');
+      setH('btn-website','🛒 Obtenir l\'accès complet — <strong>€9,99</strong>');
     }
     set('modal-validate-btn','✓ Valider');
     set('modal-close-btn','Plus tard');
