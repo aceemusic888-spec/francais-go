@@ -1504,6 +1504,13 @@
             <span class="settings-row-label" id="set-lbl-signout" style="color:#EF4444;">Se déconnecter</span>
           </div>
         </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row" onclick="resetAllProgress()" style="cursor:pointer;">
+          <div class="settings-row-left">
+            <span class="settings-row-icon">🗑️</span>
+            <span class="settings-row-label" id="set-lbl-reset" style="color:#EF4444;">Réinitialiser la progression</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -20268,6 +20275,7 @@ function renderSettings() {
   set('set-lbl-signin',     lang==='en'?'Sign in':lang==='zh'?'登录':'Se connecter');
   set('set-lbl-signin-sub', lang==='en'?'Save your progress':lang==='zh'?'保存你的进度':'Sauvegarder ta progression');
   set('set-lbl-signout',    lang==='en'?'Sign out':lang==='zh'?'退出登录':'Se déconnecter');
+  set('set-lbl-reset',     lang==='en'?'Reset all progress':lang==='zh'?'重置所有进度':'Réinitialiser la progression');
   set('set-lbl-goal-title', lang==='en'?'Daily goal':lang==='zh'?'每日目标':'Objectif quotidien');
   set('set-lbl-goal', lang==='en'?'XP per day':lang==='zh'?'每日XP':'XP par jour');
   set('set-lbl-goal-sub', lang==='en'?'Choose your daily target':lang==='zh'?'选择每日目标':'Choisir ton objectif quotidien');
@@ -20909,6 +20917,19 @@ function signOutUser() {
   window._fbAuth.signOut().then(function() {
     window.location.reload();
   });
+}
+
+function resetAllProgress() {
+  var msg = lang==='en' ? 'Reset ALL progress? This cannot be undone.'
+           : lang==='zh' ? '重置所有进度？此操作无法撤销。'
+           : 'Réinitialiser TOUTE la progression ? Impossible d'annuler.';
+  if (!confirm(msg)) return;
+  var keys = ['ff_state','ff_streak','ff_streak_max','ff_badges','ff_dlg_progress',
+    'ff_srs','ff_xp_bonus','ff_daily_xp','ff_tts_q','ff_unlocked','ff_last_active',
+    'ff_onboarded','ff_lang_changed','ff_notif_last','ff_tts_slow','ff_dark',
+    'ff_signed_out','ff_sessions'];
+  keys.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+  window.location.reload();
 }
 
 // ═══════════════════════════════════════════
