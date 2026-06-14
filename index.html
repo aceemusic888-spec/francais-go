@@ -6,6 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FrenchGo — Apprendre le français</title>
   <meta name="description" content="Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF." />
+  <!-- Open Graph / Social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://francaisgo.netlify.app/" />
+  <meta property="og:title" content="FrenchGo — Apprendre le français" />
+  <meta property="og:description" content="60 leçons interactives, quiz, flashcards et préparation TCF/TEF. Apprenez le français gratuitement." />
+  <meta property="og:image" content="https://francaisgo.netlify.app/icon-512.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FrenchGo — Apprendre le français" />
+  <meta name="twitter:description" content="60 leçons interactives, quiz, flashcards et préparation TCF/TEF." />
+  <meta name="twitter:image" content="https://francaisgo.netlify.app/icon-512.png" />
   <meta name="theme-color" content="#4F46E5" />
   <meta name="color-scheme" content="only light" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -16,6 +27,11 @@
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+  <!-- Font preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" media="print" onload="this.media='all'" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -155,6 +171,9 @@
 
     /* ── Lesson Cards ── */
     .lesson-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border-left: 5px solid var(--border); display: flex; flex-direction: column; }
+    .lesson-card.is-done { border-left-color: #10B981; }
+    .lesson-card.is-done .progress-fill { background: linear-gradient(90deg,#10B981,#34D399) !important; }
+    body.dark .lesson-card.is-done { border-left-color: #34D399; }
     /* ── Level Filter Bar ── */
     #level-filter-bar { display:flex; gap:8px; margin-bottom:16px; padding:4px 0; position:sticky; top:0; z-index:10; background:var(--bg); padding-bottom:10px; border-bottom:1px solid var(--border); }
     .level-filter-btn { flex:1; min-width:0; padding:8px 4px; border:2px solid var(--border); border-radius:12px; background:white; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.18s; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -818,7 +837,20 @@
     .badge-card.locked { background:var(--card-bg); opacity:0.38;
                          border:2px solid var(--border); filter:grayscale(1); }
     .badge-card.earned:active { transform:scale(0.96); }
-    .badge-glow { position:absolute; inset:0; border-radius:14px;
+    /* ── CEFR level pill ──────────────────────────────────── */
+    .cefr-pill { display:inline-flex; align-items:center; font-size:10px; font-weight:800; color:#6366F1; background:#EEF2FF; border:1.5px solid #C7D2FE; border-radius:6px; padding:2px 8px; letter-spacing:0.6px; vertical-align:middle; margin-left:6px; }
+    body.dark .cefr-pill { background:#1e1b4b; border-color:#4338ca; color:#818cf8; }
+    .cefr-pill-hero { display:inline-flex; align-items:center; font-size:12px; font-weight:900; color:rgba(255,255,255,0.95); background:rgba(255,255,255,0.18); border:1.5px solid rgba(255,255,255,0.35); border-radius:8px; padding:3px 10px; letter-spacing:0.8px; margin-left:8px; }
+
+    /* ── Pratique tab cards ───────────────────────────────── */
+    .pratique-card { background:var(--card); border-radius:16px; padding:18px 16px; border:1.5px solid var(--border); cursor:pointer; text-align:left; transition:transform 0.15s,box-shadow 0.15s; width:100%; display:flex; flex-direction:column; gap:5px; box-shadow:0 2px 8px rgba(0,0,0,0.05); -webkit-tap-highlight-color:transparent; }
+    .pratique-card:active { transform:scale(0.96); box-shadow:none; border-color:var(--indigo); }
+    .pratique-card-icon { font-size:30px; margin-bottom:4px; }
+    .pratique-card-title { font-size:15px; font-weight:800; color:var(--text); }
+    .pratique-card-sub { font-size:12px; color:var(--muted); font-weight:500; }
+    body.dark .pratique-card { background:#1E1E38; border-color:#3730A3; }
+    body.dark .pratique-card:active { border-color:#818CF8; }
+        .badge-glow { position:absolute; inset:0; border-radius:14px;
                   background:linear-gradient(135deg,rgba(79,70,229,0.08),rgba(124,58,237,0.08));
                   pointer-events:none; }
     .badge-emoji { font-size:34px; line-height:1; }
@@ -1262,12 +1294,8 @@
 <nav role="navigation" aria-label="Navigation principale">
   <button id="nav-home" class="active" onclick="showTab('home')" aria-label="Accueil" aria-current="page"><span class="nav-icon">🏠</span><span class="nav-label" id="nav-lbl-home">Accueil</span></button>
   <button id="nav-lessons" onclick="showTab('lessons')" aria-label="Leçons"><span class="nav-icon">📚</span><span class="nav-label" id="nav-lbl-lessons">Leçons</span></button>
+  <button id="nav-pratique" onclick="showTab('pratique')"><span class="nav-icon">🎯</span><span class="nav-label" id="nav-lbl-pratique">Pratiquer</span></button>
   <button id="nav-progress" onclick="showTab('progress')" aria-label="Progrès"><span class="nav-icon">📊</span><span class="nav-label" id="nav-lbl-progress">Progrès</span></button>
-  <button id="nav-flashcards" onclick="showTab('flashcards')" aria-label="Cartes mémoire"><span class="nav-icon">🃏</span><span class="nav-label" id="nav-lbl-flashcards">Cartes</span></button>
-  <button id="nav-vocab" onclick="showTab('vocab')" aria-label="Vocabulaire"><span class="nav-icon">📖</span><span class="nav-label" id="nav-lbl-vocab">Vocab</span></button>
-  <button id="nav-dialogues" onclick="showTab('dialogues')"><span class="nav-icon">💬</span><span class="nav-label" id="nav-lbl-dialogues">Dialogues</span></button>
-  <button id="nav-conjugaison" onclick="showTab('conjugaison')"><span class="nav-icon">🔤</span><span class="nav-label" id="nav-lbl-conjugaison">Conjugaison</span></button>
-  <button id="nav-ecoute" onclick="showTab('ecoute')"><span class="nav-icon">🔊</span><span class="nav-label" id="nav-lbl-ecoute">Écoute</span></button>
   <button id="nav-settings" onclick="showTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" id="nav-lbl-settings">Réglages</span></button>
 </nav>
 
@@ -1416,8 +1444,49 @@
         <span class="level-progress-pct" id="pct-lv-tcf">0%</span>
       </div>
     </div>
+    <div id="progress-heatmap" style="margin-bottom:4px;"></div>
+    <div id="progress-xp-chart" style="margin-bottom:4px;"></div>
     <div class="section-title" id="lbl-achievements"></div>
     <div id="achievements"></div>
+  </div>
+
+  <!-- PRATIQUE -->
+  <div id="tab-pratique" class="section">
+    <div style="padding:20px 18px 6px;">
+      <div style="font-size:22px;font-weight:900;color:var(--text);" id="prac-title">Pratiquer</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:3px;" id="prac-subtitle">Choisir un mode d'entraînement</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 20px;">
+      <button class="pratique-card" onclick="showTab('flashcards')">
+        <div class="pratique-card-icon">🃏</div>
+        <div class="pratique-card-title" id="prac-lbl-fc">Cartes mémoire</div>
+        <div class="pratique-card-sub" id="prac-lbl-fc-sub">SRS · Révision</div>
+      </button>
+      <button class="pratique-card" onclick="showTab('vocab')">
+        <div class="pratique-card-icon">📖</div>
+        <div class="pratique-card-title" id="prac-lbl-voc">Vocabulaire</div>
+        <div class="pratique-card-sub" id="prac-lbl-voc-sub">Dictionnaire · 551 mots</div>
+      </button>
+      <button class="pratique-card" onclick="showTab('dialogues')">
+        <div class="pratique-card-icon">💬</div>
+        <div class="pratique-card-title" id="prac-lbl-dlg">Dialogues</div>
+        <div class="pratique-card-sub" id="prac-lbl-dlg-sub">Situations réelles · TTS</div>
+      </button>
+      <button class="pratique-card" onclick="showTab('conjugaison')">
+        <div class="pratique-card-icon">🔤</div>
+        <div class="pratique-card-title" id="prac-lbl-conj">Conjugaison</div>
+        <div class="pratique-card-sub" id="prac-lbl-conj-sub">Verbes · Quiz</div>
+      </button>
+      <button class="pratique-card" onclick="showTab('ecoute')" style="grid-column:span 2;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="pratique-card-icon" style="font-size:36px;">🔊</div>
+          <div>
+            <div class="pratique-card-title" id="prac-lbl-eco">Écoute</div>
+            <div class="pratique-card-sub" id="prac-lbl-eco-sub">Compréhension orale · Dictée</div>
+          </div>
+        </div>
+      </button>
+    </div>
   </div>
 
   <!-- FLASHCARDS -->
@@ -1595,7 +1664,7 @@
       <div class="settings-about">
         <span class="settings-about-logo">🦊</span>
         <div class="settings-about-name">FrenchGo</div>
-        <div class="settings-about-ver" id="set-ver">v1.0</div>
+        <div class="settings-about-ver" id="set-ver">v6.4</div>
         <div class="settings-about-desc" id="set-lbl-about-desc">Apprendre le français n'a jamais été aussi simple.</div>
         <a class="settings-about-contact" href="mailto:aceemusic.888@gmail.com">aceemusic.888@gmail.com</a>
       </div>
@@ -18047,6 +18116,15 @@ const VOCAB = [
   }
 ];
 
+/* ── DICT_POOL : VOCAB + mots FC-only non présents dans VOCAB ── */
+var DICT_POOL = (function() {
+  var frSet = new Set(VOCAB.map(function(w){ return w.fr.toLowerCase(); }));
+  var extras = FLASHCARDS
+    .filter(function(fc){ return !frSet.has(fc.fr.toLowerCase()); })
+    .map(function(fc){ return { fr:fc.fr, en:fc.en, zh:fc.zh||'', pos:'', ex:fc.example||'', ex_en:'', theme:fc.theme||'' }; });
+  return VOCAB.concat(extras);
+}());
+
 /* ── VOCAB QUIZ ── */
 var vocabTheme = 'all';
 var _vqWords = [], _vqIndex = 0, _vqScore = 0, _vqAnswered = false;
@@ -18229,7 +18307,7 @@ function renderVocab() {
     if (themeWrap) themeWrap.style.display = 'none';
     if (trainBtn0) trainBtn0.style.display  = 'none';
     if (pagEl0)    pagEl0.innerHTML = '';
-    var dictResults = VOCAB.filter(function(w) {
+    var dictResults = DICT_POOL.filter(function(w) {
       return w.fr.toLowerCase().indexOf(search) !== -1
           || w.en.toLowerCase().indexOf(search) !== -1
           || (w.zh && w.zh.indexOf(search) !== -1);
@@ -18357,6 +18435,31 @@ let quizAnswered = false;
 let quizCombo   = 0;  // consecutive correct answers
 var _quizTimerInterval = null;
 var _quizTimerSec = 15;
+var _quizDeadlineTs = 0;
+// Sync timer when app returns from background
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden && _quizDeadlineTs > 0 && _quizTimerInterval && !quizAnswered) {
+    _quizTimerSec = Math.max(0, Math.round((_quizDeadlineTs - Date.now()) / 1000));
+    if (_quizTimerSec <= 0) { _clearQuizTimer(); _selectAnswer(-1); }
+  }
+});
+// ── Keyboard shortcuts: 1/2/3/4 for quiz answers on desktop ──
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+  // Quiz answer shortcuts: 1-4
+  if (['1','2','3','4'].includes(e.key) && !quizAnswered) {
+    var opts = document.querySelectorAll('.quiz-option:not(:disabled)');
+    var idx = parseInt(e.key,10) - 1;
+    if (opts[idx]) { opts[idx].click(); e.preventDefault(); }
+    return;
+  }
+  // Flashcard: space = flip, arrows = prev/next
+  if (currentTab === 'flashcards') {
+    if (e.key === ' ' || e.key === 'Enter') { try{fcFlip();}catch(x){} e.preventDefault(); }
+    if (e.key === 'ArrowRight') { try{fcNext();}catch(x){} e.preventDefault(); }
+    if (e.key === 'ArrowLeft')  { try{fcPrev();}catch(x){} e.preventDefault(); }
+  }
+});
 let currentLevelFilter = 'all';
 let fcFilter = 'all';
 let fcTheme = 'all';
@@ -18655,13 +18758,19 @@ function showTab(tab) {
   });
   var vqv = document.getElementById('vocab-quiz-view');
   if (vqv) vqv.classList.remove('active');
-  ['home','lessons','progress','flashcards','settings','vocab','dialogues','conjugaison','ecoute'].forEach(id => {
+  // Sections (including sub-tabs not in nav)
+  ['home','lessons','progress','flashcards','settings','vocab','dialogues','conjugaison','ecoute','pratique'].forEach(id => {
     const sec = document.getElementById('tab-'+id);
-    const btn = document.getElementById('nav-'+id);
     if (sec) sec.classList.toggle('active', id===tab);
+  });
+  // Nav highlighting — sub-practice tabs → highlight nav-pratique
+  var PRATIQUE_SUBS = ['flashcards','vocab','dialogues','conjugaison','ecoute'];
+  var navActive = PRATIQUE_SUBS.includes(tab) ? 'pratique' : tab;
+  ['home','lessons','pratique','progress','settings'].forEach(id => {
+    const btn = document.getElementById('nav-'+id);
     if (btn) {
-      btn.classList.toggle('active', id===tab);
-      if (id===tab) btn.setAttribute('aria-current','page');
+      btn.classList.toggle('active', id===navActive);
+      if (id===navActive) btn.setAttribute('aria-current','page');
       else btn.removeAttribute('aria-current');
     }
   });
@@ -18674,6 +18783,7 @@ function showTab(tab) {
   if (tab==='dialogues')  renderDialogues();
   if (tab==='conjugaison') renderConjugaison();
   if (tab==='ecoute')      renderEcoute();
+  if (tab==='pratique')    renderPratique();
 }
 function updateNav() {
   const navLabels = t('nav') || [];
@@ -18681,25 +18791,38 @@ function updateNav() {
     const el = document.getElementById('nav-lbl-'+id);
     if (el && navLabels[i]) el.textContent = navLabels[i].replace(/^\S+\s/, '');
   });
-  const fcLbl  = lang==='en'?'Cards':lang==='zh'?'卡片':'Cartes';
-  const setLbl = lang==='en'?'Settings':lang==='zh'?'设置':'Réglages';
-  const fcEl  = document.getElementById('nav-lbl-flashcards');
-  const setEl = document.getElementById('nav-lbl-settings');
-  if (fcEl)  fcEl.textContent  = fcLbl;
-  if (setEl) setEl.textContent = setLbl;
-  var vocabLbl = lang==='en'?'Vocab':lang==='zh'?'词汇':'Vocab';
-  var vocabEl = document.getElementById('nav-lbl-vocab');
-  if (vocabEl) vocabEl.textContent = vocabLbl;
-  var dlgLbl = lang==='en'?'Dialogs':lang==='zh'?'对话':'Dialogues';
-  var dlgNavEl = document.getElementById('nav-lbl-dialogues');
-  if (dlgNavEl) dlgNavEl.textContent = dlgLbl;
-  var conjLbl = lang==='en'?'Conjugation':lang==='zh'?'变位':'Conjugaison';
-  var conjNavEl = document.getElementById('nav-lbl-conjugaison');
-  if (conjNavEl) conjNavEl.textContent = conjLbl;
-  var ecouteLbl = lang==='en'?'Listening':lang==='zh'?'听力':'Écoute';
-  var ecouteNavEl = document.getElementById('nav-lbl-ecoute');
-  if (ecouteNavEl) ecouteNavEl.textContent = ecouteLbl;
+  var setEl = document.getElementById('nav-lbl-settings');
+  if (setEl) setEl.textContent = lang==='en'?'Settings':lang==='zh'?'设置':'Réglages';
+  var pracEl = document.getElementById('nav-lbl-pratique');
+  if (pracEl) pracEl.textContent = lang==='en'?'Practice':lang==='zh'?'练习':'Pratiquer';
+  // Pratique sub-labels
+  var fc = document.getElementById('prac-lbl-fc');
+  var fcS = document.getElementById('prac-lbl-fc-sub');
+  if (fc)  fc.textContent  = lang==='en'?'Flashcards':lang==='zh'?'记忆卡片':'Cartes mémoire';
+  if (fcS) fcS.textContent = 'SRS · ' + (lang==='en'?'Review':lang==='zh'?'复习':'Révision');
+  var voc = document.getElementById('prac-lbl-voc');
+  var vocS = document.getElementById('prac-lbl-voc-sub');
+  if (voc)  voc.textContent  = lang==='en'?'Vocabulary':lang==='zh'?'词汇':'Vocabulaire';
+  if (vocS) vocS.textContent = (lang==='en'?'Dictionary':lang==='zh'?'词典':'Dictionnaire') + ' · 551 ' + (lang==='en'?'words':lang==='zh'?'词':'mots');
+  var dlg = document.getElementById('prac-lbl-dlg');
+  var dlgS = document.getElementById('prac-lbl-dlg-sub');
+  if (dlg)  dlg.textContent  = lang==='en'?'Dialogues':lang==='zh'?'对话':'Dialogues';
+  if (dlgS) dlgS.textContent = lang==='en'?'Real situations · TTS':lang==='zh'?'真实场景 · 语音':'Situations réelles · TTS';
+  var conj = document.getElementById('prac-lbl-conj');
+  var conjS = document.getElementById('prac-lbl-conj-sub');
+  if (conj)  conj.textContent  = lang==='en'?'Conjugation':lang==='zh'?'变位':'Conjugaison';
+  if (conjS) conjS.textContent = lang==='en'?'Verbs · Quiz':lang==='zh'?'动词 · 测验':'Verbes · Quiz';
+  var eco = document.getElementById('prac-lbl-eco');
+  var ecoS = document.getElementById('prac-lbl-eco-sub');
+  if (eco)  eco.textContent  = lang==='en'?'Listening':lang==='zh'?'听力':'Écoute';
+  if (ecoS) ecoS.textContent = lang==='en'?'Oral comprehension · Dictation':lang==='zh'?'听力理解 · 听写':'Compréhension orale · Dictée';
+  var pt = document.getElementById('prac-title');
+  if (pt) pt.textContent = lang==='en'?'Practice':lang==='zh'?'练习':'Pratiquer';
+  var ps = document.getElementById('prac-subtitle');
+  if (ps) ps.textContent = lang==='en'?'Choose a training mode':lang==='zh'?'选择训练模式':'Choisir un mode d\'entraînement';
 }
+
+function renderPratique() { /* grid is static HTML, nothing to render */ }
 function renderCurrentView() {
   updateLangBtn();
   updateNav();
@@ -18762,7 +18885,9 @@ function renderHome() {
   if (lvlWrap) {
     var lvlInfo = getLevelInfo(xp);
     var nextStr = lvlInfo.nextXP ? ' · '+lvlInfo.pct+'% → '+lvlInfo.nextXP+' XP' : ' · MAX';
-    lvlWrap.innerHTML = '<span class="level-badge">'+lvlInfo.icon+' '+lvlInfo.label+nextStr+'</span>';
+    var cefrArr = ['A1','A2','B1','B2','C1'];
+    var cefrBadge = '<span class="cefr-pill-hero">'+cefrArr[Math.min(lvlInfo.idx, cefrArr.length-1)]+'</span>';
+    lvlWrap.innerHTML = '<span class="level-badge">'+lvlInfo.icon+' '+lvlInfo.label+nextStr+'</span>'+cefrBadge;
   }
   // Daily goal bar
   var dgWrap = document.getElementById('hero-daily-goal-wrap');
@@ -18925,13 +19050,33 @@ function renderHome() {
   set('done-home-0', s0.completed ? '✅' : '');
   const cont = document.getElementById('home-continue');
   if (cont) {
-    const recent = LESSONS.find(l => state[l.id] && !state[l.id].completed);
-    if (recent && recent.id !== 0) {
-      cont.innerHTML = lessonCardHTML(recent, Math.round((state[recent.id].score||0)/recent.quiz.length*100));
-    } else if (Object.keys(state).length > 0) {
+    // Find best target: in-progress first, then next unstarted (lesson 0 shown separately)
+    var inProg = LESSONS.find(function(l){ var s=state[l.id]; return s && s.score>0 && !s.completed; });
+    var nextNew = LESSONS.find(function(l){ return l.id!==0 && (!state[l.id] || (!state[l.id].completed && !(state[l.id].score>0))); });
+    var target = inProg || nextNew;
+    var lvlColors = {beginner:'#10b981',intermediate:'#3b82f6',advanced:'#7c3aed',tcf:'#f59e0b'};
+    if (target) {
+      var ts = state[target.id]||{};
+      var tpct = ts.score ? Math.round(ts.score/target.quiz.length*100) : 0;
+      var tTitle = lang==='en' ? target.title_en : (lang==='zh'&&TITLES_ZH[target.id] ? TITLES_ZH[target.id].title : target.title);
+      var ctaLbl = tpct>0 ? (lang==='en'?'Continue':lang==='zh'?'继续':'Continuer') : (lang==='en'?'Start':lang==='zh'?'开始':'Commencer');
+      var lvlColor = lvlColors[target.level]||'#10b981';
+      var progBar = tpct>0
+        ? '<div style="background:var(--border);border-radius:99px;height:3px;margin-top:6px;overflow:hidden;"><div style="background:'+lvlColor+';height:3px;width:'+tpct+'%;border-radius:99px;transition:width 0.5s;"></div></div>'
+        : '<div style="font-size:11px;color:var(--muted);margin-top:3px;">'+(lang==='en'?'New lesson':lang==='zh'?'新课程':'Nouvelle leçon')+'</div>';
+      cont.innerHTML = '<div onclick="openLesson('+target.id+')" style="cursor:pointer;background:var(--card);border-radius:16px;padding:15px 16px;margin-bottom:4px;border-left:4px solid '+lvlColor+';box-shadow:0 2px 12px rgba(0,0,0,0.07);display:flex;align-items:center;gap:13px;">'
+        +'<div style="width:42px;height:42px;border-radius:11px;background:'+lvlColor+'22;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📖</div>'
+        +'<div style="flex:1;min-width:0;">'
+        +'<div style="font-size:11.5px;font-weight:800;color:'+lvlColor+';margin-bottom:2px;letter-spacing:0.2px;">'+ctaLbl+' →</div>'
+        +'<div style="font-size:14px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+tTitle+'</div>'
+        +progBar
+        +'</div>'
+        +'<div style="font-size:22px;color:'+lvlColor+';font-weight:700;opacity:0.7;flex-shrink:0;">›</div>'
+        +'</div>';
+    } else if (Object.values(state).some(function(s){ return s.completed; })) {
       cont.innerHTML = '<div class="card" style="text-align:center;color:var(--green);font-weight:600;">'+t('allDone')+'</div>';
     } else {
-      cont.innerHTML = '<div class="card" style="color:var(--muted);font-size:14px;">'+t('noProgress')+'</div>';
+      cont.innerHTML = '';
     }
   }
 }
@@ -18944,6 +19089,8 @@ function lessonCardHTML(l, pct) {
   const isPrem = isPremium(l.id) && !isUnlocked();
   const lvlMap = { beginner:t('beginner'), intermediate:t('intermediate'), tcf:t('tcf'), advanced:t('advanced') };
   const lvlLabel = lvlMap[l.level] || l.level;
+  const cefrMap = { beginner:'A1', A1:'A1', A2:'A2', intermediate:'A2', advanced:'B1', B1:'B1', tcf:'B2+' };
+  const cefrTag = cefrMap[l.level] ? '<span class="cefr-pill">'+cefrMap[l.level]+'</span>' : '';
   let titleText, descText;
   if (lang==='en') { titleText=l.title_en; descText=l.desc_en; }
   else if (lang==='zh' && TITLES_ZH[l.id]) { titleText=TITLES_ZH[l.id].title; descText=TITLES_ZH[l.id].desc; }
@@ -18953,11 +19100,12 @@ function lessonCardHTML(l, pct) {
   const rawC = Array.isArray(l.content) ? l.content[0] : l.content;
   const emojiMatch = rawC && rawC.match(/^<h2>(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[\u2600-\u27BF])/u);
   const cardEmoji = emojiMatch ? emojiMatch[1] : '';
-  return `<div class="card lesson-card lv-${l.level}${isPrem?' locked':''}" onclick="openLesson(${l.id})">
+  const doneLbl = lang==='en'?'✓ Done':lang==='zh'?'✓ 完成':'✓ Terminé';
+  return `<div class="card lesson-card lv-${l.level}${s.completed?' is-done':''}${isPrem?' locked':''}" onclick="openLesson(${l.id})">
     ${cardEmoji ? `<span class="lesson-card-emoji-bg" aria-hidden="true">${cardEmoji}</span>` : ''}
     <div class="card-header">
-      <span class="level-tag ${l.level}">${lvlLabel}</span>
-      ${s.completed?'<span class="done-icon">✅</span>':isPrem?'<span class="done-icon">🔒</span>':''}
+      <span class="level-tag ${l.level}">${lvlLabel}</span>${cefrTag}
+      ${s.completed?`<span class="done-badge">${doneLbl}</span>`:isPrem?'<span class="done-icon">🔒</span>':''}
     </div>
     <div style="display:flex;align-items:center;gap:10px;margin:4px 0 3px;">
       ${cardEmoji ? `<span style="font-size:26px;line-height:1;flex-shrink:0;">${cardEmoji}</span>` : ''}
@@ -19144,6 +19292,7 @@ function startQuiz() {
 
 function _clearQuizTimer() {
   if (_quizTimerInterval) { clearInterval(_quizTimerInterval); _quizTimerInterval = null; }
+  _quizDeadlineTs = 0;
   var wrap = document.getElementById('quiz-timer-wrap');
   if (wrap) wrap.style.display = 'none';
 }
@@ -19155,12 +19304,13 @@ function _startQuizTimer() {
   if (!wrap) return;
   wrap.style.display = 'flex';
   _quizTimerSec = 15;
+  _quizDeadlineTs = Date.now() + 15000;
   if (fill) { fill.style.transition='none'; fill.style.width='100%'; fill.classList.remove('urgent'); }
   if (num)  { num.textContent = _quizTimerSec; num.classList.remove('urgent'); }
   setTimeout(function() {
     if (fill) fill.style.transition = 'width 1s linear';
     _quizTimerInterval = setInterval(function() {
-      _quizTimerSec--;
+      _quizTimerSec = Math.max(0, Math.round((_quizDeadlineTs - Date.now()) / 1000));
       var pct = Math.max(0, _quizTimerSec / 15 * 100);
       if (fill) { fill.style.width = pct + '%'; fill.classList.toggle('urgent', _quizTimerSec <= 5); }
       if (num)  { num.textContent = _quizTimerSec; num.classList.toggle('urgent', _quizTimerSec <= 5); }
@@ -19168,7 +19318,7 @@ function _startQuizTimer() {
         _clearQuizTimer();
         if (!quizAnswered) _selectAnswer(-1); // timeout = wrong answer
       }
-    }, 1000);
+    }, 500);
   }, 50);
 }
 
@@ -19253,6 +19403,8 @@ function _selectAnswer(i) {
   _clearQuizTimer();
   var d = dataArr[quizIndex];
   var correct = i === d.ans;
+  // Haptic feedback (works on Android/iOS)
+  if (navigator.vibrate) navigator.vibrate(correct ? 50 : [80,40,120]);
   if (correct) {
     quizScore++;
     quizCombo++;
@@ -20020,6 +20172,19 @@ function renderFlashcard() {
     +'</div>'
     +'</div>'
     +bottomBtns;
+  // Attach swipe gesture on the card area
+  (function(){
+    var el=document.getElementById('fc-card-area');
+    if(!el||el._swipeInit) return;
+    el._swipeInit=true;
+    var sx=0, sy=0;
+    el.addEventListener('touchstart',function(e){ var t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
+    el.addEventListener('touchend',function(e){
+      var t=e.changedTouches[0]; var dx=t.clientX-sx; var dy=t.clientY-sy;
+      if(Math.abs(dx)<Math.abs(dy)*1.2 || Math.abs(dx)<40) return; // not a horizontal swipe
+      if(dx<0) fcNext(); else fcPrev();
+    },{passive:true});
+  })();
 }
 
 function fcFlip() {
@@ -20167,6 +20332,72 @@ function renderProgress() {
                                   :lv==='advanced'?(lang==='en'?'Advanced':lang==='zh'?'高级':'Avancé')
                                   :'TCF/TEF';
   });
+  // ── Heatmap 7 jours ──
+  var heatEl = document.getElementById('progress-heatmap');
+  if (heatEl) {
+    var hist = {};
+    try { hist = JSON.parse(localStorage.getItem('ff_xp_history')||'{}'); } catch(e){}
+    var dayNames = lang==='en'
+      ? ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+      : lang==='zh'
+      ? ['日','一','二','三','四','五','六']
+      : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    var heatTitle = lang==='en'?'Activity — last 7 days':lang==='zh'?'最近7天活动':'Activité — 7 derniers jours';
+    var heatHtml = '<div style="background:var(--card);border-radius:16px;padding:14px 16px 12px;margin-bottom:14px;">'
+      + '<div style="font-size:12px;font-weight:800;color:var(--muted);margin-bottom:10px;letter-spacing:0.3px;">'+heatTitle+'</div>'
+      + '<div style="display:flex;gap:6px;justify-content:space-between;">';
+    for (var di=6; di>=0; di--) {
+      var d = new Date(); d.setDate(d.getDate()-di);
+      var dStr = d.toISOString().slice(0,10);
+      var dXP = hist[dStr]||0;
+      var isToday = di===0;
+      var active = dXP > 0;
+      var intensity = active ? Math.min(1, dXP/50) : 0; // 50 XP = full intensity
+      var dotColor = active
+        ? 'rgba(16,185,129,'+(0.4+0.6*intensity)+')'
+        : 'var(--border)';
+      var dayIdx = d.getDay();
+      heatHtml += '<div style="flex:1;text-align:center;">'
+        + '<div style="width:100%;padding-bottom:100%;border-radius:8px;background:'+dotColor+';position:relative;'+(isToday?'box-shadow:0 0 0 2px #10b981;':'')+'"></div>'
+        + '<div style="font-size:9px;font-weight:700;color:var(--muted);margin-top:4px;">'+dayNames[dayIdx]+'</div>'
+        + (active?'<div style="font-size:8px;color:#10b981;font-weight:700;">'+dXP+'</div>':'<div style="font-size:8px;color:transparent;">0</div>')
+        + '</div>';
+    }
+    heatHtml += '</div></div>';
+    heatEl.innerHTML = heatHtml;
+  }
+
+  // ── Graphique XP 7 jours ──
+  var xpChartEl = document.getElementById('progress-xp-chart');
+  if (xpChartEl) {
+    var hist2 = {};
+    try { hist2 = JSON.parse(localStorage.getItem('ff_xp_history')||'{}'); } catch(e){}
+    var days7=[]; var maxXP=0;
+    for (var di2=6; di2>=0; di2--) {
+      var d2=new Date(); d2.setDate(d2.getDate()-di2);
+      var dStr2=d2.toISOString().slice(0,10);
+      var dxp2=hist2[dStr2]||0;
+      days7.push({date:dStr2,xp:dxp2,isToday:di2===0,day:d2.getDate()});
+      if(dxp2>maxXP) maxXP=dxp2;
+    }
+    var chartTitle = lang==='en'?'XP earned — last 7 days':lang==='zh'?'最近7天XP':'XP gagnés — 7 derniers jours';
+    var chartHtml = '<div style="background:var(--card);border-radius:16px;padding:14px 16px 12px;margin-bottom:14px;">'
+      + '<div style="font-size:12px;font-weight:800;color:var(--muted);margin-bottom:10px;letter-spacing:0.3px;">'+chartTitle+'</div>'
+      + '<div style="display:flex;align-items:flex-end;gap:5px;height:64px;">';
+    days7.forEach(function(d3){
+      var barPct = maxXP>0 ? Math.round(d3.xp/maxXP*100) : 0;
+      var barH = maxXP>0 ? Math.max(4, Math.round(d3.xp/maxXP*52)) : 4;
+      var barColor = d3.isToday ? '#10b981' : '#10b98166';
+      chartHtml += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;">'
+        + (d3.xp>0?'<div style="font-size:8px;font-weight:700;color:var(--muted);">'+d3.xp+'</div>':'<div style="font-size:8px;color:transparent;">0</div>')
+        + '<div style="width:100%;height:'+barH+'px;background:'+barColor+';border-radius:4px 4px 0 0;transition:height 0.4s;"></div>'
+        + '<div style="font-size:9px;font-weight:700;color:var(--muted);">'+d3.day+'</div>'
+        + '</div>';
+    });
+    chartHtml += '</div></div>';
+    xpChartEl.innerHTML = chartHtml;
+  }
+
   const achTitle = lang==='en'?'Trophies':lang==='zh'?'成就徽章':'Trophées';
   set('lbl-achievements', achTitle + ' ' + getEarnedBadges().length + '/16');
   const ach    = t('ach') || [];
@@ -20209,12 +20440,12 @@ async function toggleNotifications() {
   const current = localStorage.getItem('ff_notif') === '1';
   if (!current) {
     if (!('Notification' in window)) {
-      alert(lang==='en'?'Notifications are not supported on this browser.':lang==='zh'?'此浏览器不支持通知。':'Les notifications ne sont pas supportées sur ce navigateur.');
+      showStreakToast(lang==='en'?'Notifications not supported on this browser.':lang==='zh'?'此浏览器不支持通知。':'Notifications non supportées sur ce navigateur.');
       return;
     }
     const perm = await Notification.requestPermission();
     if (perm !== 'granted') {
-      alert(lang==='en'?'Please allow notifications in your browser settings.':lang==='zh'?'请在浏览器设置中允许通知。':'Veuillez autoriser les notifications dans les paramètres du navigateur.');
+      showStreakToast(lang==='en'?'Allow notifications in your browser settings.':lang==='zh'?'请在浏览器设置中允许通知。':'Autorise les notifications dans les paramètres du navigateur.');
       return;
     }
     localStorage.setItem('ff_notif', '1');
@@ -20274,7 +20505,7 @@ function renderSettings() {
   set('set-lbl-info', lang==='en'?'Information':lang==='zh'?'信息':'Informations');
   set('set-lbl-privacy', lang==='en'?'Privacy policy':lang==='zh'?'隐私政策':'Politique de confidentialité');
   set('set-lbl-about-desc', lang==='en'?'Learning French has never been easier.':lang==='zh'?'学法语从未如此简单。':'Apprendre le français n\'a jamais été aussi simple.');
-  set('set-ver', 'v1.0');
+  set('set-ver', 'v6.4');
   // Daily goal
   // Account section
   set('set-lbl-account',    lang==='en'?'Account':lang==='zh'?'账户':'Compte');
@@ -20437,6 +20668,16 @@ function _addDailyXP(amount) {
       showStreakToast('🎯 '+(lang==='en'?'Daily goal reached!':lang==='zh'?'今日目标达成！':'Objectif du jour atteint !'));
       try{launchConfetti();}catch(e){}
     }
+  } catch(e) {}
+  // Track XP history for chart (ff_xp_history: {YYYY-MM-DD: xp})
+  try {
+    var hist=JSON.parse(localStorage.getItem('ff_xp_history')||'{}');
+    hist[today]=(hist[today]||0)+amount;
+    // Prune entries older than 30 days
+    var cutoff=new Date(); cutoff.setDate(cutoff.getDate()-30);
+    var cutoffStr=cutoff.toISOString().slice(0,10);
+    Object.keys(hist).forEach(function(d){ if(d<cutoffStr) delete hist[d]; });
+    localStorage.setItem('ff_xp_history',JSON.stringify(hist));
   } catch(e) {}
 }
 function showXPFloat(amount) {
@@ -20859,6 +21100,36 @@ function toggleAuthMode() {
   const err = document.getElementById('auth-error');
   if (err) err.textContent = '';
 }
+// Custom confirm dialog (replaces browser confirm() — blocked in TWA)
+function showAppConfirm(msg, onConfirm) {
+  var lbl = lang==='en'?['Cancel','Confirm']:lang==='zh'?['取消','确认']:['Annuler','Confirmer'];
+  var ov = document.createElement('div');
+  ov.id = 'app-confirm-overlay';
+  ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:10000;display:flex;align-items:center;justify-content:center;';
+  ov.innerHTML = '<div style="background:var(--card);border-radius:20px;padding:28px 24px 24px;width:85%;max-width:340px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.25);">'
+    + '<div style="font-size:15px;color:var(--text);margin-bottom:22px;line-height:1.6;">' + msg + '</div>'
+    + '<div style="display:flex;gap:10px;">'
+    + '<button id="app-confirm-cancel" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:15px;font-weight:700;cursor:pointer;">' + lbl[0] + '</button>'
+    + '<button id="app-confirm-ok" style="flex:1;padding:13px;border-radius:12px;border:none;background:#EF4444;color:white;font-size:15px;font-weight:800;cursor:pointer;">' + lbl[1] + '</button>'
+    + '</div></div>';
+  document.body.appendChild(ov);
+  document.getElementById('app-confirm-cancel').onclick = function() { ov.remove(); };
+  document.getElementById('app-confirm-ok').onclick = function() { ov.remove(); onConfirm(); };
+}
+
+// Handle Google redirect result on page load (TWA/standalone mode)
+(function() {
+  if (!window._fbAuth) return;
+  window._fbAuth.getRedirectResult().then(function(result) {
+    if (result && result.user) {
+      localStorage.removeItem('ff_signed_out');
+      closeAuthModal();
+      var ok = lang==='en'?'✅ Progress saved!':lang==='zh'?'✅ 进度已保存！':'✅ Progression sauvegardée !';
+      setTimeout(function(){ showStreakToast(ok); }, 400);
+    }
+  }).catch(function(err) { console.warn('getRedirectResult:', err); });
+})();
+
 function signInWithGoogle() {
   localStorage.removeItem('ff_signed_out');
   try {
@@ -20866,13 +21137,23 @@ function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('email');
     provider.addScope('profile');
-    auth.signInWithPopup(provider)
-      .then(() => closeAuthModal())
-      .catch(err => {
+    // In TWA / standalone, popups are blocked — use redirect instead
+    var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+      || window.navigator.standalone === true;
+    if (isStandalone) {
+      auth.signInWithRedirect(provider).catch(function(err) {
         const e = document.getElementById('auth-error');
         if (e) e.textContent = (err.code || '') + ' ' + err.message;
-        openAuthModal();
       });
+    } else {
+      auth.signInWithPopup(provider)
+        .then(() => closeAuthModal())
+        .catch(err => {
+          const e = document.getElementById('auth-error');
+          if (e) e.textContent = (err.code || '') + ' ' + err.message;
+          openAuthModal();
+        });
+    }
   } catch(err) {
     const e = document.getElementById('auth-error');
     if (e) e.textContent = 'Init error: ' + err.message;
@@ -20888,7 +21169,11 @@ function submitEmailAuth() {
     ? window._fbAuth.createUserWithEmailAndPassword.bind(window._fbAuth)
     : window._fbAuth.signInWithEmailAndPassword.bind(window._fbAuth);
   fn(email, pwd)
-    .then(() => closeAuthModal())
+    .then(() => {
+      closeAuthModal();
+      var ok = lang==='en'?'✅ Progress saved!':lang==='zh'?'✅ 进度已保存！':'✅ Progression sauvegardée !';
+      setTimeout(function(){ showStreakToast(ok); }, 400);
+    })
     .catch(err => {
       const msgs = lang==='en' ? {
         'auth/email-already-in-use': 'Email already in use.',
@@ -20913,30 +21198,33 @@ function submitEmailAuth() {
     });
 }
 function signOutUser() {
-  if (!confirm(lang==='en'?'Sign out and reset all local progress?':lang==='zh'?'退出并重置所有本地进度？':'Se déconnecter et effacer la progression locale ?')) return;
-  // Clear all progress-related keys, keep lang/goal/notif prefs
-  var keepKeys = ['ff_lang','ff_goal','ff_daily_goal','ff_notif','ff_dark'];
-  var toRemove = ['ff_state','ff_streak','ff_streak_max','ff_badges','ff_dlg_progress',
-    'ff_srs','ff_xp_bonus','ff_daily_xp','ff_tts_q','ff_unlocked','ff_last_active',
-    'ff_onboarded','ff_lang_changed','ff_notif_last','ff_tts_slow'];
-  toRemove.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
-  localStorage.setItem('ff_signed_out', '1');
-  window._fbAuth.signOut().then(function() {
-    window.location.reload();
+  var msg = lang==='en' ? 'Sign out and reset all local progress?'
+           : lang==='zh' ? '退出并重置所有本地进度？'
+           : 'Se déconnecter et effacer la progression locale ?';
+  showAppConfirm(msg, function() {
+    var toRemove = ['ff_state','ff_streak','ff_streak_max','ff_badges','ff_dlg_progress',
+      'ff_srs','ff_xp_bonus','ff_daily_xp','ff_tts_q','ff_unlocked','ff_last_active',
+      'ff_onboarded','ff_lang_changed','ff_notif_last','ff_tts_slow'];
+    toRemove.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+    localStorage.setItem('ff_signed_out', '1');
+    window._fbAuth.signOut().then(function() {
+      window.location.reload();
+    });
   });
 }
 
 function resetAllProgress() {
   var msg = lang==='en' ? 'Reset ALL progress? This cannot be undone.'
            : lang==='zh' ? '重置所有进度？此操作无法撤销。'
-           : 'Réinitialiser TOUTE la progression ? Impossible d'annuler.';
-  if (!confirm(msg)) return;
-  var keys = ['ff_state','ff_streak','ff_streak_max','ff_badges','ff_dlg_progress',
-    'ff_srs','ff_xp_bonus','ff_daily_xp','ff_tts_q','ff_unlocked','ff_last_active',
-    'ff_onboarded','ff_lang_changed','ff_notif_last','ff_tts_slow','ff_dark',
-    'ff_signed_out','ff_sessions'];
-  keys.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
-  window.location.reload();
+           : 'Réinitialiser TOUTE la progression ? Impossible d\'annuler.';
+  showAppConfirm(msg, function() {
+    var keys = ['ff_state','ff_streak','ff_streak_max','ff_badges','ff_dlg_progress',
+      'ff_srs','ff_xp_bonus','ff_daily_xp','ff_tts_q','ff_unlocked','ff_last_active',
+      'ff_onboarded','ff_lang_changed','ff_notif_last','ff_tts_slow','ff_dark',
+      'ff_signed_out','ff_sessions','ff_xp_history','ff_activity'];
+    keys.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+    window.location.reload();
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -22532,7 +22820,7 @@ function ecouteBackToLevels() {
 
 </script>
 <!-- AUTH MODAL -->
-<div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeAuthModal()">
+<div id="auth-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeAuthModal()">
   <div style="background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;animation:slideUp 0.3s ease;">
     <div style="text-align:center;margin-bottom:22px;">
       <div style="font-size:36px">🦊</div>
