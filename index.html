@@ -22839,5 +22839,16 @@ function ecouteBackToLevels() {
     <button onclick="closeAuthModal()" style="display:block;margin:6px auto 0;background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;">Fermer</button>
   </div>
 </div>
+<script>
+// Global error guard — prevents unhandled JS errors from crashing the WebView process
+window.onerror = function(msg, src, line, col, err) {
+  console.warn('[FG] onerror', msg, src+':'+line);
+  return true; // suppress default error handling
+};
+window.addEventListener('unhandledrejection', function(e) {
+  console.warn('[FG] unhandledrejection', e.reason);
+  e.preventDefault();
+});
+</script>
 </body>
 </html>
