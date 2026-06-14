@@ -1486,6 +1486,24 @@
         </div>
       </button>
     </div>
+    <!-- DELF/TCF teaser -->
+    <div id="delf-teaser" onclick="window.open('https://francaisgo.netlify.app/tests','_blank')" style="margin:0 16px 20px;background:linear-gradient(135deg,#4338CA,#7C3AED);border-radius:18px;padding:18px 20px;cursor:pointer;box-shadow:0 6px 24px rgba(79,70,229,0.35);-webkit-tap-highlight-color:transparent;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.75);letter-spacing:.5px;text-transform:uppercase;">Nouveau</div>
+          <div style="font-size:19px;font-weight:900;color:white;margin-top:2px;" id="delf-teaser-title">Tests DELF / TCF</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:3px;" id="delf-teaser-sub">10 tests chronométrés · A1 à B2</div>
+        </div>
+        <div style="font-size:42px;flex-shrink:0;">📝</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">🌱 A1</span>
+        <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">📘 A2</span>
+        <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">⭐ B1</span>
+        <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">🏆 B2</span>
+      </div>
+      <div style="background:white;color:#4F46E5;font-size:14px;font-weight:800;padding:10px 16px;border-radius:12px;text-align:center;" id="delf-teaser-btn">Accéder aux tests gratuits →</div>
+    </div>
   </div>
 
   <!-- FLASHCARDS -->
@@ -19011,6 +19029,12 @@ function updateNav() {
   var ecoS = document.getElementById('prac-lbl-eco-sub');
   if (eco)  eco.textContent  = lang==='en'?'Listening':lang==='zh'?'听力':'Écoute';
   if (ecoS) ecoS.textContent = lang==='en'?'Oral comprehension · Dictation':lang==='zh'?'听力理解 · 听写':'Compréhension orale · Dictée';
+  var delfTitle = document.getElementById('delf-teaser-title');
+  var delfSub   = document.getElementById('delf-teaser-sub');
+  var delfBtn   = document.getElementById('delf-teaser-btn');
+  if (delfTitle) delfTitle.textContent = lang==='en'?'DELF / TCF Tests':lang==='zh'?'DELF / TCF 模拟考试':'Tests DELF / TCF';
+  if (delfSub)   delfSub.textContent   = lang==='en'?'10 timed tests · A1 to B2':lang==='zh'?'10 套限时测试 · A1 至 B2':'10 tests chronométrés · A1 à B2';
+  if (delfBtn)   delfBtn.textContent   = lang==='en'?'Access free tests →':lang==='zh'?'免费参加测试 →':'Accéder aux tests gratuits →';
   var pt = document.getElementById('prac-title');
   if (pt) pt.textContent = lang==='en'?'Practice':lang==='zh'?'练习':'Pratiquer';
   var ps = document.getElementById('prac-subtitle');

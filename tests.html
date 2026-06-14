@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tests DELF/TCF — FrenchGo</title>
+<meta name="description" content="Tests blancs DELF et TCF chronométrés. Niveaux A1, A2, B1, B2. Évaluez votre français gratuitement."/>
+<link rel="icon" href="/icon-192.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" media="print" onload="this.media='all'"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:#F0F2FF;color:#1e1b4b;min-height:100vh}
+
+/* ── Header ── */
+.header{background:linear-gradient(135deg,#3730A3,#4F46E5,#7C3AED);padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(79,70,229,.35)}
+.header-logo{font-size:24px}
+.header-title{color:white;font-size:18px;font-weight:800}
+.header-sub{color:rgba(255,255,255,.75);font-size:12px;font-weight:600}
+.header-back{background:rgba(255,255,255,.15);border:none;color:white;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-left:auto}
+
+/* ── Layout ── */
+.container{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+
+/* ── Level filter ── */
+.level-bar{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px}
+.lvl-btn{flex:none;padding:8px 16px;border-radius:99px;border:2px solid #e0e7ff;background:white;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;color:#6366f1}
+.lvl-btn.active,.lvl-btn:hover{color:white;border-color:transparent}
+.lvl-btn.all.active{background:#4F46E5}
+.lvl-btn.A1.active{background:#10b981}
+.lvl-btn.A2.active{background:#3b82f6}
+.lvl-btn.B1.active{background:#7c3aed}
+.lvl-btn.B2.active{background:#f59e0b}
+
+/* ── Test cards ── */
+.tests-grid{display:flex;flex-direction:column;gap:12px}
+.test-card{background:white;border-radius:18px;padding:18px;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 2px 12px rgba(0,0,0,.07);border:2px solid transparent}
+.test-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.13)}
+.test-card-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.test-badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.test-title{font-size:16px;font-weight:800;color:#1e1b4b}
+.test-sub{font-size:12px;color:#6b7280;font-weight:600;margin-top:2px}
+.test-meta{display:flex;gap:10px;margin-top:8px}
+.test-chip{font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;background:#f0f0ff;color:#4F46E5}
+.test-chip.time{background:#fef3c7;color:#d97706}
+.test-chip.q{background:#f0fdf4;color:#059669}
+.test-score{margin-left:auto;font-size:12px;font-weight:700;color:#6b7280}
+.test-score.done{color:#10b981}
+
+/* ── Quiz view ── */
+#quiz-view{display:none}
+.quiz-header{background:white;border-radius:18px;padding:16px 18px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.quiz-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.quiz-test-name{font-size:15px;font-weight:800;color:#1e1b4b}
+.timer{font-size:22px;font-weight:800;color:#4F46E5;font-variant-numeric:tabular-nums;min-width:60px;text-align:right}
+.timer.warning{color:#ef4444;animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.progress-bar-bg{height:6px;background:#e0e7ff;border-radius:99px;overflow:hidden}
+.progress-bar-fill{height:6px;border-radius:99px;background:linear-gradient(90deg,#4F46E5,#7C3AED);transition:width .4s}
+.q-counter{font-size:12px;font-weight:700;color:#6b7280;margin-top:6px;text-align:center}
+
+.question-card{background:white;border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.question-text{font-size:17px;font-weight:700;color:#1e1b4b;line-height:1.5;margin-bottom:18px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{padding:14px 16px;border-radius:14px;border:2px solid #e0e7ff;background:#fafbff;font-size:15px;font-weight:600;color:#1e1b4b;cursor:pointer;text-align:left;transition:all .18s;line-height:1.4}
+.opt-btn:hover:not(:disabled){background:#eff0ff;border-color:#a5b4fc}
+.opt-btn.correct{background:#d1fae5;border-color:#10b981;color:#065f46}
+.opt-btn.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d}
+.opt-btn:disabled{cursor:default}
+
+.exp-box{background:#eff6ff;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:14px;color:#1e40af;font-weight:600;line-height:1.5;display:none}
+.exp-box.show{display:block}
+.next-btn{width:100%;padding:14px;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;margin-top:12px;transition:opacity .2s;display:none}
+.next-btn.show{display:block}
+
+/* ── Results ── */
+#result-view{display:none;text-align:center}
+.result-card{background:white;border-radius:20px;padding:28px 22px;box-shadow:0 4px 24px rgba(0,0,0,.1);margin-bottom:16px}
+.result-emoji{font-size:56px;margin-bottom:12px}
+.result-score{font-size:48px;font-weight:800;margin-bottom:4px}
+.result-label{font-size:16px;color:#6b7280;font-weight:600;margin-bottom:20px}
+.result-bar-bg{height:10px;background:#e0e7ff;border-radius:99px;margin-bottom:24px;overflow:hidden}
+.result-bar-fill{height:10px;border-radius:99px;transition:width 1s ease}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.result-stat{background:#f5f3ff;border-radius:14px;padding:14px 10px}
+.result-stat-val{font-size:22px;font-weight:800;color:#4F46E5}
+.result-stat-lbl{font-size:12px;color:#6b7280;font-weight:600;margin-top:2px}
+.result-msg{font-size:15px;color:#374151;font-weight:600;line-height:1.6;margin-bottom:20px}
+.btn-retry{padding:14px 24px;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-right:10px}
+.btn-home{padding:14px 24px;background:#f0f0ff;color:#4F46E5;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer}
+
+/* ── Corrections ── */
+.corrections{text-align:left;margin-top:16px}
+.corr-title{font-size:15px;font-weight:800;color:#1e1b4b;margin-bottom:12px}
+.corr-item{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.corr-q{font-size:14px;font-weight:700;color:#1e1b4b;margin-bottom:6px}
+.corr-user{font-size:13px;margin-bottom:3px}
+.corr-ans{font-size:13px;color:#059669;font-weight:700}
+.corr-exp{font-size:12px;color:#6b7280;margin-top:5px;line-height:1.5}
+.corr-ok{border-left:3px solid #10b981}
+.corr-ko{border-left:3px solid #ef4444}
+
+/* ── App banner ── */
+.app-banner{background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:18px;padding:20px;color:white;margin-top:24px;text-align:center}
+.app-banner h3{font-size:17px;font-weight:800;margin-bottom:6px}
+.app-banner p{font-size:13px;opacity:.85;margin-bottom:14px}
+.app-btn{display:inline-block;background:white;color:#4F46E5;padding:10px 22px;border-radius:12px;font-weight:800;font-size:14px;text-decoration:none}
+
+@media(max-width:480px){.question-text{font-size:16px}.opt-btn{font-size:14px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-logo">🦊</span>
+  <div>
+    <div class="header-title">Tests DELF / TCF</div>
+    <div class="header-sub">FrenchGo — Entraînement officiel</div>
+  </div>
+  <button class="header-back" id="back-btn" onclick="goHome()">← Accueil</button>
+</div>
+
+<div class="container">
+
+  <!-- LIST VIEW -->
+  <div id="list-view">
+    <div class="level-bar" id="level-bar"></div>
+    <div class="tests-grid" id="tests-grid"></div>
+    <div class="app-banner">
+      <h3>📱 Continuez sur l'application</h3>
+      <p>75 leçons, dialogues, conjugaison, flashcards et bien plus encore.</p>
+      <a class="app-btn" href="/">Ouvrir FrenchGo →</a>
+    </div>
+  </div>
+
+  <!-- QUIZ VIEW -->
+  <div id="quiz-view">
+    <div class="quiz-header">
+      <div class="quiz-info">
+        <div class="quiz-test-name" id="q-test-name"></div>
+        <div class="timer" id="timer">00:00</div>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="q-prog" style="width:0%"></div></div>
+      <div class="q-counter" id="q-counter">Question 1 / 12</div>
+    </div>
+    <div class="question-card">
+      <div class="question-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="exp-box" id="q-exp"></div>
+      <button class="next-btn" id="q-next" onclick="nextQ()">Question suivante →</button>
+    </div>
+  </div>
+
+  <!-- RESULT VIEW -->
+  <div id="result-view">
+    <div class="result-card">
+      <div class="result-emoji" id="r-emoji"></div>
+      <div class="result-score" id="r-score"></div>
+      <div class="result-label" id="r-label"></div>
+      <div class="result-bar-bg"><div class="result-bar-fill" id="r-bar"></div></div>
+      <div class="result-grid">
+        <div class="result-stat"><div class="result-stat-val" id="r-correct"></div><div class="result-stat-lbl">Bonnes réponses</div></div>
+        <div class="result-stat"><div class="result-stat-val" id="r-time"></div><div class="result-stat-lbl">Temps utilisé</div></div>
+      </div>
+      <div class="result-msg" id="r-msg"></div>
+      <button class="btn-retry" onclick="retryTest()">🔁 Recommencer</button>
+      <button class="btn-home" onclick="goHome()">← Tous les tests</button>
+    </div>
+    <div class="corrections" id="corrections"></div>
+    <div class="app-banner">
+      <h3>📱 Pratiquez encore plus avec FrenchGo</h3>
+      <p>Leçons interactives, dialogues audio, conjugaison et flashcards.</p>
+      <a class="app-btn" href="/">Ouvrir l'app →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// DELF/TCF TEST DATA — 10 tests, 4 niveaux
+// ═══════════════════════════════════════════════════
+const TESTS = [
+
+// ══════════ A1 ══════════
+{
+  id: 'a1-vocab', level: 'A1', color: '#10b981', badge: '🌱',
+  title: 'Vocabulaire essentiel', title_sub: 'Mots du quotidien',
+  duration: 900, // 15 min
+  questions: [
+    { q: "Quel est le féminin de « beau » ?", opts: ['belle', 'beaux', 'bel', 'beauté'], ans: 0, exp: '« Belle » est le féminin de « beau ». Ex : une belle maison.' },
+    { q: "Qu'est-ce qu'un « boulanger » ?", opts: ['Il vend du pain', 'Il vend des fleurs', 'Il répare les voitures', 'Il soigne les malades'], ans: 0, exp: 'Un boulanger fabrique et vend du pain, des croissants, des baguettes.' },
+    { q: "Quel mot désigne un repas du matin ?", opts: ['Le petit-déjeuner', 'Le déjeuner', 'Le dîner', 'Le goûter'], ans: 0, exp: 'Le petit-déjeuner est le premier repas de la journée, le matin.' },
+    { q: "Comment dit-on « thank you » en français ?", opts: ['Merci', 'Bonjour', 'Pardon', 'S\'il vous plaît'], ans: 0, exp: '« Merci » est l\'équivalent de « thank you ». « Merci beaucoup » = thank you very much.' },
+    { q: "Quelle est la couleur du ciel par beau temps ?", opts: ['Bleu', 'Rouge', 'Vert', 'Jaune'], ans: 0, exp: 'Le ciel est bleu par beau temps. Ex : « Le ciel est bleu aujourd\'hui. »' },
+    { q: "Qu'est-ce qu'une « voiture » ?", opts: ['Un véhicule à 4 roues', 'Un animal domestique', 'Un bâtiment', 'Un vêtement'], ans: 0, exp: 'Une voiture est un véhicule automobile à quatre roues. Synonyme : une automobile.' },
+    { q: "Quel chiffre vient après « dix-neuf » ?", opts: ['Vingt', 'Dix', 'Quinze', 'Trente'], ans: 0, exp: 'La suite est : dix-huit, dix-neuf, vingt (20).' },
+    { q: "« Il fait chaud » signifie :", opts: ['La température est élevée', 'Il neige', 'Il pleut', 'Il fait froid'], ans: 0, exp: '« Il fait chaud » = the weather is hot/warm. Contraire : « Il fait froid ».' },
+    { q: "Quel mot désigne le contraire de « grand » ?", opts: ['Petit', 'Gros', 'Maigre', 'Haut'], ans: 0, exp: 'Le contraire de « grand » est « petit ». Ex : un petit chien ≠ un grand chien.' },
+    { q: "Où achète-t-on des médicaments ?", opts: ['À la pharmacie', 'À la boulangerie', 'À la mairie', 'Au marché'], ans: 0, exp: 'On achète des médicaments à la pharmacie. Le pharmacien conseille aussi sur les traitements.' },
+    { q: "Quel est le pluriel de « cheval » ?", opts: ['Chevaux', 'Chevals', 'Chévaux', 'Chevales'], ans: 0, exp: 'Le pluriel de « cheval » est « chevaux » — pluriel irrégulier en -aux.' },
+    { q: "« J\'ai faim » signifie :", opts: ['I am hungry', 'I am tired', 'I am cold', 'I am happy'], ans: 0, exp: '« J\'ai faim » = I am hungry. On dit « avoir faim » en français (avec avoir, pas être).' },
+  ]
+},
+{
+  id: 'a1-gram', level: 'A1', color: '#10b981', badge: '🌱',
+  title: 'Grammaire débutant', title_sub: 'Articles & présent',
+  duration: 900,
+  questions: [
+    { q: "Complétez : « ___ chat est noir. »", opts: ['Le', 'La', 'Les', 'Un'], ans: 0, exp: '« Chat » est masculin singulier → article défini « le ». « La » est pour le féminin.' },
+    { q: "Quelle est la bonne conjugaison ? « Nous ___ français. »", opts: ['parlons', 'parles', 'parle', 'parlent'], ans: 0, exp: 'Verbe parler au présent : je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.' },
+    { q: "Complétez : « Elle ___ une robe rouge. »", opts: ['porte', 'portez', 'portons', 'portent'], ans: 0, exp: 'Sujet « elle » → 3e personne du singulier → « porte » (sans -s ni -nt).' },
+    { q: "Quel article indéfini convient ? « ___ femme intelligente. »", opts: ['Une', 'Un', 'Des', 'La'], ans: 0, exp: '« Femme » est féminin → article indéfini féminin = « une ». Masculin = « un ».' },
+    { q: "Comment forme-t-on la négation ? « Je mange » → ?", opts: ['Je ne mange pas', 'Je pas mange', 'Je mange ne pas', 'Ne je mange pas'], ans: 0, exp: 'La négation en français : ne + verbe + pas. Ex : Je ne mange pas de viande.' },
+    { q: "Quel est le pluriel de « un livre » ?", opts: ['Des livres', 'Un livres', 'Les livre', 'De livres'], ans: 0, exp: 'Pluriel indéfini : un → des. Un livre → des livres. On ajoute -s au nom.' },
+    { q: "Complétez : « Tu ___ à Paris ? »", opts: ['habites', 'habite', 'habitons', 'habitez'], ans: 0, exp: 'Verbe habiter : je habite, tu habites, il habite... La 2e personne prend -es.' },
+    { q: "« Ils sont » utilise le verbe :", opts: ['Être', 'Avoir', 'Aller', 'Faire'], ans: 0, exp: '« Être » au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.' },
+    { q: "Complétez : « J\'___ un frère. »", opts: ['ai', 'suis', 'fais', 'vais'], ans: 0, exp: 'Pour exprimer la possession, on utilise « avoir » : j\'ai, tu as, il a, nous avons...' },
+    { q: "Quelle phrase est correcte ?", opts: ['Il ne vient pas', 'Il vient ne pas', 'Il pas vient', 'Il ne pas vient'], ans: 0, exp: 'Négation correcte : ne + verbe conjugué + pas. « Il ne vient pas. »' },
+    { q: "Complétez : « Vous ___ du café ? »", opts: ['voulez', 'voulons', 'veut', 'veux'], ans: 0, exp: 'Verbe vouloir : je veux, tu veux, il veut, nous voulons, vous voulez, ils veulent.' },
+    { q: "Quel pronom remplace « Marie et Pierre » ?", opts: ['Ils', 'Elles', 'Nous', 'Vous'], ans: 0, exp: 'Un groupe mixte (homme + femme) → pronom masculin pluriel « ils ».' },
+  ]
+},
+{
+  id: 'a1-quotidien', level: 'A1', color: '#10b981', badge: '🌱',
+  title: 'Vie quotidienne', title_sub: 'Se présenter & interagir',
+  duration: 1080,
+  questions: [
+    { q: "Comment se présente-t-on ? « Je ___ Marie. »", opts: ['m\'appelle', 'suis appelé', 'me nomme', 'dit'], ans: 0, exp: 'La formule standard : « Je m\'appelle + prénom ». Ex : Je m\'appelle Sophie.' },
+    { q: "Quelle formule utilise-t-on pour saluer le matin ?", opts: ['Bonjour', 'Bonsoir', 'Bonne nuit', 'Au revoir'], ans: 0, exp: '« Bonjour » s\'utilise le matin et dans la journée. « Bonsoir » le soir.' },
+    { q: "Comment demande-t-on l\'heure poliment ?", opts: ['Quelle heure est-il, s\'il vous plaît ?', 'Dis-moi l\'heure !', 'L\'heure, maintenant !', 'Je veux l\'heure.'], ans: 0, exp: 'La formule polie : « Quelle heure est-il, s\'il vous plaît ? » ou « Vous avez l\'heure ? »' },
+    { q: "« J\'habite à Lyon » signifie :", opts: ['I live in Lyon', 'I visit Lyon', 'I work in Lyon', 'I come from Lyon'], ans: 0, exp: '« Habiter à + ville » = to live in. Ex : J\'habite à Paris, à Madrid, à Tokyo.' },
+    { q: "Comment dit-on « I am 25 years old » ?", opts: ['J\'ai 25 ans', 'Je suis 25 ans', 'J\'ai 25 années', 'Je fais 25 ans'], ans: 0, exp: 'En français, l\'âge s\'exprime avec « avoir » : J\'ai + chiffre + ans. (Pas « être »)' },
+    { q: "Quelle est la réponse à « Comment ça va ? »", opts: ['Ça va bien, merci !', 'Je suis bien', 'Oui, bonjour', 'Je m\'appelle Paul'], ans: 0, exp: 'Réponse standard : « Ça va bien, merci ! » ou « Très bien, et toi/vous ? »' },
+    { q: "Comment dit-on « I am from France » ?", opts: ['Je suis français(e)', 'Je viens de la France', 'J\'habite France', 'Je suis de français'], ans: 0, exp: '« Je suis français(e) » ou « Je viens de France ». La nationalité s\'accorde en genre.' },
+    { q: "Dans un magasin, on dit :", opts: ['Je voudrais une baguette, s\'il vous plaît.', 'Donne-moi le pain !', 'Je veux pain.', 'Une baguette maintenant.'], ans: 0, exp: '« Je voudrais » est la formule polie pour commander. Plus poli que « je veux ».' },
+    { q: "« C\'est combien ? » signifie :", opts: ['How much is it?', 'What is it?', 'Where is it?', 'When is it?'], ans: 0, exp: '« C\'est combien ? » = How much does it cost? Très utile dans les magasins et marchés.' },
+    { q: "Complétez : « Je travaille ___ médecin. »", opts: ['comme', 'en tant que', 'de', 'à'], ans: 0, exp: 'On peut dire « je travaille comme médecin » ou « je suis médecin ». « Comme » indique la fonction.' },
+    { q: "Comment prend-on congé formellement ?", opts: ['Au revoir, bonne journée !', 'Ciao !', 'Bye bye !', 'À plus !'], ans: 0, exp: '« Au revoir » est la formule formelle. « À plus » ou « Salut » sont familiers.' },
+    { q: "« Mon numéro de téléphone est le 06... » : que donne-t-on ?", opts: ['Son contact', 'Son adresse', 'Son prénom', 'Son métier'], ans: 0, exp: 'Un numéro de téléphone est un contact/coordonnée. Très utile pour se présenter.' },
+  ]
+},
+
+// ══════════ A2 ══════════
+{
+  id: 'a2-gram', level: 'A2', color: '#3b82f6', badge: '📘',
+  title: 'Grammaire A2', title_sub: 'Passé composé & imparfait',
+  duration: 1200,
+  questions: [
+    { q: "Quel auxiliaire prend « aller » au passé composé ?", opts: ['Être', 'Avoir', 'Les deux', 'Aucun'], ans: 0, exp: 'Verbes de mouvement (aller, venir, partir, arriver…) prennent « être » : Je suis allé(e).' },
+    { q: "Formez le passé composé : « Je ___ (manger) une pizza. »", opts: ['ai mangé', 'suis mangé', 'ai manger', 'avais mangé'], ans: 0, exp: 'Manger → auxiliaire avoir + participe passé mangé. Je + ai + mangé = J\'ai mangé.' },
+    { q: "Complétez à l\'imparfait : « Quand j\'étais petit, je ___ (jouer) dehors. »", opts: ['jouais', 'joue', 'ai joué', 'jouerai'], ans: 0, exp: 'L\'imparfait décrit des habitudes passées. Jouer → je jouais (radical jou- + -ais).' },
+    { q: "Quelle est la différence entre passé composé et imparfait ?", opts: ['PC = action terminée, imparfait = état/habitude', 'PC = présent, imparfait = futur', 'Ils sont identiques', 'Imparfait = action terminée'], ans: 0, exp: 'PC : action précise terminée (j\'ai mangé = I ate). Imparfait : état/habitude (je mangeais = I used to eat / I was eating).' },
+    { q: "Accordez le participe : « Elle est ___ (partir). »", opts: ['partie', 'parti', 'parties', 'partis'], ans: 0, exp: 'Avec être, le participe s\'accorde avec le sujet. Elle (féminin singulier) → partie.' },
+    { q: "Complétez : « Vous ___ (finir) votre travail hier ? »", opts: ['avez fini', 'êtes finis', 'avez finir', 'finiez'], ans: 0, exp: 'Finir → auxiliaire avoir + fini. Vous + avez + fini = Vous avez fini.' },
+    { q: "L\'imparfait de « être » à la 1ère personne est :", opts: ['j\'étais', 'j\'ai été', 'je suis', 'je serai'], ans: 0, exp: 'Être à l\'imparfait : j\'étais, tu étais, il était, nous étions, vous étiez, ils étaient.' },
+    { q: "Choisissez le bon temps : « Hier, il ___ (pleuvoir) toute la journée. »", opts: ['a plu', 'pleuvait', 'pleut', 'pleuvra'], ans: 0, exp: 'Action complète et ponctuelle → passé composé. Il a plu (it rained / it has rained) toute la journée.' },
+    { q: "Complétez : « Quand elle ___ (être) étudiante, elle ___ (habiter) à Paris. »", opts: ['était / habitait', 'a été / a habité', 'est / habite', 'sera / habitera'], ans: 0, exp: 'Deux états simultanés dans le passé → double imparfait. Quand elle était... elle habitait.' },
+    { q: "Participe passé de « venir » ?", opts: ['venu', 'vient', 'vendu', 'venant'], ans: 0, exp: 'Venir → venu. Je suis venu(e). Attention aux irréguliers : venir/venu, tenir/tenu, voir/vu.' },
+    { q: "Complétez : « Nous ___ (se lever) tôt ce matin. »", opts: ['nous sommes levés', 'avons levé', 'nous avons levé', 'sommes levé'], ans: 0, exp: 'Verbe pronominal → auxiliaire être + accord. Nous + sommes + levés (masc. pluriel).' },
+    { q: "Quelle phrase utilise correctement le passé composé ?", opts: ['J\'ai vu un film hier.', 'Je suis vu un film.', 'J\'avais vu un film hier.', 'Je voyais un film hier.'], ans: 0, exp: '« J\'ai vu » = passé composé correct de voir. Voir → vu (auxiliaire avoir).' },
+    { q: "Transformez au passé composé : « Ils arrivent. »", opts: ['Ils sont arrivés.', 'Ils ont arrivé.', 'Ils étaient arrivés.', 'Ils arrivaient.'], ans: 0, exp: 'Arriver → verbe de mouvement → auxiliaire être + accord. Ils (masc. plur.) → arrivés.' },
+    { q: "Complétez à l\'imparfait : « Nous ___ (prendre) le bus tous les jours. »", opts: ['prenions', 'avons pris', 'prenons', 'prendrons'], ans: 0, exp: 'Habitude passée → imparfait. Prendre → radical pren- → nous prenions (-ions).' },
+    { q: "Quel est le participe passé de « ouvrir » ?", opts: ['ouvert', 'ouvri', 'ouvrit', 'ouvré'], ans: 0, exp: 'Ouvrir → ouvert. Comme couvrir → couvert, offrir → offert. Participes en -ert.' },
+  ]
+},
+{
+  id: 'a2-vocab', level: 'A2', color: '#3b82f6', badge: '📘',
+  title: 'Vocabulaire A2', title_sub: 'Expressions & situations',
+  duration: 1200,
+  questions: [
+    { q: "Que signifie « avoir besoin de » ?", opts: ['To need', 'To want', 'To like', 'To have'], ans: 0, exp: '« Avoir besoin de » = to need. Ex : J\'ai besoin de dormir. (I need to sleep.)' },
+    { q: "Quel mot complète : « Je suis ___ d\'accord. » (I disagree)", opts: ['pas', 'non', 'mal', 'sans'], ans: 0, exp: '« Je ne suis pas d\'accord » = I disagree. Contraire : « Je suis d\'accord » = I agree.' },
+    { q: "Que veut dire « se dépêcher » ?", opts: ['To hurry up', 'To rest', 'To stop', 'To think'], ans: 0, exp: '« Se dépêcher » = to hurry, to rush. Ex : Dépêche-toi, on est en retard !' },
+    { q: "Dans un restaurant, que signifie « l\'addition » ?", opts: ['La note à payer', 'Le menu', 'Le dessert', 'Le plat principal'], ans: 0, exp: '« L\'addition » = the bill/check. On dit : « L\'addition, s\'il vous plaît ! »' },
+    { q: "Que signifie « il y a » dans « Il y a un chat » ?", opts: ['There is', 'He has', 'It is', 'They have'], ans: 0, exp: '« Il y a » = there is / there are. Ex : Il y a des étudiants dans la classe.' },
+    { q: "Complétez : « Je suis ___ bonne humeur aujourd\'hui. »", opts: ['de', 'en', 'à', 'avec'], ans: 0, exp: 'L\'expression correcte est « être de bonne humeur » = to be in a good mood.' },
+    { q: "Que signifie « une promenade » ?", opts: ['A walk', 'A meal', 'A nap', 'A race'], ans: 0, exp: 'Une promenade = a walk/stroll. Faire une promenade = to go for a walk.' },
+    { q: "Choisissez le bon mot : « Mon bus ___ du retard. »", opts: ['a', 'est', 'fait', 'prend'], ans: 0, exp: '« Avoir du retard » = to be late (for transport). Mon bus a du retard = My bus is late.' },
+    { q: "Que veut dire « se souvenir de » ?", opts: ['To remember', 'To forget', 'To know', 'To think about'], ans: 0, exp: '« Se souvenir de » = to remember. Contraire : « oublier » = to forget.' },
+    { q: "Complétez : « Elle ___ de la musique classique. » (She listens)", opts: ['écoute', 'entend', 'regarde', 'voit'], ans: 0, exp: '« Écouter » = to listen (intentionally). « Entendre » = to hear (passively). On écoute de la musique.' },
+    { q: "Que signifie « en ce moment » ?", opts: ['Right now / currently', 'Sometimes', 'Later', 'Often'], ans: 0, exp: '« En ce moment » = right now, at the moment, currently. Ex : Je travaille beaucoup en ce moment.' },
+    { q: "Quel est le contraire de « tôt » ?", opts: ['Tard', 'Vite', 'Loin', 'Souvent'], ans: 0, exp: '« Tôt » (early) ↔ « tard » (late). Ex : Je me lève tôt / Je me couche tard.' },
+    { q: "Complétez : « Il ___ environ 30 ans. » (He is about 30)", opts: ['a', 'est', 'fait', 'paraît'], ans: 0, exp: 'L\'âge s\'exprime avec avoir : Il a environ 30 ans = He is about 30 years old.' },
+    { q: "Que signifie « rater le bus » ?", opts: ['To miss the bus', 'To catch the bus', 'To take the bus', 'To wait for the bus'], ans: 0, exp: '« Rater » = to miss (an opportunity, transport). J\'ai raté mon train = I missed my train.' },
+    { q: "Quelle expression signifie « it doesn\'t matter » ?", opts: ['Ça ne fait rien', 'C\'est la vie', 'N\'importe quoi', 'Tant pis'], ans: 0, exp: '« Ça ne fait rien » ou « ce n\'est pas grave » = it doesn\'t matter / no worries.' },
+  ]
+},
+{
+  id: 'a2-comprehension', level: 'A2', color: '#3b82f6', badge: '📘',
+  title: 'Compréhension A2', title_sub: 'Lecture & logique',
+  duration: 1500,
+  questions: [
+    { q: "Lisez : « Le musée ouvre à 10h et ferme à 18h. L\'entrée coûte 8€ pour les adultes. » Combien paie un adulte ?", opts: ['8€', '10€', '18€', 'C\'est gratuit'], ans: 0, exp: 'Le texte indique clairement : « L\'entrée coûte 8€ pour les adultes. »' },
+    { q: "« Je préfère le thé au café. » Que préfère cette personne ?", opts: ['Le thé', 'Le café', 'Les deux', 'Ni l\'un ni l\'autre'], ans: 0, exp: '« Préférer A à B » = to prefer A over B. Cette personne préfère le thé (pas le café).' },
+    { q: "Lisez : « Il fait beau mais il fait un peu froid. » Quel temps fait-il ?", opts: ['Ensoleillé et frais', 'Pluvieux et chaud', 'Nuageux et chaud', 'Neigeux et froid'], ans: 0, exp: '« Il fait beau » = sunny. « Un peu froid » = a bit cold/cool. Donc ensoleillé et frais.' },
+    { q: "« J\'ai deux sœurs mais pas de frère. » Combien de frères cette personne a-t-elle ?", opts: ['Zéro', 'Un', 'Deux', 'On ne sait pas'], ans: 0, exp: '« Pas de frère » indique l\'absence de frère. La personne n\'a aucun frère.' },
+    { q: "Lisez : « Le train part à 14h15 et arrive à 16h30. » Combien de temps dure le trajet ?", opts: ['2h15', '1h45', '2h45', '1h15'], ans: 0, exp: 'De 14h15 à 16h30 = 2 heures et 15 minutes de trajet.' },
+    { q: "« Elle travaille de lundi à vendredi. » Combien de jours travaille-t-elle ?", opts: ['5 jours', '4 jours', '6 jours', '7 jours'], ans: 0, exp: 'Lundi, mardi, mercredi, jeudi, vendredi = 5 jours de travail.' },
+    { q: "Lisez : « Fermé le mardi. Ouvert tous les autres jours de 9h à 19h. » Le magasin est ouvert quel jour ?", opts: ['Mercredi', 'Mardi', 'Aucun jour', 'Samedi et dimanche seulement'], ans: 0, exp: 'Le magasin est fermé le mardi uniquement. Il est ouvert les 6 autres jours, dont le mercredi.' },
+    { q: "« Je ne suis ni fatigué ni triste. » Cela signifie :", opts: ['Il est bien et heureux', 'Il est fatigué', 'Il est triste', 'Il est fatigué ET triste'], ans: 0, exp: 'La double négation « ni...ni » = neither...nor. Il n\'est pas fatigué ET il n\'est pas triste. Donc il va bien.' },
+    { q: "Lisez : « Réservation obligatoire. Appeler avant 18h. » Que doit-on faire ?", opts: ['Réserver par téléphone avant 18h', 'Arriver avant 18h', 'Payer à l\'avance', 'Envoyer un email'], ans: 0, exp: '« Réservation obligatoire » = you must book. « Appeler » = call. Il faut téléphoner avant 18h.' },
+    { q: "« C\'est plus grand que je pensais. » La personne est :", opts: ['Surprise par la taille', 'Déçue', 'Indifférente', 'En colère'], ans: 0, exp: 'La surprise vient du fait que c\'est plus grand qu\'attendu. La personne était sous-estimée la taille.' },
+    { q: "Lisez : « Menu du jour : soupe + plat + dessert = 12€. Boissons non comprises. » Que n\'est PAS inclus ?", opts: ['Les boissons', 'La soupe', 'Le dessert', 'Le plat principal'], ans: 0, exp: '« Boissons non comprises » = drinks not included. Il faut les payer en supplément.' },
+    { q: "« Je viens de finir mon travail. » Cela signifie :", opts: ['Je viens de terminer', 'Je commence mon travail', 'Je travaille encore', 'J\'ai travaillé hier'], ans: 0, exp: '« Venir de + infinitif » exprime le passé récent. Je viens de finir = I just finished.' },
+  ]
+},
+
+// ══════════ B1 ══════════
+{
+  id: 'b1-gram', level: 'B1', color: '#7c3aed', badge: '⭐',
+  title: 'Grammaire B1', title_sub: 'Subjonctif & conditionnel',
+  duration: 1500,
+  questions: [
+    { q: "Quand utilise-t-on le subjonctif ?", opts: ['Après des expressions d\'émotion, doute, volonté', 'Pour des faits certains', 'Pour le futur uniquement', 'Toujours après « que »'], ans: 0, exp: 'Le subjonctif s\'utilise pour exprimer le doute, l\'émotion, la volonté, l\'obligation : je veux que tu viennes.' },
+    { q: "Complétez : « Il faut que tu ___ (venir) maintenant. »", opts: ['viennes', 'viens', 'venais', 'viendrais'], ans: 0, exp: '« Il faut que » → subjonctif. Venir au subjonctif : que je vienne, que tu viennes.' },
+    { q: "Le conditionnel présent de « aller » à la 1ère personne est :", opts: ['j\'irais', 'je vais', 'j\'allais', 'je suis allé'], ans: 0, exp: 'Conditionnel = radical du futur + terminaisons de l\'imparfait. Aller : j\'irais, tu irais, il irait.' },
+    { q: "Complétez : « Si j\'avais de l\'argent, je ___ un voyage. » (conditionnel)", opts: ['ferais', 'ferai', 'fais', 'faisais'], ans: 0, exp: 'Si + imparfait → conditionnel présent. Si j\'avais... je ferais = If I had... I would do.' },
+    { q: "Quel est le subjonctif de « être » à la 3e personne du singulier ?", opts: ['soit', 'est', 'était', 'sera'], ans: 0, exp: 'Être au subjonctif : que je sois, que tu sois, qu\'il soit, que nous soyons, que vous soyez, qu\'ils soient.' },
+    { q: "Complétez : « Bien que Paul ___ (être) malade, il travaille. »", opts: ['soit', 'est', 'était', 'sera'], ans: 0, exp: '« Bien que » est une conjonction de concession qui exige le subjonctif : bien qu\'il soit.' },
+    { q: "Quelle phrase utilise correctement le conditionnel de politesse ?", opts: ['Je voudrais un café, s\'il vous plaît.', 'Je veux un café.', 'J\'ai voulu un café.', 'Je voulais un café.'], ans: 0, exp: '« Je voudrais » (conditionnel de vouloir) est plus poli que « je veux » pour une demande.' },
+    { q: "Complétez : « Il doute que nous ___ (pouvoir) finir à temps. »", opts: ['puissions', 'pouvons', 'pourrions', 'pouvions'], ans: 0, exp: '« Douter que » → subjonctif. Pouvoir : que je puisse, que tu puisses, que nous puissions.' },
+    { q: "Quelle est la forme correcte ? « À ta place, je ___ (ne pas accepter). »", opts: ['n\'accepterais pas', 'n\'accepte pas', 'n\'ai pas accepté', 'n\'acceptais pas'], ans: 0, exp: '« À ta place » (if I were you) → conditionnel. Je n\'accepterais pas = I would not accept.' },
+    { q: "Complétez : « Elle veut que ses enfants ___ (faire) leurs devoirs. »", opts: ['fassent', 'font', 'feraient', 'feront'], ans: 0, exp: '« Vouloir que » → subjonctif. Faire : que je fasse, que tu fasses, qu\'ils fassent.' },
+    { q: "Le passé du conditionnel « avoir » + participe exprime :", opts: ['Une action passée qui ne s\'est pas réalisée', 'Une action future', 'Un ordre', 'Une habitude passée'], ans: 0, exp: 'J\'aurais fait = I would have done. Exprime une condition dans le passé non réalisée.' },
+    { q: "Complétez : « Je suis content que tu ___ (venir) hier. »", opts: ['sois venu(e)', 'es venu(e)', 'viennes', 'venais'], ans: 0, exp: 'Émotion + que + action passée → subjonctif passé. Être + venu au subjonctif = sois venu.' },
+    { q: "« Si tu étudiais plus, tu ___ tes examens. »", opts: ['réussirais', 'réussis', 'réussiras', 'réussissais'], ans: 0, exp: 'Hypothèse au présent/futur : si + imparfait → conditionnel présent. Tu réussirais (you would succeed).' },
+    { q: "Quel subjonctif est correct ? « Il faut qu\'il ___ (savoir) la vérité. »", opts: ['sache', 'sait', 'savait', 'saura'], ans: 0, exp: 'Savoir au subjonctif : que je sache, que tu saches, qu\'il sache — forme irrégulière.' },
+    { q: "Choisissez : « Pour qu\'elle ___ (comprendre), explique lentement. »", opts: ['comprenne', 'comprend', 'comprendrait', 'a compris'], ans: 0, exp: '« Pour que » → subjonctif. Comprendre : que je comprenne, qu\'elle comprenne.' },
+  ]
+},
+{
+  id: 'b1-vocab', level: 'B1', color: '#7c3aed', badge: '⭐',
+  title: 'Vocabulaire & Expressions B1', title_sub: 'Nuances & idiomes',
+  duration: 1500,
+  questions: [
+    { q: "Que signifie « avoir du mal à » ?", opts: ['To have difficulty doing something', 'To feel sick', 'To dislike something', 'To be good at'], ans: 0, exp: '« Avoir du mal à » = to struggle with, to have difficulty. Ex : J\'ai du mal à me lever le matin.' },
+    { q: "Complétez : « Il est ___ de commencer sans lui. » (useless)", opts: ['inutile', 'utile', 'difficile', 'important'], ans: 0, exp: '« Il est inutile de » = it is useless/pointless to. Contraire : « Il est utile de ».' },
+    { q: "Que signifie l\'expression « avoir le cafard » ?", opts: ['To feel down/depressed', 'To be scared', 'To be very hungry', 'To be sick'], ans: 0, exp: '« Avoir le cafard » (littéralement: to have the cockroach) = to feel gloomy, sad, depressed.' },
+    { q: "Que veut dire « à condition que » ?", opts: ['Provided that / on the condition that', 'Despite the fact that', 'Although', 'Because'], ans: 0, exp: '« À condition que » + subjonctif = provided that, as long as. Ex : Je viens à condition que tu invites Paul.' },
+    { q: "Que signifie « se rendre compte de » ?", opts: ['To realize', 'To go to', 'To return', 'To understand slowly'], ans: 0, exp: '« Se rendre compte de » = to realize, to become aware of. Ex : Je me suis rendu compte de mon erreur.' },
+    { q: "Complétez : « Malgré la pluie, nous ___ sortir. » (despite)", opts: ['avons décidé de', 'avons empêché de', 'avons refusé de', 'avons cessé de'], ans: 0, exp: '« Malgré » = despite. La phrase signifie que malgré la mauvaise météo, une décision a été prise.' },
+    { q: "Que signifie « porter plainte » ?", opts: ['To file a complaint', 'To carry something heavy', 'To make noise', 'To call for help'], ans: 0, exp: '« Porter plainte » = to file a complaint (with the police). Utilisé dans un contexte juridique.' },
+    { q: "Que veut dire « s\'en sortir » ?", opts: ['To manage / to get through it', 'To leave', 'To escape', 'To give up'], ans: 0, exp: '« S\'en sortir » = to manage, to cope, to get by. Ex : Je m\'en sors malgré les difficultés.' },
+    { q: "Quel mot exprime la conséquence ? « Il était fatigué, ___ il s\'est couché tôt. »", opts: ['donc', 'mais', 'pourtant', 'cependant'], ans: 0, exp: '« Donc » = therefore, so (consequence). Mais/pourtant/cependant expriment la concession.' },
+    { q: "Que signifie « mettre en œuvre » ?", opts: ['To implement / to put into action', 'To create', 'To finish', 'To criticize'], ans: 0, exp: '« Mettre en œuvre » = to implement, to carry out. Ex : mettre en œuvre un plan, une stratégie.' },
+    { q: "Complétez : « Je n\'arrive pas ___ dormir. »", opts: ['à', 'de', 'que', 'pour'], ans: 0, exp: '« Arriver à » + infinitif = to manage to, to be able to. Je n\'arrive pas à dormir = I can\'t manage to sleep.' },
+    { q: "Que signifie « à tort ou à raison » ?", opts: ['Rightly or wrongly', 'Slowly but surely', 'More or less', 'Here and there'], ans: 0, exp: '« À tort » = wrongly. « À raison » = rightly. « À tort ou à raison » = rightly or wrongly.' },
+    { q: "Choisissez la bonne préposition : « Je tiens ___ te voir. »", opts: ['à', 'de', 'pour', 'en'], ans: 0, exp: '« Tenir à » = to be eager to, to really want to. Je tiens à te voir = I really want to see you.' },
+    { q: "Que veut dire « il s\'avère que » ?", opts: ['It turns out that', 'He goes there', 'It seems impossible', 'He confirms that'], ans: 0, exp: '« Il s\'avère que » = it turns out that, it appears that. Ex : Il s\'avère que j\'avais raison.' },
+    { q: "Quel connecteur introduit une opposition ?", opts: ['En revanche', 'De plus', 'Ainsi', 'En effet'], ans: 0, exp: '« En revanche » = on the other hand (opposition). De plus = furthermore. Ainsi = thus. En effet = indeed.' },
+  ]
+},
+
+// ══════════ B2 ══════════
+{
+  id: 'b2-gram', level: 'B2', color: '#f59e0b', badge: '🏆',
+  title: 'Grammaire avancée B2', title_sub: 'Style & structures complexes',
+  duration: 1800,
+  questions: [
+    { q: "Quel est l\'équivalent littéraire de « bien que » ?", opts: ['Encore que', 'Puisque', 'Afin que', 'Dès que'], ans: 0, exp: '« Encore que » (+ subjonctif) est un équivalent plus littéraire/formel de « bien que » (concession).' },
+    { q: "Complétez avec le mode correct : « Quoi qu\'il ___ (décider), je le soutiendrai. »", opts: ['décide', 'décidait', 'a décidé', 'déciderait'], ans: 0, exp: '« Quoi que » = whatever → toujours suivi du subjonctif. Quoi qu\'il décide = whatever he decides.' },
+    { q: "Quelle tournure exprime le but négatif ?", opts: ['De peur que + subjonctif', 'Pour que + subjonctif', 'Afin que + subjonctif', 'À condition que + subjonctif'], ans: 0, exp: '« De peur que » (for fear that) + subjonctif exprime un but négatif : Je pars tôt de peur qu\'il n\'arrive.' },
+    { q: "La proposition infinitive « Je l\'entends chanter » signifie :", opts: ['I hear him/her singing', 'I hear that he/she sang', 'I make him/her sing', 'I want him/her to sing'], ans: 0, exp: 'Infinitif après verbe de perception : J\'entends [quelqu\'un] chanter = I hear [someone] singing.' },
+    { q: "Complétez : « ___ avoir terminé, il est parti. » (Having finished)", opts: ['Après', 'Avant de', 'Pour', 'Sans'], ans: 0, exp: '« Après + infinitif passé » = having done. Après avoir terminé = having finished / after finishing.' },
+    { q: "Quelle phrase contient un subjonctif passé correct ?", opts: ['Bien qu\'il soit venu, elle est restée.', 'Bien qu\'il vient, elle est restée.', 'Bien qu\'il venait, elle est restée.', 'Bien qu\'il viendrait, elle est restée.'], ans: 0, exp: '« Bien que » → subjonctif passé pour action antérieure. Être + venu au subjonctif = soit venu.' },
+    { q: "Le gérondif « en travaillant » exprime :", opts: ['La simultanéité ou le moyen', 'La cause passée', 'La conséquence', 'La concession'], ans: 0, exp: 'Le gérondif = en + participe présent. Exprime simultaneité (while doing) ou moyen (by doing).' },
+    { q: "Complétez avec le registre approprié : « C\'est moi qui ___ parlé. » (formal)", opts: ['ai', 'a', 'avais', 'aurais'], ans: 0, exp: 'La mise en relief « C\'est moi qui » : le verbe s\'accorde avec « moi » → ai (1ère personne).' },
+    { q: "Identifiez la voix passive correcte de « On a construit ce pont en 1900 » :", opts: ['Ce pont a été construit en 1900.', 'Ce pont est construit en 1900.', 'Ce pont fut construit depuis 1900.', 'On est construit ce pont en 1900.'], ans: 0, exp: 'Voix passive : sujet + auxiliaire être conjugué + participe passé accordé. Passé composé passif : a été + construit.' },
+    { q: "Que signifie la tournure « ne... que » ?", opts: ['Only / restriction', 'Neither...nor', 'Not at all', 'Rarely'], ans: 0, exp: '« Ne... que » = only. Ex : Je ne mange que des légumes = I eat only vegetables. C\'est une restriction.' },
+    { q: "Complétez : « Si seulement il ___ venu hier ! » (regret)", opts: ['était', 'est', 'soit', 'serait'], ans: 0, exp: 'Regret sur le passé avec « si seulement » → plus-que-parfait. S\'il était venu = If only he had come.' },
+    { q: "Quelle phrase utilise correctement le discours indirect ?", opts: ['Il a dit qu\'il viendrait demain.', 'Il a dit qu\'il vient demain.', 'Il a dit il viendra demain.', 'Il a dit qu\'il venait hier.'], ans: 0, exp: 'Discours indirect au passé : le présent → imparfait, le futur → conditionnel. Il viendra → il viendrait.' },
+    { q: "Qu\'exprime « avoir beau + infinitif » ?", opts: ['La concession (même si)', 'La conséquence', 'Le but', 'La cause'], ans: 0, exp: '« Avoir beau » = even though, no matter how. Ex : Il a beau travailler, il échoue = Even though he works, he fails.' },
+    { q: "Complétez : « Il a pris cette décision ___ que je le lui aie conseillé. » (sans)", opts: ['sans', 'avant', 'après', 'pour'], ans: 0, exp: '« Sans que » + subjonctif = without (someone) doing something. Il est parti sans que je le sache.' },
+    { q: "Quel temps employé dans « Napoléon mourut en 1821 » ?", opts: ['Passé simple', 'Passé composé', 'Imparfait', 'Plus-que-parfait'], ans: 0, exp: 'Le passé simple (mourut) est le temps du récit littéraire/historique écrit. Très rare à l\'oral.' },
+  ]
+},
+{
+  id: 'b2-expression', level: 'B2', color: '#f59e0b', badge: '🏆',
+  title: 'Vocabulaire & Style B2', title_sub: 'Registres & argumentation',
+  duration: 1800,
+  questions: [
+    { q: "Que signifie « soulever une question » ?", opts: ['To raise an issue', 'To answer a question', 'To avoid a topic', 'To repeat a question'], ans: 0, exp: '« Soulever » = to raise (a question, a problem). Synonymes : soulever ≈ aborder, poser (une question).' },
+    { q: "Quel registre est « bouquin » ?", opts: ['Familier', 'Soutenu', 'Technique', 'Argotique'], ans: 0, exp: '« Bouquin » = livre en registre familier. « Ouvrage » ou « volume » sont des registres plus soutenus.' },
+    { q: "Que signifie « au demeurant » ?", opts: ['Besides / moreover / all the same', 'Currently', 'Therefore', 'In contrast'], ans: 0, exp: '« Au demeurant » = besides, for all that. Terme soutenu : Il est difficile, au demeurant fort compétent.' },
+    { q: "Quelle expression introduit une nuance dans un argument ?", opts: ['Il convient néanmoins de', 'Par conséquent', 'En effet', 'Autrement dit'], ans: 0, exp: '« Néanmoins » (nevertheless) introduit une nuance/concession. Les autres connecteurs ont d\'autres fonctions.' },
+    { q: "Que veut dire « à même de » ?", opts: ['Capable of / in a position to', 'Similar to', 'Against', 'In spite of'], ans: 0, exp: '« Être à même de » = to be capable of, to be in a position to. Ex : Il est à même de résoudre ce problème.' },
+    { q: "Quel synonyme soutenu de « montrer » convient dans un texte argumentatif ?", opts: ['Démontrer', 'Faire voir', 'Mettre en évidence', 'Prouver que'], ans: 0, exp: 'Dans un texte soutenu : « démontrer », « illustrer », « mettre en lumière » remplacent avantageusement « montrer ».' },
+    { q: "Que signifie « faire fi de » ?", opts: ['To disregard / to ignore', 'To celebrate', 'To be proud of', 'To profit from'], ans: 0, exp: '« Faire fi de » = to disregard, to dismiss, to pay no attention to. Terme littéraire/soutenu.' },
+    { q: "Complétez : « Cette théorie est ___ d\'être révisée. » (worthy of / in need of)", opts: ['susceptible', 'capable', 'possible', 'probable'], ans: 0, exp: '« Susceptible de + infinitif » = likely to, liable to. Cette théorie est susceptible d\'être révisée = This theory is likely to be revised.' },
+    { q: "Que signifie l\'expression « tenir pour acquis » ?", opts: ['To take for granted', 'To earn', 'To keep something', 'To confirm'], ans: 0, exp: '« Tenir pour acquis » = to take for granted. Ex : On ne devrait jamais tenir la santé pour acquise.' },
+    { q: "Quel connecteur indique une reformulation ?", opts: ['Autrement dit', 'En outre', 'Toutefois', 'D\'emblée'], ans: 0, exp: '« Autrement dit » = in other words (reformulation). En outre = furthermore. Toutefois = however.' },
+    { q: "Que signifie « à l\'instar de » ?", opts: ['Following the example of / like', 'Unlike', 'Against', 'Together with'], ans: 0, exp: '« À l\'instar de » = following the example of, just like. Ex : À l\'instar de la France, l\'Espagne a adopté cette loi.' },
+    { q: "Quelle tournure exprime une opinion nuancée dans un essai ?", opts: ['Il semblerait que + subjonctif', 'Je pense que + indicatif', 'C\'est clair que', 'Évidemment,'], ans: 0, exp: '« Il semblerait que » + subjonctif = it would seem that. Introduit une opinion prudemment, idéal dans un essai.' },
+    { q: "Que signifie « au gré de » ?", opts: ['According to / at the whim of', 'At the beginning of', 'In spite of', 'Because of'], ans: 0, exp: '« Au gré de » = according to, at the mercy of, as one pleases. Ex : Voyager au gré de ses envies.' },
+    { q: "Quel terme désigne un argument contraire qu\'on réfute ?", opts: ['Une objection', 'Une thèse', 'Une conclusion', 'Une illustration'], ans: 0, exp: 'Une objection (counter-argument) est un argument adverse qu\'on introduit pour le réfuter ensuite.' },
+    { q: "Complétez : « Non seulement il a refusé, ___ il a insulté son collègue. »", opts: ['mais en plus', 'mais aussi', 'et', 'pourtant'], ans: 0, exp: 'La tournure « non seulement... mais en plus / mais encore » renforce l\'idée. Très courant à l\'écrit soutenu.' },
+  ]
+}
+];
+
+
+// ── State ──
+var currentLevel = 'all';
+var currentTest  = null;
+var currentQIdx  = 0;
+var answers      = [];
+var timerInt     = null;
+var timeLeft     = 0;
+var timeUsed     = 0;
+var answered     = false;
+var scores       = JSON.parse(localStorage.getItem('fg_test_scores') || '{}');
+
+// ── Level colors ──
+var lvlColors = { A1:'#10b981', A2:'#3b82f6', B1:'#7c3aed', B2:'#f59e0b' };
+
+// ── Init ──
+function init() {
+  renderLevelBar();
+  renderTestGrid();
+}
+
+function renderLevelBar() {
+  var bar = document.getElementById('level-bar');
+  var levels = ['all','A1','A2','B1','B2'];
+  var labels = { all:'Tous', A1:'A1 Débutant', A2:'A2 Élémentaire', B1:'B1 Intermédiaire', B2:'B2 Avancé' };
+  bar.innerHTML = levels.map(function(l) {
+    return '<button class="lvl-btn ' + l + (l === currentLevel ? ' active' : '') + '" onclick="filterLevel(\'' + l + '\')">' + labels[l] + '</button>';
+  }).join('');
+}
+
+function filterLevel(lvl) {
+  currentLevel = lvl;
+  renderLevelBar();
+  renderTestGrid();
+}
+
+function renderTestGrid() {
+  var grid = document.getElementById('tests-grid');
+  var filtered = currentLevel === 'all' ? TESTS : TESTS.filter(function(t){ return t.level === currentLevel; });
+  grid.innerHTML = filtered.map(function(t) {
+    var sc = scores[t.id];
+    var min = Math.floor(t.duration / 60);
+    var scoreHtml = sc !== undefined
+      ? '<span class="test-score done">✅ ' + sc + '/' + t.questions.length + '</span>'
+      : '<span class="test-score">Non fait</span>';
+    return '<div class="test-card" onclick="startTest(\'' + t.id + '\')" style="border-color:' + t.color + '20">'
+      + '<div class="test-card-top">'
+      + '<div class="test-badge" style="background:' + t.color + '18;">' + t.badge + '</div>'
+      + '<div><div class="test-title">' + t.title + '</div><div class="test-sub">' + t.title_sub + '</div></div>'
+      + scoreHtml
+      + '</div>'
+      + '<div class="test-meta">'
+      + '<span class="test-chip" style="background:' + t.color + '18;color:' + t.color + '">' + t.level + '</span>'
+      + '<span class="test-chip time">⏱ ' + min + ' min</span>'
+      + '<span class="test-chip q">📝 ' + t.questions.length + ' questions</span>'
+      + '</div></div>';
+  }).join('');
+}
+
+// ── Start test ──
+function startTest(id) {
+  currentTest = TESTS.find(function(t){ return t.id === id; });
+  if (!currentTest) return;
+  currentQIdx = 0;
+  answers = [];
+  timeLeft = currentTest.duration;
+  timeUsed = 0;
+  answered = false;
+
+  document.getElementById('list-view').style.display = 'none';
+  document.getElementById('quiz-view').style.display = 'block';
+  document.getElementById('result-view').style.display = 'none';
+  document.getElementById('back-btn').textContent = '← Quitter';
+
+  document.getElementById('q-test-name').textContent = currentTest.title + ' — ' + currentTest.level;
+  startTimer();
+  renderQuestion();
+}
+
+// ── Timer ──
+function startTimer() {
+  clearInterval(timerInt);
+  updateTimerDisplay();
+  timerInt = setInterval(function() {
+    timeLeft--;
+    timeUsed++;
+    updateTimerDisplay();
+    if (timeLeft <= 0) { clearInterval(timerInt); autoFinish(); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  var m = Math.floor(timeLeft / 60);
+  var s = timeLeft % 60;
+  var el = document.getElementById('timer');
+  el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  el.className = 'timer' + (timeLeft <= 60 ? ' warning' : '');
+}
+
+function autoFinish() {
+  // Fill remaining questions as unanswered
+  while (answers.length < currentTest.questions.length) {
+    answers.push(-1);
+  }
+  showResult();
+}
+
+// ── Render question ──
+function renderQuestion() {
+  var q = currentTest.questions[currentQIdx];
+  var total = currentTest.questions.length;
+  answered = false;
+
+  document.getElementById('q-counter').textContent = 'Question ' + (currentQIdx + 1) + ' / ' + total;
+  document.getElementById('q-prog').style.width = (currentQIdx / total * 100) + '%';
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-exp').textContent = q.exp;
+  document.getElementById('q-exp').className = 'exp-box';
+  document.getElementById('q-next').className = 'next-btn';
+
+  var optsHtml = q.opts.map(function(opt, i) {
+    return '<button class="opt-btn" onclick="selectOpt(' + i + ')" id="opt-' + i + '">' + opt + '</button>';
+  }).join('');
+  document.getElementById('q-opts').innerHTML = optsHtml;
+}
+
+function selectOpt(idx) {
+  if (answered) return;
+  answered = true;
+  var q = currentTest.questions[currentQIdx];
+  answers.push(idx);
+
+  // Visual feedback
+  for (var i = 0; i < q.opts.length; i++) {
+    var btn = document.getElementById('opt-' + i);
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add('correct');
+    else if (i === idx && idx !== q.ans) btn.classList.add('wrong');
+  }
+
+  // Show explanation
+  document.getElementById('q-exp').className = 'exp-box show';
+
+  // Show next / finish button
+  var nextBtn = document.getElementById('q-next');
+  var isLast = currentQIdx === currentTest.questions.length - 1;
+  nextBtn.textContent = isLast ? 'Voir les résultats 🎯' : 'Question suivante →';
+  nextBtn.className = 'next-btn show';
+}
+
+function nextQ() {
+  currentQIdx++;
+  if (currentQIdx >= currentTest.questions.length) {
+    clearInterval(timerInt);
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+// ── Results ──
+function showResult() {
+  document.getElementById('quiz-view').style.display = 'none';
+  document.getElementById('result-view').style.display = 'block';
+  document.getElementById('back-btn').textContent = '← Accueil';
+
+  var correct = answers.filter(function(a, i){ return a === currentTest.questions[i].ans; }).length;
+  var total = currentTest.questions.length;
+  var pct = Math.round(correct / total * 100);
+  var usedMin = Math.floor(timeUsed / 60);
+  var usedSec = timeUsed % 60;
+  var timeStr = (usedMin > 0 ? usedMin + 'min ' : '') + usedSec + 's';
+
+  // Save score
+  scores[currentTest.id] = correct;
+  localStorage.setItem('fg_test_scores', JSON.stringify(scores));
+
+  // Emoji & message
+  var emoji, msg, color;
+  if (pct >= 85)      { emoji='🏆'; msg='Excellent ! Vous maîtrisez parfaitement ce niveau.'; color='#10b981'; }
+  else if (pct >= 70) { emoji='⭐'; msg='Très bien ! Encore quelques points à consolider.'; color='#3b82f6'; }
+  else if (pct >= 55) { emoji='👍'; msg='Bien. Continuez à pratiquer pour progresser.'; color='#f59e0b'; }
+  else                { emoji='💪'; msg='Continuez vos efforts ! Révisez les leçons correspondantes dans l\'app.'; color='#ef4444'; }
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-score').textContent = pct + '%';
+  document.getElementById('r-score').style.color = color;
+  document.getElementById('r-label').textContent = correct + ' bonnes réponses sur ' + total;
+  document.getElementById('r-bar').style.width = pct + '%';
+  document.getElementById('r-bar').style.background = 'linear-gradient(90deg,' + color + ',' + color + 'aa)';
+  document.getElementById('r-correct').textContent = correct + '/' + total;
+  document.getElementById('r-time').textContent = timeStr;
+  document.getElementById('r-msg').textContent = msg;
+
+  // Corrections
+  var corrHtml = '<div class="corr-title">📋 Corrections détaillées</div>';
+  currentTest.questions.forEach(function(q, i) {
+    var ua = answers[i];
+    var ok = ua === q.ans;
+    corrHtml += '<div class="corr-item ' + (ok ? 'corr-ok' : 'corr-ko') + '">'
+      + '<div class="corr-q">' + (i+1) + '. ' + q.q + '</div>'
+      + (!ok && ua >= 0 ? '<div class="corr-user" style="color:#ef4444">❌ Votre réponse : ' + q.opts[ua] + '</div>' : '')
+      + (ua === -1 ? '<div class="corr-user" style="color:#9ca3af">— Sans réponse (temps écoulé)</div>' : '')
+      + '<div class="corr-ans">✅ ' + q.opts[q.ans] + '</div>'
+      + '<div class="corr-exp">💡 ' + q.exp + '</div>'
+      + '</div>';
+  });
+  document.getElementById('corrections').innerHTML = corrHtml;
+
+  // Animate bar
+  setTimeout(function(){
+    document.getElementById('r-bar').style.width = pct + '%';
+  }, 100);
+}
+
+function retryTest() {
+  startTest(currentTest.id);
+}
+
+function goHome() {
+  clearInterval(timerInt);
+  document.getElementById('list-view').style.display = 'block';
+  document.getElementById('quiz-view').style.display = 'none';
+  document.getElementById('result-view').style.display = 'none';
+  document.getElementById('back-btn').textContent = '← Accueil';
+  renderTestGrid(); // refresh scores
+}
+
+init();
+</script>
+</body>
+</html>
