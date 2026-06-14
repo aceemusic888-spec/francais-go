@@ -1889,9 +1889,9 @@
     <div class="modal-handle"></div>
     <div class="modal-mascot" id="modal-mascot"></div>
     <div class="modal-title" id="modal-title">Contenu Premium</div>
-    <div class="modal-sub" id="modal-sub">Débloquez les 58 leçons avancées et progressez rapidement en français.</div>
+    <div class="modal-sub" id="modal-sub">Débloquez les 63 leçons avancées et progressez rapidement en français.</div>
     <div class="modal-features">
-      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">58 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">63 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">365 exercices de quiz interactifs</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🔄</span><span id="mf3">Mises à jour gratuites à vie</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🌍</span><span id="mf4">Interface trilingue FR / EN / 中文</span></div>
@@ -7251,6 +7251,11 @@ const TITLES_ZH = {
   62:{title:'代词式动词',desc:'Se lever, s\'appeler, se coucher…'},
   63:{title:'副词',desc:'构成与使用法语副词'},
   64:{title:'Pouvoir/Vouloir/Devoir',desc:'三个核心情态动词'},
+  70:{title:'虚拟式过去时',desc:'表达过去的假设与情感'},
+  71:{title:'法语惯用表达',desc:'掌握地道的法语日常表达'},
+  72:{title:'高级否定句',desc:'ne…que、ne…aucun、ne…nulle part等'},
+  73:{title:'假设与条件句',desc:'si条件句、pourvu que、à condition de'},
+  74:{title:'修辞手法',desc:'比喻、夸张、拟人与反语'},
 };
 const CONTENT_ZH = {
   0:`<h2>🤝 问候语</h2>
@@ -13567,6 +13572,189 @@ const LESSONS = [
       {q:"Il ne parle pas français. ___, il comprend tout. (conséquence inattendue)", opts:["D'où",'Car','Puisque','Grâce à'], ans:0},
       {q:"Je pense. ___, je suis. (conséquence)", opts:['Donc','Car','Puisque','Ainsi que'], ans:0},
     ]
+  },
+  /* ─── 70 ─── */
+  {
+    id:70, level:'advanced',
+    title:'Le subjonctif passé',title_en:'The Past Subjunctive',
+    desc:'Exprimer le doute et l’émotion dans le passé.',desc_en:'Express doubt and emotion about past events.',
+    content:`<h2>🔮 Le subjonctif passé</h2>
+<p>Le subjonctif passé exprime une action antérieure à celle du verbe principal, dans des contextes où le subjonctif est requis.</p>
+<h3>Formation</h3>
+<table class="vocab-table">
+<tr><th>Auxiliaire au subjonctif</th><th>+ Participe passé</th></tr>
+<tr><td>que j’aie / que je sois</td><td>parlé / parti(e)</td></tr>
+<tr><td>que tu aies / que tu sois</td><td>fini / arrivé(e)</td></tr>
+<tr><td>qu’il ait / qu’il soit</td><td>fait / venu</td></tr>
+</table>
+<h3>Emplois principaux</h3>
+<table class="vocab-table">
+<tr><td>Bien qu’il <strong>soit parti</strong>, elle l’attend.</td><td>Although he left, she waits.</td></tr>
+<tr><td>Je suis content que tu <strong>aies réussi</strong>.</td><td>I’m glad you succeeded.</td></tr>
+<tr><td>C’est dommage qu’elle <strong>n’ait pas pu</strong> venir.</td><td>It’s a shame she couldn’t come.</td></tr>
+<tr><td>Avant qu’il <strong>soit arrivé</strong>, tout était calme.</td><td>Before he arrived, all was calm.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Le subjonctif passé = auxiliaire (avoir/être) au subjonctif présent + participe passé. Les règles d’accord du participe passé s’appliquent normalement.</div>
+<h3>Verbes déclencheurs (passé)</h3>
+<table class="vocab-table">
+<tr><td>regretter que</td><td>to regret that</td></tr>
+<tr><td>être surpris(e) que</td><td>to be surprised that</td></tr>
+<tr><td>ne pas croire que</td><td>not to believe that</td></tr>
+<tr><td>douter que</td><td>to doubt that</td></tr>
+</table>`,
+    quiz:[
+      {q:'Quelle est la formation du subjonctif passé ?', q_en:'How is the past subjunctive formed?', opts:['Auxiliaire au conditionnel + participe passé','Auxiliaire au subjonctif présent + participe passé','Verbe à l’imparfait du subjonctif','Infinitif passé'], ans:1, exp:'Subjonctif passé = avoir/être au subjonctif présent + participe passé.', exp_en:'Past subjunctive = avoir/être in present subjunctive + past participle.'},
+      {q:'Choisissez la forme correcte : "Je suis content qu’elle ___ ."', q_en:'Choose the correct form: "I am glad that she ___ ."', opts:['est venue','soit venue','serait venue','était venue'], ans:1, exp:'ÊTRE au subjonctif présent (soit) + participe passé (venue).', exp_en:'ÊTRE in present subjunctive (soit) + past participle (venue).'},
+      {q:'Complétez : "C’est dommage qu’il n’___ pas fini à temps."', q_en:'Complete: "It’s a shame he didn’t finish in time."', opts:['avait','ait','aurait','a'], ans:1, exp:'AVOIR au subjonctif présent = ait. Subjonctif passé : qu’il n’ait pas fini.', exp_en:'AVOIR in present subjunctive = ait. Past subjunctive: qu’il n’ait pas fini.'},
+      {q:'Dans quelle phrase emploie-t-on le subjonctif passé ?', q_en:'In which sentence is the past subjunctive used?', opts:['“Je pense qu’il est parti.”','“Bien qu’il soit parti, je reste.”','“Il est parti hier.”','“Quand il est parti, j’ai pleuré.”'], ans:1, exp:'« Bien que » déclenche le subjonctif. L’action est antérieure → subjonctif passé.', exp_en:'"Bien que" triggers the subjunctive. The action is prior → past subjunctive.'},
+      {q:'Quel auxiliaire prend le verbe "partir" au subjonctif passé ?', q_en:'Which auxiliary does "partir" take in the past subjunctive?', opts:['être','avoir','les deux selon le contexte','aucun'], ans:0, exp:'Partir est un verbe d’état/mouvement qui se conjugue avec être.', exp_en:'"Partir" is a motion/state verb conjugated with être.'},
+      {q:'Traduisez : "I’m surprised she didn’t call."', q_en:'Translate: "I’m surprised she didn’t call."', opts:['“Je suis surpris qu’elle n’a pas appelé.”','“Je suis surpris qu’elle n’ait pas appelé.”','“Je suis surpris qu’elle n’aurait pas appelé.”','“Je suis surpris qu’elle n’avait pas appelé.”'], ans:1, exp:'Subjonctif passé après « être surpris que » : qu’elle n’ait pas appelé.', exp_en:'Past subjunctive after "être surpris que": qu’elle n’ait pas appelé.'},
+    ]
+  },
+  /* ─── 71 ─── */
+  {
+    id:71, level:'advanced',
+    title:'Les expressions idiomatiques',title_en:'French Idiomatic Expressions',
+    desc:'Maîtrisez les expressions du français courant.',desc_en:'Master everyday French expressions native speakers use.',
+    content:`<h2>💬 Les expressions idiomatiques</h2>
+<p>Les expressions idiomatiques ne se traduisent pas mot à mot. Elles sont essentielles pour parler comme un(e) natif(ve).</p>
+<h3>Expressions du quotidien</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Sens</th><th>English</th></tr>
+<tr><td>avoir le cafard</td><td>se sentir déprimé</td><td>to feel down / blue</td></tr>
+<tr><td>casser les pieds</td><td>ennuyer, agacer</td><td>to annoy, bore to death</td></tr>
+<tr><td>avoir du pain sur la planche</td><td>avoir beaucoup de travail</td><td>to have a lot on one’s plate</td></tr>
+<tr><td>poser un lapin</td><td>ne pas se présenter à un rendez-vous</td><td>to stand someone up</td></tr>
+<tr><td>avoir le coup de foudre</td><td>tomber amoureux instantanément</td><td>love at first sight</td></tr>
+<tr><td>mettre les pieds dans le plat</td><td>dire quelque chose de maladroit</td><td>to put your foot in it</td></tr>
+</table>
+<h3>Corps et émotions</h3>
+<table class="vocab-table">
+<tr><td>avoir le cœur gros</td><td>être triste, le cœur serré</td><td>to have a heavy heart</td></tr>
+<tr><td>garder la tête hors de l’eau</td><td>s’en sortir difficilement</td><td>to keep one’s head above water</td></tr>
+<tr><td>avoir d’autres chats à fouetter</td><td>avoir des choses plus importantes à faire</td><td>to have bigger fish to fry</td></tr>
+<tr><td>ne pas y aller par quatre chemins</td><td>aller droit au but</td><td>to not beat around the bush</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Pour mémoriser ces expressions, associez-les à une image mentale ou une situation vécue. Les expressions avec des parties du corps (pied, tête, cœur) sont particulièrement fréquentes en français !</div>`,
+    quiz:[
+      {q:'Que signifie "avoir le cafard" ?', q_en:'What does "avoir le cafard" mean?', opts:['Avoir peur des insectes','Se sentir déprimé','Avoir faim','Être en colère'], ans:1, exp:'« Avoir le cafard » = se sentir triste ou déprimé.', exp_en:'"Avoir le cafard" = to feel sad or depressed.'},
+      {q:'Mon voisin me ___ avec sa musique trop forte.', q_en:'My neighbor is really ___ me with his loud music.', opts:['pose un lapin','casse les pieds','a le cafard','met les pieds dans le plat'], ans:1, exp:'« Casser les pieds » = ennuyer, agacer quelqu’un.', exp_en:'"Casser les pieds" = to annoy or bore someone.'},
+      {q:'Il avait rendez-vous mais il ne s’est pas présenté. Il a…', q_en:'He had a date but didn’t show up. He…', opts:['été coup de foudre','posé un lapin','été sur la planche','eu le cœur gros'], ans:1, exp:'« Poser un lapin » = ne pas venir à un rendez-vous convenu.', exp_en:'"Poser un lapin" = to stand someone up.'},
+      {q:'Que veut dire "avoir du pain sur la planche" ?', q_en:'What does "avoir du pain sur la planche" mean?', opts:['Avoir faim','Travailler dans une boulangerie','Avoir beaucoup de travail devant soi','Être bien préparé'], ans:2, exp:'Cette expression signifie qu’il reste beaucoup de travail à accomplir.', exp_en:'This expression means there is a lot of work still to be done.'},
+      {q:'Ils se sont vus une fois et sont tombés amoureux. C’était…', q_en:'They met once and fell in love instantly. It was…', opts:['un lapin','un coup de foudre','du pain sur la planche','le cafard'], ans:1, exp:'« Avoir le coup de foudre » = tomber amoureux(se) au premier regard.', exp_en:'"Avoir le coup de foudre" = to fall in love at first sight.'},
+      {q:'Il a dit quelque chose de très maladroit à table. Il a…', q_en:'He said something very awkward at dinner. He…', opts:['gardé la tête hors de l’eau','eu d’autres chats à fouetter','mis les pieds dans le plat','eu le cœur gros'], ans:2, exp:'« Mettre les pieds dans le plat » = dire quelque chose d’inapproprié ou de maladroit.', exp_en:'"Mettre les pieds dans le plat" = to say something inappropriate or clumsy.'},
+    ]
+  },
+  /* ─── 72 ─── */
+  {
+    id:72, level:'advanced',
+    title:'La négation avancée',title_en:'Advanced Negation',
+    desc:'Ne…que, ne…aucun, ne…nulle part et bien plus.',desc_en:'Ne…que, ne…aucun, ne…nowhere and more.',
+    content:`<h2>🚫 La négation avancée</h2>
+<p>Au-delà du simple <em>ne…pas</em>, le français possède de nombreuses structures négatives nuancées.</p>
+<h3>Les structures négatives</h3>
+<table class="vocab-table">
+<tr><th>Structure</th><th>Sens</th><th>Exemple</th></tr>
+<tr><td>ne…que</td><td>seulement (restriction)</td><td>Il ne mange que des légumes.</td></tr>
+<tr><td>ne…guère</td><td>à peine, presque pas (littéraire)</td><td>Elle ne dort guère.</td></tr>
+<tr><td>ne…aucun(e)</td><td>pas un seul</td><td>Je n’ai aucune idée.</td></tr>
+<tr><td>ne…nulle part</td><td>en aucun endroit</td><td>Il ne va nulle part.</td></tr>
+<tr><td>ne…plus</td><td>not anymore</td><td>Elle ne fume plus.</td></tr>
+<tr><td>ne…jamais plus</td><td>never again</td><td>Je ne ferai jamais plus ça.</td></tr>
+<tr><td>ne…ni…ni</td><td>neither…nor</td><td>Il ne mange ni viande ni poisson.</td></tr>
+</table>
+<h3>Ne…que (restriction)</h3>
+<p><em>Ne…que</em> n’est pas une vraie négation — c’est une restriction qui signifie <strong>seulement</strong>.</p>
+<table class="vocab-table">
+<tr><td>Je n’ai que 10 euros.</td><td>I only have 10 euros.</td></tr>
+<tr><td>Il ne parle qu’à sa sœur.</td><td>He only talks to his sister.</td></tr>
+</table>
+<h3>Ne…aucun(e)</h3>
+<table class="vocab-table">
+<tr><td>Je n’ai aucun problème.</td><td>I have no problem at all.</td></tr>
+<tr><td>Aucune solution n’est parfaite.</td><td>No solution is perfect.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Dans la langue parlée, le <em>ne</em> est souvent omis : « J’ai qu’ça », « Il mange plus ». Dans l’écrit et le niveau soutenu, le <em>ne</em> est indispensable.</div>`,
+    quiz:[
+      {q:'Que signifie "ne…que" ?', q_en:'What does "ne…que" express?', opts:['Une double négation','Une restriction (seulement)','Une négation totale','Une opposition'], ans:1, exp:'« Ne…que » exprime une restriction : cela équivaut à « seulement ».', exp_en:'"Ne…que" expresses restriction, equivalent to "only".'},
+      {q:'Complétez : "Il ne mange ___ des pâtes." (seulement)', q_en:'Complete: "He only eats pasta."', opts:['pas','que','plus','guère'], ans:1, exp:'« Ne…que » = seulement. Il ne mange que des pâtes.', exp_en:'"Ne…que" = only. Il ne mange que des pâtes.'},
+      {q:'Que signifie "ne…aucun" ?', q_en:'What does "ne…aucun" mean?', opts:['À peine','Pas un seul / pas du tout','Seulement','Plus jamais'], ans:1, exp:'« Aucun » renforce la négation : zéro, pas un seul.', exp_en:'"Aucun" reinforces negation: zero, not a single one.'},
+      {q:'"Elle ne sort ___ ." (en aucun endroit)', q_en:'"She goes ___ ." (to no place)', opts:['jamais','plus','nulle part','guère'], ans:2, exp:'« Nulle part » = en aucun endroit. She goes nowhere.', exp_en:'"Nulle part" = nowhere, to no place.'},
+      {q:'Laquelle de ces phrases utilise une double négation correcte ?', q_en:'Which sentence uses correct double negation?', opts:['“Il ne mange ni viande ni poisson.”','“Il ne mange pas ni viande ni poisson.”','“Il mange ni viande ni poisson.”','“Il ne mange pas viande pas poisson.”'], ans:0, exp:'« Ne…ni…ni » : le verbe est encadré par <em>ne</em> au début et les éléments reliés par <em>ni</em>.', exp_en:'"Ne…ni…ni": the verb is framed by ne at the start and elements linked by ni.'},
+      {q:'Dans la langue orale, que devient souvent "ne…plus" ?', q_en:'In spoken French, what does "ne…plus" often become?', opts:['«…pas plus»','«…plus» (sans ne)','«ne…pas du tout»','«ne…jamais»'], ans:1, exp:'En langue parlée, le « ne » disparaît souvent : « Je mange plus de viande. »', exp_en:'In spoken French, the "ne" often disappears: "Je mange plus de viande."'},
+    ]
+  },
+  /* ─── 73 ─── */
+  {
+    id:73, level:'advanced',
+    title:'L’hypothèse et la condition',title_en:'Hypothesis and Conditionals',
+    desc:'Si + conditionnel, pourvu que, à condition de…',desc_en:'Si clauses, pourvu que, à condition de and more.',
+    content:`<h2>🔀 L’hypothèse et la condition</h2>
+<p>Exprimer une condition ou une hypothèse est essentiel pour argumenter et nuancer ses propos.</p>
+<h3>Les trois types de si</h3>
+<table class="vocab-table">
+<tr><th>Si + temps</th><th>Résultat</th><th>Sens</th></tr>
+<tr><td>si + présent</td><td>futur simple</td><td>hypothèse réelle</td></tr>
+<tr><td>si + imparfait</td><td>conditionnel présent</td><td>hypothèse irréelle (présent)</td></tr>
+<tr><td>si + plus-que-parfait</td><td>conditionnel passé</td><td>hypothèse irréelle (passé)</td></tr>
+</table>
+<h3>Exemples</h3>
+<table class="vocab-table">
+<tr><td>Si tu <strong>travailles</strong>, tu <strong>réussiras</strong>.</td><td>If you work, you will succeed.</td></tr>
+<tr><td>Si j’<strong>étais</strong> riche, je <strong>voyagerais</strong>.</td><td>If I were rich, I would travel.</td></tr>
+<tr><td>Si elle <strong>avait étudié</strong>, elle <strong>aurait réussi</strong>.</td><td>If she had studied, she would have succeeded.</td></tr>
+</table>
+<h3>Autres expressions de la condition</h3>
+<table class="vocab-table">
+<tr><td>pourvu que + subjonctif</td><td>provided that</td><td>Pourvu qu’il fasse beau !</td></tr>
+<tr><td>à condition que + subjonctif</td><td>on condition that</td><td>À condition qu’il soit présent.</td></tr>
+<tr><td>à moins que + subjonctif</td><td>unless</td><td>À moins qu’il pleuve.</td></tr>
+<tr><td>à condition de + infinitif</td><td>on condition of</td><td>À condition d’être à l’heure.</td></tr>
+<tr><td>en cas de + nom</td><td>in case of</td><td>En cas de problème, appelez-moi.</td></tr>
+</table>
+<div class="tip-box"><strong>⚠️ Attention :</strong> On n’utilise <strong>jamais</strong> le conditionnel après <em>si</em> dans les propositions hypothétiques. Si + conditionnel = ERREUR !</div>`,
+    quiz:[
+      {q:'Complétez : "Si tu ___ (venir), on ira au cinéma."', q_en:'Complete: "If you ___ (come), we\'ll go to the cinema."', opts:['viendrais','viens','venais','es venu'], ans:1, exp:'Si + présent → futur. Hypothèse réelle : si tu viens, on ira.', exp_en:'Si + present → future. Real hypothesis: si tu viens, on ira.'},
+      {q:'"Si j’étais toi, je ___." Quel temps ?', q_en:'"If I were you, I ___." Which tense?', opts:['futur simple','conditionnel présent','subjonctif présent','imparfait'], ans:1, exp:'Si + imparfait → conditionnel présent. Hypothèse irréelle au présent.', exp_en:'Si + imparfait → conditionnel présent. Unreal hypothesis in the present.'},
+      {q:'Quelle erreur est à éviter après "si" ?', q_en:'What mistake must be avoided after "si"?', opts:['Le présent','L’imparfait','Le conditionnel','Le plus-que-parfait'], ans:2, exp:'On ne dit pas : « si tu viendrais ». Après si, jamais de conditionnel.', exp_en:'We don’t say: "si tu viendrais". After si, never use the conditional.'},
+      {q:'Que signifie "à moins que" ?', q_en:'What does "à moins que" mean?', opts:['Pourvu que','Unless','Provided that','In case of'], ans:1, exp:'« À moins que » = unless. Elle viendra, à moins qu’il pleuve.', exp_en:'"À moins que" = unless. She will come, unless it rains.'},
+      {q:'Quel mode suit "pourvu que" et "à condition que" ?', q_en:'Which mood follows "pourvu que" and "à condition que"?', opts:['L’indicatif','Le conditionnel','Le subjonctif','L’infinitif'], ans:2, exp:'Ces locutions conjonctives sont suivies du subjonctif.', exp_en:'These conjunctional phrases are followed by the subjunctive.'},
+      {q:'Complétez : "Si elle ___ (partir) plus tôt, elle n’___ pas raté son train."', q_en:'Complete: "If she had left earlier, she wouldn’t have missed her train."', opts:['partait / aurait','est partie / a','était partie / aurait','partait / a'], ans:2, exp:'Si + plus-que-parfait (était partie) → conditionnel passé (aurait raté).', exp_en:'Si + plus-que-parfait (était partie) → conditionnel passé (aurait raté).'},
+    ]
+  },
+  /* ─── 74 ─── */
+  {
+    id:74, level:'advanced',
+    title:'Les figures de style',title_en:'Figures of Speech',
+    desc:'Métaphore, comparaison, hyperbole et ironie.',desc_en:'Metaphor, simile, hyperbole and irony.',
+    content:`<h2>🎨 Les figures de style</h2>
+<p>Les figures de style enrichissent la langue et permettent d’exprimer des idées de façon originale et fraîppante.</p>
+<h3>Principales figures de style</h3>
+<table class="vocab-table">
+<tr><th>Figure</th><th>Définition</th><th>Exemple</th></tr>
+<tr><td><strong>La comparaison</strong></td><td>Rapproche deux éléments avec un outil comparatif (comme, tel que, ainsi que)</td><td>Il est fort <em>comme</em> un bœuf.</td></tr>
+<tr><td><strong>La métaphore</strong></td><td>Identification directe sans outil comparatif</td><td>La vie est un long fleuve tranquille.</td></tr>
+<tr><td><strong>L’hyperbole</strong></td><td>Exagération pour renforcer une idée</td><td>Je meurs de faim !</td></tr>
+<tr><td><strong>L’ironie</strong></td><td>Dire le contraire de ce qu’on pense</td><td>Quelle chârmante journée ! (par temps de pluie)</td></tr>
+<tr><td><strong>La personnification</strong></td><td>Donner des caractéristiques humaines à une chose</td><td>Le vent <em>gémit</em> dans les arbres.</td></tr>
+<tr><td><strong>L’oxymore</strong></td><td>Associer deux termes contraires</td><td>Un silence <em>assourdissant</em>.</td></tr>
+<tr><td><strong>L’allitération</strong></td><td>Répétition de sons consonantiques</td><td>Pour qui sont ces serpents qui sifflent sur vos têtes ?</td></tr>
+</table>
+<h3>La comparaison vs la métaphore</h3>
+<table class="vocab-table">
+<tr><th>Comparaison</th><th>Métaphore</th></tr>
+<tr><td>Il est <em>comme</em> un lion.</td><td>C’est un lion. (= il est très courageux)</td></tr>
+<tr><td>Sa voix est <em>telle</em> une musique.</td><td>Sa voix est une musique.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> La métaphore est une comparaison <strong>sans outil comparatif</strong>. Si vous voyez « comme », « tel que », « ainsi que » (dans un sens comparatif), c’est une comparaison.</div>`,
+    quiz:[
+      {q:'Quelle figure de style contient un outil comparatif (comme, tel) ?', q_en:'Which figure of speech contains a comparative word (like, such as)?', opts:['La métaphore','La comparaison','L’hyperbole','L’oxymore'], ans:1, exp:'La comparaison utilise un outil : « comme », « tel que ». La métaphore l’évite.', exp_en:'A simile uses a comparative word like "comme" or "tel que". A metaphor avoids it.'},
+      {q:'"La vie est un long fleuve tranquille." C’est…', q_en:'"Life is a long quiet river." This is…', opts:['Une comparaison','Une métaphore','Une hyperbole','Une personnification'], ans:1, exp:'Pas d’outil comparatif : c’est une métaphore (identification directe).', exp_en:'No comparative word: it’s a metaphor (direct identification).'},
+      {q:'"Je meurs de faim !" est un exemple de…', q_en:'"I’m starving to death!" is an example of…', opts:['Ironie','Personnification','Hyperbole','Allitération'], ans:2, exp:'L’hyperbole est une exagération délibérée pour renforcer l’expression.', exp_en:'Hyperbole is a deliberate exaggeration to strengthen expression.'},
+      {q:'Identifier la figure : "Le vent gémit dans les arbres."', q_en:'Identify the figure: "The wind moans in the trees."', opts:['Métaphore','Oxymore','Personnification','Ironie'], ans:2, exp:'Le vent gémit = le vent a une action humaine → personnification.', exp_en:'The wind moans = the wind has a human action → personification.'},
+      {q:'Qu’est-ce qu’un oxymore ?', q_en:'What is an oxymoron?', opts:['Une exagération','L’association de deux contraires','Une comparaison sans outil','Un son répété'], ans:1, exp:'Oxymore = deux termes opposés associés : « un silence assourdissant ».', exp_en:'Oxymoron = two opposite terms combined: "a deafening silence".'},
+      {q:'Quelle figure utilise à l’ironie un beau compliment pour désigner le contraire ?', q_en:'Which figure uses a compliment to mean the opposite?', opts:['La métaphore','L’hyperbole','L’ironie','La personnification'], ans:2, exp:'L’ironie dit le contraire de ce qu’elle signifie pour moquer ou critiquer.', exp_en:'Irony says the opposite of what it means, to mock or criticize.'},
+    ]
   }
 ];
 
@@ -18927,7 +19115,7 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'🔓 Unlock all 58 premium lessons':lang==='zh'?'🔓 解锁全部58节高级课程':'🔓 Débloquer les 58 leçons premium';
+      const promoTitle = lang==='en'?'🔓 Unlock all 63 premium lessons':lang==='zh'?'🔓 解锁全部63节高级课程':'🔓 Débloquer les 63 leçons premium';
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
       const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
       unlockedEl.innerHTML = `<div onclick="openPaywall()" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
@@ -20564,8 +20752,8 @@ function openPaywall() {
   const setH = (id,v) => { const e=document.getElementById(id); if(e) e.innerHTML=v; };
   if (lang==='en') {
     set('modal-title','Premium Content 🔓');
-    set('modal-sub','Unlock 58 advanced lessons and progress quickly in French.');
-    set('mf1','58 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
+    set('modal-sub','Unlock 63 advanced lessons and progress quickly in French.');
+    set('mf1','63 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
     set('mf2','365 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
@@ -20576,8 +20764,8 @@ function openPaywall() {
     set('modal-code-btn','🔑 I already have an access code');
   } else if (lang==='zh') {
     set('modal-title','高级内容 🔓');
-    set('modal-sub','解锁58节高级课程，快速提升法语水平。');
-    set('mf1','58节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
+    set('modal-sub','解锁63节高级课程，快速提升法语水平。');
+    set('mf1','63节高级课程（语法、词汇、TCF/TEF 🍁、高级）');
     set('mf2','365道互动测验');
     set('mf3','终身免费更新');
     set('mf4','三语界面 FR / EN / 中文');
@@ -20588,8 +20776,8 @@ function openPaywall() {
     set('modal-code-btn','🔑 我已有访问码');
   } else {
     set('modal-title','Contenu Premium 🔓');
-    set('modal-sub','Débloquez les 58 leçons avancées et progressez rapidement en français.');
-    set('mf1','58 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
+    set('modal-sub','Débloquez les 63 leçons avancées et progressez rapidement en français.');
+    set('mf1','63 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
     set('mf2','365 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
