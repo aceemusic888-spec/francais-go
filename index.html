@@ -20921,25 +20921,54 @@ function toggleCodeInput() {
 async function validateCode() {
   const input = document.getElementById('code-input');
   const errEl = document.getElementById('code-error');
+  const btn   = document.getElementById('modal-validate-btn');
   if (!input) return;
   const code = input.value.trim().toUpperCase();
-  // Hash the entered code with SHA-256 and compare — plaintext never stored in source
-  const encoded = new TextEncoder().encode(code);
-  const hashBuf = await crypto.subtle.digest('SHA-256', encoded);
-  const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  if (hashHex === UNLOCK_CODE_HASH) {
-    localStorage.setItem('ff_unlocked','1');
-    if (window._fbAuth && window._fbAuth.currentUser) saveToCloud();
-    closePaywall();
-    renderCurrentView();
-    showStreakToast('🔓 '+(lang==='en'?'Premium unlocked!':lang==='zh'?'高级已解锁！':'Premium débloqué !'));
-  } else {
-    if (errEl) {
-      errEl.textContent = lang==='en'?'Incorrect code. Check your purchase email.':lang==='zh'?'码不正确，请检查您的购买邮件。':'Code incorrect. Vérifiez votre email d\'achat.';
-      errEl.style.display='block';
+  if (!code) return;
+
+  // État chargement
+  if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+  if (errEl) { errEl.style.display='none'; errEl.textContent=''; }
+  input.style.borderColor = '';
+
+  // S'assurer d'avoir un UID Firebase
+  let uid = '';
+  try {
+    if (window._fbAuth) {
+      if (!window._fbAuth.currentUser) await window._fbAuth.signInAnonymously();
+      if (window._fbAuth.currentUser) uid = window._fbAuth.currentUser.uid;
     }
-    input.style.borderColor='#EF4444';
-    setTimeout(()=>{ if(errEl) errEl.style.display='none'; input.style.borderColor=''; }, 3000);
+  } catch(e) { console.warn('[validateCode] auth:', e); }
+
+  try {
+    const res  = await fetch('/api/verify-license', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ license_key: code, uid: uid || ('anon_' + Date.now()) })
+    });
+    const data = await res.json();
+
+    if (data.valid) {
+      localStorage.setItem('ff_unlocked', '1');
+      if (window._fbAuth && window._fbAuth.currentUser) saveToCloud();
+      closePaywall();
+      renderCurrentView();
+      showStreakToast('🔓 ' + (lang==='en' ? 'Premium unlocked!' : lang==='zh' ? '高级已解锁！' : 'Premium débloqué !'));
+    } else {
+      const ERRS = {
+        invalid_key:          { fr:'Clé invalide. Vérifiez votre email d\'achat.', en:'Invalid key. Check your purchase email.', zh:'密钥无效，请检查购买邮件。' },
+        already_used:         { fr:'Cette clé est déjà liée à un autre compte.', en:'This key is already linked to another account.', zh:'此密钥已绑定其他账号。' },
+        gumroad_unreachable:  { fr:'Vérification impossible. Réessayez dans quelques instants.', en:'Verification failed. Please try again.', zh:'验证失败，请稍后重试。' },
+      };
+      const m = ERRS[data.error] || { fr:'Erreur de validation. Réessayez.', en:'Validation error. Try again.', zh:'验证错误，请重试。' };
+      if (errEl) { errEl.textContent = lang==='en' ? m.en : lang==='zh' ? m.zh : m.fr; errEl.style.display = 'block'; }
+      input.style.borderColor = '#EF4444';
+      setTimeout(() => { if(errEl) errEl.style.display='none'; input.style.borderColor=''; }, 4000);
+    }
+  } catch(e) {
+    if (errEl) { errEl.textContent = lang==='en'?'Network error. Check your connection.':lang==='zh'?'网络错误，请检查连接。':'Erreur réseau. Vérifiez votre connexion.'; errEl.style.display='block'; }
+  } finally {
+    if (btn) { btn.textContent = lang==='en'?'✓ Validate':lang==='zh'?'✓ 验证':'✓ Valider'; btn.disabled = false; }
   }
 }
 
