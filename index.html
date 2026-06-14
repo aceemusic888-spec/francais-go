@@ -1504,11 +1504,17 @@
             <span class="settings-row-label" id="set-lbl-signout" style="color:#EF4444;">Se déconnecter</span>
           </div>
         </div>
-        <div class="settings-divider"></div>
-        <div class="settings-row" onclick="resetAllProgress()" style="cursor:pointer;">
-          <div class="settings-row-left">
-            <span class="settings-row-icon">🗑️</span>
-            <span class="settings-row-label" id="set-lbl-reset" style="color:#EF4444;">Réinitialiser la progression</span>
+      </div>
+    </div>
+
+    <!-- Reset progression — toujours visible -->
+    <div class="settings-group">
+      <div class="settings-row" onclick="resetAllProgress()" style="cursor:pointer;">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">🗑️</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-reset" style="color:#EF4444;">Réinitialiser la progression</div>
+            <div class="settings-row-sub" id="set-lbl-reset-sub">Effacer leçons, XP, badges</div>
           </div>
         </div>
       </div>
@@ -20276,6 +20282,7 @@ function renderSettings() {
   set('set-lbl-signin-sub', lang==='en'?'Save your progress':lang==='zh'?'保存你的进度':'Sauvegarder ta progression');
   set('set-lbl-signout',    lang==='en'?'Sign out':lang==='zh'?'退出登录':'Se déconnecter');
   set('set-lbl-reset',     lang==='en'?'Reset all progress':lang==='zh'?'重置所有进度':'Réinitialiser la progression');
+  set('set-lbl-reset-sub',  lang==='en'?'Clear lessons, XP, badges':lang==='zh'?'清除课程、经验、徽章':'Effacer leçons, XP, badges');
   set('set-lbl-goal-title', lang==='en'?'Daily goal':lang==='zh'?'每日目标':'Objectif quotidien');
   set('set-lbl-goal', lang==='en'?'XP per day':lang==='zh'?'每日XP':'XP par jour');
   set('set-lbl-goal-sub', lang==='en'?'Choose your daily target':lang==='zh'?'选择每日目标':'Choisir ton objectif quotidien');
