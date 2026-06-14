@@ -10,12 +10,12 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://francaisgo.netlify.app/" />
   <meta property="og:title" content="FrenchGo — Apprendre le français" />
-  <meta property="og:description" content="60 leçons interactives, quiz, flashcards et préparation TCF/TEF. Apprenez le français gratuitement." />
+  <meta property="og:description" content="75 leçons interactives, quiz, flashcards et préparation TCF/TEF. Apprenez le français gratuitement." />
   <meta property="og:image" content="https://francaisgo.netlify.app/icon-512.png" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="FrenchGo — Apprendre le français" />
-  <meta name="twitter:description" content="60 leçons interactives, quiz, flashcards et préparation TCF/TEF." />
+  <meta name="twitter:description" content="75 leçons interactives, quiz, flashcards et préparation TCF/TEF." />
   <meta name="twitter:image" content="https://francaisgo.netlify.app/icon-512.png" />
   <meta name="theme-color" content="#4F46E5" />
   <meta name="color-scheme" content="only light" />
@@ -18479,6 +18479,8 @@ function updateThemeBtn() {
 }
 
 function renderVocab() {
+  try {
+
   var search = '';
   var searchEl = document.getElementById('vocab-search');
   if (searchEl) search = searchEl.value.toLowerCase().trim();
@@ -18614,6 +18616,7 @@ function renderVocab() {
       + pageNums
       + '<button class="vocab-page-btn" onclick="if(vocabPage<' + (totalPages-1) + '){vocabPage++;renderVocab();document.getElementById(\'tab-vocab\').scrollTop=0}"' + nextDisabled + '>›</button>';
   }
+  } catch(_e) { console.warn('[FG] renderVocab error:', _e); }
 }
 
 let quizIndex   = 0;
@@ -19323,6 +19326,8 @@ function setLevelFilter(level) {
   });
 }
 function renderLessonsList() {
+  try {
+
   // Map toggle labels
   const listLbl = document.getElementById('lbl-list-view');
   const mapLbl  = document.getElementById('lbl-map-view');
@@ -19352,6 +19357,7 @@ function renderLessonsList() {
     }).join('');
   });
   setLevelFilter(currentLevelFilter);
+  } catch(_e) { console.warn('[FG] renderLessonsList error:', _e); }
 }
 
 /* ══════════════════════════════════════
@@ -20704,6 +20710,8 @@ function checkPendingNotification() {
    SETTINGS
 ══════════════════════════════════════ */
 function renderSettings() {
+  try {
+
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
   set('set-lbl-lang', lang==='en'?'Language':lang==='zh'?'语言':'Langue');
   set('set-lbl-lang-sub', lang==='en'?'Interface language':lang==='zh'?'界面语言':'Langue de l\'interface');
@@ -20734,6 +20742,7 @@ function renderSettings() {
   initNotifications();
   applyDarkMode();
   updateLangBtn();
+  } catch(_e) { console.warn('[FG] renderSettings error:', _e); }
 }
 function openPrivacy() {
   window.open('/privacy-policy.html', '_blank', 'noopener');
@@ -21995,6 +22004,8 @@ var dlgData = [
 var dlgState = { sceneIdx:0, turnIdx:0, scores:[], totalMax:0, done:false };
 
 function renderDialogues() {
+  try {
+
   var listView = document.getElementById('dlg-list-view');
   var playView = document.getElementById('dlg-play-view');
   var resultView = document.getElementById('dlg-result-view');
@@ -22037,6 +22048,7 @@ function renderDialogues() {
     card.onclick = function() { dlgStartScene(idx); };
     grid.appendChild(card);
   });
+  } catch(_e) { console.warn('[FG] renderDialogues error:', _e); }
 }
 
 function dlgStartScene(idx) {
@@ -22445,6 +22457,8 @@ var conjVerbs = [
 var conjState = { mode:'table', tense:'P', quizQ:[], quizIdx:0, quizScore:0 };
 
 function renderConjugaison() {
+  try {
+
   var lv = document.getElementById('conj-list-view');
   var dv = document.getElementById('conj-detail-view');
   var qv = document.getElementById('conj-quiz-view');
@@ -22478,6 +22492,7 @@ function renderConjugaison() {
   } else {
     conjStartQuiz();
   }
+  } catch(_e) { console.warn('[FG] renderConjugaison error:', _e); }
 }
 
 function conjSetMode(mode) {
@@ -22812,6 +22827,8 @@ var ecouteData = [
 var ecouteState = { levelIdx:0, exIdx:0, score:0, playing:false };
 
 function renderEcoute() {
+  try {
+
   var lv = document.getElementById('ecoute-levels-view');
   var pv = document.getElementById('ecoute-play-view');
   var rv = document.getElementById('ecoute-result-view');
@@ -22842,6 +22859,7 @@ function renderEcoute() {
     card.onclick = function() { ecouteStartLevel(i); };
     grid.appendChild(card);
   });
+  } catch(_e) { console.warn('[FG] renderEcoute error:', _e); }
 }
 
 function ecouteStartLevel(idx) {
