@@ -20764,8 +20764,10 @@ window._fbAuth.onAuthStateChanged(user => {
   if (user) {
     loadFromCloud(user.uid);
   } else {
-    // Auto sign-in anonymously — sync works for all users without signup friction
-    window._fbAuth.signInAnonymously().catch(function(e) { console.warn('anon auth:', e); });
+    // Auto sign-in anonymously — only if user hasn't explicitly signed out
+    if (!localStorage.getItem('ff_signed_out')) {
+      window._fbAuth.signInAnonymously().catch(function(e) { console.warn('anon auth:', e); });
+    }
   }
 });
 
@@ -20843,6 +20845,7 @@ function toggleAuthMode() {
   if (err) err.textContent = '';
 }
 function signInWithGoogle() {
+  localStorage.removeItem('ff_signed_out');
   try {
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -20895,7 +20898,15 @@ function submitEmailAuth() {
     });
 }
 function signOutUser() {
-  window._fbAuth.signOut().then(() => updateAuthUI(null));
+  localStorage.setItem('ff_signed_out', '1');
+  window._fbAuth.signOut().then(function() {
+    updateAuthUI(null);
+    // Show sign-in option in settings
+    var si = document.getElementById('set-row-signin');
+    var so = document.getElementById('set-row-signout');
+    if (si) si.style.display = '';
+    if (so) so.style.display = 'none';
+  });
 }
 
 // ═══════════════════════════════════════════
