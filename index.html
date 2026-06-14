@@ -6,7 +6,7 @@
   <title>FrenchGo — Apprendre le français</title>
   <meta name="description" content="Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF." />
   <meta name="theme-color" content="#4F46E5" />
-  <meta name="color-scheme" content="light" />
+  <meta name="color-scheme" content="only light" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -19,7 +19,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      color-scheme: light;
+      color-scheme: only light;
       --indigo: #6366F1; --indigo-dark: #4338CA; --purple: #8B5CF6;
       --green: #10B981; --green-dark: #059669;
       --amber: #F59E0B; --red: #EF4444;
@@ -540,8 +540,12 @@
     /* ── Wide-gamut display compensation ── */
     @media (color-gamut: p3) {
       .hero-mascot { filter: drop-shadow(0 4px 12px rgba(0,0,0,0.22)) saturate(0.78) !important; }
+      .hv2-mascot  { filter: drop-shadow(0 6px 18px rgba(0,0,0,0.28)) saturate(0.78) !important; }
+      .splash-mascot img { filter: saturate(0.78) !important; }
+      .spl-mascot-bg { filter: saturate(0.78); }
       header { filter: saturate(0.88); }
       .hero-card { filter: saturate(0.88); }
+      nav { filter: saturate(0.88); }
     }
     /* ── Streak Toast ── */
     /* Offline banner */
