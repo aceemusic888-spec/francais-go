@@ -627,12 +627,15 @@ function retryTest() {
 }
 
 function goHome() {
+  // Si on est déjà sur la liste → retour vers le site principal
+  var onList = document.getElementById('list-view').style.display !== 'none';
+  if (onList) { window.location.href = 'https://francaisgo.netlify.app'; return; }
   clearInterval(timerInt);
   document.getElementById('list-view').style.display = 'block';
   document.getElementById('quiz-view').style.display = 'none';
   document.getElementById('result-view').style.display = 'none';
   document.getElementById('back-btn').textContent = '← Accueil';
-  renderTestGrid(); // refresh scores
+  renderTestGrid();
 }
 
 init();
