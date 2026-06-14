@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "com.francaisfacile.app",
-        "sha256_cert_fingerprints": ["DD:17:4C:EA:A2:C9:4D:CF:C5:FC:CC:88:CC:14:D4:7A:A6:E5:FE:5D:12:EE:A4:6E:93:A6:9D:C3:E1:C1:60:8F"]
+        "package_name": "com.frenchgo.app",
+        "sha256_cert_fingerprints": ["52:78:14:7A:3B:23:BC:5E:2E:59:77:B2:D3:91:80:F6:77:E8:B2:DA:CC:2D:78:DD:20:A4:E1:F4:BD:F2:1E:2E"]
       }
     }]
