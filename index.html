@@ -18745,6 +18745,8 @@ function setLang(l) {
    NAV
 ══════════════════════════════════════ */
 function showTab(tab) {
+  try {
+
   currentTab = tab;
   // Reset scroll position to top
   window.scrollTo(0, 0);
@@ -18783,6 +18785,7 @@ function showTab(tab) {
   if (tab==='conjugaison') renderConjugaison();
   if (tab==='ecoute')      renderEcoute();
   if (tab==='pratique')    renderPratique();
+  } catch(_e) { console.warn('[FG] showTab error:', _e); }
 }
 function updateNav() {
   const navLabels = t('nav') || [];
@@ -18821,7 +18824,10 @@ function updateNav() {
   if (ps) ps.textContent = lang==='en'?'Choose a training mode':lang==='zh'?'选择训练模式':'Choisir un mode d\'entraînement';
 }
 
-function renderPratique() { /* grid is static HTML, nothing to render */ }
+function renderPratique() {
+  try {
+ /* grid is static HTML, nothing to render */   } catch(_e) { console.warn('[FG] renderPratique error:', _e); }
+}
 function renderCurrentView() {
   updateLangBtn();
   updateNav();
@@ -18868,6 +18874,8 @@ function startQuickReview() {
 }
 
 function renderHome() {
+  try {
+
   updateXPDisplay();
   const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
   const done   = Object.values(state).filter(s => s.completed).length;
@@ -19078,6 +19086,7 @@ function renderHome() {
       cont.innerHTML = '';
     }
   }
+  } catch(_e) { console.warn('[FG] renderHome error:', _e); }
 }
 
 /* ══════════════════════════════════════
@@ -19279,6 +19288,8 @@ function _pickExType(qText, opts) {
 }
 
 function startQuiz() {
+  try {
+
   if (!currentLesson) return;
   var l = currentLesson;
   var rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] : l.quiz;
@@ -19287,6 +19298,7 @@ function startQuiz() {
   document.getElementById('lesson-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
   _renderQD(_quizData);
+  } catch(_e) { console.warn('[FG] startQuiz error:', _e); }
 }
 
 function _clearQuizTimer() {
@@ -19396,6 +19408,8 @@ function _renderFill(d) {
 }
 
 function _selectAnswer(i) {
+  try {
+
   var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
   if (quizAnswered) return;
   quizAnswered = true;
@@ -19455,6 +19469,7 @@ function _selectAnswer(i) {
     showXPFloat(10);
     playTickSound();
   }
+  } catch(_e) { console.warn('[FG] _selectAnswer error:', _e); }
 }
 
 /* Compat stubs */
@@ -20106,6 +20121,8 @@ function fcReset() {
   renderFlashcard();
 }
 function renderFlashcard() {
+  try {
+
   if (!fcDeck.length) buildFCDeck();
   var counter  = document.getElementById('fc-counter');
   var fill     = document.getElementById('fc-progress-fill');
@@ -20184,6 +20201,7 @@ function renderFlashcard() {
       if(dx<0) fcNext(); else fcPrev();
     },{passive:true});
   })();
+  } catch(_e) { console.warn('[FG] renderFlashcard error:', _e); }
 }
 
 function fcFlip() {
@@ -20294,6 +20312,8 @@ function checkBadges() {
 }
 
 function renderProgress() {
+  try {
+
   updateXPDisplay();
   const xp     = getXP();
   const done   = Object.values(state).filter(s=>s.completed).length;
@@ -20423,6 +20443,7 @@ function renderProgress() {
     });
     achEl.innerHTML = html;
   }
+  } catch(_e) { console.warn('[FG] renderProgress error:', _e); }
 }
 
 /* ══════════════════════════════════════
