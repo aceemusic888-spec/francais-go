@@ -19148,9 +19148,9 @@ function renderHome() {
     if (isUnlocked()) {
       unlockedEl.innerHTML = '<div class="card" style="background:linear-gradient(135deg,#059669,#10B981);color:white;font-weight:700;text-align:center;padding:14px;margin-bottom:12px;">🔓 '+(lang==='en'?'Premium access activated!':lang==='zh'?'已激活高级权限！':'Accès Premium activé !')+'</div>';
     } else {
-      const promoTitle = lang==='en'?'🔓 Unlock all 63 premium lessons':lang==='zh'?'🔓 解锁全部63节高级课程':'🔓 Débloquer les 63 leçons premium';
+      const promoTitle = lang==='en'?'📚 63 premium lessons available':lang==='zh'?'📚 63节高级课程':"📚 63 leçons premium disponibles";
       const promoSub   = lang==='en'?'Grammar · Vocabulary · TCF/TEF 🍁 · Advanced':lang==='zh'?'语法 · 词汇 · TCF/TEF 🍁 · 高级':'Grammaire · Vocabulaire · TCF/TEF 🍁 · Avancé';
-      const promoCta   = lang==='en'?'Get full access — €4.99':lang==='zh'?'立即解锁 — €4.99':'Accès complet — 4,99 €';
+      const promoCta   = lang==='en'?'Discover all lessons on our website →':lang==='zh'?'访问我们的网站了解更多 →':'Découvrir toutes les leçons sur notre site →';
       unlockedEl.innerHTML = `<div onclick="window.open('https://francaisgo.netlify.app','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
     }
   }
