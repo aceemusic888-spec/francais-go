@@ -190,221 +190,202 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:#F0F2FF
 // ═══════════════════════════════════════════════════
 const TESTS = [
 
-// ══════════ A1 ══════════
+// ══════════════════════════════════════════════
+// A1 — Évaluation complète débutant (30 questions)
+// ══════════════════════════════════════════════
 {
-  id: 'a1-vocab', level: 'A1', color: '#10b981', badge: '🌱',
-  title: 'Vocabulaire essentiel', title_sub: 'Mots du quotidien',
-  duration: 900, // 15 min
-  questions: [
-    { q: "Quel est le féminin de « beau » ?", opts: ['belle', 'beaux', 'bel', 'beauté'], ans: 0, exp: '« Belle » est le féminin de « beau ». Ex : une belle maison.' },
-    { q: "Qu'est-ce qu'un « boulanger » ?", opts: ['Il vend du pain', 'Il vend des fleurs', 'Il répare les voitures', 'Il soigne les malades'], ans: 0, exp: 'Un boulanger fabrique et vend du pain, des croissants, des baguettes.' },
-    { q: "Quel mot désigne un repas du matin ?", opts: ['Le petit-déjeuner', 'Le déjeuner', 'Le dîner', 'Le goûter'], ans: 0, exp: 'Le petit-déjeuner est le premier repas de la journée, le matin.' },
-    { q: "Comment dit-on « thank you » en français ?", opts: ['Merci', 'Bonjour', 'Pardon', 'S\'il vous plaît'], ans: 0, exp: '« Merci » est l\'équivalent de « thank you ». « Merci beaucoup » = thank you very much.' },
-    { q: "Quelle est la couleur du ciel par beau temps ?", opts: ['Bleu', 'Rouge', 'Vert', 'Jaune'], ans: 0, exp: 'Le ciel est bleu par beau temps. Ex : « Le ciel est bleu aujourd\'hui. »' },
-    { q: "Qu'est-ce qu'une « voiture » ?", opts: ['Un véhicule à 4 roues', 'Un animal domestique', 'Un bâtiment', 'Un vêtement'], ans: 0, exp: 'Une voiture est un véhicule automobile à quatre roues. Synonyme : une automobile.' },
-    { q: "Quel chiffre vient après « dix-neuf » ?", opts: ['Vingt', 'Dix', 'Quinze', 'Trente'], ans: 0, exp: 'La suite est : dix-huit, dix-neuf, vingt (20).' },
-    { q: "« Il fait chaud » signifie :", opts: ['La température est élevée', 'Il neige', 'Il pleut', 'Il fait froid'], ans: 0, exp: '« Il fait chaud » = the weather is hot/warm. Contraire : « Il fait froid ».' },
-    { q: "Quel mot désigne le contraire de « grand » ?", opts: ['Petit', 'Gros', 'Maigre', 'Haut'], ans: 0, exp: 'Le contraire de « grand » est « petit ». Ex : un petit chien ≠ un grand chien.' },
-    { q: "Où achète-t-on des médicaments ?", opts: ['À la pharmacie', 'À la boulangerie', 'À la mairie', 'Au marché'], ans: 0, exp: 'On achète des médicaments à la pharmacie. Le pharmacien conseille aussi sur les traitements.' },
-    { q: "Quel est le pluriel de « cheval » ?", opts: ['Chevaux', 'Chevals', 'Chévaux', 'Chevales'], ans: 0, exp: 'Le pluriel de « cheval » est « chevaux » — pluriel irrégulier en -aux.' },
-    { q: "« J\'ai faim » signifie :", opts: ['I am hungry', 'I am tired', 'I am cold', 'I am happy'], ans: 0, exp: '« J\'ai faim » = I am hungry. On dit « avoir faim » en français (avec avoir, pas être).' },
-  ]
-},
-{
-  id: 'a1-gram', level: 'A1', color: '#10b981', badge: '🌱',
-  title: 'Grammaire débutant', title_sub: 'Articles & présent',
-  duration: 900,
-  questions: [
-    { q: "Complétez : « ___ chat est noir. »", opts: ['Le', 'La', 'Les', 'Un'], ans: 0, exp: '« Chat » est masculin singulier → article défini « le ». « La » est pour le féminin.' },
-    { q: "Quelle est la bonne conjugaison ? « Nous ___ français. »", opts: ['parlons', 'parles', 'parle', 'parlent'], ans: 0, exp: 'Verbe parler au présent : je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.' },
-    { q: "Complétez : « Elle ___ une robe rouge. »", opts: ['porte', 'portez', 'portons', 'portent'], ans: 0, exp: 'Sujet « elle » → 3e personne du singulier → « porte » (sans -s ni -nt).' },
-    { q: "Quel article indéfini convient ? « ___ femme intelligente. »", opts: ['Une', 'Un', 'Des', 'La'], ans: 0, exp: '« Femme » est féminin → article indéfini féminin = « une ». Masculin = « un ».' },
-    { q: "Comment forme-t-on la négation ? « Je mange » → ?", opts: ['Je ne mange pas', 'Je pas mange', 'Je mange ne pas', 'Ne je mange pas'], ans: 0, exp: 'La négation en français : ne + verbe + pas. Ex : Je ne mange pas de viande.' },
-    { q: "Quel est le pluriel de « un livre » ?", opts: ['Des livres', 'Un livres', 'Les livre', 'De livres'], ans: 0, exp: 'Pluriel indéfini : un → des. Un livre → des livres. On ajoute -s au nom.' },
-    { q: "Complétez : « Tu ___ à Paris ? »", opts: ['habites', 'habite', 'habitons', 'habitez'], ans: 0, exp: 'Verbe habiter : je habite, tu habites, il habite... La 2e personne prend -es.' },
-    { q: "« Ils sont » utilise le verbe :", opts: ['Être', 'Avoir', 'Aller', 'Faire'], ans: 0, exp: '« Être » au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.' },
-    { q: "Complétez : « J\'___ un frère. »", opts: ['ai', 'suis', 'fais', 'vais'], ans: 0, exp: 'Pour exprimer la possession, on utilise « avoir » : j\'ai, tu as, il a, nous avons...' },
-    { q: "Quelle phrase est correcte ?", opts: ['Il ne vient pas', 'Il vient ne pas', 'Il pas vient', 'Il ne pas vient'], ans: 0, exp: 'Négation correcte : ne + verbe conjugué + pas. « Il ne vient pas. »' },
-    { q: "Complétez : « Vous ___ du café ? »", opts: ['voulez', 'voulons', 'veut', 'veux'], ans: 0, exp: 'Verbe vouloir : je veux, tu veux, il veut, nous voulons, vous voulez, ils veulent.' },
-    { q: "Quel pronom remplace « Marie et Pierre » ?", opts: ['Ils', 'Elles', 'Nous', 'Vous'], ans: 0, exp: 'Un groupe mixte (homme + femme) → pronom masculin pluriel « ils ».' },
-  ]
-},
-{
-  id: 'a1-quotidien', level: 'A1', color: '#10b981', badge: '🌱',
-  title: 'Vie quotidienne', title_sub: 'Se présenter & interagir',
-  duration: 1080,
-  questions: [
-    { q: "Comment se présente-t-on ? « Je ___ Marie. »", opts: ['m\'appelle', 'suis appelé', 'me nomme', 'dit'], ans: 0, exp: 'La formule standard : « Je m\'appelle + prénom ». Ex : Je m\'appelle Sophie.' },
-    { q: "Quelle formule utilise-t-on pour saluer le matin ?", opts: ['Bonjour', 'Bonsoir', 'Bonne nuit', 'Au revoir'], ans: 0, exp: '« Bonjour » s\'utilise le matin et dans la journée. « Bonsoir » le soir.' },
-    { q: "Comment demande-t-on l\'heure poliment ?", opts: ['Quelle heure est-il, s\'il vous plaît ?', 'Dis-moi l\'heure !', 'L\'heure, maintenant !', 'Je veux l\'heure.'], ans: 0, exp: 'La formule polie : « Quelle heure est-il, s\'il vous plaît ? » ou « Vous avez l\'heure ? »' },
-    { q: "« J\'habite à Lyon » signifie :", opts: ['I live in Lyon', 'I visit Lyon', 'I work in Lyon', 'I come from Lyon'], ans: 0, exp: '« Habiter à + ville » = to live in. Ex : J\'habite à Paris, à Madrid, à Tokyo.' },
-    { q: "Comment dit-on « I am 25 years old » ?", opts: ['J\'ai 25 ans', 'Je suis 25 ans', 'J\'ai 25 années', 'Je fais 25 ans'], ans: 0, exp: 'En français, l\'âge s\'exprime avec « avoir » : J\'ai + chiffre + ans. (Pas « être »)' },
-    { q: "Quelle est la réponse à « Comment ça va ? »", opts: ['Ça va bien, merci !', 'Je suis bien', 'Oui, bonjour', 'Je m\'appelle Paul'], ans: 0, exp: 'Réponse standard : « Ça va bien, merci ! » ou « Très bien, et toi/vous ? »' },
-    { q: "Comment dit-on « I am from France » ?", opts: ['Je suis français(e)', 'Je viens de la France', 'J\'habite France', 'Je suis de français'], ans: 0, exp: '« Je suis français(e) » ou « Je viens de France ». La nationalité s\'accorde en genre.' },
-    { q: "Dans un magasin, on dit :", opts: ['Je voudrais une baguette, s\'il vous plaît.', 'Donne-moi le pain !', 'Je veux pain.', 'Une baguette maintenant.'], ans: 0, exp: '« Je voudrais » est la formule polie pour commander. Plus poli que « je veux ».' },
-    { q: "« C\'est combien ? » signifie :", opts: ['How much is it?', 'What is it?', 'Where is it?', 'When is it?'], ans: 0, exp: '« C\'est combien ? » = How much does it cost? Très utile dans les magasins et marchés.' },
-    { q: "Complétez : « Je travaille ___ médecin. »", opts: ['comme', 'en tant que', 'de', 'à'], ans: 0, exp: 'On peut dire « je travaille comme médecin » ou « je suis médecin ». « Comme » indique la fonction.' },
-    { q: "Comment prend-on congé formellement ?", opts: ['Au revoir, bonne journée !', 'Ciao !', 'Bye bye !', 'À plus !'], ans: 0, exp: '« Au revoir » est la formule formelle. « À plus » ou « Salut » sont familiers.' },
-    { q: "« Mon numéro de téléphone est le 06... » : que donne-t-on ?", opts: ['Son contact', 'Son adresse', 'Son prénom', 'Son métier'], ans: 0, exp: 'Un numéro de téléphone est un contact/coordonnée. Très utile pour se présenter.' },
-  ]
-},
-
-// ══════════ A2 ══════════
-{
-  id: 'a2-gram', level: 'A2', color: '#3b82f6', badge: '📘',
-  title: 'Grammaire A2', title_sub: 'Passé composé & imparfait',
-  duration: 1200,
-  questions: [
-    { q: "Quel auxiliaire prend « aller » au passé composé ?", opts: ['Être', 'Avoir', 'Les deux', 'Aucun'], ans: 0, exp: 'Verbes de mouvement (aller, venir, partir, arriver…) prennent « être » : Je suis allé(e).' },
-    { q: "Formez le passé composé : « Je ___ (manger) une pizza. »", opts: ['ai mangé', 'suis mangé', 'ai manger', 'avais mangé'], ans: 0, exp: 'Manger → auxiliaire avoir + participe passé mangé. Je + ai + mangé = J\'ai mangé.' },
-    { q: "Complétez à l\'imparfait : « Quand j\'étais petit, je ___ (jouer) dehors. »", opts: ['jouais', 'joue', 'ai joué', 'jouerai'], ans: 0, exp: 'L\'imparfait décrit des habitudes passées. Jouer → je jouais (radical jou- + -ais).' },
-    { q: "Quelle est la différence entre passé composé et imparfait ?", opts: ['PC = action terminée, imparfait = état/habitude', 'PC = présent, imparfait = futur', 'Ils sont identiques', 'Imparfait = action terminée'], ans: 0, exp: 'PC : action précise terminée (j\'ai mangé = I ate). Imparfait : état/habitude (je mangeais = I used to eat / I was eating).' },
-    { q: "Accordez le participe : « Elle est ___ (partir). »", opts: ['partie', 'parti', 'parties', 'partis'], ans: 0, exp: 'Avec être, le participe s\'accorde avec le sujet. Elle (féminin singulier) → partie.' },
-    { q: "Complétez : « Vous ___ (finir) votre travail hier ? »", opts: ['avez fini', 'êtes finis', 'avez finir', 'finiez'], ans: 0, exp: 'Finir → auxiliaire avoir + fini. Vous + avez + fini = Vous avez fini.' },
-    { q: "L\'imparfait de « être » à la 1ère personne est :", opts: ['j\'étais', 'j\'ai été', 'je suis', 'je serai'], ans: 0, exp: 'Être à l\'imparfait : j\'étais, tu étais, il était, nous étions, vous étiez, ils étaient.' },
-    { q: "Choisissez le bon temps : « Hier, il ___ (pleuvoir) toute la journée. »", opts: ['a plu', 'pleuvait', 'pleut', 'pleuvra'], ans: 0, exp: 'Action complète et ponctuelle → passé composé. Il a plu (it rained / it has rained) toute la journée.' },
-    { q: "Complétez : « Quand elle ___ (être) étudiante, elle ___ (habiter) à Paris. »", opts: ['était / habitait', 'a été / a habité', 'est / habite', 'sera / habitera'], ans: 0, exp: 'Deux états simultanés dans le passé → double imparfait. Quand elle était... elle habitait.' },
-    { q: "Participe passé de « venir » ?", opts: ['venu', 'vient', 'vendu', 'venant'], ans: 0, exp: 'Venir → venu. Je suis venu(e). Attention aux irréguliers : venir/venu, tenir/tenu, voir/vu.' },
-    { q: "Complétez : « Nous ___ (se lever) tôt ce matin. »", opts: ['nous sommes levés', 'avons levé', 'nous avons levé', 'sommes levé'], ans: 0, exp: 'Verbe pronominal → auxiliaire être + accord. Nous + sommes + levés (masc. pluriel).' },
-    { q: "Quelle phrase utilise correctement le passé composé ?", opts: ['J\'ai vu un film hier.', 'Je suis vu un film.', 'J\'avais vu un film hier.', 'Je voyais un film hier.'], ans: 0, exp: '« J\'ai vu » = passé composé correct de voir. Voir → vu (auxiliaire avoir).' },
-    { q: "Transformez au passé composé : « Ils arrivent. »", opts: ['Ils sont arrivés.', 'Ils ont arrivé.', 'Ils étaient arrivés.', 'Ils arrivaient.'], ans: 0, exp: 'Arriver → verbe de mouvement → auxiliaire être + accord. Ils (masc. plur.) → arrivés.' },
-    { q: "Complétez à l\'imparfait : « Nous ___ (prendre) le bus tous les jours. »", opts: ['prenions', 'avons pris', 'prenons', 'prendrons'], ans: 0, exp: 'Habitude passée → imparfait. Prendre → radical pren- → nous prenions (-ions).' },
-    { q: "Quel est le participe passé de « ouvrir » ?", opts: ['ouvert', 'ouvri', 'ouvrit', 'ouvré'], ans: 0, exp: 'Ouvrir → ouvert. Comme couvrir → couvert, offrir → offert. Participes en -ert.' },
-  ]
-},
-{
-  id: 'a2-vocab', level: 'A2', color: '#3b82f6', badge: '📘',
-  title: 'Vocabulaire A2', title_sub: 'Expressions & situations',
-  duration: 1200,
-  questions: [
-    { q: "Que signifie « avoir besoin de » ?", opts: ['To need', 'To want', 'To like', 'To have'], ans: 0, exp: '« Avoir besoin de » = to need. Ex : J\'ai besoin de dormir. (I need to sleep.)' },
-    { q: "Quel mot complète : « Je suis ___ d\'accord. » (I disagree)", opts: ['pas', 'non', 'mal', 'sans'], ans: 0, exp: '« Je ne suis pas d\'accord » = I disagree. Contraire : « Je suis d\'accord » = I agree.' },
-    { q: "Que veut dire « se dépêcher » ?", opts: ['To hurry up', 'To rest', 'To stop', 'To think'], ans: 0, exp: '« Se dépêcher » = to hurry, to rush. Ex : Dépêche-toi, on est en retard !' },
-    { q: "Dans un restaurant, que signifie « l\'addition » ?", opts: ['La note à payer', 'Le menu', 'Le dessert', 'Le plat principal'], ans: 0, exp: '« L\'addition » = the bill/check. On dit : « L\'addition, s\'il vous plaît ! »' },
-    { q: "Que signifie « il y a » dans « Il y a un chat » ?", opts: ['There is', 'He has', 'It is', 'They have'], ans: 0, exp: '« Il y a » = there is / there are. Ex : Il y a des étudiants dans la classe.' },
-    { q: "Complétez : « Je suis ___ bonne humeur aujourd\'hui. »", opts: ['de', 'en', 'à', 'avec'], ans: 0, exp: 'L\'expression correcte est « être de bonne humeur » = to be in a good mood.' },
-    { q: "Que signifie « une promenade » ?", opts: ['A walk', 'A meal', 'A nap', 'A race'], ans: 0, exp: 'Une promenade = a walk/stroll. Faire une promenade = to go for a walk.' },
-    { q: "Choisissez le bon mot : « Mon bus ___ du retard. »", opts: ['a', 'est', 'fait', 'prend'], ans: 0, exp: '« Avoir du retard » = to be late (for transport). Mon bus a du retard = My bus is late.' },
-    { q: "Que veut dire « se souvenir de » ?", opts: ['To remember', 'To forget', 'To know', 'To think about'], ans: 0, exp: '« Se souvenir de » = to remember. Contraire : « oublier » = to forget.' },
-    { q: "Complétez : « Elle ___ de la musique classique. » (She listens)", opts: ['écoute', 'entend', 'regarde', 'voit'], ans: 0, exp: '« Écouter » = to listen (intentionally). « Entendre » = to hear (passively). On écoute de la musique.' },
-    { q: "Que signifie « en ce moment » ?", opts: ['Right now / currently', 'Sometimes', 'Later', 'Often'], ans: 0, exp: '« En ce moment » = right now, at the moment, currently. Ex : Je travaille beaucoup en ce moment.' },
-    { q: "Quel est le contraire de « tôt » ?", opts: ['Tard', 'Vite', 'Loin', 'Souvent'], ans: 0, exp: '« Tôt » (early) ↔ « tard » (late). Ex : Je me lève tôt / Je me couche tard.' },
-    { q: "Complétez : « Il ___ environ 30 ans. » (He is about 30)", opts: ['a', 'est', 'fait', 'paraît'], ans: 0, exp: 'L\'âge s\'exprime avec avoir : Il a environ 30 ans = He is about 30 years old.' },
-    { q: "Que signifie « rater le bus » ?", opts: ['To miss the bus', 'To catch the bus', 'To take the bus', 'To wait for the bus'], ans: 0, exp: '« Rater » = to miss (an opportunity, transport). J\'ai raté mon train = I missed my train.' },
-    { q: "Quelle expression signifie « it doesn\'t matter » ?", opts: ['Ça ne fait rien', 'C\'est la vie', 'N\'importe quoi', 'Tant pis'], ans: 0, exp: '« Ça ne fait rien » ou « ce n\'est pas grave » = it doesn\'t matter / no worries.' },
-  ]
-},
-{
-  id: 'a2-comprehension', level: 'A2', color: '#3b82f6', badge: '📘',
-  title: 'Compréhension A2', title_sub: 'Lecture & logique',
-  duration: 1500,
-  questions: [
-    { q: "Lisez : « Le musée ouvre à 10h et ferme à 18h. L\'entrée coûte 8€ pour les adultes. » Combien paie un adulte ?", opts: ['8€', '10€', '18€', 'C\'est gratuit'], ans: 0, exp: 'Le texte indique clairement : « L\'entrée coûte 8€ pour les adultes. »' },
-    { q: "« Je préfère le thé au café. » Que préfère cette personne ?", opts: ['Le thé', 'Le café', 'Les deux', 'Ni l\'un ni l\'autre'], ans: 0, exp: '« Préférer A à B » = to prefer A over B. Cette personne préfère le thé (pas le café).' },
-    { q: "Lisez : « Il fait beau mais il fait un peu froid. » Quel temps fait-il ?", opts: ['Ensoleillé et frais', 'Pluvieux et chaud', 'Nuageux et chaud', 'Neigeux et froid'], ans: 0, exp: '« Il fait beau » = sunny. « Un peu froid » = a bit cold/cool. Donc ensoleillé et frais.' },
-    { q: "« J\'ai deux sœurs mais pas de frère. » Combien de frères cette personne a-t-elle ?", opts: ['Zéro', 'Un', 'Deux', 'On ne sait pas'], ans: 0, exp: '« Pas de frère » indique l\'absence de frère. La personne n\'a aucun frère.' },
-    { q: "Lisez : « Le train part à 14h15 et arrive à 16h30. » Combien de temps dure le trajet ?", opts: ['2h15', '1h45', '2h45', '1h15'], ans: 0, exp: 'De 14h15 à 16h30 = 2 heures et 15 minutes de trajet.' },
-    { q: "« Elle travaille de lundi à vendredi. » Combien de jours travaille-t-elle ?", opts: ['5 jours', '4 jours', '6 jours', '7 jours'], ans: 0, exp: 'Lundi, mardi, mercredi, jeudi, vendredi = 5 jours de travail.' },
-    { q: "Lisez : « Fermé le mardi. Ouvert tous les autres jours de 9h à 19h. » Le magasin est ouvert quel jour ?", opts: ['Mercredi', 'Mardi', 'Aucun jour', 'Samedi et dimanche seulement'], ans: 0, exp: 'Le magasin est fermé le mardi uniquement. Il est ouvert les 6 autres jours, dont le mercredi.' },
-    { q: "« Je ne suis ni fatigué ni triste. » Cela signifie :", opts: ['Il est bien et heureux', 'Il est fatigué', 'Il est triste', 'Il est fatigué ET triste'], ans: 0, exp: 'La double négation « ni...ni » = neither...nor. Il n\'est pas fatigué ET il n\'est pas triste. Donc il va bien.' },
-    { q: "Lisez : « Réservation obligatoire. Appeler avant 18h. » Que doit-on faire ?", opts: ['Réserver par téléphone avant 18h', 'Arriver avant 18h', 'Payer à l\'avance', 'Envoyer un email'], ans: 0, exp: '« Réservation obligatoire » = you must book. « Appeler » = call. Il faut téléphoner avant 18h.' },
-    { q: "« C\'est plus grand que je pensais. » La personne est :", opts: ['Surprise par la taille', 'Déçue', 'Indifférente', 'En colère'], ans: 0, exp: 'La surprise vient du fait que c\'est plus grand qu\'attendu. La personne était sous-estimée la taille.' },
-    { q: "Lisez : « Menu du jour : soupe + plat + dessert = 12€. Boissons non comprises. » Que n\'est PAS inclus ?", opts: ['Les boissons', 'La soupe', 'Le dessert', 'Le plat principal'], ans: 0, exp: '« Boissons non comprises » = drinks not included. Il faut les payer en supplément.' },
-    { q: "« Je viens de finir mon travail. » Cela signifie :", opts: ['Je viens de terminer', 'Je commence mon travail', 'Je travaille encore', 'J\'ai travaillé hier'], ans: 0, exp: '« Venir de + infinitif » exprime le passé récent. Je viens de finir = I just finished.' },
-  ]
-},
-
-// ══════════ B1 ══════════
-{
-  id: 'b1-gram', level: 'B1', color: '#7c3aed', badge: '⭐',
-  title: 'Grammaire B1', title_sub: 'Subjonctif & conditionnel',
-  duration: 1500,
-  questions: [
-    { q: "Quand utilise-t-on le subjonctif ?", opts: ['Après des expressions d\'émotion, doute, volonté', 'Pour des faits certains', 'Pour le futur uniquement', 'Toujours après « que »'], ans: 0, exp: 'Le subjonctif s\'utilise pour exprimer le doute, l\'émotion, la volonté, l\'obligation : je veux que tu viennes.' },
-    { q: "Complétez : « Il faut que tu ___ (venir) maintenant. »", opts: ['viennes', 'viens', 'venais', 'viendrais'], ans: 0, exp: '« Il faut que » → subjonctif. Venir au subjonctif : que je vienne, que tu viennes.' },
-    { q: "Le conditionnel présent de « aller » à la 1ère personne est :", opts: ['j\'irais', 'je vais', 'j\'allais', 'je suis allé'], ans: 0, exp: 'Conditionnel = radical du futur + terminaisons de l\'imparfait. Aller : j\'irais, tu irais, il irait.' },
-    { q: "Complétez : « Si j\'avais de l\'argent, je ___ un voyage. » (conditionnel)", opts: ['ferais', 'ferai', 'fais', 'faisais'], ans: 0, exp: 'Si + imparfait → conditionnel présent. Si j\'avais... je ferais = If I had... I would do.' },
-    { q: "Quel est le subjonctif de « être » à la 3e personne du singulier ?", opts: ['soit', 'est', 'était', 'sera'], ans: 0, exp: 'Être au subjonctif : que je sois, que tu sois, qu\'il soit, que nous soyons, que vous soyez, qu\'ils soient.' },
-    { q: "Complétez : « Bien que Paul ___ (être) malade, il travaille. »", opts: ['soit', 'est', 'était', 'sera'], ans: 0, exp: '« Bien que » est une conjonction de concession qui exige le subjonctif : bien qu\'il soit.' },
-    { q: "Quelle phrase utilise correctement le conditionnel de politesse ?", opts: ['Je voudrais un café, s\'il vous plaît.', 'Je veux un café.', 'J\'ai voulu un café.', 'Je voulais un café.'], ans: 0, exp: '« Je voudrais » (conditionnel de vouloir) est plus poli que « je veux » pour une demande.' },
-    { q: "Complétez : « Il doute que nous ___ (pouvoir) finir à temps. »", opts: ['puissions', 'pouvons', 'pourrions', 'pouvions'], ans: 0, exp: '« Douter que » → subjonctif. Pouvoir : que je puisse, que tu puisses, que nous puissions.' },
-    { q: "Quelle est la forme correcte ? « À ta place, je ___ (ne pas accepter). »", opts: ['n\'accepterais pas', 'n\'accepte pas', 'n\'ai pas accepté', 'n\'acceptais pas'], ans: 0, exp: '« À ta place » (if I were you) → conditionnel. Je n\'accepterais pas = I would not accept.' },
-    { q: "Complétez : « Elle veut que ses enfants ___ (faire) leurs devoirs. »", opts: ['fassent', 'font', 'feraient', 'feront'], ans: 0, exp: '« Vouloir que » → subjonctif. Faire : que je fasse, que tu fasses, qu\'ils fassent.' },
-    { q: "Le passé du conditionnel « avoir » + participe exprime :", opts: ['Une action passée qui ne s\'est pas réalisée', 'Une action future', 'Un ordre', 'Une habitude passée'], ans: 0, exp: 'J\'aurais fait = I would have done. Exprime une condition dans le passé non réalisée.' },
-    { q: "Complétez : « Je suis content que tu ___ (venir) hier. »", opts: ['sois venu(e)', 'es venu(e)', 'viennes', 'venais'], ans: 0, exp: 'Émotion + que + action passée → subjonctif passé. Être + venu au subjonctif = sois venu.' },
-    { q: "« Si tu étudiais plus, tu ___ tes examens. »", opts: ['réussirais', 'réussis', 'réussiras', 'réussissais'], ans: 0, exp: 'Hypothèse au présent/futur : si + imparfait → conditionnel présent. Tu réussirais (you would succeed).' },
-    { q: "Quel subjonctif est correct ? « Il faut qu\'il ___ (savoir) la vérité. »", opts: ['sache', 'sait', 'savait', 'saura'], ans: 0, exp: 'Savoir au subjonctif : que je sache, que tu saches, qu\'il sache — forme irrégulière.' },
-    { q: "Choisissez : « Pour qu\'elle ___ (comprendre), explique lentement. »", opts: ['comprenne', 'comprend', 'comprendrait', 'a compris'], ans: 0, exp: '« Pour que » → subjonctif. Comprendre : que je comprenne, qu\'elle comprenne.' },
-  ]
-},
-{
-  id: 'b1-vocab', level: 'B1', color: '#7c3aed', badge: '⭐',
-  title: 'Vocabulaire & Expressions B1', title_sub: 'Nuances & idiomes',
-  duration: 1500,
-  questions: [
-    { q: "Que signifie « avoir du mal à » ?", opts: ['To have difficulty doing something', 'To feel sick', 'To dislike something', 'To be good at'], ans: 0, exp: '« Avoir du mal à » = to struggle with, to have difficulty. Ex : J\'ai du mal à me lever le matin.' },
-    { q: "Complétez : « Il est ___ de commencer sans lui. » (useless)", opts: ['inutile', 'utile', 'difficile', 'important'], ans: 0, exp: '« Il est inutile de » = it is useless/pointless to. Contraire : « Il est utile de ».' },
-    { q: "Que signifie l\'expression « avoir le cafard » ?", opts: ['To feel down/depressed', 'To be scared', 'To be very hungry', 'To be sick'], ans: 0, exp: '« Avoir le cafard » (littéralement: to have the cockroach) = to feel gloomy, sad, depressed.' },
-    { q: "Que veut dire « à condition que » ?", opts: ['Provided that / on the condition that', 'Despite the fact that', 'Although', 'Because'], ans: 0, exp: '« À condition que » + subjonctif = provided that, as long as. Ex : Je viens à condition que tu invites Paul.' },
-    { q: "Que signifie « se rendre compte de » ?", opts: ['To realize', 'To go to', 'To return', 'To understand slowly'], ans: 0, exp: '« Se rendre compte de » = to realize, to become aware of. Ex : Je me suis rendu compte de mon erreur.' },
-    { q: "Complétez : « Malgré la pluie, nous ___ sortir. » (despite)", opts: ['avons décidé de', 'avons empêché de', 'avons refusé de', 'avons cessé de'], ans: 0, exp: '« Malgré » = despite. La phrase signifie que malgré la mauvaise météo, une décision a été prise.' },
-    { q: "Que signifie « porter plainte » ?", opts: ['To file a complaint', 'To carry something heavy', 'To make noise', 'To call for help'], ans: 0, exp: '« Porter plainte » = to file a complaint (with the police). Utilisé dans un contexte juridique.' },
-    { q: "Que veut dire « s\'en sortir » ?", opts: ['To manage / to get through it', 'To leave', 'To escape', 'To give up'], ans: 0, exp: '« S\'en sortir » = to manage, to cope, to get by. Ex : Je m\'en sors malgré les difficultés.' },
-    { q: "Quel mot exprime la conséquence ? « Il était fatigué, ___ il s\'est couché tôt. »", opts: ['donc', 'mais', 'pourtant', 'cependant'], ans: 0, exp: '« Donc » = therefore, so (consequence). Mais/pourtant/cependant expriment la concession.' },
-    { q: "Que signifie « mettre en œuvre » ?", opts: ['To implement / to put into action', 'To create', 'To finish', 'To criticize'], ans: 0, exp: '« Mettre en œuvre » = to implement, to carry out. Ex : mettre en œuvre un plan, une stratégie.' },
-    { q: "Complétez : « Je n\'arrive pas ___ dormir. »", opts: ['à', 'de', 'que', 'pour'], ans: 0, exp: '« Arriver à » + infinitif = to manage to, to be able to. Je n\'arrive pas à dormir = I can\'t manage to sleep.' },
-    { q: "Que signifie « à tort ou à raison » ?", opts: ['Rightly or wrongly', 'Slowly but surely', 'More or less', 'Here and there'], ans: 0, exp: '« À tort » = wrongly. « À raison » = rightly. « À tort ou à raison » = rightly or wrongly.' },
-    { q: "Choisissez la bonne préposition : « Je tiens ___ te voir. »", opts: ['à', 'de', 'pour', 'en'], ans: 0, exp: '« Tenir à » = to be eager to, to really want to. Je tiens à te voir = I really want to see you.' },
-    { q: "Que veut dire « il s\'avère que » ?", opts: ['It turns out that', 'He goes there', 'It seems impossible', 'He confirms that'], ans: 0, exp: '« Il s\'avère que » = it turns out that, it appears that. Ex : Il s\'avère que j\'avais raison.' },
-    { q: "Quel connecteur introduit une opposition ?", opts: ['En revanche', 'De plus', 'Ainsi', 'En effet'], ans: 0, exp: '« En revanche » = on the other hand (opposition). De plus = furthermore. Ainsi = thus. En effet = indeed.' },
-  ]
-},
-
-// ══════════ B2 ══════════
-{
-  id: 'b2-gram', level: 'B2', color: '#f59e0b', badge: '🏆',
-  title: 'Grammaire avancée B2', title_sub: 'Style & structures complexes',
+  id: 'a1-complet', level: 'A1', color: '#10b981', badge: '🌱',
+  title: 'Niveau A1 — Test complet', title_sub: 'Lecture · Grammaire · Vocabulaire',
   duration: 1800,
   questions: [
-    { q: "Quel est l\'équivalent littéraire de « bien que » ?", opts: ['Encore que', 'Puisque', 'Afin que', 'Dès que'], ans: 0, exp: '« Encore que » (+ subjonctif) est un équivalent plus littéraire/formel de « bien que » (concession).' },
-    { q: "Complétez avec le mode correct : « Quoi qu\'il ___ (décider), je le soutiendrai. »", opts: ['décide', 'décidait', 'a décidé', 'déciderait'], ans: 0, exp: '« Quoi que » = whatever → toujours suivi du subjonctif. Quoi qu\'il décide = whatever he decides.' },
-    { q: "Quelle tournure exprime le but négatif ?", opts: ['De peur que + subjonctif', 'Pour que + subjonctif', 'Afin que + subjonctif', 'À condition que + subjonctif'], ans: 0, exp: '« De peur que » (for fear that) + subjonctif exprime un but négatif : Je pars tôt de peur qu\'il n\'arrive.' },
-    { q: "La proposition infinitive « Je l\'entends chanter » signifie :", opts: ['I hear him/her singing', 'I hear that he/she sang', 'I make him/her sing', 'I want him/her to sing'], ans: 0, exp: 'Infinitif après verbe de perception : J\'entends [quelqu\'un] chanter = I hear [someone] singing.' },
-    { q: "Complétez : « ___ avoir terminé, il est parti. » (Having finished)", opts: ['Après', 'Avant de', 'Pour', 'Sans'], ans: 0, exp: '« Après + infinitif passé » = having done. Après avoir terminé = having finished / after finishing.' },
-    { q: "Quelle phrase contient un subjonctif passé correct ?", opts: ['Bien qu\'il soit venu, elle est restée.', 'Bien qu\'il vient, elle est restée.', 'Bien qu\'il venait, elle est restée.', 'Bien qu\'il viendrait, elle est restée.'], ans: 0, exp: '« Bien que » → subjonctif passé pour action antérieure. Être + venu au subjonctif = soit venu.' },
-    { q: "Le gérondif « en travaillant » exprime :", opts: ['La simultanéité ou le moyen', 'La cause passée', 'La conséquence', 'La concession'], ans: 0, exp: 'Le gérondif = en + participe présent. Exprime simultaneité (while doing) ou moyen (by doing).' },
-    { q: "Complétez avec le registre approprié : « C\'est moi qui ___ parlé. » (formal)", opts: ['ai', 'a', 'avais', 'aurais'], ans: 0, exp: 'La mise en relief « C\'est moi qui » : le verbe s\'accorde avec « moi » → ai (1ère personne).' },
-    { q: "Identifiez la voix passive correcte de « On a construit ce pont en 1900 » :", opts: ['Ce pont a été construit en 1900.', 'Ce pont est construit en 1900.', 'Ce pont fut construit depuis 1900.', 'On est construit ce pont en 1900.'], ans: 0, exp: 'Voix passive : sujet + auxiliaire être conjugué + participe passé accordé. Passé composé passif : a été + construit.' },
-    { q: "Que signifie la tournure « ne... que » ?", opts: ['Only / restriction', 'Neither...nor', 'Not at all', 'Rarely'], ans: 0, exp: '« Ne... que » = only. Ex : Je ne mange que des légumes = I eat only vegetables. C\'est une restriction.' },
-    { q: "Complétez : « Si seulement il ___ venu hier ! » (regret)", opts: ['était', 'est', 'soit', 'serait'], ans: 0, exp: 'Regret sur le passé avec « si seulement » → plus-que-parfait. S\'il était venu = If only he had come.' },
-    { q: "Quelle phrase utilise correctement le discours indirect ?", opts: ['Il a dit qu\'il viendrait demain.', 'Il a dit qu\'il vient demain.', 'Il a dit il viendra demain.', 'Il a dit qu\'il venait hier.'], ans: 0, exp: 'Discours indirect au passé : le présent → imparfait, le futur → conditionnel. Il viendra → il viendrait.' },
-    { q: "Qu\'exprime « avoir beau + infinitif » ?", opts: ['La concession (même si)', 'La conséquence', 'Le but', 'La cause'], ans: 0, exp: '« Avoir beau » = even though, no matter how. Ex : Il a beau travailler, il échoue = Even though he works, he fails.' },
-    { q: "Complétez : « Il a pris cette décision ___ que je le lui aie conseillé. » (sans)", opts: ['sans', 'avant', 'après', 'pour'], ans: 0, exp: '« Sans que » + subjonctif = without (someone) doing something. Il est parti sans que je le sache.' },
-    { q: "Quel temps employé dans « Napoléon mourut en 1821 » ?", opts: ['Passé simple', 'Passé composé', 'Imparfait', 'Plus-que-parfait'], ans: 0, exp: 'Le passé simple (mourut) est le temps du récit littéraire/historique écrit. Très rare à l\'oral.' },
+
+    // ── Texte 1 : Présentation (Q1–Q5) ──
+    { q: "Lisez ce texte :\n« Bonjour ! Je m'appelle Emma. J'ai 22 ans et je suis étudiante en médecine à Lyon. J'habite dans un petit appartement avec mon chat, Minou. Le matin, je prends un café et une tartine avant d'aller à l'université en vélo. »\n\nQuel est le prénom de la personne ?", opts: ['Sophie', 'Emma', 'Léa', 'Clara'], ans: 1, exp: 'Le texte dit clairement : « Je m\'appelle Emma. »' },
+    { q: "[Même texte] Quel est le métier d'Emma ?", opts: ['Médecin', 'Professeure', 'Étudiante en médecine', 'Infirmière'], ans: 2, exp: 'Emma est étudiante en médecine — elle étudie pour devenir médecin, mais n\'est pas encore médecin.' },
+    { q: "[Même texte] Dans quelle ville habite Emma ?", opts: ['Paris', 'Bordeaux', 'Marseille', 'Lyon'], ans: 3, exp: 'Le texte précise : « étudiante en médecine à Lyon. »' },
+    { q: "[Même texte] Comment Emma va-t-elle à l'université ?", opts: ['En voiture', 'En bus', 'À pied', 'À vélo'], ans: 3, exp: '« avant d\'aller à l\'université en vélo » — Emma utilise un vélo.' },
+    { q: "[Même texte] Qu'est-ce qu'Emma mange le matin ?", opts: ['Des céréales', 'Un croissant', 'Une tartine', 'Des crêpes'], ans: 2, exp: '« je prends un café et une tartine » — une tartine = bread with butter/jam.' },
+
+    // ── Texte 2 : Menu de restaurant (Q6–Q10) ──
+    { q: "Lisez ce menu :\n« Le Petit Bistro\n— Entrées : Soupe à l'oignon 5€ / Salade niçoise 7€\n— Plats : Poulet rôti 12€ / Steak frites 14€ / Poisson du jour 16€\n— Desserts : Tarte aux pommes 5€ / Crème brûlée 6€ »\n\nCombien coûte la soupe à l'oignon ?", opts: ['7€', '6€', '5€', '12€'], ans: 2, exp: 'Le menu indique : « Soupe à l\'oignon 5€ ».' },
+    { q: "[Même menu] Quel plat est le moins cher ?", opts: ['Steak frites', 'Poisson du jour', 'Poulet rôti', 'Salade niçoise'], ans: 2, exp: 'Poulet rôti = 12€, steak frites = 14€, poisson = 16€. Le poulet est le moins cher des plats.' },
+    { q: "[Même menu] Qu'est-ce qu'une entrée proposée au menu ?", opts: ['Crème brûlée', 'Steak frites', 'Salade niçoise', 'Café'], ans: 2, exp: 'Les entrées sont : soupe à l\'oignon et salade niçoise. La crème brûlée est un dessert.' },
+    { q: "[Même menu] Si on prend une soupe + un poulet rôti + une tarte aux pommes, combien paye-t-on ?", opts: ['20€', '22€', '19€', '21€'], ans: 1, exp: '5€ + 12€ + 5€ = 22€.' },
+    { q: "[Même menu] Quel dessert coûte 6€ ?", opts: ['Tarte aux pommes', 'Soupe à l\'oignon', 'Salade niçoise', 'Crème brûlée'], ans: 3, exp: '« Crème brûlée 6€ » — la tarte aux pommes coûte 5€.' },
+
+    // ── Grammaire A1 (Q11–Q22) ──
+    { q: "Complétez : « ___ chats adorent le soleil. »", opts: ['Le', 'La', 'Un', 'Les'], ans: 3, exp: '« Chats » est masculin pluriel → article défini pluriel = « les ».' },
+    { q: "Quelle conjugaison est correcte ? « Tu ___ à Paris ? » (habiter)", opts: ['habite', 'habitons', 'habites', 'habitez'], ans: 2, exp: 'Verbe habiter : je habite, tu habites, il habite, nous habitons, vous habitez, ils habitent.' },
+    { q: "Comment forme-t-on la négation de « Je mange » ?", opts: ['Je pas mange', 'Je mange ne pas', 'Je ne mange pas', 'Ne je mange pas'], ans: 2, exp: 'La négation = ne + verbe + pas. La structure est toujours : sujet + ne + verbe + pas.' },
+    { q: "Quel article convient : « ___ hôpital » ?", opts: ['La', 'Le', 'L\'', 'Un'], ans: 2, exp: '« Hôpital » commence par une voyelle → élision : l\'hôpital (pas « le hôpital »).' },
+    { q: "Complétez : « Je ___ au cinéma ce soir. » (aller)", opts: ['vont', 'vas', 'vais', 'va'], ans: 2, exp: 'Verbe aller : je vais, tu vas, il va, nous allons, vous allez, ils vont.' },
+    { q: "Quelle phrase est correcte ?", opts: ['Il ne vient pas', 'Il vient ne pas', 'Il pas vient', 'Il ne pas vient'], ans: 0, exp: '« Il ne vient pas » = structure négative correcte (ne + verbe + pas).' },
+    { q: "Quel pronom remplace « Marie et Pierre » ?", opts: ['Elles', 'Nous', 'Ils', 'Vous'], ans: 2, exp: 'Groupe mixte (homme + femme) → pronom masculin pluriel « ils ».' },
+    { q: "Passé composé : « Hier, j\'___ un bon film. » (voir)", opts: ['suis vu', 'a vu', 'ai vu', 'avons vu'], ans: 2, exp: 'Passé composé de « voir » : avoir + vu. Je → j\'ai vu.' },
+    { q: "Complétez : « Il y ___ beaucoup de monde. »", opts: ['ont', 'sont', 'est', 'a'], ans: 3, exp: '« Il y a » est une expression fixe. Elle ne change pas avec le nombre : il y a du monde, il y a des gens.' },
+    { q: "Quelle est la forme négative de « J'ai un chien » ?", opts: ['Je n\'ai pas un chien', 'Je ai pas chien', 'Je n\'ai de chien', 'Je n\'ai pas de chien'], ans: 3, exp: 'À la forme négative, l\'article indéfini (un/une/des) devient « de » : Je n\'ai pas de chien.' },
+    { q: "Quel est le pluriel irrégulier de « un cheval » ?", opts: ['Des chevals', 'Des chevales', 'Des chevaux', 'Des chevaleaux'], ans: 2, exp: '« Cheval » fait « chevaux » au pluriel — terminaison irrégulière en -aux (comme journal → journaux).' },
+    { q: "Complétez : « Vous ___ une bonne journée ! » (avoir)", opts: ['avez', 'avoir', 'ont', 'a'], ans: 0, exp: 'Verbe avoir : j\'ai, tu as, il a, nous avons, vous avez, ils ont.' },
+
+    // ── Vocabulaire A1 (Q23–Q30) ──
+    { q: "« Il fait des économies » signifie :", opts: ['Il travaille plus', 'Il dépense trop', 'Il met de l\'argent de côté', 'Il fait du sport'], ans: 2, exp: '« Faire des économies » = mettre de l\'argent de côté, épargner. Ex : Il économise pour acheter une voiture.' },
+    { q: "Un « feu rouge » indique :", opts: ['On peut traverser', 'On doit tourner', 'On peut accélérer', 'On doit s\'arrêter'], ans: 3, exp: 'Le feu rouge signifie STOP — il est obligatoire de s\'arrêter. Le feu vert = on peut passer.' },
+    { q: "Quel mot est l'opposé de « rapide » ?", opts: ['Vite', 'Fort', 'Haut', 'Lent'], ans: 3, exp: 'Rapide ↔ lent. Ex : un escargot est lent, une voiture de course est rapide.' },
+    { q: "« Une boulangerie » vend principalement :", opts: ['Des médicaments', 'Des légumes', 'Du vin', 'Du pain et des viennoiseries'], ans: 3, exp: 'La boulangerie vend du pain, des baguettes, des croissants, des pains au chocolat...' },
+    { q: "« Avoir soif » = :", opts: ['Avoir envie de manger', 'Avoir envie de dormir', 'Avoir envie de bouger', 'Avoir envie de boire'], ans: 3, exp: 'Avoir soif = vouloir boire. Avoir faim = vouloir manger. Ces expressions utilisent « avoir » en français.' },
+    { q: "« Un carrefour » est :", opts: ['Un type de voiture', 'Un quartier résidentiel', 'Une intersection de rues', 'Un arrêt de métro'], ans: 2, exp: 'Un carrefour = une intersection, le croisement de deux ou plusieurs rues.' },
+    { q: "Dans « Il a pris froid », cela signifie :", opts: ['Il a volé quelque chose de froid', 'Il est tombé malade', 'Il a changé de température', 'Il a attrapé un objet'], ans: 1, exp: '« Prendre froid » = attraper un rhume, tomber malade à cause du froid ou de l\'humidité.' },
+    { q: "« Se lever » est l'opposé de :", opts: ['Dormir', 'Marcher', 'Se coucher', 'S\'habiller'], ans: 2, exp: 'Se lever (get up) ↔ se coucher (go to bed). Ces deux verbes sont pronominaux.' },
   ]
 },
+
+// ══════════════════════════════════════════════
+// A2 — Évaluation complète élémentaire (30 questions)
+// ══════════════════════════════════════════════
 {
-  id: 'b2-expression', level: 'B2', color: '#f59e0b', badge: '🏆',
-  title: 'Vocabulaire & Style B2', title_sub: 'Registres & argumentation',
+  id: 'a2-complet', level: 'A2', color: '#06b6d4', badge: '🌿',
+  title: 'Niveau A2 — Test complet', title_sub: 'Lecture · Grammaire · Vocabulaire',
   duration: 1800,
   questions: [
-    { q: "Que signifie « soulever une question » ?", opts: ['To raise an issue', 'To answer a question', 'To avoid a topic', 'To repeat a question'], ans: 0, exp: '« Soulever » = to raise (a question, a problem). Synonymes : soulever ≈ aborder, poser (une question).' },
-    { q: "Quel registre est « bouquin » ?", opts: ['Familier', 'Soutenu', 'Technique', 'Argotique'], ans: 0, exp: '« Bouquin » = livre en registre familier. « Ouvrage » ou « volume » sont des registres plus soutenus.' },
-    { q: "Que signifie « au demeurant » ?", opts: ['Besides / moreover / all the same', 'Currently', 'Therefore', 'In contrast'], ans: 0, exp: '« Au demeurant » = besides, for all that. Terme soutenu : Il est difficile, au demeurant fort compétent.' },
-    { q: "Quelle expression introduit une nuance dans un argument ?", opts: ['Il convient néanmoins de', 'Par conséquent', 'En effet', 'Autrement dit'], ans: 0, exp: '« Néanmoins » (nevertheless) introduit une nuance/concession. Les autres connecteurs ont d\'autres fonctions.' },
-    { q: "Que veut dire « à même de » ?", opts: ['Capable of / in a position to', 'Similar to', 'Against', 'In spite of'], ans: 0, exp: '« Être à même de » = to be capable of, to be in a position to. Ex : Il est à même de résoudre ce problème.' },
-    { q: "Quel synonyme soutenu de « montrer » convient dans un texte argumentatif ?", opts: ['Démontrer', 'Faire voir', 'Mettre en évidence', 'Prouver que'], ans: 0, exp: 'Dans un texte soutenu : « démontrer », « illustrer », « mettre en lumière » remplacent avantageusement « montrer ».' },
-    { q: "Que signifie « faire fi de » ?", opts: ['To disregard / to ignore', 'To celebrate', 'To be proud of', 'To profit from'], ans: 0, exp: '« Faire fi de » = to disregard, to dismiss, to pay no attention to. Terme littéraire/soutenu.' },
-    { q: "Complétez : « Cette théorie est ___ d\'être révisée. » (worthy of / in need of)", opts: ['susceptible', 'capable', 'possible', 'probable'], ans: 0, exp: '« Susceptible de + infinitif » = likely to, liable to. Cette théorie est susceptible d\'être révisée = This theory is likely to be revised.' },
-    { q: "Que signifie l\'expression « tenir pour acquis » ?", opts: ['To take for granted', 'To earn', 'To keep something', 'To confirm'], ans: 0, exp: '« Tenir pour acquis » = to take for granted. Ex : On ne devrait jamais tenir la santé pour acquise.' },
-    { q: "Quel connecteur indique une reformulation ?", opts: ['Autrement dit', 'En outre', 'Toutefois', 'D\'emblée'], ans: 0, exp: '« Autrement dit » = in other words (reformulation). En outre = furthermore. Toutefois = however.' },
-    { q: "Que signifie « à l\'instar de » ?", opts: ['Following the example of / like', 'Unlike', 'Against', 'Together with'], ans: 0, exp: '« À l\'instar de » = following the example of, just like. Ex : À l\'instar de la France, l\'Espagne a adopté cette loi.' },
-    { q: "Quelle tournure exprime une opinion nuancée dans un essai ?", opts: ['Il semblerait que + subjonctif', 'Je pense que + indicatif', 'C\'est clair que', 'Évidemment,'], ans: 0, exp: '« Il semblerait que » + subjonctif = it would seem that. Introduit une opinion prudemment, idéal dans un essai.' },
-    { q: "Que signifie « au gré de » ?", opts: ['According to / at the whim of', 'At the beginning of', 'In spite of', 'Because of'], ans: 0, exp: '« Au gré de » = according to, at the mercy of, as one pleases. Ex : Voyager au gré de ses envies.' },
-    { q: "Quel terme désigne un argument contraire qu\'on réfute ?", opts: ['Une objection', 'Une thèse', 'Une conclusion', 'Une illustration'], ans: 0, exp: 'Une objection (counter-argument) est un argument adverse qu\'on introduit pour le réfuter ensuite.' },
-    { q: "Complétez : « Non seulement il a refusé, ___ il a insulté son collègue. »", opts: ['mais en plus', 'mais aussi', 'et', 'pourtant'], ans: 0, exp: 'La tournure « non seulement... mais en plus / mais encore » renforce l\'idée. Très courant à l\'écrit soutenu.' },
+
+    // ── Texte 1 : Email de réservation (Q1–Q5) ──
+    { q: "Lisez cet email :\n« Objet : Réservation chambres d'hôtel\nBonjour,\nJe souhaite réserver deux chambres doubles pour trois nuits, du vendredi 12 au lundi 15 juillet. Nous sommes 4 adultes. Est-il possible d\'obtenir des chambres communicantes ? Nous voyageons avec un chien — les animaux sont-ils acceptés ? Pouvez-vous me confirmer le tarif et si le petit-déjeuner est inclus ? »\n\nCombien de nuits la personne veut-elle réserver ?", opts: ['Deux nuits', 'Quatre nuits', 'Cinq nuits', 'Trois nuits'], ans: 3, exp: '« pour trois nuits, du vendredi 12 au lundi 15 » = vendredi→samedi, samedi→dimanche, dimanche→lundi = 3 nuits.' },
+    { q: "[Même email] Combien de chambres demande la personne ?", opts: ['Une chambre double', 'Deux chambres doubles', 'Trois chambres simples', 'Quatre chambres'], ans: 1, exp: '« réserver deux chambres doubles » — deux chambres, chacune pour deux personnes.' },
+    { q: "[Même email] Quel animal accompagne les voyageurs ?", opts: ['Un chat', 'Un oiseau', 'Un chien', 'Un lapin'], ans: 2, exp: '« Nous voyageons avec un chien » — un chien (= a dog).' },
+    { q: "[Même email] Quelle est la demande particulière concernant les chambres ?", opts: ['Des chambres avec vue sur mer', 'Des chambres communicantes', 'Des chambres non-fumeurs', 'Des chambres avec terrasse'], ans: 1, exp: '« Est-il possible d\'obtenir des chambres communicantes ? » = des chambres avec une porte entre elles.' },
+    { q: "[Même email] Quelles informations supplémentaires la personne demande-t-elle ?", opts: ['L\'adresse et le parking', 'La disponibilité de la piscine', 'Le tarif et l\'inclusion du petit-déjeuner', 'Les horaires d\'arrivée et de départ'], ans: 2, exp: '« Pouvez-vous me confirmer le tarif et si le petit-déjeuner est inclus ? »' },
+
+    // ── Texte 2 : Bulletin météo (Q6–Q10) ──
+    { q: "Lisez ce bulletin météo :\n« Ce samedi, le temps sera variable. Au nord : pluies importantes et vents forts (70 km/h). Le sud bénéficiera d'un temps ensoleillé, températures autour de 22°C. Paris : ciel nuageux, précipitations faibles. Dimanche : amélioration générale prévue sur tout le territoire. »\n\nQuel temps fera-t-il au nord samedi ?", opts: ['Ensoleillé et chaud', 'Nuageux sans pluie', 'Neigeux', 'Pluvieux avec du vent'], ans: 3, exp: '« Au nord : pluies importantes et vents forts » = pluvieux et venteux.' },
+    { q: "[Même météo] Quelle sera la température dans le sud ?", opts: ['12°C', '18°C', '22°C', '28°C'], ans: 2, exp: '« températures autour de 22°C » dans le sud.' },
+    { q: "[Même météo] Comment sera le ciel à Paris ?", opts: ['Ensoleillé', 'Orageux', 'Nuageux', 'Neigeux'], ans: 2, exp: '« Paris : ciel nuageux » — nuageux = couvert de nuages (cloudy).' },
+    { q: "[Même météo] Que signifie « les précipitations resteront faibles » à Paris ?", opts: ['Il pleuvra beaucoup', 'Il y aura de la neige', 'Il ne pleuvra presque pas', 'Il y aura des orages'], ans: 2, exp: 'Précipitations = pluie/neige. Faibles = peu importantes. Donc il ne pleuvra presque pas.' },
+    { q: "[Même météo] Qu'est-ce qui est annoncé pour dimanche ?", opts: ['Pluies dans le nord', 'Vents violents partout', 'Températures en baisse', 'Amélioration générale'], ans: 3, exp: '« Dimanche : amélioration générale prévue sur tout le territoire. »' },
+
+    // ── Grammaire A2 (Q11–Q22) ──
+    { q: "Passé composé : « Hier, nous ___ au théâtre. » (aller)", opts: ['avons allé', 'sommes allés', 'sommes aller', 'avons été'], ans: 1, exp: '« Aller » se conjugue avec être au passé composé : nous sommes allés (accord avec le sujet pluriel).' },
+    { q: "Imparfait ou passé composé ? « Quand j\'étais enfant, je ___ souvent à la mer. » (aller)", opts: ['suis allé', 'irai', 'vais', 'allais'], ans: 3, exp: 'Habitude dans le passé → imparfait : j\'allais. Le passé composé décrit un événement ponctuel.' },
+    { q: "Complétez avec le bon comparatif : « Le TGV est ___ rapide que le bus. »", opts: ['aussi', 'autant', 'moins', 'plus'], ans: 3, exp: 'Un TGV est plus rapide qu\'un bus. « Plus + adjectif + que » = comparatif de supériorité.' },
+    { q: "Pronom relatif : « Je connais la personne ___ travaille là-bas. »", opts: ['que', 'dont', 'où', 'qui'], ans: 3, exp: '« Qui » est sujet du verbe qui suit. « La personne qui travaille » — qui remplace la personne.' },
+    { q: "Futur simple : « Demain, il ___ beau. » (faire)", opts: ['fait', 'faisait', 'ferait', 'fera'], ans: 3, exp: 'Futur simple de « faire » : je ferai, tu feras, il fera, nous ferons, vous ferez, ils feront.' },
+    { q: "Accord du participe passé : « Les lettres que j\'ai ___ » (écrire)", opts: ['écrit', 'écrits', 'écrite', 'écrites'], ans: 3, exp: 'Le participe s\'accorde avec le COD placé avant : « les lettres » = féminin pluriel → écrites.' },
+    { q: "Négation restrictive pour dire « uniquement » : « Je mange ___ des légumes. »", opts: ['ne...jamais', 'ne...pas', 'ne...plus', 'ne...que'], ans: 3, exp: '« Ne...que » = seulement, uniquement. Ex : Je ne mange que des légumes = I only eat vegetables.' },
+    { q: "Préposition : « Il revient ___ États-Unis la semaine prochaine. »", opts: ['de', 'du', 'des', 'd\''], ans: 2, exp: '« Les États-Unis » → pays pluriel masculin → préposition « des ». Ex : Je viens des États-Unis.' },
+    { q: "Pronom relatif : « C\'est le livre ___ je t\'ai parlé. »", opts: ['que', 'qui', 'lequel', 'dont'], ans: 3, exp: '« Dont » remplace « de + nom ». « Parler de quelque chose » → « dont je t\'ai parlé ».' },
+    { q: "Verbe pronominal au passé composé : « Elle s\'est ___ avant de partir. » (lever)", opts: ['levé', 'levés', 'lever', 'levée'], ans: 3, exp: 'Verbes pronominaux → accord avec le sujet au passé composé. Elle (féminin singulier) → levée.' },
+    { q: "Quel temps exprime une action en cours dans le passé ?", opts: ['Passé composé', 'Plus-que-parfait', 'Futur simple', 'Imparfait'], ans: 3, exp: 'L\'imparfait décrit une action en cours, une habitude ou un état dans le passé. Ex : Il pleuvait quand je suis sorti.' },
+    { q: "Conditionnel présent : « Si j\'avais le temps, je ___ te rendre visite. » (venir)", opts: ['suis venu', 'venais', 'viendrai', 'viendrais'], ans: 3, exp: 'Hypothèse irréelle au présent : si + imparfait → conditionnel présent. Je viendrais.' },
+
+    // ── Vocabulaire A2 (Q23–Q30) ──
+    { q: "« Se disputer » signifie :", opts: ['Partager un repas', 'Jouer ensemble', 'Parler doucement', 'Avoir une querelle'], ans: 3, exp: 'Se disputer = avoir un conflit verbal, une querelle. Ex : Ils se disputent souvent à propos d\'argent.' },
+    { q: "Un « loyer », c\'est :", opts: ['Une taxe sur les achats', 'Un permis de construire', 'Le montant payé pour louer un logement', 'Un contrat de travail'], ans: 2, exp: 'Le loyer = la somme mensuelle versée au propriétaire pour habiter dans un logement. Synonyme : le montant du loyer.' },
+    { q: "« Avoir du mal à » = :", opts: ['Faire facilement', 'Être malade', 'Avoir peur', 'Éprouver des difficultés'], ans: 3, exp: '« Avoir du mal à + infinitif » = trouver difficile de faire quelque chose. Ex : J\'ai du mal à me lever tôt.' },
+    { q: "Une « grève », c\'est quand :", opts: ['Les médecins font des urgences', 'Les élèves passent un examen', 'Les commerces ferment pour les fêtes', 'Les travailleurs arrêtent de travailler pour protester'], ans: 3, exp: 'Une grève = une action collective où les travailleurs cessent le travail pour obtenir des améliorations.' },
+    { q: "Le mot « pourtant » exprime :", opts: ['Une cause', 'Une addition', 'Une conséquence', 'Une opposition'], ans: 3, exp: '« Pourtant » = cependant, néanmoins — il exprime une opposition ou concession. Ex : Il est fatigué, pourtant il travaille.' },
+    { q: "« Un embouteillage », c\'est :", opts: ['Un type d\'emballage', 'Un arrêt de bus bondé', 'Un problème de circulation avec trop de voitures', 'Une bouteille de vin'], ans: 2, exp: 'Un embouteillage = un bouchon, un ralentissement de la circulation dû à trop de véhicules.' },
+    { q: "« Faire la queue » signifie :", opts: ['Danser en groupe', 'Se dépêcher', 'Cuisiner un plat', 'Attendre son tour dans une file'], ans: 3, exp: 'Faire la queue = attendre en ligne. Ex : On fait la queue à la caisse du supermarché.' },
+    { q: "« Il a du mal à décrocher » dans le contexte du travail signifie :", opts: ['Il ne répond pas au téléphone', 'Il a du mal à obtenir une promotion', 'Il a du mal à arrêter de penser au travail', 'Il a du mal à se connecter à internet'], ans: 2, exp: '« Décrocher » = se déconnecter mentalement du travail, arrêter d\'y penser en dehors des heures de bureau.' },
   ]
-}
+},
+
+// ══════════════════════════════════════════════
+// B1 — Évaluation complète intermédiaire (30 questions)
+// ══════════════════════════════════════════════
+{
+  id: 'b1-complet', level: 'B1', color: '#f59e0b', badge: '📚',
+  title: 'Niveau B1 — Test complet', title_sub: 'Lecture · Grammaire · Vocabulaire',
+  duration: 2100,
+  questions: [
+
+    // ── Texte 1 : Article d'opinion — Télétravail (Q1–Q6) ──
+    { q: "Lisez ce texte :\n« LE TÉLÉTRAVAIL : RÉVOLUTION OU RÉGRESSION ?\nDepuis 2020, le télétravail s'est imposé dans de nombreuses entreprises. Si cette pratique offre des avantages — réduction des temps de trajet, meilleure conciliation vie professionnelle/personnelle — elle présente aussi des inconvénients. Des études montrent que les télétravailleurs ressentent davantage de solitude et ont du mal à \"décrocher\" en fin de journée. Par ailleurs, tous les métiers ne s'y prêtent pas : les soins, l'enseignement en présentiel restent irremplaçables. La question n'est pas de choisir entre tout-bureau et tout-télétravail, mais de trouver l'équilibre hybride adapté à chaque secteur. »\n\nQuel est l'un des avantages du télétravail cité dans le texte ?", opts: ['Meilleurs salaires', 'Plus de contacts sociaux', 'Moins de temps de trajet', 'Meilleure couverture santé'], ans: 2, exp: '« réduction des temps de trajet » est explicitement cité comme avantage.' },
+    { q: "[Même texte] Quel problème les télétravailleurs rencontrent-ils ?", opts: ['Des difficultés à se connecter', 'Un manque de matériel', 'Un excès de réunions', 'De la solitude et du mal à décrocher'], ans: 3, exp: '« les télétravailleurs ressentent davantage de solitude et ont du mal à \'décrocher\' en fin de journée ».' },
+    { q: "[Même texte] Que signifie « décrocher » dans ce contexte ?", opts: ['Se connecter à internet', 'Obtenir une promotion', 'Répondre au téléphone', 'Arrêter de penser au travail'], ans: 3, exp: 'Dans ce contexte professionnel, « décrocher » = se déconnecter mentalement, arrêter de travailler mentalement.' },
+    { q: "[Même texte] Quel type de métier n'est PAS adapté au télétravail selon le texte ?", opts: ['Comptabilité', 'Informatique', 'Marketing', 'Enseignement en présentiel'], ans: 3, exp: '« les soins, l\'enseignement en présentiel restent irremplaçables » = ne peuvent pas se faire à distance.' },
+    { q: "[Même texte] Quelle est la solution proposée par l'auteur ?", opts: ['Imposer le télétravail à tous', 'Supprimer le télétravail', 'Un équilibre hybride adapté à chaque secteur', 'Laisser les employés décider seuls'], ans: 2, exp: '« trouver l\'équilibre hybride adapté à chaque secteur » = solution recommandée.' },
+    { q: "[Même texte] Quel événement est à l'origine du développement du télétravail mentionné ?", opts: ['Une loi de 2018', 'La crise de 2020', 'Une grève des transports', 'La numérisation des entreprises'], ans: 1, exp: '« Depuis 2020 » fait référence implicite à la crise sanitaire (Covid-19).' },
+
+    // ── Texte 2 : Lettre de réclamation (Q7–Q10) ──
+    { q: "Lisez cette lettre :\n« Madame, Monsieur,\nJe vous contacte suite à ma commande n°48291 du 3 novembre. J'ai reçu un colis contenant une lampe de bureau dont le pied était cassé, alors que l'emballage extérieur ne présentait aucune trace de choc. Je demande, dans les meilleurs délais, soit le remplacement de l'article, soit le remboursement intégral (67,90 €). Je reste disponible pour vous envoyer des photos. Cordialement, Mme Dupont »\n\nPourquoi Mme Dupont écrit-elle ?", opts: ['Pour annuler une commande', 'Pour passer une nouvelle commande', 'Pour signaler un produit défectueux', 'Pour demander un catalogue'], ans: 2, exp: 'Elle écrit pour se plaindre d\'un article endommagé reçu — c\'est une lettre de réclamation.' },
+    { q: "[Même lettre] Quel est l'article concerné ?", opts: ['Un écran d\'ordinateur', 'Une chaise de bureau', 'Une lampe de bureau', 'Une armoire'], ans: 2, exp: '« une lampe de bureau dont le pied était cassé ».' },
+    { q: "[Même lettre] Que propose Mme Dupont comme preuve ?", opts: ['Retourner le colis', 'Témoigner par téléphone', 'Envoyer des photos', 'Apporter l\'article en magasin'], ans: 2, exp: '« Je reste disponible pour vous envoyer des photos » — elle propose des photos comme preuve.' },
+    { q: "[Même lettre] Quel montant demande-t-elle en cas de remboursement ?", opts: ['48,91 €', '79,60 €', '67,90 €', '90,67 €'], ans: 2, exp: '« le remboursement intégral (67,90 €) » — c\'est le montant exact indiqué dans la lettre.' },
+
+    // ── Grammaire B1 (Q11–Q22) ──
+    { q: "Subjonctif présent : « Il faut que tu ___ à l\'heure. » (venir)", opts: ['viens', 'viendras', 'viendrais', 'viennes'], ans: 3, exp: 'Subjonctif présent de « venir » : que je vienne, que tu viennes, qu\'il vienne... (radical + -e, -es, -e, -ions, -iez, -ent).' },
+    { q: "Conditionnel passé : « Si j\'avais su, je n\'___ pas accepté. » (avoir)", opts: ['aurais', 'ai', 'aurai', 'avais'], ans: 0, exp: 'Hypothèse irréelle dans le passé : si + plus-que-parfait → conditionnel passé (aurais + participe passé).' },
+    { q: "Voix passive : « Le directeur a signé le contrat. » →", opts: ['Le contrat est signé du directeur.', 'Le contrat avait été signé par le directeur.', 'Le contrat a été signé par le directeur.', 'Le contrat fut signé par le directeur.'], ans: 2, exp: 'Passé composé actif → passé composé passif : a été + participe passé + par + agent.' },
+    { q: "Plus-que-parfait : « Quand je suis arrivé, elle ___ déjà. » (partir)", opts: ['est partie', 'sera partie', 'partait', 'était partie'], ans: 3, exp: 'Action antérieure à une autre dans le passé → plus-que-parfait : était + participe passé.' },
+    { q: "Marqueur de concession + subjonctif : « ___ il soit riche, il n\'est pas heureux. »", opts: ['Même si', 'Cependant', 'Pourtant', 'Bien que'], ans: 3, exp: '« Bien que » est suivi du subjonctif. « Même si » est suivi de l\'indicatif.' },
+    { q: "Discours indirect : « Elle m\'a demandé ___ j\'avais compris. »", opts: ['que', 'est-ce que', 'quoi', 'si'], ans: 3, exp: 'Question indirecte de type oui/non → « si ». « Si » remplace « est-ce que » en discours indirect.' },
+    { q: "Accord du pronom : « ___ les filles étaient présentes. »", opts: ['Tout', 'Tous', 'Toutes', 'Toute'], ans: 2, exp: '« Tout » s\'accorde en genre et nombre avec le nom : « toutes les filles » (féminin pluriel).' },
+    { q: "Gérondif : « Elle chante ___ faisant la vaisselle. »", opts: ['lors de', 'après', 'pendant', 'en'], ans: 3, exp: 'Le gérondif se forme avec « en + participe présent » : en faisant. Exprime la simultanéité.' },
+    { q: "Négation de « quelqu\'un » : « ___ n\'est venu. »", opts: ['Aucun', 'Nul', 'Personne', 'Pas quelqu\'un'], ans: 2, exp: '« Personne » est le contraire de « quelqu\'un ». Structure : Personne ne + verbe.' },
+    { q: "Pronom relatif : « C\'est un problème ___ il faudra trouver une solution. »", opts: ['dont', 'duquel', 'que', 'auquel'], ans: 3, exp: '« Trouver une solution à un problème » → « auquel » (à + lequel). Remplace un complément indirect avec « à ».' },
+    { q: "Futur dans une subordonnée : « Je ne sais pas s\'il ___ demain. » (venir)", opts: ['vient', 'viendra', 'vienne', 'viendrait'], ans: 1, exp: 'Dans une interrogative indirecte, le futur se maintient : je ne sais pas s\'il viendra.' },
+    { q: "Style indirect passé : « Il a dit : \'Je partirai demain.\' » →", opts: ['Il a dit qu\'il partira demain.', 'Il a dit qu\'il partirait le lendemain.', 'Il a dit qu\'il est parti le lendemain.', 'Il a dit qu\'il parte le lendemain.'], ans: 1, exp: 'Discours indirect passé : futur → conditionnel présent ; demain → le lendemain.' },
+
+    // ── Vocabulaire B1 (Q23–Q30) ──
+    { q: "« Mettre les pieds dans le plat » signifie :", opts: ['Manger sans couverts', 'Rentrer à la maison', 'Dire maladroitement quelque chose de gênant', 'Faire une erreur de calcul'], ans: 2, exp: 'Expression idiomatique : dire quelque chose de choquant ou maladroit en public, sans le faire exprès.' },
+    { q: "« Faire des démarches » = :", opts: ['Se promener en ville', 'Travailler dur physiquement', 'Chercher activement un emploi', 'Effectuer des formalités administratives'], ans: 3, exp: '« Faire des démarches » = effectuer des procédures administratives (dossier, demande, formulaire...).' },
+    { q: "« La conjoncture économique » désigne :", opts: ['Une loi fiscale spécifique', 'Un type de contrat commercial', 'Un organisme de régulation', 'La situation économique à un moment donné'], ans: 3, exp: 'La conjoncture = l\'ensemble des conditions économiques actuelles (croissance, chômage, inflation...).' },
+    { q: "« Il a pris ses distances » signifie :", opts: ['Il a mesuré un trajet', 'Il a calculé une distance', 'Il est parti très loin', 'Il s\'est éloigné volontairement de quelqu\'un'], ans: 3, exp: 'Expression figurée : prendre ses distances = s\'éloigner volontairement, réduire les contacts.' },
+    { q: "« Remettre en cause » = :", opts: ['Confirmer définitivement', 'Réparer un objet cassé', 'Rembourser une dette', 'Questionner la validité de quelque chose'], ans: 3, exp: '« Remettre en cause » = questionner, reconsidérer. Ex : Cet échec remet en cause toute notre stratégie.' },
+    { q: "« Un enjeu » dans un débat, c\'est :", opts: ['Un argument fallacieux', 'Un point de désaccord mineur', 'Une conclusion hâtive', 'Ce qui est en jeu, l\'importance d\'une question'], ans: 3, exp: 'Un enjeu = ce qui peut être gagné ou perdu, ce qui est important dans une situation.' },
+    { q: "« À l\'instar de » signifie :", opts: ['Contrairement à', 'En dépit de', 'À cause de', 'À la manière de, comme'], ans: 3, exp: '« À l\'instar de » = de la même manière que, comme. Ex : À l\'instar de la France, l\'Espagne a réformé ses retraites.' },
+    { q: "Le mot « bénévole » désigne :", opts: ['Un employé bien payé', 'Un professionnel libéral', 'Un travailleur qui agit gratuitement par conviction', 'Un fonctionnaire en congé'], ans: 2, exp: 'Bénévole = qui fait un travail sans être rémunéré, par générosité ou conviction. Ex : bénévole dans une association.' },
+  ]
+},
+
+// ══════════════════════════════════════════════
+// B2 — Évaluation complète avancée (30 questions)
+// ══════════════════════════════════════════════
+{
+  id: 'b2-complet', level: 'B2', color: '#ef4444', badge: '🎓',
+  title: 'Niveau B2 — Test complet', title_sub: 'Lecture · Grammaire · Vocabulaire',
+  duration: 2100,
+  questions: [
+
+    // ── Texte 1 : Article — IA et emploi (Q1–Q6) ──
+    { q: "Lisez ce texte :\n« L'irruption de l'intelligence artificielle générative suscite des réactions contrastées. Les optimistes y voient un levier de productivité, libérant les travailleurs des tâches répétitives et chronophages. Les sceptiques redoutent une vague de destructions d'emplois touchant désormais les professions intellectuelles, jusqu'alors considérées comme imperméables à l'automatisation. La réalité est plus nuancée : si certaines fonctions disparaîtront, d'autres se transformeront, tandis que de nouveaux métiers émergeront. L'enjeu central réside dans la capacité des systèmes éducatifs à accompagner ces mutations avec la rapidité qu'elles exigent. »\n\nQue signifie « chronophages » dans ce texte ?", opts: ['Très dangereuses', 'Très mal payées', 'Qui consomment beaucoup de temps', 'Qui nécessitent beaucoup d\'énergie'], ans: 2, exp: 'Du grec « chronos » (temps) + « phage » (qui mange) : qui consomme beaucoup de temps. Ex : Les réunions sont souvent chronophages.' },
+    { q: "[Même texte] Que craignent les « sceptiques » ?", opts: ['Une augmentation des impôts', 'Des destructions d\'emplois touchant aussi les métiers intellectuels', 'Une baisse de productivité', 'Un retard technologique par rapport aux États-Unis'], ans: 1, exp: '« Les sceptiques redoutent une vague de destructions d\'emplois touchant... les professions intellectuelles. »' },
+    { q: "[Même texte] Que signifie « imperméables à l'automatisation » ?", opts: ['Déjà entièrement automatisés', 'Faciles à automatiser', 'Qui favorisent l\'automatisation', 'À l\'abri de l\'automatisation'], ans: 3, exp: '« Imperméable à » = qui n\'est pas affecté par. Ces professions étaient considérées comme non-automatisables.' },
+    { q: "[Même texte] Quelle vision l'auteur défend-il ?", opts: ['L\'IA va tout détruire', 'L\'IA est sans danger', 'La réalité est nuancée : pertes, transformations et créations', 'Il faut réguler l\'IA immédiatement'], ans: 2, exp: '« La réalité est plus nuancée » — l\'auteur adopte une position équilibrée entre les deux extrêmes.' },
+    { q: "[Même texte] Quel est le défi central selon l'auteur ?", opts: ['Réguler les grandes entreprises technologiques', 'Réduire les coûts de production', 'Créer de nouvelles lois fiscales', 'Adapter les systèmes éducatifs à la vitesse des mutations'], ans: 3, exp: '« L\'enjeu central réside dans la capacité des systèmes éducatifs à accompagner ces mutations. »' },
+    { q: "[Même texte] Quel type d'IA est mentionné dans l'article ?", opts: ['IA robotique', 'IA analytique', 'IA générative', 'IA prédictive'], ans: 2, exp: '« l\'intelligence artificielle générative » — ex : ChatGPT, Claude, Gemini.' },
+
+    // ── Texte 2 : Extrait littéraire (Q7–Q10) ──
+    { q: "Lisez cet extrait :\n« Il y avait dans le bureau de son père une photo qu\'Antoine regardait souvent sans jamais vraiment la voir. C\'était une photo en noir et blanc représentant un homme jeune debout devant une voiture ancienne. L\'homme souriait — un sourire rare, pensa Antoine, qu\'il ne reconnaissait pas. Ce père-là, insouciant aux cheveux longs, ne ressemblait en rien au père qu\'il avait connu : sévère, taciturne, occupé. Peut-être y avait-il eu un moment décisif qui avait effacé ce sourire. Antoine referma le tiroir lentement. »\n\nComment Antoine regardait-il habituellement cette photo ?", opts: ['Avec nostalgie', 'Avec admiration', 'Sans vraiment la voir', 'Avec curiosité intense'], ans: 2, exp: '« regardait souvent sans jamais vraiment la voir » — il la voyait sans la regarder vraiment.' },
+    { q: "[Même extrait] Quel adjectif NE décrit PAS le père tel qu\'Antoine le connaît ?", opts: ['Sévère', 'Taciturne', 'Insouciant', 'Occupé'], ans: 2, exp: '« Insouciant » décrit le père sur la photo (jeune), PAS le père qu\'Antoine a connu (sévère, taciturne, occupé).' },
+    { q: "[Même extrait] Que signifie « taciturne » ?", opts: ['Agressif et impulsif', 'Distrait et rêveur', 'Très bavard', 'Peu communicatif, silencieux'], ans: 3, exp: 'Taciturne = qui parle peu, qui garde le silence. Contraire : loquace, bavard.' },
+    { q: "[Même extrait] Quelle hypothèse Antoine formule-t-il ?", opts: ['Que son père a toujours été sévère', 'Que la photo est truquée', 'Qu\'un moment décisif a changé son père', 'Que son père ne souriait jamais'], ans: 2, exp: '« Peut-être y avait-il eu un moment décisif qui avait effacé ce sourire » — Antoine suppose qu\'un événement a changé son père.' },
+
+    // ── Grammaire B2 (Q11–Q22) ──
+    { q: "Subjonctif passé : « Je doute qu\'il ___ la vérité. » (dire)", opts: ['a dit', 'disait', 'aurait dit', 'ait dit'], ans: 3, exp: 'Après un verbe de doute + que → subjonctif passé : que + auxiliaire (subj.) + participe passé. ait dit.' },
+    { q: "Style indirect passé : « Il a dit : \'Je viendrai demain.\' » →", opts: ['Il a dit qu\'il viendra demain.', 'Il a dit qu\'il vienne le lendemain.', 'Il a dit qu\'il viendrait le lendemain.', 'Il a dit qu\'il est venu le lendemain.'], ans: 2, exp: 'Futur → conditionnel présent ; demain → le lendemain (en discours indirect au passé).' },
+    { q: "Concordance des temps : « Je pensais que tu ___ déjà parti. »", opts: ['es', 'sois', 'seras', 'étais'], ans: 3, exp: 'Verbe principal au passé (pensais) → subordonnée à l\'imparfait pour un état simultané : étais.' },
+    { q: "Conditionnel journalistique : « Le président ___ envisager une réforme. »", opts: ['envisage', 'envisagea', 'envisageait', 'envisagerait'], ans: 3, exp: 'Le conditionnel présent peut exprimer une information non confirmée (usage journalistique) : envisagerait.' },
+    { q: "Accord du participe avec « faire » causatif : « La maison qu\'il a fait ___ » (construire)", opts: ['construite', 'construites', 'construit', 'construire'], ans: 2 , exp: 'Avec « faire » + infinitif, le participe passé de « faire » est INVARIABLE : il a fait construire → qu\'il a fait construire.' },
+    { q: "Subjonctif ou indicatif ? « Je crois qu\'il ___ raison. »", opts: ['ait', 'aie', 'aurait', 'a'], ans: 3, exp: '« Croire que » affirmatif → indicatif. « Ne pas croire que / douter que » → subjonctif.' },
+    { q: "Mise en relief : « ___ lui qui a trouvé la solution. »", opts: ['Lui est', 'Il est', 'C\'était', 'C\'est'], ans: 3, exp: 'Mise en relief au présent : C\'est + pronom tonique + qui/que. Ex : C\'est lui qui a trouvé, c\'est toi que j\'aime.' },
+    { q: "Pronom « en » : « Il nous a parlé de ses projets. » →", opts: ['Il les nous a présentés.', 'Il lui en a parlé.', 'Il nous en a parlé.', 'Il en nous a parlé.'], ans: 2, exp: '« En » remplace « de ses projets ». Ordre des pronoms : COI (nous) avant « en ». Il nous en a parlé.' },
+    { q: "Valeur du conditionnel : « Vous devriez relire votre copie. » exprime :", opts: ['Une condition irréelle', 'Un ordre ferme', 'Un désir impossible', 'Un conseil atténué'], ans: 3, exp: 'Le conditionnel dans cette structure (devoir au conditionnel) exprime un conseil poli/atténué.' },
+    { q: "Connecteur de concession en registre soutenu + subjonctif :", opts: ['Cependant', 'Néanmoins', 'Quoique', 'Pourtant'], ans: 2, exp: '« Quoique » + subjonctif = bien que. Ex : Quoiqu\'il soit tard, je continuerai. Les autres ne sont pas suivis du subjonctif.' },
+    { q: "Hypothèse avec une nuance d\'insistance : « ___ tu m\'expliques, je ne comprends toujours pas. »", opts: ['Si', 'Même si', 'Quand bien même', 'Bien que'], ans: 2, exp: '« Quand bien même » = même si (très insistant, registre soutenu). Ex : Quand bien même tu insisterais, je refuserais.' },
+    { q: "Nominalisation de « décider de partir » →", opts: ['La décision que partir', 'Le fait que partir', 'La décision de partir', 'Partir est décidé'], ans: 2, exp: 'Nominalisation : verbe → nom. Décider de → la décision de (+ infinitif). Ex : la décision de partir, le désir de réussir.' },
+
+    // ── Vocabulaire B2 (Q23–Q30) ──
+    { q: "« Ostensiblement » signifie :", opts: ['Discrètement, sans se montrer', 'Rapidement et efficacement', 'Avec difficulté', 'De façon visible, pour être remarqué'], ans: 3, exp: 'Ostensiblement = de manière à être bien vu, de façon démonstrative. Ex : Il bâillait ostensiblement pendant la réunion.' },
+    { q: "« Exacerber » un conflit, c\'est :", opts: ['Le résoudre définitivement', 'L\'analyser objectivement', 'L\'intensifier, l\'aggraver'], ans: 2, exp: 'Exacerber = rendre plus intense, aggraver. Ex : Ces mesures risquent d\'exacerber les tensions sociales.' },
+    { q: "Un « pis-aller », c\'est :", opts: ['Un choix idéal', 'Une bonne alternative', 'Un problème sans solution', 'Une solution de dernier recours, faute de mieux'], ans: 3, exp: 'Un pis-aller = ce à quoi on a recours faute de mieux. Ex : Ce compromis est un pis-aller, mais il évitera le conflit.' },
+    { q: "« Susciter l\'adhésion » = :", opts: ['Créer de la confusion', 'Provoquer de l\'opposition', 'Interdire la participation', 'Obtenir l\'accord et le soutien'], ans: 3, exp: 'Susciter = provoquer, créer. Adhésion = accord, soutien. Ex : Ce projet a suscité l\'adhésion de tous les partenaires.' },
+    { q: "L\'« hégémonie » d\'un État désigne :", opts: ['Sa forme de gouvernement démocratique', 'Ses richesses naturelles', 'Un traité international équilibré', 'Sa domination sur les autres États ou groupes'], ans: 3, exp: 'Hégémonie = domination, suprématie. Ex : L\'hégémonie américaine dans l\'ordre mondial de l\'après-guerre.' },
+    { q: "Une idée « prégnante » est une idée :", opts: ['Ancienne et dépassée', 'Contredite par les faits', 'Superficielle', 'Qui s\'impose fortement à l\'esprit'], ans: 3, exp: 'Prégnant = qui s\'impose avec force à l\'esprit, marquant. Ex : Une image prégnante, une atmosphère prégnante.' },
+    { q: "« Par voie de conséquence » est synonyme de :", opts: ['Cependant', 'En revanche', 'Malgré tout', 'C\'est pourquoi / donc'], ans: 3, exp: '« Par voie de conséquence » = donc, c\'est pourquoi, en conséquence. Exprime la conséquence logique.' },
+    { q: "Dans le registre soutenu, « nonobstant » équivaut à :", opts: ['Grâce à', 'En raison de', 'En vue de', 'Malgré, en dépit de'], ans: 3, exp: '« Nonobstant » (registre juridique/soutenu) = malgré, en dépit de. Ex : Nonobstant les difficultés, il a réussi.' },
+  ]
+},
+
 ];
 
 
@@ -417,6 +398,8 @@ var timerInt     = null;
 var timeLeft     = 0;
 var timeUsed     = 0;
 var answered     = false;
+var shuffledAnswers = [];
+var shuffledOptsArr = [];
 var scores       = JSON.parse(localStorage.getItem('fg_test_scores') || '{}');
 
 // ── Level colors ──
@@ -471,7 +454,7 @@ function startTest(id) {
   currentTest = TESTS.find(function(t){ return t.id === id; });
   if (!currentTest) return;
   currentQIdx = 0;
-  answers = [];
+  answers = []; shuffledAnswers = []; shuffledOptsArr = [];
   timeLeft = currentTest.duration;
   timeUsed = 0;
   answered = false;
@@ -515,10 +498,25 @@ function autoFinish() {
 }
 
 // ── Render question ──
+function shuffleArr(a) {
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
 function renderQuestion() {
   var q = currentTest.questions[currentQIdx];
   var total = currentTest.questions.length;
   answered = false;
+  // Shuffle options while tracking correct answer
+  var correctOpt = q.opts[q.ans];
+  var shuffledOpts = shuffleArr(q.opts.slice());
+  var shuffledAns = shuffledOpts.indexOf(correctOpt);
+  currentShuffledAns = shuffledAns;
+  shuffledAnswers[currentQIdx] = shuffledAns;
+  shuffledOptsArr[currentQIdx] = shuffledOpts.slice();
 
   document.getElementById('q-counter').textContent = 'Question ' + (currentQIdx + 1) + ' / ' + total;
   document.getElementById('q-prog').style.width = (currentQIdx / total * 100) + '%';
@@ -527,7 +525,7 @@ function renderQuestion() {
   document.getElementById('q-exp').className = 'exp-box';
   document.getElementById('q-next').className = 'next-btn';
 
-  var optsHtml = q.opts.map(function(opt, i) {
+  var optsHtml = shuffledOpts.map(function(opt, i) {
     return '<button class="opt-btn" onclick="selectOpt(' + i + ')" id="opt-' + i + '">' + opt + '</button>';
   }).join('');
   document.getElementById('q-opts').innerHTML = optsHtml;
@@ -543,8 +541,8 @@ function selectOpt(idx) {
   for (var i = 0; i < q.opts.length; i++) {
     var btn = document.getElementById('opt-' + i);
     btn.disabled = true;
-    if (i === q.ans) btn.classList.add('correct');
-    else if (i === idx && idx !== q.ans) btn.classList.add('wrong');
+    if (i === currentShuffledAns) btn.classList.add('correct');
+    else if (i === idx && idx !== currentShuffledAns) btn.classList.add('wrong');
   }
 
   // Show explanation
@@ -605,12 +603,13 @@ function showResult() {
   var corrHtml = '<div class="corr-title">📋 Corrections détaillées</div>';
   currentTest.questions.forEach(function(q, i) {
     var ua = answers[i];
-    var ok = ua === q.ans;
+    var sa = (shuffledAnswers[i] !== undefined) ? shuffledAnswers[i] : q.ans;
+    var ok = ua === sa;
     corrHtml += '<div class="corr-item ' + (ok ? 'corr-ok' : 'corr-ko') + '">'
       + '<div class="corr-q">' + (i+1) + '. ' + q.q + '</div>'
-      + (!ok && ua >= 0 ? '<div class="corr-user" style="color:#ef4444">❌ Votre réponse : ' + q.opts[ua] + '</div>' : '')
+      + (!ok && ua >= 0 ? '<div class="corr-user" style="color:#ef4444">❌ Votre réponse : ' + (shuffledOptsArr[i] ? shuffledOptsArr[i][ua] : q.opts[ua]) + '</div>' : '')
       + (ua === -1 ? '<div class="corr-user" style="color:#9ca3af">— Sans réponse (temps écoulé)</div>' : '')
-      + '<div class="corr-ans">✅ ' + q.opts[q.ans] + '</div>'
+      + '<div class="corr-ans">✅ ' + (shuffledOptsArr[i] ? shuffledOptsArr[i][sa] : q.opts[q.ans]) + '</div>'
       + '<div class="corr-exp">💡 ' + q.exp + '</div>'
       + '</div>';
   });

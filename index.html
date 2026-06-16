@@ -1937,7 +1937,7 @@
 /* ══════════════════════════════════════
    FREEMIUM CONFIG  ← modifiez ici !
 ══════════════════════════════════════ */
-const FREE_LESSONS  = [0, 1, 2, 3, 4, 5, 6, 11, 12, 35, 65, 68]; // IDs des leçons gratuites
+const FREE_LESSONS  = [75, 0, 1, 2, 3, 4, 5, 6, 11, 12, 35, 65, 68]; // IDs des leçons gratuites
 const UNLOCK_CODE_HASH = '9b603d420459bde57879ed37f77899dd9ebfe468709a5153a5558bde5bf3e8cf'; // SHA-256 du code
 const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld'; // purchase page — web only, not shown in TWA app
 
@@ -7207,6 +7207,7 @@ const T = {
    CHINESE CONTENT & TITLES
 ══════════════════════════════════════ */
 const TITLES_ZH = {
+  75:{title:'发音基础',desc:'字母表、元音、字母组合与连诵'},
   0:{title:'问候语',desc:'你好，再见，谢谢…'},
   1:{title:'数字 1–20',desc:'轻松用法语数数'},
   2:{title:'颜色',desc:'红色、蓝色、绿色…及变形'},
@@ -7273,6 +7274,11 @@ const TITLES_ZH = {
   62:{title:'代词式动词',desc:'Se lever, s\'appeler, se coucher…'},
   63:{title:'副词',desc:'构成与使用法语副词'},
   64:{title:'Pouvoir/Vouloir/Devoir',desc:'三个核心情态动词'},
+  65:{title:'现在时 — 第一组动词',desc:'掌握-ER动词的现在时变位'},
+  66:{title:'形容词的性数配合',desc:'阴阳性与单复数的配合规则'},
+  67:{title:'填空 — 介词练习',desc:'掌握地点、时间与方向介词'},
+  68:{title:'逻辑连词 — 递进与转折',desc:'de plus、cependant、en revanche…'},
+  69:{title:'逻辑连词 — 因果关系',desc:'car、donc、par conséquent…'},
   70:{title:'虚拟式过去时',desc:'表达过去的假设与情感'},
   71:{title:'法语惯用表达',desc:'掌握地道的法语日常表达'},
   72:{title:'高级否定句',desc:'ne…que、ne…aucun、ne…nulle part等'},
@@ -7280,6 +7286,66 @@ const TITLES_ZH = {
   74:{title:'修辞手法',desc:'比喻、夸张、拟人与反语'},
 };
 const CONTENT_ZH = {
+  75:`<h2>🔤 发音基础</h2>
+<p>学说法语之前，先了解法语的发音规则。本课覆盖字母表、重音符号、鼻化元音、常见字母组合和联诵规则。</p>
+
+<h3>1. 法语字母表（26个字母）</h3>
+<table class="vocab-table">
+<tr><th>字母</th><th>发音名称</th><th>例词</th></tr>
+<tr><td>A a</td><td>[a]</td><td><strong>a</strong>mi（朋友）</td></tr>
+<tr><td>C c</td><td>[se]</td><td><strong>c</strong>hat[ʃa]（猫），<strong>c</strong>iel[sjɛl]（天空）</td></tr>
+<tr><td>E e</td><td>[ə]</td><td>词末常不发音：tabl<u>e</u>，或发轻音</td></tr>
+<tr><td>G g</td><td>[ʒe]</td><td><strong>g</strong>are[gar]（硬音），<strong>g</strong>irafe[ʒiraf]（软音）</td></tr>
+<tr><td>H h</td><td>[aʃ]</td><td>永远不发音——分"哑H"（可联诵）和"浊H"（不联诵）</td></tr>
+<tr><td>R r</td><td>[ɛʁ]</td><td>喉音，在喉咙深处发出（类似轻漱口）</td></tr>
+<tr><td>U u</td><td>[y]</td><td>lune[lyn]——嘴唇圆，发"衣"音！英语中没有此音</td></tr>
+</table>
+
+<h3>2. 重音符号</h3>
+<table class="vocab-table">
+<tr><th>符号</th><th>字母</th><th>发音</th><th>例词</th></tr>
+<tr><td>急重音（aigu）</td><td>é</td><td>[e] 闭口</td><td>café, été</td></tr>
+<tr><td>沉重音（grave）</td><td>è, à, ù</td><td>[ɛ] 开口</td><td>mère, à, où</td></tr>
+<tr><td>扬抑符（circonflexe）</td><td>â ê î ô û</td><td>稍微拉长</td><td>fête, hôtel</td></tr>
+<tr><td>软音符（cédille）</td><td>ç</td><td>[s]（在a/o/u前）</td><td>français, garçon</td></tr>
+<tr><td>分音符（tréma）</td><td>ë, ï, ü</td><td>两个元音分开发</td><td>Noël, naïf</td></tr>
+</table>
+
+<h3>3. 鼻化元音</h3>
+<table class="vocab-table">
+<tr><th>拼写</th><th>音标</th><th>例词</th></tr>
+<tr><td>an / am / en / em</td><td>[ɑ̃]</td><td>enfant（孩子），temps（时间）</td></tr>
+<tr><td>on / om</td><td>[ɔ̃]</td><td>maison（房子），bombe（炸弹）</td></tr>
+<tr><td>in / im / ain / ein</td><td>[ɛ̃]</td><td>vin（酒），main（手）</td></tr>
+<tr><td>un / um</td><td>[œ̃]</td><td>un（一），parfum（香水）</td></tr>
+</table>
+<div class="tip-box"><strong>⚠️ 注意：</strong>若鼻化元音后跟另一个元音或双写n/m，则不鼻化。如：anneau[ano]，immense[imɑ̃s]。</div>
+
+<h3>4. 常见字母组合</h3>
+<table class="vocab-table">
+<tr><th>字母组合</th><th>发音</th><th>例词</th></tr>
+<tr><td>ch</td><td>[ʃ] 类似英语"sh"</td><td>chat（猫），cheval（马）</td></tr>
+<tr><td>ou</td><td>[u] 类似英语"oo"</td><td>rouge（红色），tout（所有）</td></tr>
+<tr><td>eau / au</td><td>[o] 闭口"哦"</td><td>beau（美丽），chaud（热）</td></tr>
+<tr><td>ai / ei</td><td>[ɛ] 开口"哎"</td><td>maison（房子），neige（雪）</td></tr>
+<tr><td>oi</td><td>[wa]</td><td>moi（我），voiture（汽车）</td></tr>
+<tr><td>eu / œu</td><td>[ø] 或 [œ]</td><td>feu（火），cœur（心）</td></tr>
+<tr><td>gn</td><td>[ɲ] 类似西班牙语"ñ"</td><td>montagne（山），vigne（葡萄藤）</td></tr>
+<tr><td>ph</td><td>[f]</td><td>photo（照片），téléphone（电话）</td></tr>
+<tr><td>qu</td><td>[k]</td><td>qui（谁），quand（何时）</td></tr>
+<tr><td>th</td><td>[t]</td><td>théâtre（剧院），thé（茶）</td></tr>
+</table>
+
+<h3>5. 联诵与省音</h3>
+<table class="vocab-table">
+<tr><th>规则</th><th>例子</th><th>发音</th></tr>
+<tr><td>必须联诵</td><td>les_enfants</td><td>[lezɑ̃fɑ̃]</td></tr>
+<tr><td>必须联诵</td><td>nous_avons</td><td>[nuzavɔ̃]</td></tr>
+<tr><td>省音（le/la→l\'）</td><td>l\'ami, l\'école</td><td>[lami], [lekɔl]</td></tr>
+<tr><td>哑H→可联诵</td><td>les_hôtels</td><td>[lezotɛl]</td></tr>
+<tr><td>浊H→不联诵</td><td>les / haricots</td><td>[le aʁiko]</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>法语词末辅音通常不发音：par<u>t</u>、gran<u>d</u>、tro<u>p</u>。例外记忆口诀：CaReFuL（C、R、F、L在词末通常发音）。</div>`,
   0:`<h2>🤝 问候语</h2>
 <p>问候语是法语对话的基础。以下是最重要的表达！</p>
 <h3>基本问候</h3>
@@ -8842,8 +8908,184 @@ const CONTENT_ZH = {
 <tr><td>Je voudrais réserver.</td><td>我想预订。</td></tr>
 <tr><td>Vous devez remplir ce formulaire.</td><td>您必须填写这份表格。</td></tr>
 </table>`,
+  65:`<h2>🔤 现在时 — 第一组动词（-ER）</h2>
+<p>法语<strong>第一组动词</strong>（原形以<strong>-ER</strong>结尾）数量最多，全部遵循相同的变位规则。</p>
+<h3>现在时词尾</h3>
+<table class="vocab-table">
+<tr><th>主语</th><th>词尾</th><th>例：parler（说）</th></tr>
+<tr><td>je</td><td>-e</td><td>je parle</td></tr>
+<tr><td>tu</td><td>-es</td><td>tu parles</td></tr>
+<tr><td>il / elle / on</td><td>-e</td><td>il parle</td></tr>
+<tr><td>nous</td><td>-ons</td><td>nous parlons</td></tr>
+<tr><td>vous</td><td>-ez</td><td>vous parlez</td></tr>
+<tr><td>ils / elles</td><td>-ent</td><td>ils parlent</td></tr>
+</table>
+<h3>常见第一组动词</h3>
+<table class="vocab-table">
+<tr><td>parler</td><td>说话</td></tr>
+<tr><td>manger</td><td>吃</td></tr>
+<tr><td>aimer</td><td>喜欢 / 爱</td></tr>
+<tr><td>travailler</td><td>工作</td></tr>
+<tr><td>habiter</td><td>居住</td></tr>
+<tr><td>écouter</td><td>听</td></tr>
+<tr><td>regarder</td><td>看 / 观看</td></tr>
+<tr><td>chanter</td><td>唱歌</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>去掉原形词尾<strong>-ER</strong>得词干，再加词尾：-e, -es, -e, -ons, -ez, -ent。</div>
+<div class="example-box">Parler → <strong>parl</strong> + e → je parle<br>Manger → nous mang<strong>e</strong>ons（-ons前保留-e-！）</div>`,
+  66:`<h2>🔤 形容词的性数配合</h2>
+<p>法语形容词需与所修饰的名词在<strong>性别</strong>（阴性/阳性）和<strong>数</strong>（单数/复数）上保持一致。</p>
+<h3>基本规则</h3>
+<table class="vocab-table">
+<tr><th>形式</th><th>规则</th><th>例子</th></tr>
+<tr><td>阳性单数</td><td>基本形式</td><td>un livre <strong>intéressant</strong></td></tr>
+<tr><td>阴性单数</td><td>加 -e</td><td>une histoire <strong>intéressante</strong></td></tr>
+<tr><td>阳性复数</td><td>加 -s</td><td>des livres <strong>intéressants</strong></td></tr>
+<tr><td>阴性复数</td><td>加 -es</td><td>des histoires <strong>intéressantes</strong></td></tr>
+</table>
+<h3>不规则变化</h3>
+<table class="vocab-table">
+<tr><th>规律</th><th>阳性</th><th>阴性</th></tr>
+<tr><td>-eux / -euse</td><td>heureux</td><td>heureuse</td></tr>
+<tr><td>-if / -ive</td><td>actif</td><td>active</td></tr>
+<tr><td>-eau / -elle</td><td>beau</td><td>belle</td></tr>
+<tr><td>-al / -aux</td><td>national</td><td>nationale</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>若阳性形容词本已以-e结尾（如 <em>jeune</em>、<em>rouge</em>），阴性形式不变！</div>
+<div class="example-box">Un homme <strong>grand</strong> → une femme <strong>grande</strong><br>Un film <strong>nouveau</strong> → des films <strong>nouveaux</strong></div>`,
+  67:`<h2>🔤 介词 — 填空练习</h2>
+<p>介词用于连接词语，表示<strong>地点</strong>、<strong>时间</strong>、<strong>方向</strong>或<strong>方式</strong>关系。</p>
+<h3>地点介词</h3>
+<table class="vocab-table">
+<tr><td>à</td><td>在 / 去（城市）</td><td>Je suis à Paris。</td></tr>
+<tr><td>de</td><td>来自 / 属于</td><td>Il vient de Lyon。</td></tr>
+<tr><td>en</td><td>在（阴性国家）</td><td>Elle habite en France。</td></tr>
+<tr><td>au / aux</td><td>在（阳性/复数国家）</td><td>Il va au Canada。</td></tr>
+<tr><td>dans</td><td>在…里面</td><td>Le chat est dans la boîte。</td></tr>
+<tr><td>sur</td><td>在…上面</td><td>Le livre est sur la table。</td></tr>
+<tr><td>sous</td><td>在…下面</td><td>Le chien est sous le lit。</td></tr>
+</table>
+<h3>其他常用介词</h3>
+<table class="vocab-table">
+<tr><td>avec</td><td>与…一起</td></tr>
+<tr><td>pour</td><td>为了</td></tr>
+<tr><td>sans</td><td>没有 / 不带</td></tr>
+<tr><td>en</td><td>乘坐（交通工具）</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>阴性国名用 <em>en</em>（en France）；阳性国名用 <em>au</em>（au Japon）；复数国名用 <em>aux</em>（aux États-Unis）。</div>`,
+  68:`<h2>🔗 逻辑连词 — 递进与转折</h2>
+<p>逻辑连词有助于组织论证，使表达更清晰、更有条理。</p>
+<h3>递进连词</h3>
+<table class="vocab-table">
+<tr><th>连词</th><th>含义</th><th>例句</th></tr>
+<tr><td>de plus</td><td>此外 / 而且</td><td>Il travaille dur. De plus, il est talentueux.</td></tr>
+<tr><td>en outre</td><td>另外</td><td>En outre, il parle trois langues.</td></tr>
+<tr><td>également</td><td>同样 / 也</td><td>Elle est également très créative.</td></tr>
+<tr><td>non seulement… mais aussi</td><td>不仅…而且</td><td>Non seulement il chante, mais il danse aussi.</td></tr>
+</table>
+<h3>转折连词</h3>
+<table class="vocab-table">
+<tr><th>连词</th><th>含义</th><th>例句</th></tr>
+<tr><td>cependant</td><td>然而</td><td>Il est riche. Cependant, il n'est pas heureux.</td></tr>
+<tr><td>néanmoins</td><td>尽管如此</td><td>Il était fatigué. Néanmoins, il a continué.</td></tr>
+<tr><td>en revanche</td><td>相反</td><td>Le nord est froid. En revanche, le sud est chaud.</td></tr>
+<tr><td>malgré (+ 名词)</td><td>尽管</td><td>Malgré la pluie, il est sorti.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong><em>De plus</em>、<em>en outre</em> 放句首。<em>Également</em> 通常放在动词前或句末。</div>`,
+  69:`<h2>🔗 逻辑连词 — 因果关系</h2>
+<p>这些连词表达事件的<strong>原因</strong>（为什么）和<strong>结果</strong>（因此）。</p>
+<h3>原因连词</h3>
+<table class="vocab-table">
+<tr><th>连词</th><th>含义</th><th>例句</th></tr>
+<tr><td>car</td><td>因为（书面）</td><td>Il est absent <strong>car</strong> il est malade.</td></tr>
+<tr><td>parce que</td><td>因为</td><td>Je reste <strong>parce qu'</strong>il pleut.</td></tr>
+<tr><td>puisque</td><td>既然 / 由于</td><td><strong>Puisque</strong> tu es là, aide-moi.</td></tr>
+<tr><td>grâce à</td><td>多亏了（正面）</td><td><strong>Grâce à</strong> ton aide, j'ai réussi.</td></tr>
+<tr><td>à cause de</td><td>由于（负面）</td><td><strong>À cause de</strong> la grève, les trains sont bloqués.</td></tr>
+</table>
+<h3>结果连词</h3>
+<table class="vocab-table">
+<tr><th>连词</th><th>含义</th><th>例句</th></tr>
+<tr><td>donc</td><td>所以 / 因此</td><td>Je pense, <strong>donc</strong> je suis.</td></tr>
+<tr><td>par conséquent</td><td>因此 / 结果</td><td>Il a travaillé dur. <strong>Par conséquent</strong>, il a réussi.</td></tr>
+<tr><td>c'est pourquoi</td><td>这就是为什么</td><td>Il pleut. <strong>C'est pourquoi</strong> le match est annulé.</td></tr>
+<tr><td>d'où</td><td>因此 / 所以</td><td>Il ne comprend pas. <strong>D'où</strong> sa confusion.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 关键区别：</strong><em>grâce à</em> = 正面原因（好事），<em>à cause de</em> = 负面或中性原因。</div>`,
+  70:`<h2>🔮 虚拟式过去时</h2>
+<p>虚拟式过去时表达主句动作<strong>之前</strong>已发生的事件，在需要虚拟式的语境中使用。</p>
+<h3>构成方式</h3>
+<table class="vocab-table">
+<tr><th>助动词（虚拟式现在时）</th><th>+ 过去分词</th></tr>
+<tr><td>que j'aie / que je sois</td><td>parlé / parti(e)</td></tr>
+<tr><td>que tu aies / que tu sois</td><td>fini / arrivé(e)</td></tr>
+<tr><td>qu'il ait / qu'il soit</td><td>fait / venu</td></tr>
+</table>
+<h3>主要用法</h3>
+<table class="vocab-table">
+<tr><td>Bien qu'il <strong>soit parti</strong>, elle l'attend.</td><td>虽然他走了，她还在等。</td></tr>
+<tr><td>Je suis content que tu <strong>aies réussi</strong>.</td><td>我很高兴你成功了。</td></tr>
+<tr><td>C'est dommage qu'elle <strong>n'ait pas pu</strong> venir.</td><td>遗憾她没能来。</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>虚拟式过去时 = avoir/être 的虚拟式现在时 + 过去分词。</div>`,
+  71:`<h2>💬 法语惯用表达</h2>
+<p>惯用表达不能按字面直译，是地道法语的关键。</p>
+<h3>日常表达</h3>
+<table class="vocab-table">
+<tr><th>表达</th><th>字面意思</th><th>真正含义</th></tr>
+<tr><td>avoir le cafard</td><td>有蟑螂</td><td>情绪低落</td></tr>
+<tr><td>casser les pieds</td><td>折断脚</td><td>令人厌烦</td></tr>
+<tr><td>avoir du pain sur la planche</td><td>板上有很多面包</td><td>有大量工作要做</td></tr>
+<tr><td>poser un lapin</td><td>放一只兔子</td><td>放鸽子（爽约）</td></tr>
+<tr><td>avoir le coup de foudre</td><td>被闪电击中</td><td>一见钟情</td></tr>
+<tr><td>il pleut des cordes</td><td>绳子在下雨</td><td>下倾盆大雨</td></tr>
+<tr><td>c'est du gâteau</td><td>这是蛋糕</td><td>小菜一碟</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>惯用表达须作为整体记忆，不要逐词翻译。多在语境中积累！</div>`,
+  72:`<h2>🚫 高级否定句</h2>
+<p>除了基本的 ne…pas，法语还有多种复杂否定结构，用于更精准的表达。</p>
+<h3>高级否定词</h3>
+<table class="vocab-table">
+<tr><th>否定词</th><th>含义</th><th>例句</th></tr>
+<tr><td>ne…que</td><td>只有 / 仅仅</td><td>Il ne mange <strong>que</strong> des légumes.（他只吃蔬菜。）</td></tr>
+<tr><td>ne…aucun(e)</td><td>没有任何</td><td>Je n'ai <strong>aucune</strong> idée.（我一点想法都没有。）</td></tr>
+<tr><td>ne…nulle part</td><td>哪里都不</td><td>Il ne va <strong>nulle part</strong>.（他哪里都不去。）</td></tr>
+<tr><td>ne…guère</td><td>几乎不（书面）</td><td>Elle ne dort <strong>guère</strong>.（她几乎不睡觉。）</td></tr>
+<tr><td>ne…ni…ni</td><td>既不…也不</td><td>Il n'aime <strong>ni</strong> le café <strong>ni</strong> le thé.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong><em>ne…que</em> 在意义上是限制（只有），而不是否定——过去分词配合不受其影响。</div>`,
+  73:`<h2>❓ 假设与条件句</h2>
+<p>法语条件句用于表达假设情境及其可能结果。</p>
+<h3>三种条件句</h3>
+<table class="vocab-table">
+<tr><th>类型</th><th>si 从句</th><th>主句</th><th>含义</th></tr>
+<tr><td>可实现（将来）</td><td>现在时</td><td>将来时</td><td>如果…，就…（可能）</td></tr>
+<tr><td>不可实现（现在）</td><td>未完成过去时</td><td>条件式现在时</td><td>如果…，就…（不太可能）</td></tr>
+<tr><td>反事实（过去）</td><td>虚拟过去时</td><td>条件式过去时</td><td>如果当时…，就…（已不可能）</td></tr>
+</table>
+<h3>例句</h3>
+<table class="vocab-table">
+<tr><td>S'il fait beau, nous sortirons.</td><td>如果天气好，我们就出去。（将来可能）</td></tr>
+<tr><td>S'il faisait beau, nous sortirions.</td><td>如果天气好（现在不好），我们就出去。</td></tr>
+<tr><td>S'il avait fait beau, nous serions sortis.</td><td>如果当时天气好，我们就出去了。（过去未发生）</td></tr>
+</table>
+<div class="tip-box"><strong>💡 重要：</strong>si 从句中<strong>永远不用</strong>条件式！si + 条件式 = 常见错误。</div>`,
+  74:`<h2>✍️ 修辞手法</h2>
+<p>修辞手法丰富文学表达，使语言更生动、更有感染力。</p>
+<h3>主要修辞手法</h3>
+<table class="vocab-table">
+<tr><th>手法</th><th>定义</th><th>例子</th></tr>
+<tr><td>比喻（métaphore）</td><td>隐性比较，不用"像"</td><td>La vie est un voyage.（人生是旅程。）</td></tr>
+<tr><td>明喻（comparaison）</td><td>用 comme 或 tel 比较</td><td>Il est fort comme un bœuf.（强壮如牛。）</td></tr>
+<tr><td>拟人（personnification）</td><td>给无生命物体赋予人的特征</td><td>Le vent gémit.（风在呻吟。）</td></tr>
+<tr><td>夸张（hyperbole）</td><td>夸大以强调</td><td>J'ai mille choses à faire.（有千件事要做。）</td></tr>
+<tr><td>反语（ironie）</td><td>说反话表达真实意思</td><td>C'est vraiment brillant !（说的是蠢事）</td></tr>
+<tr><td>排比（anaphore）</td><td>重复词语以增强效果</td><td>Non, non et non !（不，不，绝对不！）</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>法语文学考试常考识别修辞手法。先背定义，再在真实文本中练习辨认。</div>`,
 };
 const QUIZ_ZH = {
+  75:['「ch」在法语中怎么发音？','「eau」这个组合发什么音？','「哑H」在法语中是什么意思？','「ou」在法语中怎么发音？','「an/en」对应哪个鼻化元音？','法语字母「u」怎么发音？','「c」在「e」或「i」前怎么发音？','什么是法语中的「联诵（liaison）」？'],
   0:['"Good morning"用法语怎么说？','哪个表达的意思是"很高兴认识你"？','正式地问"您好吗？"怎么说？','"Salut！"是一种……表达','"À demain"是什么意思？'],
   1:['法语中"8"怎么说？','"quinze"代表哪个数字？','17用字母怎么写？','"Vingt"对应哪个数字？','"11"用法语怎么说？'],
   2:['法语中"黄色"怎么说？','哪种颜色永远不与名词变化？','"blanc"的阴性形式是……','"紫色"用法语怎么说？','"Les voitures sont ___ "（黑色）——哪种形式正确？'],
@@ -8935,6 +9177,16 @@ const QUIZ_ZH = {
     {q:'"She can speak French"法语怎么说？', opts:["Elle veut parler français","Elle doit parler français","Elle peut parler français","Elle parle pouvoir français"], ans:2},
     {q:'"vouloir"第一人称复数哪个正确？', opts:["nous voulons","nous voulez","nous veulent","nous voulont"], ans:0},
   ],
+  65:['请变位"parler" — Je ___ français。','请变位"manger" — Nous ___ au restaurant。','请变位"aimer" — Ils ___ la musique。','请变位"travailler" — Tu ___ beaucoup。','请变位"habiter" — Vous ___ à Paris。','请变位"regarder" — Elle ___ la télévision。','请变位"écouter" — Nous ___ de la musique。','请变位"chanter" — Je ___ sous la pluie。'],
+  66:['选择正确形式：Une maison ___ （grand）。','选择正确形式：Des enfants ___ （heureux）。','选择正确形式：Une femme ___ （beau）。','选择正确形式：Des fleurs ___ （rouge）。','选择正确形式：Un garçon ___ （sérieux）。','选择正确形式：Une fille ___ （actif）。','选择正确形式：Des livres ___ （nouveau）。','选择正确形式：Une histoire ___ （long）。'],
+  67:['Je vais ___ Paris ce weekend。（选介词）','Le livre est ___ la table。（选介词）','Elle vient ___ Canada。（选介词）','Il travaille ___ une banque。（选介词）','Nous partons ___ avion。（选介词）','Le chat est ___ le canapé。（选介词）','Je parle ___ mon ami。（选介词）','Il rentre ___ travail à 18h。（选介词）'],
+  68:['"Il travaille beaucoup. ___，il réussit toujours。"（递进）','"Il fait beau. ___，il reste chez lui。"（转折）','"Elle aime le café. ___，elle en boit cinq par jour。"（递进）','"Il voulait partir. ___，son patron l\'en a empêché。"（转折）','"Le nord est froid. ___，le sud est chaud。"（转折）','"Il est fort en maths. ___，il est bon en langues。"（递进）','"Elle était fatiguée. ___，elle a fini son travail。"（转折）','"Il parle français. ___，il parle espagnol。"（递进）'],
+  69:['"Il est absent ___ il est malade。"（原因）','"Il a beaucoup étudié. ___，il a réussi。"（结果）','"___ tu es là，aide-moi！"（原因）','"Il pleut. ___，le match est annulé。"（结果）','"___ à ton aide，j\'ai réussi。"（正面原因）','"___ de la grève，les transports sont bloqués。"（负面原因）','"Il ne parle pas français. ___，il comprend tout。"（意外结果）','"Je pense. ___，je suis。"（结果）'],
+  70:['虚拟式过去时如何构成？','选择正确形式：Je suis content qu\'elle ___ 。','填写：C\'est dommage qu\'il n\'___ pas fini à temps。','哪个句子使用了虚拟式过去时？','"partir"在虚拟式过去时用哪个助动词？','翻译：I\'m surprised she didn\'t call。'],
+  71:['"avoir le cafard"的意思是……','"il pleut des cordes"的意思是……','"c\'est du gâteau！"表达……','"poser un lapin à quelqu\'un"的意思是……','"avoir le coup de foudre"的意思是……'],
+  72:['以下哪个是"ne...jamais"的正确用法？','"ne...que"表达的是……','"Il ne fume plus"的意思是……','在元音前，"ne"变为……','"Je ___ vois rien"——缺少哪个词？'],
+  73:['以下哪种条件句类型使用"si + 现在时，将来时"？','"S\'il faisait beau"使用了哪种时态？','si从句中能否使用条件式？','补全："Si elle avait su, elle… venue。"','条件式过去时由什么构成？'],
+  74:['以下哪句话是比喻（métaphore）？','明喻（comparaison）使用哪个词？','"Le vent pleurait。"是哪种修辞手法？','"J\'ai mille choses à faire。"是哪种修辞手法？','反语（ironie）的主要特征是什么？'],
 };
 
 const CONTENT_EN = {
@@ -9188,7 +9440,149 @@ const CONTENT_EN = {
    LESSONS DATA
 ══════════════════════════════════════ */
 const LESSONS = [
-  /* ─── 0 ─── */
+  /* ─── 75 ─── */
+  {
+    id:75, level:'beginner',
+    title:'Les bases de la prononciation', title_en:'Pronunciation Basics',
+    desc:'Alphabet, voyelles, combinaisons de lettres et liaisons.', desc_en:'Alphabet, vowels, letter combinations and liaisons.',
+    tip:'Le français s\'écrit souvent différemment de ce qu\'on prononce. Apprenez les règles et tout s\'éclaire !',
+    tip_en:'French spelling and pronunciation often differ. Learn the rules and everything becomes clear!',
+    example:'eau → [o]  •  ville → [vil]  •  chat → [ʃa]',
+    example_en:'eau → [o]  •  ville → [vil]  •  chat → [ʃa]',
+    content:`<h2>🔤 Les bases de la prononciation</h2>
+<p>Avant d\'apprendre à parler, il faut comprendre comment le français se prononce. Cette leçon vous donne toutes les règles fondamentales.</p>
+
+<h3>1. L\'alphabet français (26 lettres)</h3>
+<table class="vocab-table">
+<tr><th>Lettre</th><th>Nom</th><th>Exemple</th></tr>
+<tr><td>A a</td><td>[a]</td><td><strong>a</strong>mi, v<strong>a</strong>che</td></tr>
+<tr><td>B b</td><td>[be]</td><td><strong>b</strong>onjour, ta<strong>b</strong>le</td></tr>
+<tr><td>C c</td><td>[se]</td><td><strong>c</strong>hat [ʃa], <strong>c</strong>iel [sjɛl]</td></tr>
+<tr><td>D d</td><td>[de]</td><td><strong>d</strong>eux, bon<strong>d</strong>ir</td></tr>
+<tr><td>E e</td><td>[ə]</td><td>f<strong>e</strong>mme, l<strong>e</strong></td></tr>
+<tr><td>G g</td><td>[ʒe]</td><td><strong>g</strong>are [gar], <strong>g</strong>irafe [ʒiraf]</td></tr>
+<tr><td>H h</td><td>[aʃ]</td><td><strong>h</strong>ôtel (muet), <strong>h</strong>aricot (aspiré)</td></tr>
+<tr><td>J j</td><td>[ʒi]</td><td><strong>j</strong>our [ʒur]</td></tr>
+<tr><td>Q q</td><td>[ky]</td><td><strong>qu</strong>i [ki], <strong>qu</strong>and [kɑ̃]</td></tr>
+<tr><td>R r</td><td>[ɛʁ]</td><td><strong>r</strong>ue — R guttural (gorge)</td></tr>
+<tr><td>U u</td><td>[y]</td><td>l<strong>u</strong>ne [lyn] — lèvres arrondies !</td></tr>
+<tr><td>Y y</td><td>[igrɛk]</td><td><strong>y</strong>eux [jø]</td></tr>
+</table>
+
+<h3>2. Les accents français</h3>
+<table class="vocab-table">
+<tr><th>Accent</th><th>Lettres</th><th>Prononciation</th><th>Exemple</th></tr>
+<tr><td>Accent aigu</td><td>é</td><td>[e] fermé</td><td>ét<strong>é</strong>, caf<strong>é</strong></td></tr>
+<tr><td>Accent grave</td><td>è, à, ù</td><td>[ɛ] ouvert</td><td>m<strong>è</strong>re, <strong>à</strong>, o<strong>ù</strong></td></tr>
+<tr><td>Accent circonflexe</td><td>â, ê, î, ô, û</td><td>légèrement allongé</td><td>f<strong>ê</strong>te, h<strong>ô</strong>tel</td></tr>
+<tr><td>Cédille</td><td>ç</td><td>[s] devant a, o, u</td><td>fran<strong>ç</strong>ais, gar<strong>ç</strong>on</td></tr>
+<tr><td>Tréma</td><td>ë, ï, ü</td><td>prononcée séparément</td><td>Noël, naïf</td></tr>
+</table>
+
+<h3>3. Les voyelles nasales</h3>
+<table class="vocab-table">
+<tr><th>Combinaison</th><th>Son</th><th>Exemple</th></tr>
+<tr><td>an / am / en / em</td><td>[ɑ̃]</td><td><strong>an</strong>cien, t<strong>em</strong>ps, <strong>en</strong>fant</td></tr>
+<tr><td>on / om</td><td>[ɔ̃]</td><td>mais<strong>on</strong>, b<strong>om</strong>be</td></tr>
+<tr><td>in / im / ein / ain / yn / ym</td><td>[ɛ̃]</td><td>v<strong>in</strong>, ma<strong>in</strong>, s<strong>ain</strong>t</td></tr>
+<tr><td>un / um</td><td>[œ̃]</td><td><strong>un</strong>, parf<strong>um</strong></td></tr>
+</table>
+<div class="tip-box"><strong>⚠️ Attention :</strong> Si la voyelle nasale est suivie d\'une autre voyelle ou d\'un n/m double, elle n\'est PAS nasale. Ex : <em>an<strong>ne</strong>au</em> [ano], <em>imm<strong>ense</strong></em> [imɑ̃s].</div>
+
+<h3>4. Les combinaisons de lettres essentielles</h3>
+<table class="vocab-table">
+<tr><th>Combinaison</th><th>Son</th><th>Exemple</th></tr>
+<tr><td>ch</td><td>[ʃ] comme "sh" anglais</td><td><strong>ch</strong>at, <strong>ch</strong>eval</td></tr>
+<tr><td>ou</td><td>[u] comme "oo" anglais</td><td>r<strong>ou</strong>ge, t<strong>ou</strong>t</td></tr>
+<tr><td>eau / au</td><td>[o] fermé</td><td>b<strong>eau</strong>, ch<strong>au</strong>d</td></tr>
+<tr><td>ai / ei</td><td>[ɛ] ouvert</td><td>m<strong>ai</strong>son, n<strong>ei</strong>ge</td></tr>
+<tr><td>oi</td><td>[wa]</td><td>m<strong>oi</strong>, v<strong>oi</strong>ture</td></tr>
+<tr><td>eu / œu</td><td>[ø] ou [œ]</td><td>f<strong>eu</strong>, c<strong>œu</strong>r</td></tr>
+<tr><td>gn</td><td>[ɲ] comme "gn" espagnol</td><td>vi<strong>gn</strong>e, mon<strong>ta</strong>gne</td></tr>
+<tr><td>ph</td><td>[f]</td><td><strong>ph</strong>oto, télé<strong>ph</strong>one</td></tr>
+<tr><td>qu</td><td>[k]</td><td><strong>qu</strong>i, <strong>qu</strong>and</td></tr>
+<tr><td>ill</td><td>[j] ou [il]</td><td>fam<strong>ill</strong>e [famij], v<strong>ill</strong>e [vil]</td></tr>
+<tr><td>th</td><td>[t]</td><td><strong>th</strong>éâtre, <strong>th</strong>é</td></tr>
+<tr><td>ge / gi</td><td>[ʒ]</td><td>man<strong>ge</strong>r, <strong>gi</strong>rafe</td></tr>
+</table>
+
+<h3>5. La liaison et l\'élision</h3>
+<table class="vocab-table">
+<tr><th>Règle</th><th>Exemple</th><th>Prononciation</th></tr>
+<tr><td>Liaison obligatoire</td><td>les<strong>_</strong>enfants</td><td>[lezɑ̃fɑ̃]</td></tr>
+<tr><td>Liaison obligatoire</td><td>nous<strong>_</strong>avons</td><td>[nuzavɔ̃]</td></tr>
+<tr><td>Élision (le/la → l\')</td><td>l\'ami, l\'école</td><td>[lami], [lekɔl]</td></tr>
+<tr><td>H muet → liaison</td><td>les<strong>_</strong>hôtels</td><td>[lezotɛl]</td></tr>
+<tr><td>H aspiré → pas de liaison</td><td>les / haricots</td><td>[le aʁiko]</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> En français, les consonnes finales sont souvent muettes. Ex : <em>par<u>t</u></em>, <em>gran<u>d</u></em>, <em>tro<u>p</u></em>. Exceptions : « CaReFuL » = C, R, F, L sont souvent prononcées en fin de mot.</div>`,
+    content_en:`<h2>🔤 Pronunciation Basics</h2>
+<p>Before learning to speak, you need to understand how French sounds work. This lesson gives you all the fundamental rules.</p>
+
+<h3>1. The French Alphabet (26 letters)</h3>
+<table class="vocab-table">
+<tr><th>Letter</th><th>Name</th><th>Example</th></tr>
+<tr><td>A a</td><td>[a]</td><td><strong>a</strong>mi, v<strong>a</strong>che</td></tr>
+<tr><td>C c</td><td>[se]</td><td><strong>c</strong>hat [ʃa] (before a/o/u), <strong>c</strong>iel [sjɛl] (before e/i)</td></tr>
+<tr><td>E e</td><td>[ə]</td><td>silent at end: <em>tabl<u>e</u></em>, or schwa sound</td></tr>
+<tr><td>G g</td><td>[ʒe]</td><td><strong>g</strong>are [gar] (hard), <strong>g</strong>irafe [ʒiraf] (soft)</td></tr>
+<tr><td>H h</td><td>[aʃ]</td><td>Always silent — either mute (liaison) or aspirate (no liaison)</td></tr>
+<tr><td>R r</td><td>[ɛʁ]</td><td>Pronounced at the back of the throat (guttural)</td></tr>
+<tr><td>U u</td><td>[y]</td><td>Round your lips as if to say "oo", then say "ee"</td></tr>
+</table>
+
+<h3>2. Accents</h3>
+<table class="vocab-table">
+<tr><th>Accent</th><th>Letters</th><th>Sound</th><th>Example</th></tr>
+<tr><td>Acute (aigu)</td><td>é</td><td>[e] closed sound</td><td>caf<strong>é</strong>, ét<strong>é</strong></td></tr>
+<tr><td>Grave</td><td>è, à, ù</td><td>[ɛ] open sound</td><td>m<strong>è</strong>re, <strong>à</strong></td></tr>
+<tr><td>Circumflex</td><td>â ê î ô û</td><td>slightly lengthened</td><td>f<strong>ê</strong>te, h<strong>ô</strong>tel</td></tr>
+<tr><td>Cedilla</td><td>ç</td><td>[s] before a, o, u</td><td>fran<strong>ç</strong>ais</td></tr>
+</table>
+
+<h3>3. Nasal Vowels</h3>
+<table class="vocab-table">
+<tr><th>Spelling</th><th>Sound</th><th>Example</th></tr>
+<tr><td>an / am / en / em</td><td>[ɑ̃]</td><td><strong>en</strong>fant, t<strong>em</strong>ps</td></tr>
+<tr><td>on / om</td><td>[ɔ̃]</td><td>mais<strong>on</strong></td></tr>
+<tr><td>in / im / ain / ein</td><td>[ɛ̃]</td><td>v<strong>in</strong>, ma<strong>in</strong></td></tr>
+<tr><td>un / um</td><td>[œ̃]</td><td><strong>un</strong>, parf<strong>um</strong></td></tr>
+</table>
+
+<h3>4. Key Letter Combinations</h3>
+<table class="vocab-table">
+<tr><th>Combo</th><th>Sound</th><th>Example</th></tr>
+<tr><td>ch</td><td>[ʃ] like "sh"</td><td><strong>ch</strong>at (cat)</td></tr>
+<tr><td>ou</td><td>[u] like "oo"</td><td>r<strong>ou</strong>ge (red)</td></tr>
+<tr><td>eau / au</td><td>[o] like "oh"</td><td>b<strong>eau</strong> (beautiful)</td></tr>
+<tr><td>oi</td><td>[wa]</td><td>m<strong>oi</strong> (me)</td></tr>
+<tr><td>ai / ei</td><td>[ɛ] like "eh"</td><td>m<strong>ai</strong>son (house)</td></tr>
+<tr><td>gn</td><td>[ɲ] like "ny" in canyon</td><td>mon<strong>ta</strong>gne</td></tr>
+<tr><td>ph</td><td>[f]</td><td><strong>ph</strong>oto</td></tr>
+<tr><td>qu</td><td>[k]</td><td><strong>qu</strong>i (who)</td></tr>
+</table>
+
+<h3>5. Liaison & Elision</h3>
+<table class="vocab-table">
+<tr><th>Rule</th><th>Example</th><th>Pronunciation</th></tr>
+<tr><td>Mandatory liaison</td><td>les_enfants</td><td>[lezɑ̃fɑ̃]</td></tr>
+<tr><td>Elision (le/la → l\')</td><td>l\'ami, l\'école</td><td>[lami]</td></tr>
+<tr><td>Mute H → liaison applies</td><td>les_hôtels</td><td>[lezotɛl]</td></tr>
+<tr><td>Aspirate H → no liaison</td><td>les / haricots</td><td>[le aʁiko]</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> Most final consonants in French are silent: par<u>t</u>, gran<u>d</u>, tro<u>p</u>. Remember "CaReFuL" — C, R, F, L are often pronounced at the end of a word.</div>`,
+    quiz:[
+      {q:'Comment se prononce « ch » en français ?', q_en:'How is "ch" pronounced in French?', opts:['[k] comme dans "school"','[tʃ] comme en anglais','[ʃ] comme "sh" anglais','[x] guttural'], opts_zh:['[k] 像英语school','[tʃ] 像英语church','[ʃ] 像英语sh','[x] 喉音'], ans:2, exp:'«ch» se prononce [ʃ] : chat, cheval, chocolat. Attention : pas comme en anglais «church» !'},
+      {q:'Quel son produit la combinaison « eau » ?', q_en:'What sound does "eau" make?', opts:['[ɛ] comme dans «mère»','[o] fermé comme «mot»','[wa] comme dans «moi»','[u] comme dans «tout»'], opts_zh:['[ɛ] 像mère中的音','[o] 闭口音如mot','[wa] 像moi中的音','[u] 像tout中的音'], ans:1, exp:'«eau» et «au» se prononcent [o] : beau, eau, chaud, restaurant.'},
+      {q:'Que signifie le « h muet » en français ?', q_en:'What does "mute H" mean in French?', opts:['Le H est prononcé fortement','On fait la liaison comme s\'il n\'y avait pas de H','On ne fait jamais la liaison','Le H se prononce [k]'], opts_zh:['H发强音','像没有H一样做联诵','永远不做联诵','H发[k]音'], ans:1, exp:'Le H muet permet la liaison et l\'élision : l\'hôtel, les_hôtels [lezotɛl]. Contraire : H aspiré (les / haricots, pas de liaison).'},
+      {q:'Comment prononce-t-on « ou » en français ?', q_en:'How is "ou" pronounced in French?', opts:['[ɔ] comme dans «or»','[ø] comme dans «feu»','[u] comme «oo» anglais','[y] lèvres arrondies'], opts_zh:['[ɔ] 像or中的音','[ø] 像feu中的音','[u] 像英语oo','[y] 嘴唇圆滑'], ans:2, exp:'«ou» = [u] : rouge, tout, bonjour. Ne pas confondre avec «u» = [y] (lune) qui n\'existe pas en anglais !'},
+      {q:'Quelle voyelle nasale correspond à « an / en » ?', q_en:'Which nasal vowel corresponds to "an / en"?', opts:['[ɛ̃] comme dans «vin»','[ɔ̃] comme dans «bon»','[œ̃] comme dans «un»','[ɑ̃] comme dans «enfant»'], opts_zh:['[ɛ̃] 像vin中的音','[ɔ̃] 像bon中的音','[œ̃] 像un中的音','[ɑ̃] 像enfant中的音'], ans:3, exp:'an/am/en/em → [ɑ̃] : enfant, temps, vent, chambre. C\'est la voyelle nasale la plus fréquente en français.'},
+      {q:'Comment se prononce la lettre « u » en français ?', q_en:'How is the French "u" pronounced?', opts:['[u] comme en anglais','[ɔ] comme dans «or»','[y] lèvres arrondies vers «i»','[ə] muet'], opts_zh:['[u] 像英语u','[ɔ] 像or中的音','[y] 嘴唇圆，像发i音','[ə] 轻声'], ans:2, exp:'Le «u» français = [y] : lune, tu, vu. Pour le prononcer : arrondissez les lèvres comme pour [u] et dites [i]. Ce son n\'existe pas en anglais !'},
+      {q:'Quelle est la règle du « c » devant « e » ou « i » ?', q_en:'What is the rule for "c" before "e" or "i"?', opts:['Il se prononce [k]','Il se prononce [ʃ]','Il se prononce [s]','Il est muet'], opts_zh:['发[k]音','发[ʃ]音','发[s]音','不发音'], ans:2, exp:'C + e/i → [s] : ciel, cerise, cinéma. C + a/o/u → [k] : carte, code, culture. Pour forcer [s] devant a/o/u, on écrit ç : garçon, français.'},
+      {q:'Qu\'est-ce que la « liaison » en français ?', q_en:'What is "liaison" in French?', opts:['Prononcer la dernière consonne muette devant une voyelle','Supprimer une voyelle devant une autre','Répéter deux fois la même consonne','Accentuer la dernière syllabe'], opts_zh:['在元音前发出原本静音的最后一个辅音','在元音前删去一个元音','重复同一辅音两次','强调最后一个音节'], ans:0, exp:'La liaison : la consonne finale normalement muette se prononce devant un mot commençant par une voyelle. Ex : les[z]enfants, nous[z]avons, un[n]ami.'},
+    ]
+  },
+/* ─── 0 ─── */
   {
     id:0, level:'beginner',
     title:'Les salutations', title_en:'Greetings',
@@ -9256,7 +9650,7 @@ const LESSONS = [
       {q:'Quelle expression signifie "Nice to meet you" ?', q_en:'Which expression means "Nice to meet you"?', opts:['Ça va ?','À bientôt','Enchanté !','Salut !'], ans:2, exp:'Enchanté(e) est la formule standard pour exprimer qu\'on est ravi de faire la connaissance de quelqu\'un.', exp_en:'Enchanté(e) is the standard phrase to express pleasure at meeting someone.', exp_zh:'Enchanté(e)是见到某人时表示高兴的标准用语。'},
       {q:'Comment demande-t-on poliment "How are you?" ?', q_en:'How do you formally ask "How are you?"', opts:['Comment vas-tu ?','Ça va ?','Comment allez-vous ?','Bonjour !'], ans:2, exp:'Comment allez-vous ? utilise le vouvoiement (vous), plus formel. Comment vas-tu ? est la forme informelle.', exp_en:'Comment allez-vous? uses "vous" (formal). Comment vas-tu? is the informal version.', exp_zh:'Comment allez-vous？使用正式的vous。Comment vas-tu？是非正式说法。'},
       {q:'"Salut !" est une expression…', q_en:'"Salut!" is a __ expression', opts:['Formelle / Formal','Informelle / Informal','Négative','Incorrecte'], ans:1, exp:'Salut est familier, réservé aux amis. On ne l\'utilise pas avec des inconnus ou dans un contexte professionnel.', exp_en:'Salut is informal, used with friends. Avoid it with strangers or in professional settings.', exp_zh:'Salut是随意打招呼，只用于朋友间，不适合正式场合或陌生人。'},
-      {q:'Que signifie "À demain" ?', q_en:'What does "À demain" mean?', opts:['See you soon','Goodbye','See you tomorrow','Good night'], ans:2, exp:'À + moment = rendez-vous à ce moment. À demain = à + demain. À bientôt = see you soon, À ce soir = see you tonight.', exp_en:'À + time = see you at that time. À demain = see you tomorrow. À bientôt = see you soon.', exp_zh:'À + 时间 = 届时见。À demain = 明天见。À bientôt = 再见（不久后）。'},
+      {q:'Que signifie "À demain" ?', q_en:'What does "À demain" mean?', opts:['See you soon','Goodbye','See you tomorrow','Good night'], opts_zh:['很快再见','再见','明天见','晚安'], ans:2, exp:'À + moment = rendez-vous à ce moment. À demain = à + demain. À bientôt = see you soon, À ce soir = see you tonight.', exp_en:'À + time = see you at that time. À demain = see you tomorrow. À bientôt = see you soon.', exp_zh:'À + 时间 = 届时见。À demain = 明天见。À bientôt = 再见（不久后）。'},
     ]
   },
 
@@ -9959,8 +10353,8 @@ const LESSONS = [
 <div class="example-box">Je <strong>ne parle pas</strong> espagnol. (I don't speak Spanish.)<br>Il <strong>ne vient plus</strong> ici. (He doesn't come here anymore.)<br>Nous <strong>n'avons rien</strong> mangé. (We ate nothing.)</div>`,
     quiz:[
       {q:'La négation de "Je mange" est…', q_en:'The negative of "Je mange" is…', opts:['Je mange pas','Je ne mange pas','Je pas mange','Non je mange'], ans:1, exp:'La négation encadre le verbe : ne...pas. Ne se place avant le verbe, pas après. En parlé, le ne est souvent omis.', exp_en:'Negation frames the verb: ne...pas. Ne goes before the verb, pas after. In spoken French, ne is often dropped.', exp_zh:'否定句把动词夹在中间：ne...pas。ne在动词前，pas在动词后。口语中ne常省略。'},
-      {q:'"Ne…jamais" signifie…', q_en:'"Ne…jamais" means…', opts:['not anymore','never','nobody','nothing'], ans:1, exp:'Les négations : ne...jamais (never), ne...plus (not anymore), ne...rien (nothing), ne...personne (nobody).', exp_en:'Negations: ne...jamais (never), ne...plus (not anymore), ne...rien (nothing), ne...personne (nobody).', exp_zh:'否定结构：ne...jamais（从不），ne...plus（不再），ne...rien（什么都不），ne...personne（没有人）。'},
-      {q:'"Il ne fume plus" signifie…', q_en:'"Il ne fume plus" means…', opts:['He never smokes','He doesn\'t smoke anymore','He only smokes','He smokes a lot'], ans:1, exp:'Ne...plus indique l\'arrêt d\'une action : il fumait avant, mais ne fume plus maintenant.', exp_en:'Ne...plus indicates the stopping of an action: he used to smoke, but no longer does now.', exp_zh:'Ne...plus表示某个动作已经停止：他以前抽烟，但现在不再抽了。'},
+      {q:'"Ne…jamais" signifie…', q_en:'"Ne…jamais" means…', opts:['not anymore','never','nobody','nothing'], opts_zh:['不再','从不','没有人','什么也没有'], ans:1, exp:'Les négations : ne...jamais (never), ne...plus (not anymore), ne...rien (nothing), ne...personne (nobody).', exp_en:'Negations: ne...jamais (never), ne...plus (not anymore), ne...rien (nothing), ne...personne (nobody).', exp_zh:'否定结构：ne...jamais（从不），ne...plus（不再），ne...rien（什么都不），ne...personne（没有人）。'},
+      {q:'"Il ne fume plus" signifie…', q_en:'"Il ne fume plus" means…', opts:['He never smokes','He doesn\'t smoke anymore','He only smokes','He smokes a lot'], opts_zh:['他从不抽烟','他不再抽烟','他只抽烟','他抽很多烟'], ans:1, exp:'Ne...plus indique l\'arrêt d\'une action : il fumait avant, mais ne fume plus maintenant.', exp_en:'Ne...plus indicates the stopping of an action: he used to smoke, but no longer does now.', exp_zh:'Ne...plus表示某个动作已经停止：他以前抽烟，但现在不再抽了。'},
       {q:'Devant une voyelle, "ne" devient…', q_en:'Before a vowel, "ne" becomes…', opts:['no','ni','n\'','nen'], ans:2, exp:'Élision : quand ne est suivi d\'une voyelle, le e disparaît → n\'. Ex: je n\'aime pas, il n\'est pas là.', exp_en:'Elision: when ne is followed by a vowel, the e disappears → n\'. Ex: je n\'aime pas, il n\'est pas là.', exp_zh:'省音：ne后接元音时，e消失→n\'。例如：je n\'aime pas，il n\'est pas là。'},
       {q:'"Je ___ vois rien" — quel mot manque ?', q_en:'"Je ___ vois rien" — which word is missing?', opts:['pas','ne','jamais','plus'], ans:1, exp:'La structure complète est je ne vois rien. Ne est souvent omis à l\'oral : je vois rien. Mais à l\'écrit, toujours mettre ne.', exp_en:'The full structure is je ne vois rien. In spoken French, ne is often omitted: je vois rien. Always write ne in text.', exp_zh:'完整结构是je ne vois rien。口语中常省略ne：je vois rien。书写时必须加ne。'},
     ]
@@ -10311,7 +10705,7 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 J'ai mal à…:</strong> "à + le" contracts to <em>au</em> (j'ai mal <em>au</em> dos), "à + la" stays (j'ai mal <em>à la</em> tête), "à + les" contracts to <em>aux</em>.</div>`,
     quiz:[
       {q:'Comment dit-on "hand" en français ?', q_en:'How do you say "hand" in French?', opts:['le bras','le pied','la main','le dos'], ans:2},
-      {q:'"J\'ai mal à la tête" signifie…', q_en:'"J\'ai mal à la tête" means…', opts:['I have a fever','I have a headache','My back hurts','I am tired'], ans:1},
+      {q:'"J\'ai mal à la tête" signifie…', q_en:'"J\'ai mal à la tête" means…', opts:['I have a fever','I have a headache','My back hurts','I am tired'], opts_zh:['我发烧了','我头疼','我背痛','我累了'], ans:1},
       {q:'Le pluriel de "l\'œil" est…', q_en:'The plural of "l\'œil" is…', opts:['les œils','les yeux','les œilx','les œilles'], ans:1},
       {q:'"J\'ai mal ___ dos" — quel mot manque ?', q_en:'"J\'ai mal ___ dos" — which word is missing?', opts:['à la','au','aux','de'], ans:1},
       {q:'Comment dit-on "I need a doctor" ?', q_en:'How do you say "I need a doctor"?', opts:['J\'ai de la fièvre.','Je suis fatigué.','J\'ai besoin d\'un médecin.','J\'ai mal au ventre.'], ans:2},
@@ -10385,7 +10779,7 @@ const LESSONS = [
       {q:'Comment dit-on "sad" en français ?', q_en:'How do you say "sad" in French?', opts:['heureux','triste','en colère','fatigué'], ans:1},
       {q:'"En colère" signifie…', q_en:'"En colère" means…', opts:['tired','worried','angry','disappointed'], ans:2},
       {q:'"Elle est ___ " (happy, féminin)', q_en:'"Elle est ___ " (happy, feminine form)', opts:['heureux','heureuse','content','fier'], ans:1},
-      {q:'"Je suis aux anges" signifie…', q_en:'"Je suis aux anges" means…', opts:['I am angry','I am worried','I am over the moon','I am tired'], ans:2},
+      {q:'"Je suis aux anges" signifie…', q_en:'"Je suis aux anges" means…', opts:['I am angry','I am worried','I am over the moon','I am tired'], opts_zh:['我很生气','我很担心','我欣喜若狂','我很累'], ans:2},
       {q:'Comment dit-on "I feel worried" ?', q_en:'How do you say "I feel worried"?', opts:['Je suis content.','Je me sens inquiet.','Ça m\'énerve.','Je suis déçu.'], ans:1},
     ]
   },
@@ -12216,9 +12610,9 @@ const LESSONS = [
 <div class="example-box">— Bonjour, je cherche une veste en taille M. (Hello, I'm looking for a jacket in size M.)<br>— Voilà, elle est en promotion à 49€ au lieu de 80€. (It's on sale at €49 instead of €80.)</div>`,
     quiz:[
       {q:'Comment demander le prix d\'un article ?', q_en:'How do you ask the price of an item?', opts:['C\'est quoi ?','C\'est combien ?','Vous avez ?','Je cherche.'], ans:1},
-      {q:'"Payer en espèces" signifie…', q_en:'"Payer en espèces" means…', opts:['to pay by card','to pay cash','to pay later','to pay online'], ans:1},
-      {q:'Quand ont lieu les soldes en France ?', q_en:'When do the sales take place in France?', opts:['March and October','April and December','January and July','June and November'], ans:2},
-      {q:'"Le remboursement" signifie…', q_en:'"Le remboursement" means…', opts:['exchange','receipt','refund','discount'], ans:2},
+      {q:'"Payer en espèces" signifie…', q_en:'"Payer en espèces" means…', opts:['to pay by card','to pay cash','to pay later','to pay online'], opts_zh:['刷卡支付','现金支付','延后支付','在线支付'], ans:1},
+      {q:'Quand ont lieu les soldes en France ?', q_en:'When do the sales take place in France?', opts:['March and October','April and December','January and July','June and November'], opts_zh:['3月和10月','4月和12月','1月和7月','6月和11月'], ans:2},
+      {q:'"Le remboursement" signifie…', q_en:'"Le remboursement" means…', opts:['exchange','receipt','refund','discount'], opts_zh:['换货','收据','退款','折扣'], ans:2},
       {q:'Comment dit-on "I\'m a size M" en français ?', q_en:'How do you say "I\'m a size M" in French?', opts:['Je cherche du M.','Je fais du M.','J\'ai du M.','J\'achète du M.'], ans:1},
     ]
   },
@@ -12283,7 +12677,7 @@ const LESSONS = [
 <div class="tip-box"><strong>💡 Tip:</strong> Learn these as complete units of meaning. Avoir le "cafard" has nothing to do with cockroaches in real life — it's purely figurative!</div>
 <div class="example-box">J'ai le cafard ce matin, il pleut des cordes. (I'm feeling down, it's raining cats and dogs.)<br>Il m'a posé un lapin — il est vraiment casse-pieds! (He stood me up — he's so annoying!)</div>`,
     quiz:[
-      {q:'"Avoir le cafard" signifie…', q_en:'"Avoir le cafard" means…', opts:['to have a cold','to feel down/blue','to be happy','to be tired'], ans:1},
+      {q:'"Avoir le cafard" signifie…', q_en:'"Avoir le cafard" means…', opts:['to have a cold','to feel down/blue','to be happy','to be tired'], opts_zh:['感冒了','感到沮丧/忧郁','感到开心','感到疲惫'], ans:1},
       {q:'"Il pleut des cordes" signifie…', q_en:'What does "il pleut des cordes" mean?', opts:['It\'s sunny','It\'s foggy','It\'s raining heavily','It\'s snowing'], ans:2},
       {q:'"C\'est du gâteau !" exprime…', q_en:'"C\'est du gâteau!" expresses…', opts:['I\'m hungry','It\'s delicious','It\'s easy','It\'s expensive'], ans:2},
       {q:'"Poser un lapin à quelqu\'un" signifie…', q_en:'"Poser un lapin à quelqu\'un" means…', opts:['to give someone a gift','to stand someone up','to help someone','to trick someone'], ans:1},
@@ -13434,7 +13828,7 @@ const LESSONS = [
 <p>💡 Au passé composé, l'adverbe court se place entre l'auxiliaire et le participe : <em>J'ai bien dormi.</em></p>`,
     quiz:[
       {q:'Quel est l\'adverbe formé à partir de "heureux" ?', opts:["heureuxement","heureusement","heurément","heureusment"], ans:1},
-      {q:'Que signifie "souvent" ?', opts:["never","sometimes","often","always"], ans:2},
+      {q:'Que signifie "souvent" ?', opts:["never","sometimes","often","always"], opts_zh:["从不","有时","经常","总是"], ans:2},
       {q:'Quelle phrase est correcte ?', opts:["Elle parle française bien","Elle bien parle français","Elle parle bien français","Elle parle français bien"], ans:2},
       {q:'Les adverbes sont :', opts:["variables en genre","variables en nombre","invariables","accordés avec le sujet"], ans:2},
       {q:'Au passé composé, où se place l\'adverbe court "bien" ?', opts:["Avant l\'auxiliaire","Après le participe","Entre l\'auxiliaire et le participe","En fin de phrase"], ans:2},
@@ -13478,7 +13872,7 @@ const LESSONS = [
 </table>`,
     quiz:[
       {q:'Quelle est la bonne conjugaison de "pouvoir" à la 3ème personne du pluriel ?', opts:["ils pouvent","ils peuvent","ils pouvoir","ils peuvent"], ans:1},
-      {q:'"Tu dois partir" signifie :', opts:["You want to leave","You can leave","You must leave","You are leaving"], ans:2},
+      {q:'"Tu dois partir" signifie :', opts:["You want to leave","You can leave","You must leave","You are leaving"], opts_zh:["你想离开","你可以离开","你必须离开","你正在离开"], ans:2},
       {q:'Quelle phrase est la plus polie pour commander ?', opts:["Je veux un café.","Je dois un café.","Je voudrais un café.","Je peux un café."], ans:2},
       {q:'Comment dit-on "She can speak French" ?', opts:["Elle veut parler français","Elle doit parler français","Elle peut parler français","Elle parle pouvoir français"], ans:2},
       {q:'Quelle conjugaison de "vouloir" est correcte ?', opts:["nous voulons","nous voulez","nous veulent","nous voulont"], ans:0},
@@ -13497,6 +13891,56 @@ const LESSONS = [
     tip_en:'1st group verbs (-ER) follow the pattern: je -e, tu -es, il/elle -e, nous -ons, vous -ez, ils/elles -ent.',
     example:'Parler → je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.',
     example_en:'Parler → je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.',
+    content:`<h2>🔤 Conjugaison au présent — Verbes du 1er groupe</h2>
+<p>Les verbes du <strong>1er groupe</strong> (infinitif en <strong>-ER</strong>) sont les plus nombreux en français. Ils suivent tous le même modèle de conjugaison.</p>
+<h3>Terminaisons au présent</h3>
+<table class="vocab-table">
+<tr><th>Pronom</th><th>Terminaison</th><th>Exemple (parler)</th></tr>
+<tr><td>je</td><td>-e</td><td>je parle</td></tr>
+<tr><td>tu</td><td>-es</td><td>tu parles</td></tr>
+<tr><td>il / elle / on</td><td>-e</td><td>il parle</td></tr>
+<tr><td>nous</td><td>-ons</td><td>nous parlons</td></tr>
+<tr><td>vous</td><td>-ez</td><td>vous parlez</td></tr>
+<tr><td>ils / elles</td><td>-ent</td><td>ils parlent</td></tr>
+</table>
+<h3>Exemples de verbes du 1er groupe</h3>
+<table class="vocab-table">
+<tr><td>parler</td><td>to speak</td></tr>
+<tr><td>manger</td><td>to eat</td></tr>
+<tr><td>aimer</td><td>to love / to like</td></tr>
+<tr><td>travailler</td><td>to work</td></tr>
+<tr><td>habiter</td><td>to live</td></tr>
+<tr><td>écouter</td><td>to listen</td></tr>
+<tr><td>regarder</td><td>to watch / to look</td></tr>
+<tr><td>chanter</td><td>to sing</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Retirez <strong>-ER</strong> de l'infinitif pour obtenir le radical, puis ajoutez les terminaisons : -e, -es, -e, -ons, -ez, -ent.</div>
+<div class="example-box">Parler → <strong>parl</strong> + e → je parle<br>Manger → <strong>mang</strong> + ons → nous mangeons (notez le -e- avant -ons !)</div>`,
+    content_en:`<h2>🔤 Present Tense — 1st Group Verbs</h2>
+<p><strong>1st group verbs</strong> (infinitive ending in <strong>-ER</strong>) are the most common in French. They all follow the same conjugation pattern.</p>
+<h3>Present tense endings</h3>
+<table class="vocab-table">
+<tr><th>Pronoun</th><th>Ending</th><th>Example (parler)</th></tr>
+<tr><td>je</td><td>-e</td><td>je parle</td></tr>
+<tr><td>tu</td><td>-es</td><td>tu parles</td></tr>
+<tr><td>il / elle / on</td><td>-e</td><td>il parle</td></tr>
+<tr><td>nous</td><td>-ons</td><td>nous parlons</td></tr>
+<tr><td>vous</td><td>-ez</td><td>vous parlez</td></tr>
+<tr><td>ils / elles</td><td>-ent</td><td>ils parlent</td></tr>
+</table>
+<h3>Common 1st group verbs</h3>
+<table class="vocab-table">
+<tr><td>parler</td><td>to speak</td></tr>
+<tr><td>manger</td><td>to eat</td></tr>
+<tr><td>aimer</td><td>to love / to like</td></tr>
+<tr><td>travailler</td><td>to work</td></tr>
+<tr><td>habiter</td><td>to live</td></tr>
+<tr><td>écouter</td><td>to listen</td></tr>
+<tr><td>regarder</td><td>to watch / to look</td></tr>
+<tr><td>chanter</td><td>to sing</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> Remove <strong>-ER</strong> from the infinitive to get the stem, then add the endings: -e, -es, -e, -ons, -ez, -ent.</div>
+<div class="example-box">Parler → <strong>parl</strong> + e → je parle<br>Manger → <strong>mang</strong> + ons → nous mangeons (note the extra -e- before -ons!)</div>`,
     quiz:[
       {q:'Conjuguez "parler" — Je ___ français.', opts:['parle','parles','parlons','parlent'], ans:0},
       {q:'Conjuguez "manger" — Nous ___ au restaurant.', opts:['mangeons','mangez','mangent','manges'], ans:0},
@@ -13518,6 +13962,50 @@ const LESSONS = [
     tip_en:'In French, adjectives agree with the noun: add -e for feminine, -s for plural.',
     example:'Un homme grand → une femme grande. Un livre intéressant → des livres intéressants.',
     example_en:'Un homme grand → une femme grande. Un livre intéressant → des livres intéressants.',
+    content:`<h2>🔤 L'accord des adjectifs en genre et en nombre</h2>
+<p>En français, les adjectifs <strong>s'accordent</strong> avec le nom qu'ils qualifient en genre (masculin/féminin) et en nombre (singulier/pluriel).</p>
+<h3>Règles de base</h3>
+<table class="vocab-table">
+<tr><th>Forme</th><th>Règle</th><th>Exemple</th></tr>
+<tr><td>Masculin singulier</td><td>Forme de base</td><td>un livre <strong>intéressant</strong></td></tr>
+<tr><td>Féminin singulier</td><td>+ -e</td><td>une histoire <strong>intéressante</strong></td></tr>
+<tr><td>Masculin pluriel</td><td>+ -s</td><td>des livres <strong>intéressants</strong></td></tr>
+<tr><td>Féminin pluriel</td><td>+ -es</td><td>des histoires <strong>intéressantes</strong></td></tr>
+</table>
+<h3>Cas particuliers</h3>
+<table class="vocab-table">
+<tr><th>Cas</th><th>Masculin</th><th>Féminin</th></tr>
+<tr><td>-eux / -euse</td><td>heureux</td><td>heureuse</td></tr>
+<tr><td>-if / -ive</td><td>actif</td><td>active</td></tr>
+<tr><td>-eau / -elle</td><td>beau</td><td>belle</td></tr>
+<tr><td>-eau pluriel</td><td>beaux</td><td>belles</td></tr>
+<tr><td>-al / -aux</td><td>national / nationaux</td><td>nationale / nationales</td></tr>
+<tr><td>-el / -elle</td><td>naturel</td><td>naturelle</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Si l'adjectif masculin se termine par -e (comme <em>jeune</em>, <em>rouge</em>, <em>rapide</em>), il ne change pas au féminin !</div>
+<div class="example-box">Un homme <strong>grand</strong> → une femme <strong>grande</strong><br>Un garçon <strong>sérieux</strong> → une fille <strong>sérieuse</strong><br>Un film <strong>nouveau</strong> → des films <strong>nouveaux</strong></div>`,
+    content_en:`<h2>🔤 Adjective Agreement in Gender and Number</h2>
+<p>In French, adjectives <strong>agree</strong> with the noun they describe in gender (masculine/feminine) and number (singular/plural).</p>
+<h3>Basic rules</h3>
+<table class="vocab-table">
+<tr><th>Form</th><th>Rule</th><th>Example</th></tr>
+<tr><td>Masculine singular</td><td>Base form</td><td>un livre <strong>intéressant</strong></td></tr>
+<tr><td>Feminine singular</td><td>Add -e</td><td>une histoire <strong>intéressante</strong></td></tr>
+<tr><td>Masculine plural</td><td>Add -s</td><td>des livres <strong>intéressants</strong></td></tr>
+<tr><td>Feminine plural</td><td>Add -es</td><td>des histoires <strong>intéressantes</strong></td></tr>
+</table>
+<h3>Irregular patterns</h3>
+<table class="vocab-table">
+<tr><th>Pattern</th><th>Masculine</th><th>Feminine</th></tr>
+<tr><td>-eux / -euse</td><td>heureux</td><td>heureuse</td></tr>
+<tr><td>-if / -ive</td><td>actif</td><td>active</td></tr>
+<tr><td>-eau / -elle</td><td>beau</td><td>belle</td></tr>
+<tr><td>-eau plural</td><td>beaux</td><td>belles</td></tr>
+<tr><td>-al / -aux</td><td>national / nationaux</td><td>nationale / nationales</td></tr>
+<tr><td>-el / -elle</td><td>naturel</td><td>naturelle</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> If the masculine adjective already ends in -e (like <em>jeune</em>, <em>rouge</em>, <em>rapide</em>), the feminine form stays the same!</div>
+<div class="example-box">Un homme <strong>grand</strong> → une femme <strong>grande</strong><br>Un garçon <strong>sérieux</strong> → une fille <strong>sérieuse</strong><br>Un film <strong>nouveau</strong> → des films <strong>nouveaux</strong></div>`,
     quiz:[
       {q:'Choisissez la bonne forme : Une maison ___ (grand).', opts:['grande','grand','grands','grandes'], ans:0},
       {q:'Choisissez la bonne forme : Des enfants ___ (heureux).', opts:['heureux','heureuse','heureuses','heureus'], ans:0},
@@ -13539,6 +14027,48 @@ const LESSONS = [
     tip_en:"Key prepositions: à (at/to), de (from/of), en (in), dans (in/inside), sur (on), sous (under), avec (with), pour (for), sans (without).",
     example:"Je vais à Paris. Il vient de Lyon. Elle est dans la maison.",
     example_en:"I'm going to Paris. He comes from Lyon. She is inside the house.",
+    content:`<h2>🔤 Les prépositions — Compléter la phrase</h2>
+<p>Les prépositions relient les mots entre eux et indiquent des relations de <strong>lieu</strong>, de <strong>temps</strong>, de <strong>direction</strong> ou de <strong>manière</strong>.</p>
+<h3>Prépositions de lieu</h3>
+<table class="vocab-table">
+<tr><td>à</td><td>at / to (city)</td><td>Je suis à Paris.</td></tr>
+<tr><td>de</td><td>from / of</td><td>Il vient de Lyon.</td></tr>
+<tr><td>en</td><td>in (country/fem.)</td><td>Elle habite en France.</td></tr>
+<tr><td>au / aux</td><td>in/to (country/masc.)</td><td>Il va au Canada.</td></tr>
+<tr><td>dans</td><td>in / inside</td><td>Le chat est dans la boîte.</td></tr>
+<tr><td>sur</td><td>on</td><td>Le livre est sur la table.</td></tr>
+<tr><td>sous</td><td>under</td><td>Le chien est sous le lit.</td></tr>
+</table>
+<h3>Autres prépositions essentielles</h3>
+<table class="vocab-table">
+<tr><td>avec</td><td>with</td><td>Je travaille avec Marie.</td></tr>
+<tr><td>pour</td><td>for</td><td>C'est pour toi.</td></tr>
+<tr><td>sans</td><td>without</td><td>Un café sans sucre.</td></tr>
+<tr><td>par</td><td>by / through</td><td>On passe par Lyon.</td></tr>
+<tr><td>en</td><td>by (transport)</td><td>Je voyage en avion.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Pays fémins → <em>en</em> (en France, en Espagne). Pays masculins → <em>au</em> (au Japon, au Brésil). Pays pluriels → <em>aux</em> (aux États-Unis).</div>`,
+    content_en:`<h2>🔤 Prepositions — Fill in the Blank</h2>
+<p>Prepositions link words and indicate relationships of <strong>place</strong>, <strong>time</strong>, <strong>direction</strong> or <strong>manner</strong>.</p>
+<h3>Prepositions of place</h3>
+<table class="vocab-table">
+<tr><td>à</td><td>at / to (city)</td><td>Je suis à Paris. (I'm in Paris.)</td></tr>
+<tr><td>de</td><td>from / of</td><td>Il vient de Lyon. (He comes from Lyon.)</td></tr>
+<tr><td>en</td><td>in (feminine country)</td><td>Elle habite en France. (She lives in France.)</td></tr>
+<tr><td>au / aux</td><td>in/to (masculine country)</td><td>Il va au Canada. (He goes to Canada.)</td></tr>
+<tr><td>dans</td><td>in / inside</td><td>Le chat est dans la boîte. (The cat is in the box.)</td></tr>
+<tr><td>sur</td><td>on</td><td>Le livre est sur la table. (The book is on the table.)</td></tr>
+<tr><td>sous</td><td>under</td><td>Le chien est sous le lit. (The dog is under the bed.)</td></tr>
+</table>
+<h3>Other essential prepositions</h3>
+<table class="vocab-table">
+<tr><td>avec</td><td>with</td></tr>
+<tr><td>pour</td><td>for</td></tr>
+<tr><td>sans</td><td>without</td></tr>
+<tr><td>par</td><td>by / through</td></tr>
+<tr><td>en</td><td>by (transport)</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> Feminine countries → <em>en</em> (en France, en Espagne). Masculine countries → <em>au</em> (au Japon, au Brésil). Plural countries → <em>aux</em> (aux États-Unis).</div>`,
     quiz:[
       {q:"Je vais ___ Paris ce weekend.", opts:['à','de','en','sur'], ans:0},
       {q:"Le livre est ___ la table.", opts:['sur','sous','dans','avec'], ans:0},
@@ -13563,6 +14093,50 @@ const LESSONS = [
     tip_en:"Addition: de plus, en outre, également, non seulement... mais aussi. Opposition: cependant, néanmoins, toutefois, en revanche, par contre, or, malgré.",
     example:"Il est intelligent. De plus, il est travailleur. Il est riche. Cependant, il n'est pas heureux.",
     example_en:"He is intelligent. Moreover, he is hardworking. He is rich. However, he is not happy.",
+    content:`<h2>🔗 Les connecteurs logiques — Addition & Opposition</h2>
+<p>Les connecteurs logiques organisent vos idées et rendent votre discours plus clair et cohérent.</p>
+<h3>Connecteurs d'addition</h3>
+<table class="vocab-table">
+<tr><th>Connecteur</th><th>Anglais</th><th>Exemple</th></tr>
+<tr><td>de plus</td><td>moreover / furthermore</td><td>Il travaille dur. De plus, il est talentueux.</td></tr>
+<tr><td>en outre</td><td>in addition</td><td>En outre, il parle trois langues.</td></tr>
+<tr><td>également</td><td>also / as well</td><td>Elle est également très créative.</td></tr>
+<tr><td>non seulement… mais aussi</td><td>not only… but also</td><td>Non seulement il chante, mais il danse aussi.</td></tr>
+<tr><td>par ailleurs</td><td>besides / moreover</td><td>Par ailleurs, les résultats sont excellents.</td></tr>
+</table>
+<h3>Connecteurs d'opposition</h3>
+<table class="vocab-table">
+<tr><th>Connecteur</th><th>Anglais</th><th>Exemple</th></tr>
+<tr><td>cependant</td><td>however</td><td>Il est riche. Cependant, il n'est pas heureux.</td></tr>
+<tr><td>néanmoins</td><td>nevertheless</td><td>Il était fatigué. Néanmoins, il a continué.</td></tr>
+<tr><td>toutefois</td><td>however / yet</td><td>C'est difficile. Toutefois, c'est possible.</td></tr>
+<tr><td>en revanche</td><td>on the other hand</td><td>Le nord est froid. En revanche, le sud est chaud.</td></tr>
+<tr><td>malgré (+ nom)</td><td>despite</td><td>Malgré la pluie, il est sorti.</td></tr>
+<tr><td>or</td><td>now / yet (logical)</td><td>Je cherchais Marc. Or, il était parti.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> <em>De plus</em> et <em>en outre</em> s'emploient en début de phrase. <em>Également</em> se place généralement avant le verbe ou en fin de phrase.</div>`,
+    content_en:`<h2>🔗 Logical Connectors — Addition & Opposition</h2>
+<p>Logical connectors organise your ideas and make your writing clearer and more coherent.</p>
+<h3>Addition connectors</h3>
+<table class="vocab-table">
+<tr><th>Connector</th><th>Meaning</th><th>Example</th></tr>
+<tr><td>de plus</td><td>moreover / furthermore</td><td>Il travaille dur. De plus, il est talentueux.</td></tr>
+<tr><td>en outre</td><td>in addition</td><td>En outre, il parle trois langues.</td></tr>
+<tr><td>également</td><td>also / as well</td><td>Elle est également très créative.</td></tr>
+<tr><td>non seulement… mais aussi</td><td>not only… but also</td><td>Non seulement il chante, mais il danse aussi.</td></tr>
+<tr><td>par ailleurs</td><td>besides / moreover</td><td>Par ailleurs, les résultats sont excellents.</td></tr>
+</table>
+<h3>Opposition connectors</h3>
+<table class="vocab-table">
+<tr><th>Connector</th><th>Meaning</th><th>Example</th></tr>
+<tr><td>cependant</td><td>however</td><td>Il est riche. Cependant, il n'est pas heureux.</td></tr>
+<tr><td>néanmoins</td><td>nevertheless</td><td>Il était fatigué. Néanmoins, il a continué.</td></tr>
+<tr><td>toutefois</td><td>however / yet</td><td>C'est difficile. Toutefois, c'est possible.</td></tr>
+<tr><td>en revanche</td><td>on the other hand</td><td>Le nord est froid. En revanche, le sud est chaud.</td></tr>
+<tr><td>malgré (+ noun)</td><td>despite</td><td>Malgré la pluie, il est sorti.</td></tr>
+<tr><td>or</td><td>now / yet (logical)</td><td>Je cherchais Marc. Or, il était parti.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> <em>De plus</em> and <em>en outre</em> come at the start of a sentence. <em>Également</em> usually goes before the verb or at the end of the sentence.</div>`,
     quiz:[
       {q:"Il travaille beaucoup. ___, il réussit toujours. (addition)", opts:['De plus','Cependant','Or','Malgré'], ans:0},
       {q:"Il fait beau. ___, il reste chez lui. (opposition)", opts:['Cependant','De plus','En effet','Donc'], ans:0},
@@ -13584,6 +14158,52 @@ const LESSONS = [
     tip_en:"Cause: car, parce que, puisque, étant donné que, en effet, grâce à, à cause de. Consequence: donc, ainsi, par conséquent, c'est pourquoi, d'où.",
     example:"Il est absent car il est malade. Il a travaillé dur. Par conséquent, il a réussi.",
     example_en:"He is absent because he is sick. He worked hard. Consequently, he succeeded.",
+    content:`<h2>🔗 Les connecteurs logiques — Cause & Conséquence</h2>
+<p>Ces connecteurs expriment le <strong>pourquoi</strong> (cause) et le <strong>résultat</strong> (conséquence) d'une action ou d'un événement.</p>
+<h3>Connecteurs de cause</h3>
+<table class="vocab-table">
+<tr><th>Connecteur</th><th>Anglais</th><th>Exemple</th></tr>
+<tr><td>car</td><td>for / because</td><td>Il est absent <strong>car</strong> il est malade.</td></tr>
+<tr><td>parce que</td><td>because</td><td>Je reste <strong>parce qu'</strong>il pleut.</td></tr>
+<tr><td>puisque</td><td>since / as</td><td><strong>Puisque</strong> tu es là, aide-moi.</td></tr>
+<tr><td>étant donné que</td><td>given that</td><td><strong>Étant donné qu'</strong>il est tard, on part.</td></tr>
+<tr><td>grâce à (+ nom)</td><td>thanks to</td><td><strong>Grâce à</strong> ton aide, j'ai réussi.</td></tr>
+<tr><td>à cause de (+ nom)</td><td>because of</td><td><strong>À cause de</strong> la grève, les trains sont bloqués.</td></tr>
+</table>
+<h3>Connecteurs de conséquence</h3>
+<table class="vocab-table">
+<tr><th>Connecteur</th><th>Anglais</th><th>Exemple</th></tr>
+<tr><td>donc</td><td>therefore / so</td><td>Je pense, <strong>donc</strong> je suis.</td></tr>
+<tr><td>par conséquent</td><td>consequently</td><td>Il a travaillé dur. <strong>Par conséquent</strong>, il a réussi.</td></tr>
+<tr><td>c'est pourquoi</td><td>that is why</td><td>Il pleut. <strong>C'est pourquoi</strong> le match est annulé.</td></tr>
+<tr><td>ainsi</td><td>thus / so</td><td><strong>Ainsi</strong>, la paix fut rétablie.</td></tr>
+<tr><td>d'où</td><td>hence / whence</td><td>Il ne comprend pas. <strong>D'où</strong> sa confusion.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Astuce :</strong> Différence clé : <em>grâce à</em> = cause positive (bonne chose), <em>à cause de</em> = cause négative (mauvaise chose ou neutre).</div>
+<div class="example-box">Grâce à son talent, il a réussi. ✅ (positive)<br>À cause de la pluie, le match est annulé. ✅ (negative)</div>`,
+    content_en:`<h2>🔗 Logical Connectors — Cause & Consequence</h2>
+<p>These connectors express the <strong>reason why</strong> (cause) and the <strong>result</strong> (consequence) of an action or event.</p>
+<h3>Cause connectors</h3>
+<table class="vocab-table">
+<tr><th>Connector</th><th>Meaning</th><th>Example</th></tr>
+<tr><td>car</td><td>for / because</td><td>Il est absent <strong>car</strong> il est malade.</td></tr>
+<tr><td>parce que</td><td>because</td><td>Je reste <strong>parce qu'</strong>il pleut.</td></tr>
+<tr><td>puisque</td><td>since / as</td><td><strong>Puisque</strong> tu es là, aide-moi.</td></tr>
+<tr><td>étant donné que</td><td>given that</td><td><strong>Étant donné qu'</strong>il est tard, on part.</td></tr>
+<tr><td>grâce à (+ noun)</td><td>thanks to</td><td><strong>Grâce à</strong> ton aide, j'ai réussi.</td></tr>
+<tr><td>à cause de (+ noun)</td><td>because of</td><td><strong>À cause de</strong> la grève, les trains sont bloqués.</td></tr>
+</table>
+<h3>Consequence connectors</h3>
+<table class="vocab-table">
+<tr><th>Connector</th><th>Meaning</th><th>Example</th></tr>
+<tr><td>donc</td><td>therefore / so</td><td>Je pense, <strong>donc</strong> je suis.</td></tr>
+<tr><td>par conséquent</td><td>consequently</td><td>Il a travaillé dur. <strong>Par conséquent</strong>, il a réussi.</td></tr>
+<tr><td>c'est pourquoi</td><td>that is why</td><td>Il pleut. <strong>C'est pourquoi</strong> le match est annulé.</td></tr>
+<tr><td>ainsi</td><td>thus / so</td><td><strong>Ainsi</strong>, la paix fut rétablie.</td></tr>
+<tr><td>d'où</td><td>hence / whence</td><td>Il ne comprend pas. <strong>D'où</strong> sa confusion.</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Tip:</strong> Key difference: <em>grâce à</em> = positive cause (good thing), <em>à cause de</em> = negative cause (bad thing or neutral).</div>
+<div class="example-box">Grâce à son talent, il a réussi. ✅ (positive)<br>À cause de la pluie, le match est annulé. ✅ (negative)</div>`,
     quiz:[
       {q:"Il est absent ___ il est malade. (cause)", opts:['car','donc','ainsi','or'], ans:0},
       {q:"Il a beaucoup étudié. ___, il a réussi. (conséquence)", opts:['Par conséquent','Car','Puisque','Bien que'], ans:0},
@@ -19404,6 +20024,7 @@ function openLesson(id) {
     if (!currentLesson) { console.warn('openLesson: lesson not found', id); return; }
     const rawContent = (lang==='zh' && CONTENT_ZH[id]) ? CONTENT_ZH[id] :
                        (lang==='en' && CONTENT_EN && CONTENT_EN[id]) ? CONTENT_EN[id] :
+                       (lang==='en' && currentLesson.content_en) ? currentLesson.content_en :
                        currentLesson.content;
     lessonPages = Array.isArray(rawContent) ? rawContent : [rawContent];
     currentLessonPageIdx = 0;
@@ -19495,13 +20116,17 @@ function _buildQuizData(rawQuiz) {
   var indices = _shuffle(Array.from({length: rawQuiz.length}, function(_, k){ return k; }));
   return indices.map(function(origIdx) {
     var q = rawQuiz[origIdx];
-    var opts = q.opts.slice();
+    var _zhEntry = (lang==='zh' && typeof QUIZ_ZH !== 'undefined' && QUIZ_ZH[currentLesson.id])
+      ? QUIZ_ZH[currentLesson.id][origIdx] : null;
+    var opts = (_zhEntry && typeof _zhEntry === 'object' && _zhEntry.opts)
+      ? _zhEntry.opts.slice()
+      : (lang==='zh' && q.opts_zh) ? q.opts_zh.slice() : q.opts.slice();
     var ansVal = opts[q.ans];
     _shuffle(opts);
     var newAns = opts.indexOf(ansVal);
-    var qText = (lang==='zh' && typeof QUIZ_ZH !== 'undefined' && QUIZ_ZH[currentLesson.id])
-      ? QUIZ_ZH[currentLesson.id][origIdx]
-      : (lang==='en' && q.q_en) ? q.q_en : q.q;
+    var qText = _zhEntry
+      ? (typeof _zhEntry === 'string' ? _zhEntry : (_zhEntry.q || q.q))
+      : (q.q_en && (lang==='en' || lang==='zh')) ? q.q_en : q.q;
     var type = _pickExType(qText, opts);
     return {origIdx: origIdx, q: q, qText: qText, opts: opts, ans: newAns, type: type};
   });
