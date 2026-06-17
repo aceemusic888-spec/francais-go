@@ -1053,6 +1053,15 @@
     .conj-mode-bar { display:flex; gap:8px; margin-bottom:16px; }
     .conj-mode-btn { flex:1; padding:10px; border-radius:12px; border:2px solid var(--border); background:var(--card); color:var(--text); font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s; }
     .conj-mode-btn.active { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:transparent; box-shadow:0 3px 10px rgba(79,70,229,0.3); }
+    .conj-group-bar { display:flex; gap:6px; overflow-x:auto; padding:0 0 14px; scrollbar-width:none; -ms-overflow-style:none; }
+    .conj-group-bar::-webkit-scrollbar { display:none; }
+    .conj-grp-btn { flex:none; padding:7px 14px; border-radius:99px; border:2px solid var(--border); background:var(--card); color:var(--indigo); font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; transition:all 0.2s; }
+    .conj-grp-btn.active { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:transparent; box-shadow:0 2px 8px rgba(79,70,229,0.3); }
+    .conj-grp-badge { display:inline-block; font-size:10px; font-weight:700; border-radius:6px; padding:2px 6px; margin-top:4px; }
+    .badge-1 { background:#dbeafe; color:#1d4ed8; }
+    .badge-2 { background:#dcfce7; color:#166534; }
+    .badge-3 { background:#fce7f3; color:#9d174d; }
+    .badge-pro { background:#ede9fe; color:#6d28d9; }
     #conj-verb-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .conj-verb-card { background:var(--card); border:2px solid var(--border); border-radius:16px; padding:14px 12px; cursor:pointer; text-align:center; transition:all 0.15s; }
     .conj-verb-card:hover { border-color:var(--indigo); box-shadow:0 3px 12px rgba(79,70,229,0.15); }
@@ -1159,6 +1168,68 @@
     .hv2-section-lbl { font-size:16px; font-weight:800; color:var(--text); margin:20px 0 10px; letter-spacing:-0.3px; }
 
     /* Splash mascot img */
+
+    /* ── Streak milestone overlay ── */
+    .streak-milestone-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity 0.3s}
+    .streak-milestone-overlay.show{opacity:1;pointer-events:all}
+    .streak-milestone-card{background:linear-gradient(135deg,#F59E0B,#EF4444);border-radius:28px;padding:32px 28px;text-align:center;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(239,68,68,0.45);transform:scale(0.85);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+    .streak-milestone-overlay.show .streak-milestone-card{transform:scale(1)}
+    .streak-milestone-fire{font-size:72px;animation:fireWiggle 0.6s ease infinite alternate}
+    @keyframes fireWiggle{from{transform:rotate(-8deg) scale(1)}to{transform:rotate(8deg) scale(1.1)}}
+    .streak-milestone-num{font-size:52px;font-weight:900;color:white;line-height:1;margin:8px 0 4px;text-shadow:0 2px 12px rgba(0,0,0,0.25)}
+    .streak-milestone-lbl{font-size:16px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:16px}
+    .streak-milestone-msg{font-size:14px;color:rgba(255,255,255,0.85);font-weight:600;line-height:1.5;margin-bottom:22px}
+    .streak-milestone-close{background:white;color:#EF4444;border:none;border-radius:14px;padding:12px 28px;font-size:15px;font-weight:800;cursor:pointer;width:100%}
+    /* ── Homepage streak card ── */
+    .streak-home-card{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:18px;padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:12px}
+    .streak-home-fire{font-size:36px;flex-shrink:0;animation:firePulse 1.4s ease infinite}
+    @keyframes firePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+    .streak-home-info{flex:1}
+    .streak-home-num{font-size:22px;font-weight:900;color:#92400E;line-height:1}
+    .streak-home-sub{font-size:12px;color:#B45309;font-weight:600;margin-top:2px}
+    .streak-home-next{font-size:11px;color:#D97706;font-weight:700;margin-top:5px;background:rgba(245,158,11,0.15);border-radius:8px;padding:4px 8px;display:inline-block}
+    /* ── Streak number pulse on increase ── */
+    @keyframes streakPop{0%{transform:scale(1)}40%{transform:scale(1.4)}70%{transform:scale(0.92)}100%{transform:scale(1)}}
+    .streak-pop{animation:streakPop 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+
+    
+/* ── Font size selector ── */
+.font-size-row{display:flex;gap:8px;margin-top:10px;}
+.fs-btn{flex:1;padding:8px 4px;border:2px solid var(--border,#E5E7EB);border-radius:12px;background:var(--bg-card,#fff);color:var(--text,#1F2937);font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;}
+.fs-btn.active{border-color:#6C63FF;background:#EDE9FE;color:#6C63FF;}
+body.font-lg{font-size:17px!important;}
+body.font-xl{font-size:20px!important;}
+body.font-lg .card,.body.font-lg .lesson-content,.body.font-lg p,.body.font-lg li{font-size:inherit;}
+body.font-xl .card,.body.font-xl .lesson-content,.body.font-xl p,.body.font-xl li{font-size:inherit;}
+
+/* ── Global search ── */
+.global-search-wrap{padding:10px 16px 0;position:relative;}
+.global-search-input{width:100%;box-sizing:border-box;padding:10px 40px 10px 38px;border:2px solid var(--border,#E5E7EB);border-radius:14px;font-size:15px;background:var(--bg-card,#fff);color:var(--text,#1F2937);outline:none;transition:border-color 0.2s;}
+.global-search-input:focus{border-color:#6C63FF;}
+.global-search-icon{position:absolute;left:28px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+.global-search-clear{position:absolute;right:28px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted,#9CA3AF);display:none;}
+.search-results-wrap{padding:0 16px 16px;}
+.search-cat-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted,#9CA3AF);margin:14px 0 6px;}
+.search-result-item{background:var(--bg-card,#fff);border-radius:12px;padding:10px 14px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border,#E5E7EB);transition:border-color 0.15s,box-shadow 0.15s;}
+.search-result-item:active{border-color:#6C63FF;box-shadow:0 0 0 3px rgba(108,99,255,0.12);}
+.search-result-title{font-weight:700;font-size:14px;color:var(--text,#1F2937);}
+.search-result-sub{font-size:12px;color:var(--muted,#9CA3AF);margin-top:2px;}
+.search-result-match{color:#6C63FF;}
+.search-empty{text-align:center;padding:32px 0;color:var(--muted,#9CA3AF);font-size:15px;}
+.search-pratique-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 20px;}
+
+/* ── Post-lesson summary ── */
+.result-summary-wrap{margin:12px 0 4px;width:100%;text-align:left;}
+.result-summary-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted,#9CA3AF);margin-bottom:8px;}
+.result-time-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted,#9CA3AF);margin-bottom:10px;}
+.result-wrong-item{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:12px;padding:10px 12px;margin-bottom:8px;}
+.result-wrong-item .wrong-q{font-size:13px;font-weight:700;color:#B91C1C;margin-bottom:4px;}
+.result-wrong-item .wrong-your{font-size:12px;color:#DC2626;}
+.result-wrong-item .wrong-correct{font-size:12px;color:#16A34A;font-weight:700;}
+body.dark .result-wrong-item{background:#2D1515;border-color:#7F1D1D;}
+body.dark .result-wrong-item .wrong-q{color:#FCA5A5;}
+body.dark .result-wrong-item .wrong-your{color:#F87171;}
+body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
 </style>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1345,6 +1416,7 @@
       <div class="hero-mascot" id="home-mascot"></div>
     </div>
     <div id="home-unlocked"></div>
+    <div id="streak-card-wrap"></div>
     <div id="home-goal-tip"></div>
     <div id="home-level-prog"></div>
     <div id="home-quick-review-wrap"></div>
@@ -1463,7 +1535,18 @@
       <div style="font-size:22px;font-weight:900;color:var(--text);" id="prac-title">Pratiquer</div>
       <div style="font-size:14px;color:var(--muted);margin-top:3px;" id="prac-subtitle">Choisir un mode d'entraînement</div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 20px;">
+    <div class="global-search-wrap">
+      <span class="global-search-icon">🔍</span>
+      <input class="global-search-input" id="global-search-input" type="search"
+        placeholder="Rechercher leçons, mots, verbes..."
+        oninput="runGlobalSearch(this.value)"
+        onfocus="document.getElementById('search-clear-btn').style.display='block'"
+        onblur="setTimeout(function(){document.getElementById('search-clear-btn').style.display='none'},200)"
+      />
+      <button class="global-search-clear" id="search-clear-btn" onclick="clearGlobalSearch()">✕</button>
+    </div>
+    <div id="search-results-area" style="display:none;"></div>
+    <div id="pratique-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 20px;">
       <button class="pratique-card" onclick="showTab('flashcards')">
         <div class="pratique-card-icon">🃏</div>
         <div class="pratique-card-title" id="prac-lbl-fc">Cartes mémoire</div>
@@ -1499,10 +1582,10 @@
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div>
           <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.75);letter-spacing:.5px;text-transform:uppercase;">Nouveau</div>
-          <div style="font-size:19px;font-weight:900;color:white;margin-top:2px;" id="delf-teaser-title">Tests DELF / TCF</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:3px;" id="delf-teaser-sub">10 tests chronométrés · A1 à B2</div>
+          <div style="font-size:19px;font-weight:900;color:white;margin-top:2px;" id="delf-teaser-title">TCF · TEF · DELF</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:3px;" id="delf-teaser-sub">Tests + Stratégies + Oral + Écrit + Vocabulaire</div>
         </div>
-        <div style="font-size:42px;flex-shrink:0;">📝</div>
+        <div style="font-size:42px;flex-shrink:0;">🏆</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
         <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">🌱 A1</span>
@@ -1510,7 +1593,7 @@
         <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">⭐ B1</span>
         <span style="background:rgba(255,255,255,0.18);color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;">🏆 B2</span>
       </div>
-      <div style="background:white;color:#4F46E5;font-size:14px;font-weight:800;padding:10px 16px;border-radius:12px;text-align:center;" id="delf-teaser-btn">Accéder aux tests gratuits →</div>
+      <div style="background:white;color:#4F46E5;font-size:14px;font-weight:800;padding:10px 16px;border-radius:12px;text-align:center;" id="delf-teaser-btn">Préparation TCF / TEF / DELF →</div>
     </div>
   </div>
 
@@ -1645,6 +1728,20 @@
           <div class="settings-toggle-thumb"></div>
         </div>
       </div>
+      <div class="settings-row" style="flex-direction:column;align-items:flex-start;cursor:default;">
+        <div class="settings-row-left" style="margin-bottom:6px;">
+          <span class="settings-row-icon">🔤</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-fontsize">Taille du texte</div>
+            <div class="settings-row-sub" id="set-lbl-fontsize-sub">Choisir la lisibilité</div>
+          </div>
+        </div>
+        <div class="font-size-row" id="font-size-row">
+          <button class="fs-btn" id="fs-normal" onclick="setFontSize('normal')">A<br><small id="fs-lbl-n">Normal</small></button>
+          <button class="fs-btn" id="fs-lg"     onclick="setFontSize('lg')">A<br><small id="fs-lbl-g">Grand</small></button>
+          <button class="fs-btn" id="fs-xl"     onclick="setFontSize('xl')" style="font-size:1.2em">A<br><small id="fs-lbl-x">Très grand</small></button>
+        </div>
+      </div>
     </div>
 
     <!-- Objectif quotidien -->
@@ -1741,6 +1838,7 @@
       <div class="result-msg" id="result-msg"></div>
       <div class="result-sub" id="result-sub"></div>
       <div class="xp-gained" id="xp-gained"></div>
+      <div id="result-summary" class="result-summary-wrap" style="display:none;"></div>
       <div class="result-actions">
         <button class="btn-primary" id="btn-next-lesson" onclick="goNextLesson()" style="display:none"></button>
         <button class="btn-primary" id="btn-retry" onclick="retryQuiz()"></button>
@@ -1806,6 +1904,13 @@
     <div id="conj-list-view">
       <div class="dlg-header-title" id="conj-title-main">🔤 Conjugaison</div>
       <div class="dlg-header-sub" id="conj-sub-main">Maîtrisez les verbes français</div>
+      <div class="conj-group-bar" id="conj-group-bar">
+        <button class="conj-grp-btn active" id="cg-all"  onclick="conjSetGroup('all')"></button>
+        <button class="conj-grp-btn"        id="cg-1"    onclick="conjSetGroup('1')"></button>
+        <button class="conj-grp-btn"        id="cg-2"    onclick="conjSetGroup('2')"></button>
+        <button class="conj-grp-btn"        id="cg-3"    onclick="conjSetGroup('3')"></button>
+        <button class="conj-grp-btn"        id="cg-pro"  onclick="conjSetGroup('pro')"></button>
+      </div>
       <div class="conj-mode-bar">
         <button class="conj-mode-btn active" id="conj-btn-table" onclick="conjSetMode('table')"></button>
         <button class="conj-mode-btn" id="conj-btn-quiz" onclick="conjSetMode('quiz')"></button>
@@ -19514,8 +19619,44 @@ function updateStreak() {
   localStorage.setItem('ff_streak', streak);
   localStorage.setItem('ff_last_active', today);
   scheduleCloudSync();
-  if (streak > 1) showStreakToast(streak);
+  const milestones = [3, 7, 14, 30, 60, 100];
+  if (milestones.includes(streak)) {
+    setTimeout(function(){ showStreakMilestone(streak); }, 600);
+  } else if (streak > 1) {
+    showStreakToast(streak);
+  }
+  // Animate streak number on homepage
+  const sn = document.getElementById('hero-streak-num');
+  if (sn) { sn.classList.remove('streak-pop'); void sn.offsetWidth; sn.classList.add('streak-pop'); }
   return streak;
+}
+
+function showStreakMilestone(n) {
+  var msgs = {
+    3:  { fire:'🔥', msg: lang==='en'?'3 days in a row — great start!':lang==='zh'?'连续3天——好的开始！':'3 jours de suite — beau départ !' },
+    7:  { fire:'🔥🔥', msg: lang==='en'?'A full week! You are unstoppable.':lang==='zh'?'整整一周！势不可挡！':'Une semaine entière ! Tu es inarr\u00eatable.' },
+    14: { fire:'🔥🔥🔥', msg: lang==='en'?'14 days! Your French is on fire.':lang==='zh'?'14天！法语突飞猛进！':'14 jours ! Ton français brûle !' },
+    30: { fire:'🏆🔥', msg: lang==='en'?'30 days streak! You are a legend.':lang==='zh'?'30天！你是传奇！':'30 jours de suite ! Tu es une légende.' },
+    60: { fire:'💎🔥', msg: lang==='en'?'60 days — truly dedicated!':lang==='zh'?'60天——真的太厉害了！':'60 jours — une persévérance rare !' },
+    100:{ fire:'👑🔥', msg: lang==='en'?'100 DAYS! Absolute champion!':lang==='zh'?'100天！绝对冠军！':'100 JOURS ! Champion absolu !' }
+  };
+  var d = msgs[n] || { fire:'🔥', msg: n + (lang==='en'?' days in a row!':lang==='zh'?'天连续！':' jours de suite !') };
+  var lbl = lang==='en'?'days in a row!':lang==='zh'?'天连续！':'jours de suite !';
+  var close = lang==='en'?'🔥 Keep going!':lang==='zh'?'🔥 继续加油！':'🔥 Continuer !';
+  var el = function(id){ return document.getElementById(id); };
+  if (el('sm-fire'))  el('sm-fire').textContent  = d.fire;
+  if (el('sm-num'))   el('sm-num').textContent    = n;
+  if (el('sm-lbl'))   el('sm-lbl').textContent    = lbl;
+  if (el('sm-msg'))   el('sm-msg').textContent    = d.msg;
+  if (el('sm-close')) el('sm-close').textContent  = close;
+  var ov = el('streak-milestone-overlay');
+  if (ov) ov.classList.add('show');
+  try { launchConfetti(); } catch(e) {}
+}
+
+function closeStreakMilestone() {
+  var ov = document.getElementById('streak-milestone-overlay');
+  if (ov) ov.classList.remove('show');
 }
 function showStreakToast(n) {
   let el = document.getElementById('streak-toast');
@@ -19541,6 +19682,135 @@ function applyDarkMode() {
   const icon = document.getElementById('dark-mode-icon');
   if (icon) icon.textContent = darkMode ? '☀️' : '🌙';
 }
+
+
+function runGlobalSearch(q) {
+  var area = document.getElementById('search-results-area');
+  var grid = document.getElementById('pratique-grid');
+  q = (q || '').trim().toLowerCase();
+  if (!q) {
+    if (area) { area.style.display = 'none'; area.innerHTML = ''; }
+    if (grid) grid.style.display = 'grid';
+    return;
+  }
+  if (area) area.style.display = 'block';
+  if (grid) grid.style.display = 'none';
+
+  var html_out = '';
+  var totalCount = 0;
+
+  // ── Lessons ──
+  var lessonHits = [];
+  var lessonTitles = typeof TITLES !== 'undefined' ? TITLES : [];
+  var lessonTitlesEn = typeof TITLES_EN !== 'undefined' ? TITLES_EN : [];
+  var freeLessons = typeof FREE_LESSONS !== 'undefined' ? FREE_LESSONS : [];
+  for (var i = 0; i < lessonTitles.length; i++) {
+    var t = (lessonTitles[i] || '').toLowerCase();
+    var te = (lessonTitlesEn[i] || '').toLowerCase();
+    if (t.includes(q) || te.includes(q)) {
+      lessonHits.push({ id: i, fr: lessonTitles[i], en: lessonTitlesEn[i], free: freeLessons.includes(i) });
+    }
+  }
+  if (lessonHits.length) {
+    totalCount += lessonHits.length;
+    var catLbl = lang==='en'?'Lessons':lang==='zh'?'课程':'Leçons';
+    html_out += '<div class="search-cat-title">📚 '+catLbl+' ('+lessonHits.length+')</div>';
+    lessonHits.slice(0,6).forEach(function(h){
+      var lbl = h.free ? '' : ' 🔒';
+      html_out += '<div class="search-result-item" onclick="openLesson('+h.id+')">'
+        +'<div class="search-result-title">'+escHtml(h.fr)+lbl+'</div>'
+        +(h.en?'<div class="search-result-sub">'+escHtml(h.en)+'</div>':'')
+        +'</div>';
+    });
+    if (lessonHits.length > 6) html_out += '<div class="search-result-sub" style="padding:0 4px 8px;">+ '+(lessonHits.length-6)+' autres</div>';
+  }
+
+  // ── Vocabulary ──
+  var vocabHits = [];
+  var vData = typeof vocabData !== 'undefined' ? vocabData : [];
+  for (var vi = 0; vi < vData.length; vi++) {
+    var vw = vData[vi];
+    var vfr = (vw.fr || '').toLowerCase();
+    var ven = (vw.en || '').toLowerCase();
+    var vzh = (vw.zh || '').toLowerCase();
+    if (vfr.includes(q) || ven.includes(q) || vzh.includes(q)) {
+      vocabHits.push(vw);
+    }
+  }
+  if (vocabHits.length) {
+    totalCount += vocabHits.length;
+    var vCatLbl = lang==='en'?'Vocabulary':lang==='zh'?'词汇':'Vocabulaire';
+    html_out += '<div class="search-cat-title">🗂️ '+vCatLbl+' ('+vocabHits.length+')</div>';
+    vocabHits.slice(0,8).forEach(function(vw){
+      var disp = lang==='en' ? (vw.en+' — '+vw.fr) : lang==='zh' ? (vw.zh+' — '+vw.fr) : (vw.fr+' — '+vw.en);
+      html_out += '<div class="search-result-item" onclick="showTab(\'vocab\')">'
+        +'<div class="search-result-title">'+escHtml(vw.fr)+'</div>'
+        +'<div class="search-result-sub">'+escHtml(vw.en)+(vw.zh?' · '+escHtml(vw.zh):'')+'</div>'
+        +'</div>';
+    });
+    if (vocabHits.length > 8) html_out += '<div class="search-result-sub" style="padding:0 4px 8px;">+ '+(vocabHits.length-8)+' autres</div>';
+  }
+
+  // ── Conjugation verbs ──
+  var conjHits = [];
+  var cVerbs = typeof conjVerbs !== 'undefined' ? conjVerbs : [];
+  for (var ci = 0; ci < cVerbs.length; ci++) {
+    var cv = cVerbs[ci];
+    var cinf = (cv.inf || '').toLowerCase();
+    var cen  = (cv.en  || '').toLowerCase();
+    var czh  = (cv.zh  || '').toLowerCase();
+    if (cinf.includes(q) || cen.includes(q) || czh.includes(q)) {
+      conjHits.push(cv);
+    }
+  }
+  if (conjHits.length) {
+    totalCount += conjHits.length;
+    var cCatLbl = lang==='en'?'Verb conjugation':lang==='zh'?'动词变位':'Conjugaison';
+    html_out += '<div class="search-cat-title">📝 '+cCatLbl+' ('+conjHits.length+')</div>';
+    conjHits.slice(0,6).forEach(function(cv){
+      var grpLbl = cv.grp==='1'?'-ER':cv.grp==='2'?'-IR':cv.grp==='3'?'Irrég.':'Pronom.';
+      html_out += '<div class="search-result-item" onclick="showTab(\'conjugaison\')">'
+        +'<div class="search-result-title">'+escHtml(cv.inf)+' <small style="font-weight:400;color:var(--muted)">'+grpLbl+'</small></div>'
+        +'<div class="search-result-sub">'+escHtml(cv.en)+(cv.zh?' · '+escHtml(cv.zh):'')+'</div>'
+        +'</div>';
+    });
+  }
+
+  if (!totalCount) {
+    var emptyLbl = lang==='en'?'No results for "'+q+'"':lang==='zh'?'没有找到"'+q+'"的结果':'Aucun résultat pour « '+q+' »';
+    html_out = '<div class="search-empty">'+emptyLbl+'</div>';
+  }
+
+  if (area) area.innerHTML = '<div class="search-results-wrap">'+html_out+'</div>';
+}
+
+function clearGlobalSearch() {
+  var inp = document.getElementById('global-search-input');
+  if (inp) { inp.value = ''; }
+  runGlobalSearch('');
+  document.getElementById('search-clear-btn').style.display = 'none';
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function setFontSize(size) {
+  document.body.classList.remove('font-lg','font-xl');
+  if (size === 'lg') document.body.classList.add('font-lg');
+  else if (size === 'xl') document.body.classList.add('font-xl');
+  localStorage.setItem('ff_font_size', size);
+  ['normal','lg','xl'].forEach(function(s){
+    var b = document.getElementById('fs-'+s);
+    if (b) b.classList.toggle('active', s === size);
+  });
+}
+
+function initFontSize() {
+  var saved = localStorage.getItem('ff_font_size') || 'normal';
+  setFontSize(saved);
+}
+
 function toggleDarkMode() {
   darkMode = !darkMode;
   localStorage.setItem('ff_dark', darkMode ? '1' : '0');
@@ -19656,9 +19926,9 @@ function updateNav() {
   var delfTitle = document.getElementById('delf-teaser-title');
   var delfSub   = document.getElementById('delf-teaser-sub');
   var delfBtn   = document.getElementById('delf-teaser-btn');
-  if (delfTitle) delfTitle.textContent = lang==='en'?'DELF / TCF Tests':lang==='zh'?'DELF / TCF 模拟考试':'Tests DELF / TCF';
-  if (delfSub)   delfSub.textContent   = lang==='en'?'10 timed tests · A1 to B2':lang==='zh'?'10 套限时测试 · A1 至 B2':'10 tests chronométrés · A1 à B2';
-  if (delfBtn)   delfBtn.textContent   = lang==='en'?'Access free tests →':lang==='zh'?'免费参加测试 →':'Accéder aux tests gratuits →';
+  if (delfTitle) delfTitle.textContent = lang==='en'?'TCF · TEF · DELF':lang==='zh'?'TCF · TEF · DELF 备考':' TCF · TEF · DELF';
+  if (delfSub)   delfSub.textContent   = lang==='en'?'Tests + Strategies + Listening + Writing + Vocab':lang==='zh'?'模拟测试 + 备考策略 + 听力 + 写作 + 词汇':'Tests + Stratégies + Oral + Écrit + Vocabulaire';
+  if (delfBtn)   delfBtn.textContent   = lang==='en'?'TCF / TEF / DELF Prep →':lang==='zh'?'TCF / TEF / DELF 备考 →':'Préparation TCF / TEF / DELF →';
   var pt = document.getElementById('prac-title');
   if (pt) pt.textContent = lang==='en'?'Practice':lang==='zh'?'练习':'Pratiquer';
   var ps = document.getElementById('prac-subtitle');
@@ -19714,6 +19984,28 @@ function startQuickReview() {
   }, 200);
 }
 
+function renderStreakCard(streak) {
+  var wrap = document.getElementById('streak-card-wrap');
+  if (!wrap) return;
+  if (!streak || streak < 1) { wrap.innerHTML = ''; return; }
+  var milestones = [3, 7, 14, 30, 60, 100];
+  var nextMs = milestones.find(function(m){ return m > streak; }) || null;
+  var fireEmoji = streak >= 30 ? '🔥🔥🔥' : streak >= 7 ? '🔥🔥' : '🔥';
+  var dayLbl = lang==='en'?'days in a row':lang==='zh'?'天连续':streak > 1 ? 'jours de suite' : 'jour de suite';
+  var nextLbl = nextMs
+    ? (lang==='en'?'+'+(nextMs-streak)+' days to reach '+nextMs+'!':
+       lang==='zh'?'再'+( nextMs-streak)+'天达到'+nextMs+'天！':
+       'Plus que '+(nextMs-streak)+' jour'+(nextMs-streak>1?'s':'')+' pour atteindre '+nextMs+' !')
+    : (lang==='en'?'🏆 You are a legend!':lang==='zh'?'🏆 你是传奇！':'🏆 Tu es une légende !');
+  wrap.innerHTML =
+    '<div class="streak-home-card">'
+    +'<div class="streak-home-fire">'+fireEmoji+'</div>'
+    +'<div class="streak-home-info">'
+    +'<div class="streak-home-num">'+streak+' '+dayLbl+'</div>'
+    +'<div class="streak-home-next">'+nextLbl+'</div>'
+    +'</div></div>';
+}
+
 function renderHome() {
   try {
 
@@ -19747,6 +20039,8 @@ function renderHome() {
       +'<div style="background:rgba(255,255,255,0.22);border-radius:99px;height:6px;overflow:hidden;">'
       +'<div style="background:white;border-radius:99px;height:6px;width:'+dpct+'%;transition:width 0.6s;"></div></div>';
   }
+  // ── Streak card below hero ──
+  renderStreakCard(streak);
   const fill = document.getElementById('hero-prog-fill');
   const car  = document.getElementById('hero-road-car');
   // Disable transitions → force paint at 0 → re-enable → animate (WebView-safe)
@@ -20146,7 +20440,7 @@ function startQuiz() {
   if (!currentLesson) return;
   var l = currentLesson;
   var rawQuiz = (lang==='en' && typeof QUIZ_EN !== 'undefined' && QUIZ_EN[l.id]) ? QUIZ_EN[l.id] : l.quiz;
-  quizIndex = 0; quizScore = 0; quizAnswered = false; quizCombo = 0; window.wrongAnswersList = []; _clearQuizTimer();
+  quizIndex = 0; quizScore = 0; quizAnswered = false; quizCombo = 0; window.wrongAnswersList = []; window._wrongAnswerDetails = []; _clearQuizTimer(); window._quizStartTime = Date.now();
   _quizData = _buildQuizData(rawQuiz);
   document.getElementById('lesson-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
@@ -20278,6 +20572,12 @@ function _selectAnswer(i) {
     quizCombo = 0;
     if (!window.wrongAnswersList) window.wrongAnswersList = [];
     window.wrongAnswersList.push(quizIndex);
+      if (!window._wrongAnswerDetails) window._wrongAnswerDetails = [];
+      window._wrongAnswerDetails.push({
+        q: d.q || d.question || '',
+        your: (d.opts && d.opts[i]) ? d.opts[i] : '',
+        correct: (d.opts && d.ans !== undefined) ? d.opts[d.ans] : ''
+      });
   }
   var opts = document.querySelectorAll('.quiz-option');
   opts.forEach(function(btn, j) {
@@ -20450,13 +20750,42 @@ function showResult() {
     }
   }
 
+  // ── Post-lesson summary ──
+  var summaryEl = document.getElementById('result-summary');
+  if (summaryEl) {
+    var summaryHtml = '';
+    // Time taken
+    var elapsed = window._quizStartTime ? Math.round((Date.now() - window._quizStartTime) / 1000) : 0;
+    var timeLbl = lang==='en'?'Time':lang==='zh'?'用时':'Temps';
+    var minPart = elapsed >= 60 ? Math.floor(elapsed/60)+'min ' : '';
+    var secPart = (elapsed%60)+'s';
+    summaryHtml += '<div class="result-time-row">⏱️ '+timeLbl+' : <strong>'+minPart+secPart+'</strong></div>';
+    // Wrong answers breakdown
+    var wrongs = window._wrongAnswerDetails || [];
+    if (wrongs.length > 0) {
+      var wrongTitle = lang==='en'?'Mistakes to review':lang==='zh'?'需要复习的错误':'Erreurs à revoir';
+      summaryHtml += '<div class="result-summary-title">❌ '+wrongTitle+'</div>';
+      wrongs.forEach(function(w) {
+        var yourLbl  = lang==='en'?'Your answer:':lang==='zh'?'你的回答：':'Ta réponse :';
+        var corrLbl  = lang==='en'?'Correct:':lang==='zh'?'正确答案：':'Correct :';
+        summaryHtml += '<div class="result-wrong-item">'
+          +'<div class="wrong-q">'+escHtml(w.q)+'</div>'
+          +(w.your?'<div class="wrong-your">✗ '+yourLbl+' '+escHtml(w.your)+'</div>':'')
+          +(w.correct?'<div class="wrong-correct">✓ '+corrLbl+' '+escHtml(w.correct)+'</div>':'')
+          +'</div>';
+      });
+    }
+    summaryEl.innerHTML = summaryHtml;
+    summaryEl.style.display = (elapsed > 0 || wrongs.length > 0) ? 'block' : 'none';
+  }
+
   // Switch views
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('result-view').classList.add('active');
 }
 
 function retryQuiz() {
-  window.wrongAnswersList = [];
+  window.wrongAnswersList = []; window._wrongAnswerDetails = [];
   document.getElementById('result-view').classList.remove('active');
   document.getElementById('lesson-view').classList.add('active');
   renderLessonPage();
@@ -20466,7 +20795,7 @@ function retryWrongAnswers() {
   if (!window.wrongAnswersList || window.wrongAnswersList.length === 0) return;
   window._wrongOnlyQuizData = window.wrongAnswersList.map(function(i){ return _quizData[i]; });
   window._wrongMode = true;
-  quizIndex = 0; quizScore = 0; quizAnswered = false; quizCombo = 0; window.wrongAnswersList = [];
+  quizIndex = 0; quizScore = 0; quizAnswered = false; quizCombo = 0; window.wrongAnswersList = []; window._wrongAnswerDetails = [];
   document.getElementById('result-view').classList.remove('active');
   document.getElementById('quiz-view').classList.add('active');
   _renderQD(window._wrongOnlyQuizData);
@@ -21763,6 +22092,7 @@ function initApp() {
   // Restore TTS speed preference
   if (_ttsSlowMode) document.querySelectorAll('.tts-speed-btn').forEach(function(b){ b.classList.add('slow'); });
   applyDarkMode();
+  initFontSize();
   updateLangBtn();
   updateXPDisplay();
   initMascot();
@@ -23053,162 +23383,313 @@ var conjTenseNames = {
 
 // [je,tu,il-elle,nous,vous,ils-elles]
 var conjVerbs = [
-  // ── Verbes irréguliers essentiels ──────────────────────────────
-  {inf:'être',    en:'to be',            zh:'是/存在',
-   P:  ['suis','es','est','sommes','êtes','sont'],
-   PC: ['ai été','as été','a été','avons été','avez été','ont été'],
-   I:  ['étais','étais','était','étions','étiez','étaient'],
-   F:  ['serai','seras','sera','serons','serez','seront'],
-   CO: ['serais','serais','serait','serions','seriez','seraient']},
-  {inf:'avoir',   en:'to have',          zh:'有',
-   P:  ['ai','as','a','avons','avez','ont'],
-   PC: ['ai eu','as eu','a eu','avons eu','avez eu','ont eu'],
-   I:  ['avais','avais','avait','avions','aviez','avaient'],
-   F:  ['aurai','auras','aura','aurons','aurez','auront'],
-   CO: ['aurais','aurais','aurait','aurions','auriez','auraient']},
-  {inf:'faire',   en:'to do / make',     zh:'做',
-   P:  ['fais','fais','fait','faisons','faites','font'],
-   PC: ['ai fait','as fait','a fait','avons fait','avez fait','ont fait'],
-   I:  ['faisais','faisais','faisait','faisions','faisiez','faisaient'],
-   F:  ['ferai','feras','fera','ferons','ferez','feront'],
-   CO: ['ferais','ferais','ferait','ferions','feriez','feraient']},
-  {inf:'aller',   en:'to go',            zh:'去',
-   P:  ['vais','vas','va','allons','allez','vont'],
-   PC: ['suis allé(e)','es allé(e)','est allé(e)','sommes allé(e)s','êtes allé(e)s','sont allé(e)s'],
-   I:  ['allais','allais','allait','allions','alliez','allaient'],
-   F:  ['irai','iras','ira','irons','irez','iront'],
-   CO: ['irais','irais','irait','irions','iriez','iraient']},
-  {inf:'venir',   en:'to come',          zh:'来',
-   P:  ['viens','viens','vient','venons','venez','viennent'],
-   PC: ['suis venu(e)','es venu(e)','est venu(e)','sommes venu(e)s','êtes venu(e)s','sont venu(e)s'],
-   I:  ['venais','venais','venait','venions','veniez','venaient'],
-   F:  ['viendrai','viendras','viendra','viendrons','viendrez','viendront'],
-   CO: ['viendrais','viendrais','viendrait','viendrions','viendriez','viendraient']},
-  {inf:'pouvoir', en:'to be able to',    zh:'能/可以',
-   P:  ['peux','peux','peut','pouvons','pouvez','peuvent'],
-   PC: ['ai pu','as pu','a pu','avons pu','avez pu','ont pu'],
-   I:  ['pouvais','pouvais','pouvait','pouvions','pouviez','pouvaient'],
-   F:  ['pourrai','pourras','pourra','pourrons','pourrez','pourront'],
-   CO: ['pourrais','pourrais','pourrait','pourrions','pourriez','pourraient']},
-  {inf:'vouloir', en:'to want',          zh:'想要',
-   P:  ['veux','veux','veut','voulons','voulez','veulent'],
-   PC: ['ai voulu','as voulu','a voulu','avons voulu','avez voulu','ont voulu'],
-   I:  ['voulais','voulais','voulait','voulions','vouliez','voulaient'],
-   F:  ['voudrai','voudras','voudra','voudrons','voudrez','voudront'],
-   CO: ['voudrais','voudrais','voudrait','voudrions','voudriez','voudraient']},
-  {inf:'devoir',  en:'to have to / must',zh:'必须/应该',
-   P:  ['dois','dois','doit','devons','devez','doivent'],
-   PC: ['ai dû','as dû','a dû','avons dû','avez dû','ont dû'],
-   I:  ['devais','devais','devait','devions','deviez','devaient'],
-   F:  ['devrai','devras','devra','devrons','devrez','devront'],
-   CO: ['devrais','devrais','devrait','devrions','devriez','devraient']},
-  {inf:'savoir',  en:'to know (a fact)',  zh:'知道',
-   P:  ['sais','sais','sait','savons','savez','savent'],
-   PC: ['ai su','as su','a su','avons su','avez su','ont su'],
-   I:  ['savais','savais','savait','savions','saviez','savaient'],
-   F:  ['saurai','sauras','saura','saurons','saurez','sauront'],
-   CO: ['saurais','saurais','saurait','saurions','sauriez','sauraient']},
-  {inf:'prendre', en:'to take',           zh:'拿/取',
-   P:  ['prends','prends','prend','prenons','prenez','prennent'],
-   PC: ['ai pris','as pris','a pris','avons pris','avez pris','ont pris'],
-   I:  ['prenais','prenais','prenait','prenions','preniez','prenaient'],
-   F:  ['prendrai','prendras','prendra','prendrons','prendrez','prendront'],
-   CO: ['prendrais','prendrais','prendrait','prendrions','prendriez','prendraient']},
-  {inf:'voir',    en:'to see',            zh:'看见',
-   P:  ['vois','vois','voit','voyons','voyez','voient'],
-   PC: ['ai vu','as vu','a vu','avons vu','avez vu','ont vu'],
-   I:  ['voyais','voyais','voyait','voyions','voyiez','voyaient'],
-   F:  ['verrai','verras','verra','verrons','verrez','verront'],
-   CO: ['verrais','verrais','verrait','verrions','verriez','verraient']},
-  {inf:'dire',    en:'to say / tell',     zh:'说',
-   P:  ['dis','dis','dit','disons','dites','disent'],
-   PC: ['ai dit','as dit','a dit','avons dit','avez dit','ont dit'],
-   I:  ['disais','disais','disait','disions','disiez','disaient'],
-   F:  ['dirai','diras','dira','dirons','direz','diront'],
-   CO: ['dirais','dirais','dirait','dirions','diriez','diraient']},
-  {inf:'mettre',  en:'to put / place',    zh:'放置',
-   P:  ['mets','mets','met','mettons','mettez','mettent'],
-   PC: ['ai mis','as mis','a mis','avons mis','avez mis','ont mis'],
-   I:  ['mettais','mettais','mettait','mettions','mettiez','mettaient'],
-   F:  ['mettrai','mettras','mettra','mettrons','mettrez','mettront'],
-   CO: ['mettrais','mettrais','mettrait','mettrions','mettriez','mettraient']},
-  {inf:'partir',  en:'to leave',          zh:'离开',
-   P:  ['pars','pars','part','partons','partez','partent'],
-   PC: ['suis parti(e)','es parti(e)','est parti(e)','sommes parti(e)s','êtes parti(e)s','sont parti(e)s'],
-   I:  ['partais','partais','partait','partions','partiez','partaient'],
-   F:  ['partirai','partiras','partira','partirons','partirez','partiront'],
-   CO: ['partirais','partirais','partirait','partirions','partiriez','partiraient']},
-  {inf:'finir',   en:'to finish',         zh:'结束/完成',
-   P:  ['finis','finis','finit','finissons','finissez','finissent'],
-   PC: ['ai fini','as fini','a fini','avons fini','avez fini','ont fini'],
-   I:  ['finissais','finissais','finissait','finissions','finissiez','finissaient'],
-   F:  ['finirai','finiras','finira','finirons','finirez','finiront'],
-   CO: ['finirais','finirais','finirait','finirions','finiriez','finiraient']},
-  // ── Verbes réguliers courants ────────────────────────────────────
-  {inf:'parler',  en:'to speak',          zh:'说话',
+  // ── 1er groupe — verbes en -ER ──────────────────────────────────────
+  {grp:'1', inf:'parler',    en:'to speak',          zh:'说话',
    P:  ['parle','parles','parle','parlons','parlez','parlent'],
    PC: ['ai parlé','as parlé','a parlé','avons parlé','avez parlé','ont parlé'],
    I:  ['parlais','parlais','parlait','parlions','parliez','parlaient'],
    F:  ['parlerai','parleras','parlera','parlerons','parlerez','parleront'],
    CO: ['parlerais','parlerais','parlerait','parlerions','parleriez','parleraient']},
-  {inf:'manger',  en:'to eat',            zh:'吃',
+  {grp:'1', inf:'manger',    en:'to eat',            zh:'吃',
    P:  ['mange','manges','mange','mangeons','mangez','mangent'],
    PC: ['ai mangé','as mangé','a mangé','avons mangé','avez mangé','ont mangé'],
    I:  ['mangeais','mangeais','mangeait','mangions','mangiez','mangeaient'],
    F:  ['mangerai','mangeras','mangera','mangerons','mangerez','mangeront'],
    CO: ['mangerais','mangerais','mangerait','mangerions','mangeriez','mangeraient']},
-  {inf:'donner',  en:'to give',           zh:'给',
+  {grp:'1', inf:'donner',    en:'to give',           zh:'给',
    P:  ['donne','donnes','donne','donnons','donnez','donnent'],
    PC: ['ai donné','as donné','a donné','avons donné','avez donné','ont donné'],
    I:  ['donnais','donnais','donnait','donnions','donniez','donnaient'],
    F:  ['donnerai','donneras','donnera','donnerons','donnerez','donneront'],
    CO: ['donnerais','donnerais','donnerait','donnerions','donneriez','donneraient']},
-  {inf:'trouver', en:'to find',           zh:'找到',
+  {grp:'1', inf:'trouver',   en:'to find',           zh:'找到',
    P:  ['trouve','trouves','trouve','trouvons','trouvez','trouvent'],
    PC: ['ai trouvé','as trouvé','a trouvé','avons trouvé','avez trouvé','ont trouvé'],
    I:  ['trouvais','trouvais','trouvait','trouvions','trouviez','trouvaient'],
    F:  ['trouverai','trouveras','trouvera','trouverons','trouverez','trouveront'],
    CO: ['trouverais','trouverais','trouverait','trouverions','trouveriez','trouveraient']},
-  {inf:'attendre',en:'to wait',           zh:'等待',
-   P:  ['attends','attends','attend','attendons','attendez','attendent'],
-   PC: ['ai attendu','as attendu','a attendu','avons attendu','avez attendu','ont attendu'],
-   I:  ['attendais','attendais','attendait','attendions','attendiez','attendaient'],
-   F:  ['attendrai','attendras','attendra','attendrons','attendrez','attendront'],
-   CO: ['attendrais','attendrais','attendrait','attendrions','attendriez','attendraient']},
-  // ── Verbes irréguliers supplémentaires ───────────────────────────
-  {inf:'lire',    en:'to read',           zh:'阅读',
+  {grp:'1', inf:'aimer',     en:'to love / like',    zh:'爱/喜欢',
+   P:  ['aime','aimes','aime','aimons','aimez','aiment'],
+   PC: ['ai aimé','as aimé','a aimé','avons aimé','avez aimé','ont aimé'],
+   I:  ['aimais','aimais','aimait','aimions','aimiez','aimaient'],
+   F:  ['aimerai','aimeras','aimera','aimerons','aimerez','aimeront'],
+   CO: ['aimerais','aimerais','aimerait','aimerions','aimeriez','aimeraient']},
+  {grp:'1', inf:'travailler',en:'to work',           zh:'工作',
+   P:  ['travaille','travailles','travaille','travaillons','travaillez','travaillent'],
+   PC: ['ai travaillé','as travaillé','a travaillé','avons travaillé','avez travaillé','ont travaillé'],
+   I:  ['travaillais','travaillais','travaillait','travaillions','travailliez','travaillaient'],
+   F:  ['travaillerai','travailleras','travaillera','travaillerons','travaillerez','travailleront'],
+   CO: ['travaillerais','travaillerais','travaillerait','travaillerions','travailleriez','travailleraient']},
+  {grp:'1', inf:'habiter',   en:'to live / reside',  zh:'居住',
+   P:  ['habite','habites','habite','habitons','habitez','habitent'],
+   PC: ['ai habité','as habité','a habité','avons habité','avez habité','ont habité'],
+   I:  ['habitais','habitais','habitait','habitions','habitiez','habitaient'],
+   F:  ['habiterai','habiteras','habitera','habiterons','habiterez','habiteront'],
+   CO: ['habiterais','habiterais','habiterait','habiterions','habiteriez','habiteraient']},
+  {grp:'1', inf:'regarder',  en:'to watch / look',   zh:'看/观看',
+   P:  ['regarde','regardes','regarde','regardons','regardez','regardent'],
+   PC: ['ai regardé','as regardé','a regardé','avons regardé','avez regardé','ont regardé'],
+   I:  ['regardais','regardais','regardait','regardions','regardiez','regardaient'],
+   F:  ['regarderai','regarderas','regardera','regarderons','regarderez','regarderont'],
+   CO: ['regarderais','regarderais','regarderait','regarderions','regarderiez','regarderaient']},
+  {grp:'1', inf:'chanter',   en:'to sing',           zh:'唱歌',
+   P:  ['chante','chantes','chante','chantons','chantez','chantent'],
+   PC: ['ai chanté','as chanté','a chanté','avons chanté','avez chanté','ont chanté'],
+   I:  ['chantais','chantais','chantait','chantions','chantiez','chantaient'],
+   F:  ['chanterai','chanteras','chantera','chanterons','chanterez','chanteront'],
+   CO: ['chanterais','chanterais','chanterait','chanterions','chanteriez','chanteraient']},
+  {grp:'1', inf:'acheter',   en:'to buy',            zh:'买',
+   P:  ['achète','achètes','achète','achetons','achetez','achètent'],
+   PC: ['ai acheté','as acheté','a acheté','avons acheté','avez acheté','ont acheté'],
+   I:  ['achetais','achetais','achetait','achetions','achetiez','achetaient'],
+   F:  ['achèterai','achèteras','achètera','achèterons','achèterez','achèteront'],
+   CO: ['achèterais','achèterais','achèterait','achèterions','achèteriez','achèteraient']},
+  // ── 2ème groupe — verbes en -IR réguliers ───────────────────────────
+  {grp:'2', inf:'finir',     en:'to finish',         zh:'结束/完成',
+   P:  ['finis','finis','finit','finissons','finissez','finissent'],
+   PC: ['ai fini','as fini','a fini','avons fini','avez fini','ont fini'],
+   I:  ['finissais','finissais','finissait','finissions','finissiez','finissaient'],
+   F:  ['finirai','finiras','finira','finirons','finirez','finiront'],
+   CO: ['finirais','finirais','finirait','finirions','finiriez','finiraient']},
+  {grp:'2', inf:'choisir',   en:'to choose',         zh:'选择',
+   P:  ['choisis','choisis','choisit','choisissons','choisissez','choisissent'],
+   PC: ['ai choisi','as choisi','a choisi','avons choisi','avez choisi','ont choisi'],
+   I:  ['choisissais','choisissais','choisissait','choisissions','choisissiez','choisissaient'],
+   F:  ['choisirai','choisiras','choisira','choisirons','choisirez','choisiront'],
+   CO: ['choisirais','choisirais','choisirait','choisirions','choisiriez','choisiraient']},
+  {grp:'2', inf:'réussir',   en:'to succeed',        zh:'成功',
+   P:  ['réussis','réussis','réussit','réussissons','réussissez','réussissent'],
+   PC: ['ai réussi','as réussi','a réussi','avons réussi','avez réussi','ont réussi'],
+   I:  ['réussissais','réussissais','réussissait','réussissions','réussissiez','réussissaient'],
+   F:  ['réussirai','réussiras','réussira','réussirons','réussirez','réussiront'],
+   CO: ['réussirais','réussirais','réussirait','réussirions','réussiriez','réussiraient']},
+  {grp:'2', inf:'grandir',   en:'to grow up',        zh:'成长',
+   P:  ['grandis','grandis','grandit','grandissons','grandissez','grandissent'],
+   PC: ['ai grandi','as grandi','a grandi','avons grandi','avez grandi','ont grandi'],
+   I:  ['grandissais','grandissais','grandissait','grandissions','grandissiez','grandissaient'],
+   F:  ['grandirai','grandiras','grandira','grandirons','grandirez','grandiront'],
+   CO: ['grandirais','grandirais','grandirait','grandirions','grandiriez','grandiraient']},
+  {grp:'2', inf:'remplir',   en:'to fill',           zh:'填充',
+   P:  ['remplis','remplis','remplit','remplissons','remplissez','remplissent'],
+   PC: ['ai rempli','as rempli','a rempli','avons rempli','avez rempli','ont rempli'],
+   I:  ['remplissais','remplissais','remplissait','remplissions','remplissiez','remplissaient'],
+   F:  ['remplirai','rempliras','remplira','remplirons','remplirez','rempliront'],
+   CO: ['remplirais','remplirais','remplirait','remplirions','rempliriez','rempliraient']},
+  {grp:'2', inf:'obéir',     en:'to obey',           zh:'服从',
+   P:  ['obéis','obéis','obéit','obéissons','obéissez','obéissent'],
+   PC: ['ai obéi','as obéi','a obéi','avons obéi','avez obéi','ont obéi'],
+   I:  ['obéissais','obéissais','obéissait','obéissions','obéissiez','obéissaient'],
+   F:  ['obéirai','obéiras','obéira','obéirons','obéirez','obéiront'],
+   CO: ['obéirais','obéirais','obéirait','obéirions','obéiriez','obéiraient']},
+  {grp:'2', inf:'réfléchir', en:'to think / reflect',zh:'思考',
+   P:  ['réfléchis','réfléchis','réfléchit','réfléchissons','réfléchissez','réfléchissent'],
+   PC: ['ai réfléchi','as réfléchi','a réfléchi','avons réfléchi','avez réfléchi','ont réfléchi'],
+   I:  ['réfléchissais','réfléchissais','réfléchissait','réfléchissions','réfléchissiez','réfléchissaient'],
+   F:  ['réfléchirai','réfléchiras','réfléchira','réfléchirons','réfléchirez','réfléchiront'],
+   CO: ['réfléchirais','réfléchirais','réfléchirait','réfléchirions','réfléchiriez','réfléchiraient']},
+  {grp:'2', inf:'grossir',   en:'to gain weight',    zh:'增重',
+   P:  ['grossis','grossis','grossit','grossissons','grossissez','grossissent'],
+   PC: ['ai grossi','as grossi','a grossi','avons grossi','avez grossi','ont grossi'],
+   I:  ['grossissais','grossissais','grossissait','grossissions','grossissiez','grossissaient'],
+   F:  ['grossirai','grossiras','grossira','grossirons','grossirez','grossiront'],
+   CO: ['grossirais','grossirais','grossirait','grossirions','grossiriez','grossiraient']},
+  {grp:'2', inf:'maigrir',   en:'to lose weight',    zh:'减重',
+   P:  ['maigris','maigris','maigrit','maigrissons','maigrissez','maigrissent'],
+   PC: ['ai maigri','as maigri','a maigri','avons maigri','avez maigri','ont maigri'],
+   I:  ['maigrissais','maigrissais','maigrissait','maigrissions','maisgrissez','maigrissaient'],
+   F:  ['maigrirai','maigriras','maigrira','maigrirons','maigrirez','maigriront'],
+   CO: ['maigrirais','maigrirais','maigrirait','maigririons','maigririez','maigriraient']},
+  {grp:'2', inf:'bâtir',     en:'to build',          zh:'建造',
+   P:  ['bâtis','bâtis','bâtit','bâtissons','bâtissez','bâtissent'],
+   PC: ['ai bâti','as bâti','a bâti','avons bâti','avez bâti','ont bâti'],
+   I:  ['bâtissais','bâtissais','bâtissait','bâtissions','bâtissiez','bâtissaient'],
+   F:  ['bâtirai','bâtiras','bâtira','bâtirons','bâtirez','bâtiront'],
+   CO: ['bâtirais','bâtirais','bâtirait','bâtirions','bâtiriez','bâtiraient']},
+  // ── 3ème groupe — verbes irréguliers ────────────────────────────────
+  {grp:'3', inf:'être',      en:'to be',             zh:'是/存在',
+   P:  ['suis','es','est','sommes','êtes','sont'],
+   PC: ['ai été','as été','a été','avons été','avez été','ont été'],
+   I:  ['étais','étais','était','étions','étiez','étaient'],
+   F:  ['serai','seras','sera','serons','serez','seront'],
+   CO: ['serais','serais','serait','serions','seriez','seraient']},
+  {grp:'3', inf:'avoir',     en:'to have',           zh:'有',
+   P:  ['ai','as','a','avons','avez','ont'],
+   PC: ['ai eu','as eu','a eu','avons eu','avez eu','ont eu'],
+   I:  ['avais','avais','avait','avions','aviez','avaient'],
+   F:  ['aurai','auras','aura','aurons','aurez','auront'],
+   CO: ['aurais','aurais','aurait','aurions','auriez','auraient']},
+  {grp:'3', inf:'faire',     en:'to do / make',      zh:'做',
+   P:  ['fais','fais','fait','faisons','faites','font'],
+   PC: ['ai fait','as fait','a fait','avons fait','avez fait','ont fait'],
+   I:  ['faisais','faisais','faisait','faisions','faisiez','faisaient'],
+   F:  ['ferai','feras','fera','ferons','ferez','feront'],
+   CO: ['ferais','ferais','ferait','ferions','feriez','feraient']},
+  {grp:'3', inf:'aller',     en:'to go',             zh:'去',
+   P:  ['vais','vas','va','allons','allez','vont'],
+   PC: ['suis allé(e)','es allé(e)','est allé(e)','sommes allé(e)s','êtes allé(e)s','sont allé(e)s'],
+   I:  ['allais','allais','allait','allions','alliez','allaient'],
+   F:  ['irai','iras','ira','irons','irez','iront'],
+   CO: ['irais','irais','irait','irions','iriez','iraient']},
+  {grp:'3', inf:'venir',     en:'to come',           zh:'来',
+   P:  ['viens','viens','vient','venons','venez','viennent'],
+   PC: ['suis venu(e)','es venu(e)','est venu(e)','sommes venu(e)s','êtes venu(e)s','sont venu(e)s'],
+   I:  ['venais','venais','venait','venions','veniez','venaient'],
+   F:  ['viendrai','viendras','viendra','viendrons','viendrez','viendront'],
+   CO: ['viendrais','viendrais','viendrait','viendrions','viendriez','viendraient']},
+  {grp:'3', inf:'pouvoir',   en:'to be able to',     zh:'能/可以',
+   P:  ['peux','peux','peut','pouvons','pouvez','peuvent'],
+   PC: ['ai pu','as pu','a pu','avons pu','avez pu','ont pu'],
+   I:  ['pouvais','pouvais','pouvait','pouvions','pouviez','pouvaient'],
+   F:  ['pourrai','pourras','pourra','pourrons','pourrez','pourront'],
+   CO: ['pourrais','pourrais','pourrait','pourrions','pourriez','pourraient']},
+  {grp:'3', inf:'vouloir',   en:'to want',           zh:'想要',
+   P:  ['veux','veux','veut','voulons','voulez','veulent'],
+   PC: ['ai voulu','as voulu','a voulu','avons voulu','avez voulu','ont voulu'],
+   I:  ['voulais','voulais','voulait','voulions','vouliez','voulaient'],
+   F:  ['voudrai','voudras','voudra','voudrons','voudrez','voudront'],
+   CO: ['voudrais','voudrais','voudrait','voudrions','voudriez','voudraient']},
+  {grp:'3', inf:'devoir',    en:'to have to / must', zh:'必须/应该',
+   P:  ['dois','dois','doit','devons','devez','doivent'],
+   PC: ['ai dû','as dû','a dû','avons dû','avez dû','ont dû'],
+   I:  ['devais','devais','devait','devions','deviez','devaient'],
+   F:  ['devrai','devras','devra','devrons','devrez','devront'],
+   CO: ['devrais','devrais','devrait','devrions','devriez','devraient']},
+  {grp:'3', inf:'savoir',    en:'to know (a fact)',  zh:'知道',
+   P:  ['sais','sais','sait','savons','savez','savent'],
+   PC: ['ai su','as su','a su','avons su','avez su','ont su'],
+   I:  ['savais','savais','savait','savions','saviez','savaient'],
+   F:  ['saurai','sauras','saura','saurons','saurez','sauront'],
+   CO: ['saurais','saurais','saurait','saurions','sauriez','sauraient']},
+  {grp:'3', inf:'prendre',   en:'to take',           zh:'拿/取',
+   P:  ['prends','prends','prend','prenons','prenez','prennent'],
+   PC: ['ai pris','as pris','a pris','avons pris','avez pris','ont pris'],
+   I:  ['prenais','prenais','prenait','prenions','preniez','prenaient'],
+   F:  ['prendrai','prendras','prendra','prendrons','prendrez','prendront'],
+   CO: ['prendrais','prendrais','prendrait','prendrions','prendriez','prendraient']},
+  {grp:'3', inf:'voir',      en:'to see',            zh:'看见',
+   P:  ['vois','vois','voit','voyons','voyez','voient'],
+   PC: ['ai vu','as vu','a vu','avons vu','avez vu','ont vu'],
+   I:  ['voyais','voyais','voyait','voyions','voyiez','voyaient'],
+   F:  ['verrai','verras','verra','verrons','verrez','verront'],
+   CO: ['verrais','verrais','verrait','verrions','verriez','verraient']},
+  {grp:'3', inf:'dire',      en:'to say / tell',     zh:'说',
+   P:  ['dis','dis','dit','disons','dites','disent'],
+   PC: ['ai dit','as dit','a dit','avons dit','avez dit','ont dit'],
+   I:  ['disais','disais','disait','disions','disiez','disaient'],
+   F:  ['dirai','diras','dira','dirons','direz','diront'],
+   CO: ['dirais','dirais','dirait','dirions','diriez','diraient']},
+  {grp:'3', inf:'mettre',    en:'to put / place',    zh:'放置',
+   P:  ['mets','mets','met','mettons','mettez','mettent'],
+   PC: ['ai mis','as mis','a mis','avons mis','avez mis','ont mis'],
+   I:  ['mettais','mettais','mettait','mettions','mettiez','mettaient'],
+   F:  ['mettrai','mettras','mettra','mettrons','mettrez','mettront'],
+   CO: ['mettrais','mettrais','mettrait','mettrions','mettriez','mettraient']},
+  {grp:'3', inf:'partir',    en:'to leave',          zh:'离开',
+   P:  ['pars','pars','part','partons','partez','partent'],
+   PC: ['suis parti(e)','es parti(e)','est parti(e)','sommes parti(e)s','êtes parti(e)s','sont parti(e)s'],
+   I:  ['partais','partais','partait','partions','partiez','partaient'],
+   F:  ['partirai','partiras','partira','partirons','partirez','partiront'],
+   CO: ['partirais','partirais','partirait','partirions','partiriez','partiraient']},
+  {grp:'3', inf:'lire',      en:'to read',           zh:'阅读',
    P:  ['lis','lis','lit','lisons','lisez','lisent'],
    PC: ['ai lu','as lu','a lu','avons lu','avez lu','ont lu'],
    I:  ['lisais','lisais','lisait','lisions','lisiez','lisaient'],
    F:  ['lirai','liras','lira','lirons','lirez','liront'],
    CO: ['lirais','lirais','lirait','lirions','liriez','liraient']},
-  {inf:'écrire',  en:'to write',          zh:'写作',
+  {grp:'3', inf:'écrire',    en:'to write',          zh:'写作',
    P:  ['écris','écris','écrit','écrivons','écrivez','écrivent'],
    PC: ['ai écrit','as écrit','a écrit','avons écrit','avez écrit','ont écrit'],
    I:  ['écrivais','écrivais','écrivait','écrivions','écriviez','écrivaient'],
    F:  ['écrirai','écriras','écrira','écrirons','écrirez','écriront'],
    CO: ['écrirais','écrirais','écrirait','écririons','écririez','écriraient']},
-  {inf:'comprendre',en:'to understand',   zh:'理解',
+  {grp:'3', inf:'comprendre',en:'to understand',     zh:'理解',
    P:  ['comprends','comprends','comprend','comprenons','comprenez','comprennent'],
    PC: ['ai compris','as compris','a compris','avons compris','avez compris','ont compris'],
    I:  ['comprenais','comprenais','comprenait','comprenions','compreniez','comprenaient'],
    F:  ['comprendrai','comprendras','comprendra','comprendrons','comprendrez','comprendront'],
    CO: ['comprendrais','comprendrais','comprendrait','comprendrions','comprendriez','comprendraient']},
-  {inf:'connaître',en:'to know (s.o.)',   zh:'认识',
+  {grp:'3', inf:'connaître', en:'to know (s.o.)',    zh:'认识',
    P:  ['connais','connais','connaît','connaissons','connaissez','connaissent'],
    PC: ['ai connu','as connu','a connu','avons connu','avez connu','ont connu'],
    I:  ['connaissais','connaissais','connaissait','connaissions','connaissiez','connaissaient'],
    F:  ['connaîtrai','connaîtras','connaîtra','connaîtrons','connaîtrez','connaîtront'],
    CO: ['connaîtrais','connaîtrais','connaîtrait','connaîtrions','connaîtriez','connaîtraient']},
-  {inf:'vivre',   en:'to live',           zh:'生活',
+  {grp:'3', inf:'vivre',     en:'to live',           zh:'生活',
    P:  ['vis','vis','vit','vivons','vivez','vivent'],
    PC: ['ai vécu','as vécu','a vécu','avons vécu','avez vécu','ont vécu'],
    I:  ['vivais','vivais','vivait','vivions','viviez','vivaient'],
    F:  ['vivrai','vivras','vivra','vivrons','vivrez','vivront'],
-   CO: ['vivrais','vivrais','vivrait','vivrions','vivriez','vivraient']}
+   CO: ['vivrais','vivrais','vivrait','vivrions','vivriez','vivraient']},
+  {grp:'3', inf:'attendre',  en:'to wait',           zh:'等待',
+   P:  ['attends','attends','attend','attendons','attendez','attendent'],
+   PC: ['ai attendu','as attendu','a attendu','avons attendu','avez attendu','ont attendu'],
+   I:  ['attendais','attendais','attendait','attendions','attendiez','attendaient'],
+   F:  ['attendrai','attendras','attendra','attendrons','attendrez','attendront'],
+   CO: ['attendrais','attendrais','attendrait','attendrions','attendriez','attendraient']},
+  // ── Verbes pronominaux ───────────────────────────────────────────────
+  {grp:'pro', pro:true, inf:"se lever",    en:'to get up',         zh:'起床',
+   P:  ["me lève","te lèves","se lève","nous levons","vous levez","se lèvent"],
+   PC: ["me suis levé(e)","t'es levé(e)","s'est levé(e)","nous sommes levé(e)s","vous êtes levé(e)s","se sont levé(e)s"],
+   I:  ["me levais","te levais","se levait","nous levions","vous leviez","se levaient"],
+   F:  ["me lèverai","te lèveras","se lèvera","nous lèverons","vous lèverez","se lèveront"],
+   CO: ["me lèverais","te lèverais","se lèverait","nous lèverions","vous lèveriez","se lèveraient"]},
+  {grp:'pro', pro:true, inf:"se coucher",  en:'to go to bed',      zh:'睡觉/躺下',
+   P:  ["me couche","te couches","se couche","nous couchons","vous couchez","se couchent"],
+   PC: ["me suis couché(e)","t'es couché(e)","s'est couché(e)","nous sommes couché(e)s","vous êtes couché(e)s","se sont couché(e)s"],
+   I:  ["me couchais","te couchais","se couchait","nous couchions","vous couchiez","se couchaient"],
+   F:  ["me coucherai","te coucheras","se couchera","nous coucherons","vous coucherez","se coucheront"],
+   CO: ["me coucherais","te coucherais","se coucherait","nous coucherions","vous coucheriez","se coucheraient"]},
+  {grp:'pro', pro:true, inf:"s'appeler",   en:'to be called',      zh:'叫做',
+   P:  ["m'appelle","t'appelles","s'appelle","nous appelons","vous appelez","s'appellent"],
+   PC: ["me suis appelé(e)","t'es appelé(e)","s'est appelé(e)","nous sommes appelé(e)s","vous êtes appelé(e)s","se sont appelé(e)s"],
+   I:  ["m'appelais","t'appelais","s'appelait","nous appelions","vous appeliez","s'appelaient"],
+   F:  ["m'appellerai","t'appelleras","s'appellera","nous appellerons","vous appellerez","s'appelleront"],
+   CO: ["m'appellerais","t'appellerais","s'appellerait","nous appellerions","vous appelleriez","s'appelleraient"]},
+  {grp:'pro', pro:true, inf:"se laver",    en:'to wash oneself',   zh:'洗漱',
+   P:  ["me lave","te laves","se lave","nous lavons","vous lavez","se lavent"],
+   PC: ["me suis lavé(e)","t'es lavé(e)","s'est lavé(e)","nous sommes lavé(e)s","vous êtes lavé(e)s","se sont lavé(e)s"],
+   I:  ["me lavais","te lavais","se lavait","nous lavions","vous laviez","se lavaient"],
+   F:  ["me laverai","te laveras","se lavera","nous laverons","vous laverez","se laveront"],
+   CO: ["me laverais","te laverais","se laverait","nous laverions","vous laveriez","se laveraient"]},
+  {grp:'pro', pro:true, inf:"s'habiller",  en:'to get dressed',    zh:'穿衣服',
+   P:  ["m'habille","t'habilles","s'habille","nous habillons","vous habillez","s'habillent"],
+   PC: ["me suis habillé(e)","t'es habillé(e)","s'est habillé(e)","nous sommes habillé(e)s","vous êtes habillé(e)s","se sont habillé(e)s"],
+   I:  ["m'habillais","t'habillais","s'habillait","nous habillions","vous habilliez","s'habillaient"],
+   F:  ["m'habillerai","t'habilleras","s'habillera","nous habillerons","vous habillerez","s'habilleront"],
+   CO: ["m'habillerais","t'habillerais","s'habillerait","nous habillerions","vous habilleriez","s'habilleraient"]},
+  {grp:'pro', pro:true, inf:"se souvenir", en:'to remember',       zh:'记得',
+   P:  ["me souviens","te souviens","se souvient","nous souvenons","vous souvenez","se souviennent"],
+   PC: ["me suis souvenu(e)","t'es souvenu(e)","s'est souvenu(e)","nous sommes souvenu(e)s","vous êtes souvenu(e)s","se sont souvenu(e)s"],
+   I:  ["me souvenais","te souvenais","se souvenait","nous souvenions","vous souveniez","se souvenaient"],
+   F:  ["me souviendrai","te souviendras","se souviendra","nous souviendrons","vous souviendrez","se souviendront"],
+   CO: ["me souviendrais","te souviendrais","se souviendrait","nous souviendrions","vous souviendriez","se souviendraient"]},
+  {grp:'pro', pro:true, inf:"s'endormir",  en:'to fall asleep',    zh:'入睡',
+   P:  ["m'endors","t'endors","s'endort","nous endormons","vous endormez","s'endorment"],
+   PC: ["me suis endormi(e)","t'es endormi(e)","s'est endormi(e)","nous sommes endormi(e)s","vous êtes endormi(e)s","se sont endormi(e)s"],
+   I:  ["m'endormais","t'endormais","s'endormait","nous endormions","vous endormiez","s'endormaient"],
+   F:  ["m'endormirai","t'endormiras","s'endormira","nous endormirons","vous endormirez","s'endormiront"],
+   CO: ["m'endormirais","t'endormirais","s'endormirait","nous endormirions","vous endormiriez","s'endormiraient"]},
+  {grp:'pro', pro:true, inf:"se dépêcher", en:'to hurry',          zh:'赶快',
+   P:  ["me dépêche","te dépêches","se dépêche","nous dépêchons","vous dépêchez","se dépêchent"],
+   PC: ["me suis dépêché(e)","t'es dépêché(e)","s'est dépêché(e)","nous sommes dépêché(e)s","vous êtes dépêché(e)s","se sont dépêché(e)s"],
+   I:  ["me dépêchais","te dépêchais","se dépêchait","nous dépêchions","vous dépêchiez","se dépêchaient"],
+   F:  ["me dépêcherai","te dépêcheras","se dépêchera","nous dépêcherons","vous dépêcherez","se dépêcheront"],
+   CO: ["me dépêcherais","te dépêcherais","se dépêcherait","nous dépêcherions","vous dépêcheriez","se dépêcheraient"]},
+  {grp:'pro', pro:true, inf:"se promener", en:'to go for a walk',  zh:'散步',
+   P:  ["me promène","te promènes","se promène","nous promenons","vous promenez","se promènent"],
+   PC: ["me suis promené(e)","t'es promené(e)","s'est promené(e)","nous sommes promené(e)s","vous êtes promené(e)s","se sont promené(e)s"],
+   I:  ["me promenais","te promenais","se promenait","nous promenions","vous promeniez","se promenaient"],
+   F:  ["me promènerai","te promèneras","se promènera","nous promènerons","vous promènerez","se promèneront"],
+   CO: ["me promènerais","te promènerais","se promènerait","nous promènerions","vous promèneriez","se promèneraient"]},
+  {grp:'pro', pro:true, inf:"se disputer", en:'to argue',          zh:'争吵',
+   P:  ["me dispute","te disputes","se dispute","nous disputons","vous disputez","se disputent"],
+   PC: ["me suis disputé(e)","t'es disputé(e)","s'est disputé(e)","nous sommes disputé(e)s","vous êtes disputé(e)s","se sont disputé(e)s"],
+   I:  ["me disputais","te disputais","se disputait","nous disputions","vous disputiez","se disputaient"],
+   F:  ["me disputerai","te disputeras","se disputera","nous disputerons","vous disputerez","se disputeront"],
+   CO: ["me disputerais","te disputerais","se disputerait","nous disputerions","vous disputeriez","se disputeraient"]}
 ];
 
-var conjState = { mode:'table', tense:'P', quizQ:[], quizIdx:0, quizScore:0 };
+var conjState = { mode:'table', tense:'P', grp:'all', quizQ:[], quizIdx:0, quizScore:0 };
 
 function renderConjugaison() {
   try {
@@ -23224,6 +23705,23 @@ function renderConjugaison() {
   if (t) t.textContent = lang==='en'?'🔤 Conjugation':lang==='zh'?'🔤 动词变位':'🔤 Conjugaison';
   if (s) s.textContent = lang==='en'?'Master French verbs':lang==='zh'?'掌握法语动词变位':'Maîtrisez les verbes français';
 
+  // ── Group filter bar ──────────────────────────────────────
+  var grpLabels = {
+    all: lang==='en'?'All':lang==='zh'?'全部':'Tous',
+    '1': lang==='en'?'1st (-ER)':lang==='zh'?'第1组 -ER':'1er gr. (-ER)',
+    '2': lang==='en'?'2nd (-IR)':lang==='zh'?'第2组 -IR':'2ème gr. (-IR)',
+    '3': lang==='en'?'3rd (irreg.)':lang==='zh'?'第3组 (不规则)':'3ème gr.',
+    pro: lang==='en'?'Pronominal':lang==='zh'?'代词动词':'Pronominaux'
+  };
+  var grpIds = ['all','1','2','3','pro'];
+  grpIds.forEach(function(g) {
+    var btn = document.getElementById('cg-'+g);
+    if (btn) {
+      btn.textContent = grpLabels[g];
+      btn.className = 'conj-grp-btn' + (conjState.grp===g?' active':'');
+    }
+  });
+
   var tb = document.getElementById('conj-btn-table');
   var qb = document.getElementById('conj-btn-quiz');
   var tbl = lang==='en'?'📋 Table':lang==='zh'?'📋 表格':'📋 Tableau';
@@ -23231,15 +23729,22 @@ function renderConjugaison() {
   if (tb) { tb.textContent = tbl; tb.className = 'conj-mode-btn' + (conjState.mode==='table'?' active':''); }
   if (qb) { qb.textContent = qzl; qb.className = 'conj-mode-btn' + (conjState.mode==='quiz'?' active':''); }
 
+  var grpBadgeText = { '1':'-ER', '2':'-IR', '3':'irrég.', pro:'pronom.' };
+  var grpBadgeCls  = { '1':'badge-1', '2':'badge-2', '3':'badge-3', pro:'badge-pro' };
+
   if (conjState.mode === 'table') {
     var grid = document.getElementById('conj-verb-grid');
     if (!grid) return;
     grid.innerHTML = '';
     conjVerbs.forEach(function(v, i) {
+      if (conjState.grp !== 'all' && v.grp !== conjState.grp) return;
       var card = document.createElement('div');
       card.className = 'conj-verb-card';
       var tr = lang==='en' ? v.en : lang==='zh' ? v.zh : '';
-      card.innerHTML = '<div class="conj-verb-inf">'+v.inf+'</div><div class="conj-verb-tr">'+tr+'</div>';
+      var badgeHtml = conjState.grp==='all'
+        ? '<span class="conj-grp-badge '+grpBadgeCls[v.grp]+'">'+grpBadgeText[v.grp]+'</span>'
+        : '';
+      card.innerHTML = '<div class="conj-verb-inf">'+v.inf+'</div><div class="conj-verb-tr">'+tr+'</div>'+badgeHtml;
       card.onclick = function() { conjShowVerb(i); };
       grid.appendChild(card);
     });
@@ -23247,6 +23752,11 @@ function renderConjugaison() {
     conjStartQuiz();
   }
   } catch(_e) { console.warn('[FG] renderConjugaison error:', _e); }
+}
+
+function conjSetGroup(grp) {
+  conjState.grp = grp;
+  renderConjugaison();
 }
 
 function conjSetMode(mode) {
@@ -23308,9 +23818,15 @@ function conjStartQuiz() {
   document.getElementById('conj-quiz-view').style.display = '';
   document.getElementById('conj-result-view').style.display = 'none';
 
+  // Filter pool by current group
+  var pool = conjVerbs.map(function(v,i){ return i; });
+  if (conjState.grp !== 'all') {
+    pool = pool.filter(function(i){ return conjVerbs[i].grp === conjState.grp; });
+  }
+  if (pool.length === 0) pool = conjVerbs.map(function(v,i){ return i; });
+
   // Generate 15 questions — at least 1 of each tense + rest random
   var qs = [];
-  // Guarantee each tense appears at least once
   var shuffledTenses = conjTenseKeys.slice();
   for (var s = shuffledTenses.length-1; s > 0; s--) {
     var r = Math.floor(Math.random()*(s+1));
@@ -23320,15 +23836,17 @@ function conjStartQuiz() {
     var tk = i < conjTenseKeys.length
       ? shuffledTenses[i]
       : conjTenseKeys[Math.floor(Math.random() * conjTenseKeys.length)];
-    var vi      = Math.floor(Math.random() * conjVerbs.length);
+    var vi      = pool[Math.floor(Math.random() * pool.length)];
     var pi      = Math.floor(Math.random() * 6);
     var correct = conjVerbs[vi][tk][pi];
-    // Build distractors: prefer same tense, different verb
+    var isPro   = !!conjVerbs[vi].pro;
+    // Build distractors: same group (pro vs non-pro) + same tense + same pronoun position
     var wrongs = [];
     var attempts = 0;
-    while (wrongs.length < 3 && attempts < 80) {
+    while (wrongs.length < 3 && attempts < 120) {
       attempts++;
-      var wi = Math.floor(Math.random() * conjVerbs.length);
+      var wi = pool[Math.floor(Math.random() * pool.length)];
+      if (conjVerbs[wi].pro !== conjVerbs[vi].pro) continue; // keep same type
       var wf = conjVerbs[wi][tk][pi];
       if (wf !== correct && wrongs.indexOf(wf) === -1) wrongs.push(wf);
     }
@@ -23339,7 +23857,7 @@ function conjStartQuiz() {
       });
     }
     var choices = [correct, wrongs[0]||'—', wrongs[1]||'—', wrongs[2]||'—'];
-    // Shuffle
+    // Shuffle choices
     for (var j = choices.length-1; j > 0; j--) {
       var k2 = Math.floor(Math.random()*(j+1));
       var t2 = choices[j]; choices[j]=choices[k2]; choices[k2]=t2;
@@ -23831,5 +24349,17 @@ window.addEventListener('unhandledrejection', function(e) {
   e.preventDefault();
 });
 </script>
+
+  <!-- Streak milestone overlay -->
+  <div class="streak-milestone-overlay" id="streak-milestone-overlay" onclick="closeStreakMilestone()">
+    <div class="streak-milestone-card" onclick="event.stopPropagation()">
+      <div class="streak-milestone-fire" id="sm-fire">🔥</div>
+      <div class="streak-milestone-num" id="sm-num">7</div>
+      <div class="streak-milestone-lbl" id="sm-lbl">jours de suite !</div>
+      <div class="streak-milestone-msg" id="sm-msg">Bravo, tu es régulier(ère) ! Continue comme ça.</div>
+      <button class="streak-milestone-close" id="sm-close" onclick="closeStreakMilestone()">🔥 Continuer !</button>
+    </div>
+  </div>
+
 </body>
 </html>
