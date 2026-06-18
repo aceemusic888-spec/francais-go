@@ -1290,16 +1290,23 @@ body.dark .result-wrong-item .wrong-q{color:#FCA5A5;}
 body.dark .result-wrong-item .wrong-your{color:#F87171;}
 body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
 </style>
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 </head>
 <body>
 
 <!-- SPLASH SCREEN -->
-<script>window._splashStart = Date.now();</script>
+<script>
+window._splashStart = Date.now();
+// Failsafe nucléaire : si l'app ne démarre pas en 8s, forcer l'affichage
+window._splashFailsafe = setTimeout(function() {
+  try {
+    var s = document.getElementById('splash-screen');
+    var o = document.getElementById('onboarding');
+    if (s) s.style.display = 'none';
+    if (o) o.style.display = 'none';
+    if (typeof showTab === 'function') try { showTab('home'); } catch(e) {}
+  } catch(e) {}
+}, 8000);
+</script>
 <div id="splash-screen">
   <!-- Decorative rings -->
   <div class="spl-ring spl-r1"></div>
@@ -2419,6 +2426,7 @@ function initMascot() {
 }
 
 function hideSplash() {
+  clearTimeout(window._splashFailsafe); // annuler le failsafe nucléaire
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
   // Min 3s on all platforms — la page fait ~1MB, le parsing peut prendre 1s+
@@ -23820,7 +23828,12 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
-<script>
+<!-- Firebase SDK (chargé APRÈS le bloc principal pour ne pas bloquer l'affichage) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+  <script>
 /* ══════════════════════════════════════
    FIREBASE AUTH & CLOUD SYNC
 ══════════════════════════════════════ */
