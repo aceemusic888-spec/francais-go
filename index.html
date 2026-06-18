@@ -15186,7 +15186,11 @@ const LESSONS = [
    STATE & VARIABLES
 ══════════════════════════════════════ */
 let state      = JSON.parse(localStorage.getItem('ff_state') || '{}');
-_idbRestoreIfNeeded();
+// _idbRestoreIfNeeded est défini dans le bloc 10 (pas encore chargé ici)
+// On le défère à DOMContentLoaded pour éviter un ReferenceError qui tuerait le boot IIFE
+window.addEventListener('DOMContentLoaded', function() {
+  if (typeof _idbRestoreIfNeeded === 'function') _idbRestoreIfNeeded();
+});
 let lang       = localStorage.getItem('ff_lang') || 'fr';
 localStorage.removeItem('ff_dark'); let darkMode = false;
 let currentTab = 'home';
