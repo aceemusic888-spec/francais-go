@@ -70,7 +70,17 @@
     body.dark .level-filter-btn { background:#1E1E38; color:var(--muted); }
     body.dark .vocab-table tr:nth-child(even) { background:#111126; }
     body.dark .vocab-table td { color:var(--text); }
+    .culture-card { background: linear-gradient(135deg,#f0f4ff 0%,#e8f0fe 100%); border: 1.5px solid #4285f4; border-radius: 12px; padding: 14px 16px; margin: 16px 0; display: flex; gap: 12px; align-items: flex-start; }
+    .culture-card-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .culture-card-body { flex: 1; }
+    .culture-card-title { font-weight: 700; color: #4285f4; font-size: 0.85rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .culture-card-text { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
     body.dark .tip-box { background: linear-gradient(135deg,#1E1B4B,#2D1B4E); }
+    .daily-goal-btn { flex:1; padding:10px 6px; border-radius:10px; border:2px solid var(--border); background:var(--card); color:var(--text); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all .15s; }
+    .daily-goal-btn.active { border-color:#6366f1; background:#ede9fe; color:#4f46e5; }
+    body.dark .daily-goal-btn.active { background:#3730a3; color:#c7d2fe; border-color:#818cf8; }
+    body.dark .culture-card { background: linear-gradient(135deg,#1a2340 0%,#1a2850 100%); border-color: #5b8dee; }
+    body.dark .culture-card-title { color: #5b8dee; }
     body.dark .example-box { background: linear-gradient(135deg,#0F2D1E,#0F2D25); }
     body.dark .code-input { background:#1E1E38; color:var(--text); border-color:#2D3748; }
     body.dark .quiz-option:hover:not(:disabled) { background:#252550; }
@@ -312,6 +322,53 @@
     .vocab-ex-trans { font-size: 12px; color: var(--muted); opacity: 0.8; margin-top: 2px; }
     .vocab-empty { text-align: center; padding: 40px 24px; } .vocab-empty-icon { font-size: 52px; margin-bottom: 10px; display: block; animation: pop 0.45s cubic-bezier(0.34,1.56,0.64,1); } .vocab-empty-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; } .vocab-empty-sub { font-size: 13px; color: var(--muted); }
     body.dark .vocab-search { background: #1E1E38; border-color: #2D3748; }
+    /* ── Onboarding level quiz ── */
+    .ob-quiz-q{font-size:17px;font-weight:800;color:white;margin-bottom:18px;line-height:1.4;}
+    .ob-quiz-opts{display:flex;flex-direction:column;gap:10px;width:100%;}
+    .ob-quiz-opt{padding:13px 18px;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.2);border-radius:14px;color:white;font-size:14px;font-weight:600;cursor:pointer;text-align:left;transition:background 0.15s,border-color 0.15s;}
+    .ob-quiz-opt:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.5);}
+    .ob-quiz-opt.correct{background:rgba(16,185,129,0.3);border-color:#10B981;}
+    .ob-quiz-opt.wrong{background:rgba(239,68,68,0.2);border-color:#EF4444;}
+    .ob-quiz-progress{display:flex;gap:6px;justify-content:center;margin-bottom:16px;}
+    .ob-quiz-dot{width:28px;height:6px;border-radius:99px;background:rgba(255,255,255,0.2);transition:background 0.2s;}
+    .ob-quiz-dot.done{background:#10B981;}
+    .ob-quiz-dot.current{background:white;}
+    /* ── Défi quotidien ── */
+    .daily-challenge-card{margin:0 16px 14px;background:linear-gradient(135deg,#F59E0B,#EF4444);border-radius:18px;padding:16px 18px;cursor:pointer;box-shadow:0 6px 20px rgba(245,158,11,0.35);-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;}
+    .daily-challenge-card.done{background:linear-gradient(135deg,#10B981,#059669);box-shadow:0 6px 20px rgba(16,185,129,0.3);}
+    .daily-challenge-card::before{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;background:rgba(255,255,255,0.08);border-radius:50%;}
+    .daily-challenge-badge{position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.25);color:white;font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;}
+    /* ── Dictée + Constructeur views ── */
+    .exercise-view{position:fixed;inset:0;background:var(--bg);z-index:800;display:none;flex-direction:column;overflow-y:auto;}
+    .exercise-view.active{display:flex;}
+    .exercise-header{display:flex;align-items:center;gap:12px;padding:16px 18px 8px;flex-shrink:0;}
+    .exercise-body{flex:1;padding:16px 18px 24px;}
+    .exercise-sentence{font-size:18px;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:18px;}
+    .exercise-input{width:100%;padding:14px 16px;font-size:16px;font-weight:600;border:2px solid var(--border);border-radius:14px;background:var(--card);color:var(--text);outline:none;box-sizing:border-box;transition:border-color 0.2s;}
+    .exercise-input:focus{border-color:var(--indigo);}
+    .word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+    .word-token{padding:9px 14px;background:var(--card);border:2px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;color:var(--text);transition:all 0.15s;-webkit-tap-highlight-color:transparent;}
+    .word-token:hover{border-color:var(--indigo);color:var(--indigo);}
+    .word-token.used{opacity:0.3;pointer-events:none;}
+    .answer-area{min-height:52px;display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--card);border:2px dashed var(--border);border-radius:14px;margin-bottom:16px;align-content:flex-start;}
+    .answer-token{padding:9px 14px;background:var(--indigo);color:white;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+    .exercise-check-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:10px;}
+    .exercise-feedback{padding:14px;border-radius:14px;font-size:14px;font-weight:700;display:none;margin-bottom:12px;line-height:1.5;}
+    .exercise-feedback.correct{background:#F0FDF4;color:#15803D;border:1.5px solid #BBF7D0;display:block;}
+    .exercise-feedback.wrong{background:#FFF1F2;color:#B91C1C;border:1.5px solid #FECDD3;display:block;}
+    body.dark .exercise-input{background:#1E1E38;border-color:#2D3748;}
+    body.dark .word-token{background:#1E1E38;border-color:#2D3748;}
+    body.dark .answer-area{background:#1E1E38;border-color:#3730A3;}
+    body.dark .exercise-feedback.correct{background:#052e16;color:#86efac;border-color:#166534;}
+    body.dark .exercise-feedback.wrong{background:#2d0a0a;color:#fca5a5;border-color:#7f1d1d;}
+    /* ── Calendrier mensuel ── */
+    .month-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+    .month-cal-cell{aspect-ratio:1;border-radius:6px;background:var(--border);position:relative;}
+    .month-cal-cell.active-day{background:rgba(16,185,129,0.7);}
+    .month-cal-cell.today{box-shadow:0 0 0 2px #10b981;}
+    .month-cal-cell.future{opacity:0.2;}
+    .month-cal-day-lbl{font-size:8px;font-weight:700;color:var(--muted);text-align:center;padding-bottom:2px;}
+
     .dict-card { background:var(--card); border:1.5px solid var(--border); border-radius:18px; padding:16px 18px; margin-bottom:12px; transition:border-color 0.15s; }
     .dict-card:hover { border-color:var(--indigo); }
     .dict-word { font-size:22px; font-weight:900; color:var(--text); line-height:1.2; }
@@ -993,6 +1050,8 @@
     .dlg-scene-desc { font-size:12px; color:var(--muted); }
     .dlg-scene-meta { display:flex; gap:6px; margin-top:6px; align-items:center; }
     .dlg-scene-level { font-size:11px; font-weight:700; background:var(--indigo); color:white; border-radius:8px; padding:2px 8px; }
+    .dlg-scene-episode { font-size:11px; font-weight:700; background:linear-gradient(135deg,#f59e0b,#d97706); color:white; border-radius:8px; padding:2px 8px; margin-left:4px; }
+    .dlg-section-header { font-size:0.85rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin:18px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--border); }
     .dlg-scene-stars { font-size:12px; color:#f59e0b; }
     .dlg-scene-badge { font-size:28px; text-align:center; padding:12px 0 4px; }
     .dlg-scene-title { font-size:19px; font-weight:900; color:var(--text); text-align:center; padding:0 0 14px; letter-spacing:-0.3px; }
@@ -1336,9 +1395,18 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
     </div>
   </div>
 
+
+  <!-- Slide 3 : quiz de niveau -->
+  <div class="ob-slide-panel" id="ob-panel-3" style="display:none">
+    <div class="ob-quiz-progress" id="ob-quiz-progress"></div>
+    <div class="ob-quiz-q" id="ob-quiz-q">Chargement...</div>
+    <div class="ob-quiz-opts" id="ob-quiz-opts"></div>
+  </div>
+
   <div class="ob-nav">
     <div class="ob-dots" id="ob-dots">
       <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
       <div class="ob-dot"></div>
       <div class="ob-dot"></div>
     </div>
@@ -1525,8 +1593,17 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
     </div>
     <div id="progress-heatmap" style="margin-bottom:4px;"></div>
     <div id="progress-xp-chart" style="margin-bottom:4px;"></div>
+    <div id="progress-accuracy" style="margin-bottom:4px;"></div>
+    <div id="progress-leaderboard" style="margin-bottom:4px;"></div>
     <div class="section-title" id="lbl-achievements"></div>
     <div id="achievements"></div>
+    <div style="padding:14px 0 4px;text-align:center;">
+      <button onclick="shareStreak()" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:white;border:none;border-radius:14px;padding:12px 28px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(245,158,11,0.3);" id="share-streak-btn"></button>
+    </div>
+    <!-- PDF Report Button -->
+    <div style="padding:0 16px 20px;">
+      <button onclick="downloadProgressPDF()" style="width:100%;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;border:none;border-radius:14px;padding:14px;font-size:0.95rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(239,68,68,0.3);" id="pdf-report-btn">📄 Télécharger le rapport PDF</button>
+    </div>
   </div>
 
   <!-- PRATIQUE -->
@@ -1546,6 +1623,15 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
       <button class="global-search-clear" id="search-clear-btn" onclick="clearGlobalSearch()">✕</button>
     </div>
     <div id="search-results-area" style="display:none;"></div>
+    <!-- Défi quotidien -->
+    <div id="daily-challenge-wrap" style="display:none">
+      <div id="daily-challenge-card" class="daily-challenge-card" onclick="startDailyChallenge()">
+        <div class="daily-challenge-badge" id="daily-badge">🔥 JOUR</div>
+        <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:0.5px;" id="daily-lbl-tag">Défi du jour</div>
+        <div style="font-size:20px;font-weight:900;color:white;margin:4px 0 2px;" id="daily-lbl-word">—</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.85);" id="daily-lbl-sub">Tap pour tester tes connaissances · +20 XP</div>
+      </div>
+    </div>
     <div id="pratique-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 20px;">
       <button class="pratique-card" onclick="showTab('flashcards')">
         <div class="pratique-card-icon">🃏</div>
@@ -1567,12 +1653,41 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
         <div class="pratique-card-title" id="prac-lbl-conj">Conjugaison</div>
         <div class="pratique-card-sub" id="prac-lbl-conj-sub">Verbes · Quiz</div>
       </button>
+      <button class="pratique-card" onclick="openDictee()">
+        <div class="pratique-card-icon">✍️</div>
+        <div class="pratique-card-title" id="prac-lbl-dictee">Dictée</div>
+        <div class="pratique-card-sub" id="prac-lbl-dictee-sub">Écoute · Transcris</div>
+      </button>
+      <button class="pratique-card" onclick="openConstructeur()">
+        <div class="pratique-card-icon">🧩</div>
+        <div class="pratique-card-title" id="prac-lbl-construct">Constructeur</div>
+        <div class="pratique-card-sub" id="prac-lbl-construct-sub">Remets les mots dans l'ordre</div>
+      </button>
       <button class="pratique-card" onclick="showTab('ecoute')" style="grid-column:span 2;">
         <div style="display:flex;align-items:center;gap:14px;">
           <div class="pratique-card-icon" style="font-size:36px;">🔊</div>
           <div>
             <div class="pratique-card-title" id="prac-lbl-eco">Écoute</div>
             <div class="pratique-card-sub" id="prac-lbl-eco-sub">Compréhension orale · Dictée</div>
+          </div>
+        </div>
+      </button>
+      <button class="pratique-card" onclick="openMinigame('matching')">
+        <div class="pratique-card-icon">🎯</div>
+        <div class="pratique-card-title" id="prac-lbl-match">Matching</div>
+        <div class="pratique-card-sub" id="prac-lbl-match-sub">Associe mot ↔ traduction</div>
+      </button>
+      <button class="pratique-card" onclick="openMinigame('pendu')">
+        <div class="pratique-card-icon">🕹️</div>
+        <div class="pratique-card-title" id="prac-lbl-pendu">Pendu</div>
+        <div class="pratique-card-sub" id="prac-lbl-pendu-sub">Devine le mot français</div>
+      </button>
+      <button class="pratique-card" onclick="openDuel()" style="grid-column:span 2;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="pratique-card-icon" style="font-size:36px;">⚔️</div>
+          <div>
+            <div class="pratique-card-title" id="prac-lbl-duel">Duel</div>
+            <div class="pratique-card-sub" id="prac-lbl-duel-sub">Quiz en temps réel · Défie un ami</div>
           </div>
         </div>
       </button>
@@ -1744,6 +1859,37 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
       </div>
     </div>
 
+
+    <!-- Mode quiz -->
+    <div class="settings-group">
+      <div class="settings-group-title" id="set-lbl-quiz-modes">Modes quiz</div>
+      <div class="settings-row" onclick="toggleTypingMode()" style="cursor:pointer">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">⌨️</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-typing">Mode frappe</div>
+            <div class="settings-row-sub" id="set-lbl-typing-sub">Taper la réponse au lieu de choisir</div>
+          </div>
+        </div>
+        <div class="settings-toggle" id="typing-toggle">
+          <div class="settings-toggle-thumb"></div>
+        </div>
+      </div>
+      <div class="settings-divider"></div>
+      <div class="settings-row" onclick="toggleListenMode()" style="cursor:pointer">
+        <div class="settings-row-left">
+          <span class="settings-row-icon">👂</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-listen-mode">Mode écoute</div>
+            <div class="settings-row-sub" id="set-lbl-listen-sub">Entendre le mot, choisir la traduction</div>
+          </div>
+        </div>
+        <div class="settings-toggle" id="listen-toggle">
+          <div class="settings-toggle-thumb"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Objectif quotidien -->
     <div class="settings-group">
       <div class="settings-group-title" id="set-lbl-goal-title">Objectif quotidien</div>
@@ -1782,7 +1928,25 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
         </div>
         <span class="settings-chevron">›</span>
       </div>
-      <div class="settings-divider"></div>
+      <!-- Objectif personnalisé -->
+    <div class="settings-group" id="goal-settings-group">
+      <div class="settings-group-title" id="set-lbl-goal">🎯 Objectif personnalisé</div>
+      <div class="settings-row" style="cursor:default;">
+        <div class="settings-row-left" style="flex-direction:column;align-items:flex-start;gap:8px;width:100%;">
+          <div>
+            <div class="settings-row-label" id="set-lbl-goal-daily">Leçons par jour</div>
+            <div class="settings-row-sub" id="set-lbl-goal-daily-sub">Adapte ton plan de révision</div>
+          </div>
+          <div style="display:flex;gap:8px;width:100%;">
+            <button class="daily-goal-btn" data-goal="1" onclick="setDailyGoal(1)" id="goal-btn-1">1 / jour</button>
+            <button class="daily-goal-btn" data-goal="2" onclick="setDailyGoal(2)" id="goal-btn-2">2 / jour</button>
+            <button class="daily-goal-btn" data-goal="5" onclick="setDailyGoal(5)" id="goal-btn-5">5 / jour</button>
+          </div>
+          <div id="goal-plan-preview" style="font-size:0.82rem;color:var(--muted);margin-top:4px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-divider"></div>
       <div class="settings-about">
         <span class="settings-about-logo">🦊</span>
         <div class="settings-about-name">FrenchGo</div>
@@ -1818,7 +1982,7 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
       <div class="quiz-progress" id="quiz-dots"></div>
       <div class="quiz-timer-wrap" id="quiz-timer-wrap" style="display:none">
         <div class="quiz-timer-bar-bg"><div class="quiz-timer-bar-fill" id="quiz-timer-fill" style="width:100%"></div></div>
-        <span class="quiz-timer-num" id="quiz-timer-num">15</span>
+        <span class="quiz-timer-num" id="quiz-timer-num">25</span>
       </div>
       <div class="quiz-question-num" id="q-num"></div>
       <div class="quiz-question" id="q-text"></div>
@@ -1997,6 +2161,7 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
       <input type="text" class="vocab-search" id="vocab-search" oninput="vocabPage=0;renderVocab()" placeholder="Rechercher en FR, EN ou 中文...">
     </div>
     <button class="vocab-train-btn" id="vocab-train-btn" onclick="startVocabQuiz()">&#x26A1; S'entraîner</button>
+    <button class="vocab-srs-btn" id="vocab-srs-btn" onclick="startSRSReview()">🔁 Révision SRS <span id="srs-due-badge" class="srs-badge" style="display:none">0</span></button>
     <div class="vocab-theme-selector" id="vocab-theme-selector">
       <button class="vocab-theme-btn" id="vocab-theme-btn" onclick="toggleThemeDropdown()">
         <span class="vtb-icon" id="vtb-icon">🌟</span>
@@ -2013,6 +2178,64 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
     <div class="vocab-list-inner" id="vocab-list"></div>
     <div class="vocab-pagination" id="vocab-pagination"></div>
   </div>
+
+
+<!-- CERT MODAL -->
+<div class="cert-modal-overlay" id="cert-modal">
+  <div class="cert-modal-box">
+    <div class="cert-modal-emoji" id="cert-modal-emoji">🏆</div>
+    <div class="cert-modal-title" id="cert-modal-title">Niveau complété !</div>
+    <div class="cert-modal-sub" id="cert-modal-sub">Tu as terminé toutes les leçons de ce niveau !</div>
+    <button class="cert-dl-btn" onclick="downloadCertificate()">📥 Télécharger le certificat</button>
+    <button class="cert-close-btn" onclick="document.getElementById('cert-modal').classList.remove('active')">Fermer</button>
+  </div>
+</div>
+
+
+<!-- DICTÉE VIEW -->
+<div class="exercise-view" id="dictee-view">
+  <div class="exercise-header">
+    <button class="back-btn" onclick="closeDictee()" style="margin-bottom:0;flex-shrink:0;"></button>
+    <div>
+      <div style="font-size:18px;font-weight:900;color:var(--text);" id="dictee-title">Dictée</div>
+      <div style="font-size:12px;color:var(--muted);" id="dictee-counter">1 / 10</div>
+    </div>
+  </div>
+  <div class="exercise-body">
+    <div style="text-align:center;margin-bottom:20px;">
+      <button style="background:linear-gradient(135deg,var(--indigo),var(--purple));color:white;border:none;border-radius:99px;font-size:17px;font-weight:800;padding:14px 32px;cursor:pointer;box-shadow:0 4px 14px rgba(99,102,241,0.35);" onclick="playDicteeAudio()" id="dictee-play-btn">▶ Écouter</button>
+    </div>
+    <div class="exercise-feedback" id="dictee-feedback"></div>
+    <input class="exercise-input" id="dictee-input" type="text" placeholder="Écris ce que tu entends..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkDictee()">
+    <div style="display:flex;gap:10px;margin-top:12px;">
+      <button class="exercise-check-btn" onclick="checkDictee()" id="dictee-check-btn" style="flex:2;">Vérifier</button>
+      <button style="flex:1;padding:14px;border:2px solid var(--border);border-radius:14px;background:var(--card);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;" onclick="nextDictee()" id="dictee-next-btn" style="display:none;">Suivant →</button>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:6px;justify-content:center;" id="dictee-dots"></div>
+  </div>
+</div>
+
+<!-- CONSTRUCTEUR VIEW -->
+<div class="exercise-view" id="constructeur-view">
+  <div class="exercise-header">
+    <button class="back-btn" onclick="closeConstructeur()" style="margin-bottom:0;flex-shrink:0;"></button>
+    <div>
+      <div style="font-size:18px;font-weight:900;color:var(--text);" id="construct-title">Constructeur</div>
+      <div style="font-size:12px;color:var(--muted);" id="construct-counter">1 / 10</div>
+    </div>
+  </div>
+  <div class="exercise-body">
+    <div class="exercise-sentence" id="construct-hint"></div>
+    <div class="answer-area" id="construct-answer" onclick=""></div>
+    <div class="word-bank" id="construct-bank"></div>
+    <div class="exercise-feedback" id="construct-feedback"></div>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="exercise-check-btn" onclick="checkConstructeur()" style="flex:2;" id="construct-check-btn">Vérifier</button>
+      <button style="flex:1;padding:14px;border:2px solid var(--border);border-radius:14px;background:var(--card);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;" onclick="nextConstructeur()" id="construct-next-btn">Suivant →</button>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:6px;justify-content:center;" id="construct-dots"></div>
+  </div>
+</div>
 
 <!-- PAYWALL MODAL -->
 <div class="modal-overlay" id="paywall-modal" onclick="closePaywallOnBg(event)">
@@ -2042,7 +2265,7 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
 /* ══════════════════════════════════════
    FREEMIUM CONFIG  ← modifiez ici !
 ══════════════════════════════════════ */
-const FREE_LESSONS  = [75, 0, 1, 2, 3, 4, 5, 6, 11, 12, 35, 65, 68]; // IDs des leçons gratuites
+const FREE_LESSONS  = [75, 76, 77, 78, 79, 80, 0, 1, 2, 3, 4, 5, 6, 11, 12, 35, 65, 68]; // IDs des leçons gratuites
 const UNLOCK_CODE_HASH = '9b603d420459bde57879ed37f77899dd9ebfe468709a5153a5558bde5bf3e8cf'; // SHA-256 du code
 const GUMROAD_URL   = 'https://aceemusic6.gumroad.com/l/klcdld'; // purchase page — web only, not shown in TWA app
 
@@ -7389,6 +7612,11 @@ const TITLES_ZH = {
   72:{title:'高级否定句',desc:'ne…que、ne…aucun、ne…nulle part等'},
   73:{title:'假设与条件句',desc:'si条件句、pourvu que、à condition de'},
   74:{title:'修辞手法',desc:'比喻、夸张、拟人与反语'},
+  76:{title:'法语惯用语',desc:'日常法语人真正使用的表达'},
+  77:{title:'商务法语',desc:'专业场合必备词汇'},
+  78:{title:'法语俚语与口语',desc:'年轻法国人日常使用的表达'},
+  79:{title:'高级关系代词',desc:'dont、lequel、auquel、duquel的用法'},
+  80:{title:'现在虚拟式',desc:'表达愿望、怀疑与情感'},
 };
 const CONTENT_ZH = {
   75:`<h2>🔤 发音基础</h2>
@@ -9188,6 +9416,97 @@ const CONTENT_ZH = {
 <tr><td>排比（anaphore）</td><td>重复词语以增强效果</td><td>Non, non et non !（不，不，绝对不！）</td></tr>
 </table>
 <div class="tip-box"><strong>💡 技巧：</strong>法语文学考试常考识别修辞手法。先背定义，再在真实文本中练习辨认。</div>`,
+  76:`<h2>💬 法语惯用语</h2>
+<p>真正的法语使用者每天都用这些表达。掌握它们，让你的法语更地道！</p>
+<table class="vocab-table">
+<tr><th>惯用语</th><th>字面意思</th><th>真实含义</th></tr>
+<tr><td><strong>Il pleut des cordes</strong></td><td>下绳子</td><td>下倾盆大雨</td></tr>
+<tr><td><strong>Avoir le cafard</strong></td><td>有蟑螂</td><td>感到沮丧、忧郁</td></tr>
+<tr><td><strong>Poser un lapin</strong></td><td>放一只兔子</td><td>爽约、不赴约</td></tr>
+<tr><td><strong>Tomber à pic</strong></td><td>垂直落下</td><td>来得正是时候</td></tr>
+<tr><td><strong>Casser les pieds</strong></td><td>打断脚</td><td>烦人、令人恼火</td></tr>
+<tr><td><strong>Avoir le vent en poupe</strong></td><td>顺风行驶</td><td>一帆风顺、成功</td></tr>
+<tr><td><strong>Donner sa langue au chat</strong></td><td>把舌头给猫</td><td>放弃猜测</td></tr>
+<tr><td><strong>Se lever du pied gauche</strong></td><td>用左脚起床</td><td>心情不好</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>惯用语不能逐字翻译——要在语境中学习！</div>`,
+  77:`<h2>💼 商务法语</h2>
+<p>无论是求职面试、商务邮件还是会议，这些词汇都必不可少。</p>
+<h3>会议与演讲</h3>
+<table class="vocab-table">
+<tr><th>法语</th><th>中文</th></tr>
+<tr><td><strong>Prendre la parole</strong></td><td>发言、开口说话</td></tr>
+<tr><td><strong>Ordre du jour</strong></td><td>议程</td></tr>
+<tr><td><strong>Faire le point</strong></td><td>总结、梳理现状</td></tr>
+<tr><td><strong>Atteindre les objectifs</strong></td><td>达成目标</td></tr>
+</table>
+<h3>商务邮件常用句</h3>
+<table class="vocab-table">
+<tr><th>法语</th><th>用途</th></tr>
+<tr><td>Suite à notre entretien...</td><td>参考上次交流</td></tr>
+<tr><td>Dans l'attente de votre réponse</td><td>等候您的回复</td></tr>
+<tr><td>Veuillez agréer mes salutations</td><td>正式结束语</td></tr>
+</table>
+<h3>人力资源</h3>
+<table class="vocab-table">
+<tr><th>术语</th><th>中文</th></tr>
+<tr><td>Entretien d'embauche</td><td>求职面试</td></tr>
+<tr><td>Lettre de motivation</td><td>求职信</td></tr>
+<tr><td>Période d'essai</td><td>试用期</td></tr>
+<tr><td>Appel d'offres</td><td>招标书</td></tr>
+</table>
+<div class="tip-box"><strong>💡 技巧：</strong>商务法语比日常法语更正式。掌握这些表达，在职场中脱颖而出！</div>`,
+  78:`<h2>🗣️ 法语俚语与口语</h2>
+<p>法国年轻人之间的日常用语与正式法语大相径庭，下面是最常见的表达！</p>
+<h3>Verlan（倒音俚语）</h3>
+<table class="vocab-table">
+<tr><th>俚语</th><th>原词</th><th>含义</th></tr>
+<tr><td><strong>ouf</strong></td><td>fou（疯狂）</td><td>疯狂的、不可思议的</td></tr>
+<tr><td><strong>chelou</strong></td><td>louche（可疑）</td><td>奇怪的、可疑的</td></tr>
+<tr><td><strong>meuf</strong></td><td>femme（女人）</td><td>女孩（口语）</td></tr>
+<tr><td><strong>keum</strong></td><td>mec（男人）</td><td>男生（口语）</td></tr>
+</table>
+<h3>常用口语表达</h3>
+<table class="vocab-table">
+<tr><th>表达</th><th>含义</th></tr>
+<tr><td>C'est relou</td><td>好烦/很麻烦</td></tr>
+<tr><td>C'est chaud</td><td>很难/有风险</td></tr>
+<tr><td>Kiffer</td><td>喜欢、热爱</td></tr>
+<tr><td>Bosser / taffer</td><td>工作（口语）</td></tr>
+<tr><td>Crevé / naze</td><td>筋疲力尽</td></tr>
+</table>
+<div class="tip-box"><strong>💡 文化：</strong>Verlan（倒音语）诞生于20世纪80年代法国郊区，现已被整整一代法国人所使用。</div>`,
+  79:`<h2>🔗 高级关系代词</h2>
+<p>除了"qui"和"que"，法语还有更复杂的关系代词，让句子更优美。</p>
+<table class="vocab-table">
+<tr><th>代词</th><th>用法</th><th>例句</th></tr>
+<tr><td><strong>dont</strong></td><td>替代"de + 名词"</td><td>Le livre dont je parle.（我谈论的那本书）</td></tr>
+<tr><td><strong>où</strong></td><td>地点或时间</td><td>Le café où nous nous sommes rencontrés.（我们相遇的咖啡馆）</td></tr>
+<tr><td><strong>lequel/laquelle</strong></td><td>介词后（阳/阴性）</td><td>Le stylo avec lequel j'écris.（我用来写字的钢笔）</td></tr>
+<tr><td><strong>auquel</strong></td><td>à + lequel</td><td>Le projet auquel je participe.（我参与的项目）</td></tr>
+<tr><td><strong>duquel</strong></td><td>de + lequel</td><td>Le pont au-dessous duquel…（桥下面…）</td></tr>
+</table>`,
+  80:`<h2>🎭 现在虚拟式</h2>
+<p>虚拟式表达愿望、恐惧、怀疑或要求——与表达确定事实的陈述式相对。</p>
+<h3>构成方法</h3>
+<p>以第三人称复数（ils）的词干 + 词尾：-e, -es, -e, -ions, -iez, -ent</p>
+<h3>触发虚拟式的情境</h3>
+<table class="vocab-table">
+<tr><th>类型</th><th>例子</th></tr>
+<tr><td>意愿</td><td>vouloir que, désirer que</td></tr>
+<tr><td>必要性</td><td>il faut que, il est nécessaire que</td></tr>
+<tr><td>情感</td><td>être content que, avoir peur que</td></tr>
+<tr><td>怀疑</td><td>douter que, ne pas croire que</td></tr>
+<tr><td>连词</td><td>bien que, pour que, avant que</td></tr>
+</table>
+<h3>不规则动词</h3>
+<table class="vocab-table">
+<tr><th>动词</th><th>虚拟式（que je…）</th></tr>
+<tr><td>être</td><td>que je sois</td></tr>
+<tr><td>avoir</td><td>que j'aie</td></tr>
+<tr><td>aller</td><td>que j'aille</td></tr>
+<tr><td>faire</td><td>que je fasse</td></tr>
+</table>`,
 };
 const QUIZ_ZH = {
   75:['「ch」在法语中怎么发音？','「eau」这个组合发什么音？','「哑H」在法语中是什么意思？','「ou」在法语中怎么发音？','「an/en」对应哪个鼻化元音？','法语字母「u」怎么发音？','「c」在「e」或「i」前怎么发音？','什么是法语中的「联诵（liaison）」？'],
@@ -9292,6 +9611,11 @@ const QUIZ_ZH = {
   72:['以下哪个是"ne...jamais"的正确用法？','"ne...que"表达的是……','"Il ne fume plus"的意思是……','在元音前，"ne"变为……','"Je ___ vois rien"——缺少哪个词？'],
   73:['以下哪种条件句类型使用"si + 现在时，将来时"？','"S\'il faisait beau"使用了哪种时态？','si从句中能否使用条件式？','补全："Si elle avait su, elle… venue。"','条件式过去时由什么构成？'],
   74:['以下哪句话是比喻（métaphore）？','明喻（comparaison）使用哪个词？','"Le vent pleurait。"是哪种修辞手法？','"J\'ai mille choses à faire。"是哪种修辞手法？','反语（ironie）的主要特征是什么？'],
+  76:['"Il pleut des cordes"是什么意思？','"Poser un lapin"是指什么？','如果有人"a le cafard"，他/她：','"Casser les pieds"是什么意思？','"Tomber à pic"是什么意思？'],
+  77:['"Faire le point"在会议中是指？','如何正式结束一封法语商务邮件？','"Candidature spontanée"是指？','"Prendre la parole"是什么意思？','"Appel d\'offres"涉及什么？'],
+  78:['哪个Verlan词表示"不可思议"？','"Chelou"是哪个词的Verlan？','"Kiffer"是什么意思？','"Je suis crevé"意思是？','哪个俚语词表示汽车？'],
+  79:['补全："C\'est le livre ___ je t\'ai parlé"','补全："La raison ___ j\'ai refusé"','补全："Le projet ___ je participe"','"Où"可用来替代哪类补语？','"à + lesquels"的缩合形式是什么？'],
+  80:['虚拟式中être的变位（il）是什么？','哪个结构需要使用虚拟式？','补全："Bien qu\'il ___ froid..."','虚拟式中avoir的变位（il）是什么？','哪句话虚拟式使用不当？'],
 };
 
 const CONTENT_EN = {
@@ -14501,6 +14825,346 @@ const LESSONS = [
       {q:'Identifier la figure : "Le vent gémit dans les arbres."', q_en:'Identify the figure: "The wind moans in the trees."', opts:['Métaphore','Oxymore','Personnification','Ironie'], ans:2, exp:'Le vent gémit = le vent a une action humaine → personnification.', exp_en:'The wind moans = the wind has a human action → personification.'},
       {q:'Qu’est-ce qu’un oxymore ?', q_en:'What is an oxymoron?', opts:['Une exagération','L’association de deux contraires','Une comparaison sans outil','Un son répété'], ans:1, exp:'Oxymore = deux termes opposés associés : « un silence assourdissant ».', exp_en:'Oxymoron = two opposite terms combined: "a deafening silence".'},
       {q:'Quelle figure utilise à l’ironie un beau compliment pour désigner le contraire ?', q_en:'Which figure uses a compliment to mean the opposite?', opts:['La métaphore','L’hyperbole','L’ironie','La personnification'], ans:2, exp:'L’ironie dit le contraire de ce qu’elle signifie pour moquer ou critiquer.', exp_en:'Irony says the opposite of what it means, to mock or criticize.'},
+    ],
+  },
+  {
+    id:76, level:'advanced',
+    title:'Expressions idiomatiques', title_en:'Idiomatic Expressions',
+    desc:'Les expressions courantes que les Français utilisent vraiment.', desc_en:'Common expressions that French people actually use.',
+    tip:'Les expressions idiomatiques ne se traduisent pas mot à mot — elles s\'apprennent dans le contexte !',
+    tip_en:'Idioms can\'t be translated word for word — learn them in context!',
+    example:'"Casser les pieds" = embêter quelqu\'un',
+    example_en:'"Casser les pieds" = to annoy someone',
+    content:`<h2>💬 Expressions idiomatiques françaises</h2>
+<p>Les vrais locuteurs français utilisent ces expressions quotidiennement. Apprends-les pour parler comme un natif !</p>
+
+<h3>1. Exprimer la colère ou l'ennui</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Sens littéral</th><th>Sens réel</th></tr>
+<tr><td><strong>Casser les pieds</strong></td><td>Casser les pieds</td><td>Ennuyer, agacer quelqu'un</td></tr>
+<tr><td><strong>Se lever du pied gauche</strong></td><td>Se lever du pied gauche</td><td>Être de mauvaise humeur</td></tr>
+<tr><td><strong>Avoir le cafard</strong></td><td>Avoir le cafard</td><td>Se sentir déprimé, triste</td></tr>
+<tr><td><strong>En avoir marre</strong></td><td>—</td><td>En avoir assez, être fatigué de</td></tr>
+</table>
+
+<h3>2. Le temps qu'il fait... vraiment</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Traduction</th></tr>
+<tr><td><strong>Il pleut des cordes</strong></td><td>It's raining cats and dogs</td></tr>
+<tr><td><strong>Un temps de chien</strong></td><td>Awful weather</td></tr>
+<tr><td><strong>Il fait un froid de canard</strong></td><td>It's freezing cold</td></tr>
+</table>
+
+<h3>3. Réussite et chance</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Sens</th></tr>
+<tr><td><strong>Avoir le vent en poupe</strong></td><td>To have the wind in one's sails / être en plein succès</td></tr>
+<tr><td><strong>Tomber à pic</strong></td><td>To come at just the right time / arriver au bon moment</td></tr>
+<tr><td><strong>C'est le bout du tunnel</strong></td><td>Light at the end of the tunnel / la fin des difficultés</td></tr>
+<tr><td><strong>Avoir le beurre et l'argent du beurre</strong></td><td>To have one's cake and eat it too</td></tr>
+</table>
+
+<h3>4. Relations sociales</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Sens</th></tr>
+<tr><td><strong>Donner sa langue au chat</strong></td><td>To give up guessing / abandonner une devinette</td></tr>
+<tr><td><strong>Poser un lapin</strong></td><td>To stand someone up / ne pas se présenter à un rendez-vous</td></tr>
+<tr><td><strong>Avoir le cafard</strong></td><td>To feel blue / se sentir déprimé</td></tr>
+</table>`,
+    content_en:`<h2>💬 French Idiomatic Expressions</h2>
+<p>Real French speakers use these expressions every day. Learn them to speak like a native!</p>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Literal meaning</th><th>Real meaning</th></tr>
+<tr><td><strong>Casser les pieds</strong></td><td>Break the feet</td><td>To annoy/bother someone</td></tr>
+<tr><td><strong>Il pleut des cordes</strong></td><td>It's raining ropes</td><td>It's raining cats and dogs</td></tr>
+<tr><td><strong>Avoir le cafard</strong></td><td>To have the cockroach</td><td>To feel depressed/blue</td></tr>
+<tr><td><strong>Poser un lapin</strong></td><td>To put a rabbit</td><td>To stand someone up</td></tr>
+<tr><td><strong>Tomber à pic</strong></td><td>To fall like a pike</td><td>To come at the right moment</td></tr>
+<tr><td><strong>Avoir le vent en poupe</strong></td><td>To have wind in the stern</td><td>To be on a roll / succeeding</td></tr>
+<tr><td><strong>Se lever du pied gauche</strong></td><td>Get up on the left foot</td><td>To wake up in a bad mood</td></tr>
+<tr><td><strong>Donner sa langue au chat</strong></td><td>Give your tongue to the cat</td><td>To give up guessing</td></tr>
+</table>`,
+    quiz:[
+      {q:'Que signifie "il pleut des cordes" ?',opts:['Il pleut très fort','Il fait beau','Il neige','Il fait du vent'],ans:0,exp:'Littéralement "des cordes" tombent du ciel — une pluie très forte !',exp_en:'Literally "ropes" fall from the sky — very heavy rain!'},
+      {q:'"Poser un lapin à quelqu\'un" signifie :',opts:['Offrir un cadeau','Ne pas se présenter au RDV','Arriver en avance','Apporter un animal'],ans:1,exp:'Poser un lapin = ne pas venir à un rendez-vous sans prévenir.',exp_en:'Poser un lapin = to stand someone up.'},
+      {q:'Si quelqu\'un "a le cafard", il :',opts:['Fait de l\'escalade','Est heureux','Se sent déprimé','A un animal de compagnie'],ans:2,exp:'Avoir le cafard = se sentir triste ou déprimé.',exp_en:'Avoir le cafard = to feel sad or depressed.'},
+      {q:'"Casser les pieds" à quelqu\'un, c\'est :',opts:['Le faire danser','L\'ennuyer','L\'aider','Le féliciter'],ans:1,exp:'Casser les pieds = agacer, embêter quelqu\'un.',exp_en:'Casser les pieds = to annoy or bother someone.'},
+      {q:'"Tomber à pic" signifie :',opts:['Tomber par terre','Arriver au mauvais moment','Arriver au bon moment','Sauter en parachute'],ans:2,exp:'Tomber à pic = arriver exactement au bon moment.',exp_en:'Tomber à pic = to arrive at exactly the right moment.'},
+    ]
+  },
+  {
+    id:77, level:'advanced',
+    title:'Français des affaires', title_en:'Business French',
+    desc:'Vocabulaire essentiel pour le monde professionnel.', desc_en:'Essential vocabulary for the professional world.',
+    tip:'Le français des affaires est plus formel que le français courant. Maîtrisez ces expressions pour briller en réunion !',
+    tip_en:'Business French is more formal than everyday French. Master these expressions to shine in meetings!',
+    example:'"Suite à notre entretien téléphonique..."',
+    example_en:'"Following our phone call..."',
+    content:`<h2>💼 Français des affaires</h2>
+<p>Que ce soit pour un entretien, un email professionnel ou une réunion, ce vocabulaire est indispensable.</p>
+
+<h3>1. Réunions et présentations</h3>
+<table class="vocab-table">
+<tr><th>Français</th><th>English</th></tr>
+<tr><td><strong>Prendre la parole</strong></td><td>To speak up / take the floor</td></tr>
+<tr><td><strong>Mettre à l'ordre du jour</strong></td><td>To put on the agenda</td></tr>
+<tr><td><strong>Faire le point</strong></td><td>To take stock / review the situation</td></tr>
+<tr><td><strong>Atteindre les objectifs</strong></td><td>To meet/achieve the objectives</td></tr>
+<tr><td><strong>En bref / En résumé</strong></td><td>In brief / In summary</td></tr>
+</table>
+
+<h3>2. Emails professionnels</h3>
+<table class="vocab-table">
+<tr><th>Formule</th><th>Traduction</th><th>Usage</th></tr>
+<tr><td>Monsieur / Madame</td><td>Dear Sir / Madam</td><td>Ouverture formelle</td></tr>
+<tr><td>Suite à notre entretien...</td><td>Following our interview/call...</td><td>Référence à un échange</td></tr>
+<tr><td>Je me permets de vous contacter</td><td>I take the liberty of contacting you</td><td>Premier contact</td></tr>
+<tr><td>Dans l'attente de votre réponse</td><td>Awaiting your reply</td><td>Avant la signature</td></tr>
+<tr><td>Veuillez agréer mes salutations</td><td>Yours sincerely</td><td>Clôture formelle</td></tr>
+</table>
+
+<h3>3. Négociation</h3>
+<table class="vocab-table">
+<tr><th>Français</th><th>Sens</th></tr>
+<tr><td><strong>Parvenir à un accord</strong></td><td>To reach an agreement</td></tr>
+<tr><td><strong>Proposer un compromis</strong></td><td>To propose a compromise</td></tr>
+<tr><td><strong>Réviser à la hausse/baisse</strong></td><td>To revise upward/downward</td></tr>
+<tr><td><strong>Conclure un partenariat</strong></td><td>To finalize a partnership</td></tr>
+<tr><td><strong>Appel d'offres</strong></td><td>Request for proposals (RFP)</td></tr>
+</table>
+
+<h3>4. Ressources humaines</h3>
+<table class="vocab-table">
+<tr><th>Terme</th><th>Traduction</th></tr>
+<tr><td>Entretien d'embauche</td><td>Job interview</td></tr>
+<tr><td>Lettre de motivation</td><td>Cover letter</td></tr>
+<tr><td>Candidature spontanée</td><td>Unsolicited application</td></tr>
+<tr><td>Avantages en nature</td><td>Benefits in kind / perks</td></tr>
+<tr><td>Période d'essai</td><td>Probationary period</td></tr>
+</table>`,
+    content_en:`<h2>💼 Business French</h2>
+<p>Essential vocabulary for interviews, professional emails, and meetings.</p>
+<table class="vocab-table">
+<tr><th>French</th><th>English</th><th>Context</th></tr>
+<tr><td>Prendre la parole</td><td>To take the floor</td><td>Meetings</td></tr>
+<tr><td>Ordre du jour</td><td>Agenda</td><td>Meetings</td></tr>
+<tr><td>Faire le point</td><td>To review / debrief</td><td>Meetings</td></tr>
+<tr><td>Entretien d'embauche</td><td>Job interview</td><td>HR</td></tr>
+<tr><td>Lettre de motivation</td><td>Cover letter</td><td>HR</td></tr>
+<tr><td>Appel d'offres</td><td>Request for proposals</td><td>Business</td></tr>
+<tr><td>Parvenir à un accord</td><td>To reach an agreement</td><td>Negotiation</td></tr>
+<tr><td>Veuillez agréer mes salutations</td><td>Yours sincerely</td><td>Email</td></tr>
+</table>`,
+    quiz:[
+      {q:'"Faire le point" en réunion, c\'est :',q_en:'In a meeting, "faire le point" means:',opts:['Marquer des points','Résumer la situation actuelle','Terminer la réunion','Pointer les absents'],ans:1,exp:'Faire le point = résumer, évaluer la situation actuelle.',exp_en:'Faire le point = to review the current situation.'},
+      {q:'Comment termine-t-on un email formel en français ?',q_en:'How do you end a formal French email?',opts:['À bientôt !','Bisous','Veuillez agréer mes salutations distinguées','Ciao'],ans:2,exp:'Les emails formels se terminent par des formules de politesse élaborées.',exp_en:'Formal emails end with elaborate courtesy formulas.'},
+      {q:'Une "candidature spontanée" est :',q_en:'An "unsolicited application" is:',opts:['Une candidature refusée','Envoyer son CV sans offre d\'emploi','Une candidature urgente','Un test surprise'],ans:1,exp:'Spontanée = sans offre d\'emploi publiée. Vous proposez vos services directement.',exp_en:'Spontaneous = without a job posting. You offer your services directly.'},
+      {q:'"Prendre la parole" signifie :',q_en:'"Prendre la parole" means:',opts:['Commencer à parler','Apprendre une langue','Écrire un discours','Interrompre quelqu\'un'],ans:0,exp:'Prendre la parole = commencer à s\'exprimer en public ou en réunion.',exp_en:'Prendre la parole = to start speaking in public or in a meeting.'},
+      {q:'Un "appel d\'offres" concerne :',q_en:'A "request for proposals" concerns:',opts:['Un appel téléphonique','Proposer un marché à des fournisseurs','Une offre d\'emploi','Un appel à l\'aide'],ans:1,exp:'Un appel d\'offres = invitation à des entreprises à soumettre leurs propositions.',exp_en:'An RFP = invitation to companies to submit their proposals.'},
+    ]
+  },
+  {
+    id:78, level:'advanced',
+    title:'Le français familier et argotique', title_en:'Colloquial & Slang French',
+    desc:'Les expressions que les jeunes Français utilisent entre eux.', desc_en:'Expressions French young people use among themselves.',
+    tip:'L\'argot évolue vite ! Apprends les classiques intemporels plutôt que les tendances éphémères.',
+    tip_en:'Slang evolves fast! Learn the timeless classics rather than fleeting trends.',
+    example:'"C\'est ouf !" = C\'est fou ! (verlan)',
+    example_en:'"C\'est ouf!" = It\'s crazy! (verlan = reversed syllables)',
+    culture:'En France, le "verlan" (l\'envers) est un argot qui inverse les syllabes des mots. Né dans les banlieues dans les années 80, il est aujourd\'hui utilisé par toute une génération.',
+    culture_en:'In France, "verlan" (l\'envers = reverse) is slang that inverts word syllables. Born in the suburbs in the 1980s, it is now used by an entire generation.',
+    content:`<h2>🗣️ Le français familier et argotique</h2>
+<p>Le français parlé entre amis est très différent du français "scolaire". Voici les expressions incontournables !</p>
+
+<h3>1. Le verlan (syllabes inversées)</h3>
+<table class="vocab-table">
+<tr><th>Argot</th><th>Mot d\'origine</th><th>Sens</th></tr>
+<tr><td><strong>ouf</strong></td><td>fou</td><td>fou, dingue, incroyable</td></tr>
+<tr><td><strong>chelou</strong></td><td>louche</td><td>bizarre, suspect</td></tr>
+<tr><td><strong>meuf</strong></td><td>femme</td><td>femme, fille (familier)</td></tr>
+<tr><td><strong>keum</strong></td><td>mec</td><td>homme, gars (familier)</td></tr>
+<tr><td><strong>laisse béton</strong></td><td>laisse tomber</td><td>laisse tomber, oublie</td></tr>
+<tr><td><strong>à donf</strong></td><td>à fond</td><td>à fond, complètement</td></tr>
+</table>
+
+<h3>2. Expressions familières courantes</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Sens</th><th>Exemple</th></tr>
+<tr><td><strong>C\'est relou</strong></td><td>C\'est lourd/pénible</td><td>"Ce devoir est relou."</td></tr>
+<tr><td><strong>J\'en ai rien à faire</strong></td><td>Je m\'en fiche</td><td>"J\'en ai rien à faire de son avis."</td></tr>
+<tr><td><strong>C\'est chaud</strong></td><td>C\'est difficile/risqué</td><td>"Le devoir était chaud !"</td></tr>
+<tr><td><strong>Ça le fait</strong></td><td>C\'est bien, ça marche</td><td>"Nouvelle coupe ? Ça le fait !"</td></tr>
+<tr><td><strong>Nickel</strong></td><td>Parfait, impeccable</td><td>"C\'est nickel !"</td></tr>
+<tr><td><strong>Kiffer</strong></td><td>Aimer, adorer</td><td>"Je kiffe ce film !"</td></tr>
+</table>
+
+<h3>3. Registres de langue</h3>
+<table class="vocab-table">
+<tr><th>Soutenu</th><th>Standard</th><th>Familier</th></tr>
+<tr><td>Je n\'ai pas d\'argent</td><td>Je n\'ai pas d\'argent</td><td>J\'ai pas de thune / de blé</td></tr>
+<tr><td>Je suis fatigué</td><td>Je suis fatigué</td><td>Je suis crevé / naze</td></tr>
+<tr><td>Voiture</td><td>Voiture</td><td>Bagnole / caisse</td></tr>
+<tr><td>Maison</td><td>Maison</td><td>Baraque / piaule</td></tr>
+<tr><td>Travailler</td><td>Travailler</td><td>Bosser / taffer</td></tr>
+</table>
+<div class="tip-box"><strong>💡 Culture :</strong> Le verlan est né dans les banlieues françaises dans les années 80. Des mots comme "ouf", "meuf" et "chelou" sont maintenant compris par tous les Français.</div>`,
+    content_en:`<h2>🗣️ Colloquial & Slang French</h2>
+<p>Spoken French between friends is very different from "school" French. Here are the essential expressions!</p>
+<h3>Verlan (reversed syllables)</h3>
+<table class="vocab-table">
+<tr><th>Slang</th><th>Original word</th><th>Meaning</th></tr>
+<tr><td><strong>ouf</strong></td><td>fou (crazy)</td><td>crazy, insane, incredible</td></tr>
+<tr><td><strong>chelou</strong></td><td>louche (shady)</td><td>weird, sketchy</td></tr>
+<tr><td><strong>meuf</strong></td><td>femme (woman)</td><td>woman, girl (informal)</td></tr>
+<tr><td><strong>keum</strong></td><td>mec (guy)</td><td>guy, man (informal)</td></tr>
+<tr><td><strong>laisse béton</strong></td><td>laisse tomber (forget it)</td><td>forget it, drop it</td></tr>
+</table>
+<h3>Common colloquial expressions</h3>
+<table class="vocab-table">
+<tr><th>Expression</th><th>Meaning</th></tr>
+<tr><td>C\'est relou</td><td>It\'s annoying / a pain</td></tr>
+<tr><td>C\'est chaud</td><td>It\'s tough / risky</td></tr>
+<tr><td>Ça le fait</td><td>That works / looks good</td></tr>
+<tr><td>Kiffer</td><td>To love / be into something</td></tr>
+<tr><td>Bosser / taffer</td><td>To work (informal)</td></tr>
+<tr><td>Crevé / naze</td><td>Exhausted</td></tr>
+</table>`,
+    quiz:[
+      {q:'Quel mot verlan désigne quelque chose d\'incroyable ou de fou ?',opts:['chelou','ouf','meuf','relou'],ans:1,exp:'Ouf = verlan de "fou". C\'est ouf ! = C\'est incroyable !',exp_en:'Ouf = verlan of "fou" (crazy). C\'est ouf! = That\'s crazy!'},
+      {q:'"Chelou" est le verlan de :',opts:['chaud','lourd','louche','chouette'],ans:2,exp:'Chelou = louche (bizarre, suspect). Inverser "lou-che" donne "che-lou".',exp_en:'Chelou = louche (shady, weird). Reversing "lou-che" gives "che-lou".'},
+      {q:'"Kiffer" signifie :',opts:['Travailler dur','Aimer, adorer','Se reposer','Partir'],ans:1,exp:'Kiffer = aimer vraiment. "Je kiffe ce film !" = J\'adore ce film !',exp_en:'Kiffer = to really like. "Je kiffe ce film!" = I love this film!'},
+      {q:'"Je suis crevé" signifie :',opts:['J\'ai faim','Je suis perdu','Je suis épuisé','Je suis en retard'],ans:2,exp:'Crevé = très fatigué. Synonyme familier : naze, à plat.',exp_en:'Crevé = very tired. Informal synonyms: naze, à plat.'},
+      {q:'Quel mot argotique désigne une voiture ?',opts:['Baraque','Bagnole','Thune','Piaule'],ans:1,exp:'Bagnole (ou caisse) = voiture en argot. Baraque = maison, thune = argent, piaule = chambre.',exp_en:'Bagnole (or caisse) = car in slang. Baraque = house, thune = money, piaule = room.'},
+    ]
+  },
+  {
+    id:79, level:'advanced',
+    title:'Les pronoms relatifs avancés', title_en:'Advanced Relative Pronouns',
+    desc:'Dont, lequel, auquel, duquel — maîtrisez les cas complexes.', desc_en:'Dont, lequel, auquel, duquel — master the complex cases.',
+    tip:'Le choix du pronom relatif dépend de la préposition utilisée avec le verbe principal.',
+    tip_en:'The choice of relative pronoun depends on the preposition used with the main verb.',
+    example:'"La ville dont je viens s\'appelle Lyon."',
+    example_en:'"The city I come from is called Lyon."',
+    culture:'Les pronoms relatifs complexes sont souvent omis dans le français parlé familier, mais indispensables à l\'écrit et dans un registre soutenu.',
+    culture_en:'Complex relative pronouns are often omitted in informal spoken French, but are essential in writing and formal registers.',
+    content:`<h2>🔗 Les pronoms relatifs avancés</h2>
+<p>Au-delà de "qui" et "que", le français possède des pronoms relatifs plus complexes qui permettent des constructions élégantes.</p>
+
+<h3>1. DONT — complément introduit par "de"</h3>
+<p>"Dont" remplace un complément précédé de <strong>de</strong>.</p>
+<table class="vocab-table">
+<tr><th>Structure</th><th>Exemple</th></tr>
+<tr><td>parler de → dont</td><td>Le livre <strong>dont</strong> je parle est passionnant.</td></tr>
+<tr><td>avoir besoin de → dont</td><td>C\'est l\'outil <strong>dont</strong> j\'ai besoin.</td></tr>
+<tr><td>être fier de → dont</td><td>C\'est un résultat <strong>dont</strong> je suis fier.</td></tr>
+<tr><td>venir de → dont</td><td>La ville <strong>dont</strong> je viens s\'appelle Lyon.</td></tr>
+</table>
+
+<h3>2. OÙ — lieu et temps</h3>
+<table class="vocab-table">
+<tr><th>Usage</th><th>Exemple</th></tr>
+<tr><td>Lieu</td><td>Le café <strong>où</strong> nous nous sommes rencontrés a fermé.</td></tr>
+<tr><td>Temps</td><td>L\'année <strong>où</strong> je suis né, il neigeait en mai.</td></tr>
+</table>
+
+<h3>3. LEQUEL / LAQUELLE / LESQUELS / LESQUELLES — après préposition</h3>
+<table class="vocab-table">
+<tr><th>Préposition</th><th>Pronom</th><th>Exemple</th></tr>
+<tr><td>avec</td><td>avec lequel/laquelle</td><td>Le stylo <strong>avec lequel</strong> j\'écris est rouge.</td></tr>
+<tr><td>sans</td><td>sans lequel/laquelle</td><td>C\'est un ami <strong>sans lequel</strong> je ne peux pas vivre.</td></tr>
+<tr><td>pour</td><td>pour lequel/laquelle</td><td>La raison <strong>pour laquelle</strong> j\'ai choisi ce métier…</td></tr>
+</table>
+
+<h3>4. AUQUEL / DUQUEL — contractions</h3>
+<table class="vocab-table">
+<tr><th>Préposition + lequel</th><th>Contraction</th><th>Exemple</th></tr>
+<tr><td>à + lequel</td><td><strong>auquel</strong></td><td>Le projet <strong>auquel</strong> je participe est ambitieux.</td></tr>
+<tr><td>de + lequel</td><td><strong>duquel</strong></td><td>Le pont <strong>au-dessous duquel</strong> nous sommes passés.</td></tr>
+<tr><td>à + lesquels</td><td><strong>auxquels</strong></td><td>Les sujets <strong>auxquels</strong> il s\'intéresse sont variés.</td></tr>
+</table>`,
+    content_en:`<h2>🔗 Advanced Relative Pronouns</h2>
+<p>Beyond "qui" and "que", French has more complex relative pronouns that allow elegant constructions.</p>
+<table class="vocab-table">
+<tr><th>Pronoun</th><th>Use</th><th>Example</th></tr>
+<tr><td><strong>dont</strong></td><td>replaces "de + noun"</td><td>Le livre dont je parle. (The book I\'m talking about.)</td></tr>
+<tr><td><strong>où</strong></td><td>place or time</td><td>Le café où nous nous sommes rencontrés. (The café where we met.)</td></tr>
+<tr><td><strong>lequel/laquelle</strong></td><td>after preposition (masc/fem)</td><td>Le stylo avec lequel j\'écris. (The pen I write with.)</td></tr>
+<tr><td><strong>auquel</strong></td><td>à + lequel</td><td>Le projet auquel je participe. (The project I\'m involved in.)</td></tr>
+<tr><td><strong>duquel</strong></td><td>de + lequel</td><td>Le pont au-dessous duquel… (The bridge below which…)</td></tr>
+</table>`,
+    quiz:[
+      {q:'Complétez : "C\'est le livre ___ je t\'ai parlé."',opts:['que','qui','dont','lequel'],ans:2,exp:'Parler de → dont. "Je t\'ai parlé DE ce livre" → "le livre DONT je t\'ai parlé".',exp_en:'Parler de → dont. "Je t\'ai parlé DE ce livre" → "le livre DONT je t\'ai parlé".'},
+      {q:'Complétez : "La raison ___ j\'ai refusé est personnelle."',opts:['dont','pour laquelle','auquel','que'],ans:1,exp:'Après "raison", on utilise "pour laquelle" (refuser POUR une raison).',exp_en:'After "raison", use "pour laquelle" (to refuse FOR a reason).'},
+      {q:'Complétez : "Le projet ___ je participe est ambitieux."',opts:['dont','que','auquel','lequel'],ans:2,exp:'Participer À → auquel (à + lequel, masculin singulier).',exp_en:'Participer À → auquel (à + lequel, masculine singular).'},
+      {q:'"Où" peut remplacer un complément de :',opts:['Temps seulement','Lieu seulement','Lieu et temps','Manière'],ans:2,exp:'"Où" s\'utilise pour le lieu ET le temps : "l\'année où je suis né".',exp_en:'"Où" is used for both place AND time: "l\'année où je suis né" (the year I was born).'},
+      {q:'Quelle est la contraction de "à + lesquels" ?',opts:['auxquelles','ausquels','auxquels','àlesquels'],ans:2,exp:'À + lesquels = auxquels. À + lesquelles = auxquelles.',exp_en:'À + lesquels = auxquels. À + lesquelles = auxquelles.'},
+    ]
+  },
+  {
+    id:80, level:'advanced',
+    title:'Le subjonctif présent', title_en:'The Present Subjunctive',
+    desc:'Exprimer le doute, la volonté et l\'émotion avec le subjonctif.', desc_en:'Express doubt, will and emotion with the subjunctive.',
+    tip:'Le subjonctif s\'utilise dans la subordonnée après "que" quand le sujet de la principale exprime volonté, doute ou émotion.',
+    tip_en:'The subjunctive is used in subordinate clauses after "que" when the main clause expresses will, doubt or emotion.',
+    example:'"Il faut que tu viennes." — Il faut + subjonctif',
+    example_en:'"Il faut que tu viennes." — Il faut + subjunctive',
+    culture:'Le subjonctif est souvent mal utilisé, même par les Français. Son usage correct est un signe de maîtrise de la langue et impressionne dans les contextes formels.',
+    culture_en:'The subjunctive is often misused, even by French people. Using it correctly is a sign of language mastery and is impressive in formal contexts.',
+    content:`<h2>🎭 Le subjonctif présent</h2>
+<p>Le subjonctif exprime ce qui est souhaité, craint, douteux ou exigé — par opposition à ce qui est certain.</p>
+
+<h3>1. Formation</h3>
+<p>Radical de la 3e personne du pluriel (ils) + terminaisons :</p>
+<table class="vocab-table">
+<tr><th>Pronom</th><th>Terminaison</th><th>parler (qu\'ils parlent)</th><th>finir (qu\'ils finissent)</th></tr>
+<tr><td>que je</td><td>-e</td><td>parle</td><td>finisse</td></tr>
+<tr><td>que tu</td><td>-es</td><td>parles</td><td>finisses</td></tr>
+<tr><td>qu\'il/elle</td><td>-e</td><td>parle</td><td>finisse</td></tr>
+<tr><td>que nous</td><td>-ions</td><td>parlions</td><td>finissions</td></tr>
+<tr><td>que vous</td><td>-iez</td><td>parliez</td><td>finissiez</td></tr>
+<tr><td>qu\'ils/elles</td><td>-ent</td><td>parlent</td><td>finissent</td></tr>
+</table>
+
+<h3>2. Verbes irréguliers essentiels</h3>
+<table class="vocab-table">
+<tr><th>Infinitif</th><th>Subjonctif (que je…)</th></tr>
+<tr><td>être</td><td>que je <strong>sois</strong>, que tu <strong>sois</strong>, qu\'il <strong>soit</strong></td></tr>
+<tr><td>avoir</td><td>que j\'<strong>aie</strong>, que tu <strong>aies</strong>, qu\'il <strong>ait</strong></td></tr>
+<tr><td>aller</td><td>que j\'<strong>aille</strong>, que tu <strong>ailles</strong></td></tr>
+<tr><td>faire</td><td>que je <strong>fasse</strong>, que tu <strong>fasses</strong></td></tr>
+<tr><td>pouvoir</td><td>que je <strong>puisse</strong>, que tu <strong>puisses</strong></td></tr>
+<tr><td>savoir</td><td>que je <strong>sache</strong>, que tu <strong>saches</strong></td></tr>
+<tr><td>vouloir</td><td>que je <strong>veuille</strong>, que tu <strong>veuilles</strong></td></tr>
+</table>
+
+<h3>3. Quand utiliser le subjonctif ?</h3>
+<table class="vocab-table">
+<tr><th>Déclencheur</th><th>Exemple</th></tr>
+<tr><td><strong>Volonté</strong> : vouloir que, exiger que</td><td>Je veux que tu <strong>viennes</strong>.</td></tr>
+<tr><td><strong>Nécessité</strong> : il faut que, il est nécessaire que</td><td>Il faut que vous <strong>soyez</strong> là à 8h.</td></tr>
+<tr><td><strong>Émotion</strong> : être content que, avoir peur que</td><td>Je suis content que tu <strong>aies</strong> réussi.</td></tr>
+<tr><td><strong>Doute</strong> : douter que, ne pas croire que</td><td>Je doute qu\'il <strong>sache</strong> la vérité.</td></tr>
+<tr><td><strong>Conjonctions</strong> : bien que, pour que, avant que</td><td>Bien qu\'il <strong>fasse</strong> froid, on sort.</td></tr>
+</table>`,
+    content_en:`<h2>🎭 The Present Subjunctive</h2>
+<p>The subjunctive expresses what is wished, feared, doubted or required — as opposed to what is certain.</p>
+<h3>Formation</h3>
+<p>Take the stem from ils/elles form + endings: -e, -es, -e, -ions, -iez, -ent</p>
+<h3>Key triggers for the subjunctive:</h3>
+<table class="vocab-table">
+<tr><th>Trigger type</th><th>Examples</th></tr>
+<tr><td>Will/desire</td><td>vouloir que, désirer que, exiger que</td></tr>
+<tr><td>Necessity</td><td>il faut que, il est nécessaire que</td></tr>
+<tr><td>Emotion</td><td>être content que, avoir peur que, regretter que</td></tr>
+<tr><td>Doubt</td><td>douter que, ne pas croire que, ne pas penser que</td></tr>
+<tr><td>Conjunctions</td><td>bien que, pour que, avant que, à moins que</td></tr>
+</table>`,
+    quiz:[
+      {q:'Conjuguez "être" au subjonctif : "Il faut qu\'il ___ là."',opts:['est','soit','sera','étant'],ans:1,exp:'"Être" au subjonctif : que je sois, tu sois, il SOIT, nous soyons…',exp_en:'"Être" in subjunctive: que je sois, tu sois, il SOIT, nous soyons…'},
+      {q:'Quel déclencheur nécessite le subjonctif ?',opts:['Je pense que…','Je sais que…','Je veux que…','Je vois que…'],ans:2,exp:'"Vouloir que" déclenche le subjonctif. Les verbes de certitude (penser, savoir, voir) prennent l\'indicatif.',exp_en:'"Vouloir que" triggers the subjunctive. Verbs of certainty (think, know, see) take the indicative.'},
+      {q:'Complétez : "Bien qu\'il ___ froid, nous sortons."',opts:['fait','fasse','fera','ferait'],ans:1,exp:'"Bien que" déclenche toujours le subjonctif. Faire → que je fasse, tu fasses, il fasse.',exp_en:'"Bien que" always triggers the subjunctive. Faire → que je fasse, tu fasses, il fasse.'},
+      {q:'Conjuguez "avoir" au subjonctif (il) : "Je suis content qu\'il ___ réussi."',opts:['a','avait','ait','aura'],ans:2,exp:'"Avoir" au subjonctif : que j\'aie, tu aies, il AIT, nous ayons…',exp_en:'"Avoir" in subjunctive: que j\'aie, tu aies, il AIT, nous ayons…'},
+      {q:'Dans quelle phrase le subjonctif est-il INCORRECT ?',opts:['Il faut que tu viennes.','Je doute qu\'il sache.','Je pense qu\'il soit là.','Bien qu\'elle fasse froid.'],ans:2,exp:'"Je pense que" exprime une certitude → indicatif : "Je pense qu\'il EST là."',exp_en:'"Je pense que" expresses certainty → indicative: "Je pense qu\'il EST là."'},
     ]
   }
 ];
@@ -14509,6 +15173,7 @@ const LESSONS = [
    STATE & VARIABLES
 ══════════════════════════════════════ */
 let state      = JSON.parse(localStorage.getItem('ff_state') || '{}');
+_idbRestoreIfNeeded();
 let lang       = localStorage.getItem('ff_lang') || 'fr';
 localStorage.removeItem('ff_dark'); let darkMode = false;
 let currentTab = 'home';
@@ -19145,6 +19810,7 @@ function _vqAnswer(i, correctIdx, correctFr) {
   }
   // Toujours fr-FR pour le TTS — jamais la langue de l'interface
   speak(correctFr, 'fr-FR');
+  _srsUpdate(correctFr, correct);
   if (correct) { addBonusXP(5); playTickSound(); }
   var nb = document.getElementById('vq-next-btn');
   if (nb) {
@@ -19266,6 +19932,7 @@ function renderVocab() {
             + '<div style="flex:1"><span class="dict-word">'+dEsc(w.fr)+'</span>'
             + '<span class="dict-pos-pill">'+dEsc(w.pos)+'</span></div>'
             + '<button class="dict-speak" onclick="speak(\'' + spk + '\',\'fr-FR\')" title="\xc9couter">\uD83D\uDD0A</button>'
+            + '<button class="fav-btn' + (isFav(w.fr)?' active':'') + '" onclick="toggleFav(\'' + spk + '\',this)" title="Favori">' + (isFav(w.fr)?'❤️':'🤍') + '</button>'
             + '</div>'
             + '<div style="display:flex;align-items:center;gap:8px;margin-top:8px">'
             + '<span class="dict-lang-badge dict-badge-en">EN</span>'
@@ -19288,7 +19955,9 @@ function renderVocab() {
 
   var themeTabs = document.getElementById('vocab-theme-tabs');
   if (themeTabs) {
-    themeTabs.innerHTML = VOCAB_THEMES.map(function(th) {
+    var favsCount=_getFavs().size;
+    var favChip='<button class="vocab-chip'+(vocabTheme==='favs'?' active':'')+'" onclick="vocabTheme=\'favs\';vocabPage=0;renderVocab()">❤️ '+(lang==='en'?'Favourites':lang==='zh'?'收藏':'Favoris')+(favsCount>0?' <span id=\"fav-chip-badge\" class=\"srs-badge\">'+favsCount+'</span>':'<span id=\"fav-chip-badge\" class=\"srs-badge\" style=\"display:none\">0</span>')+'</button>';
+    themeTabs.innerHTML = favChip + VOCAB_THEMES.map(function(th) {
       var lbl = lang==='en' ? th.en : lang==='zh' ? th.zh : th.fr;
       return '<button class="vocab-chip' + (vocabTheme===th.id?' active':'')
         + '" onclick="vocabTheme=\'' + th.id + '\';vocabPage=0;renderVocab()">'
@@ -19297,7 +19966,9 @@ function renderVocab() {
   }
   updateThemeBtn();
 
+  if(vocabTheme==='favs'){var _favSet=_getFavs();}
   var filtered = VOCAB.filter(function(w) {
+    if(vocabTheme==='favs') return _getFavs().has(w.fr);
     if (vocabTheme !== 'all' && w.theme !== vocabTheme) return false;
     if (!search) return true;
     return w.fr.toLowerCase().indexOf(search) !== -1
@@ -19307,7 +19978,13 @@ function renderVocab() {
 
   var trainBtn = document.getElementById('vocab-train-btn');
   if (trainBtn) {
-    trainBtn.textContent = lang==='en'?'⚡ Practice Quiz':lang==='zh'?'⚡ 练习测验':'⚡ S\'entra\xEEner';
+    if(vocabTheme==='favs'){
+      trainBtn.textContent=lang==='en'?'⚡ Quiz Favourites':lang==='zh'?'⚡ 测验收藏':'⚡ Quiz Favoris';
+      trainBtn.onclick=startFavsQuiz;
+    }else{
+      trainBtn.textContent=lang==='en'?'⚡ Practice Quiz':lang==='zh'?'⚡ 练习测验':'⚡ S\'entra\xEEner';
+      trainBtn.onclick=startVocabQuiz;
+    }
   }
 
   var totalPages = Math.max(1, Math.ceil(filtered.length / VOCAB_PER_PAGE));
@@ -19339,6 +20016,8 @@ function renderVocab() {
       + '<span class="vocab-fr">' + esc(w.fr) + '</span>'
       + '<span class="vocab-pos">' + w.pos + '</span>'
       + '<button class="vocab-speak" onclick="speak(\'' + speakFr + '\',\'fr-FR\')" title="\xc9couter">🔊</button>'
+      + '<button class="fav-btn' + (isFav(w.fr)?' active':'') + '" onclick="toggleFav(\'' + speakFr + '\',this)" title="Favori">' + (isFav(w.fr)?'❤️':'🤍') + '</button>'
+      + (_SpeechRec?('<button class="mic-btn" onclick="startVoiceRec(\'' + speakFr + '\',this)" title="Prononcer">🎤</button>'):'')
       + '</div>'
       + '<div class="vocab-trans">' + esc(trans) + '</div>'
       + '<div class="vocab-ex">' + esc(exText)
@@ -19371,7 +20050,7 @@ let quizScore   = 0;
 let quizAnswered = false;
 let quizCombo   = 0;  // consecutive correct answers
 var _quizTimerInterval = null;
-var _quizTimerSec = 15;
+var _quizTimerSec = 25;
 var _quizDeadlineTs = 0;
 // Sync timer when app returns from background
 document.addEventListener('visibilitychange', function() {
@@ -19548,13 +20227,901 @@ function speak(text, forceLang) {
     speakLocal(text, langCode);
   }
 }
+
+/* ═══════════════════════════════════════════════
+   ① FAVORIS
+══════════════════════════════════════════════════ */
+function _getFavs(){try{return new Set(JSON.parse(localStorage.getItem('ff_favs')||'[]'));}catch(e){return new Set();}}
+function _setFavs(s){try{localStorage.setItem('ff_favs',JSON.stringify([...s]));}catch(e){}}
+function toggleFav(fr,btn){
+  var favs=_getFavs();
+  if(favs.has(fr)){favs.delete(fr);}else{favs.add(fr);}
+  _setFavs(favs);
+  if(btn){btn.textContent=favs.has(fr)?'❤️':'🤍';btn.classList.toggle('active',favs.has(fr));}
+  var badge=document.getElementById('fav-chip-badge');
+  if(badge){var c2=favs.size;badge.textContent=c2;badge.style.display=c2>0?'inline-block':'none';}
+}
+function isFav(fr){return _getFavs().has(fr);}
+function startFavsQuiz(){
+  var favs=_getFavs();
+  var pool=VOCAB.filter(function(w){return favs.has(w.fr);});
+  if(pool.length<2){
+    showStreakToast(lang==='en'?'Add more favourites first ♥':lang==='zh'?'请先添加更多收藏 ♥':'Ajoute d\'abord plus de favoris ♥');
+    return;
+  }
+  var shuffled=pool.slice();
+  for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=tmp;}
+  _vqWords=shuffled.slice(0,Math.min(10,shuffled.length));
+  _vqIndex=0;_vqScore=0;_vqAnswered=false;
+  document.getElementById('tab-vocab').classList.remove('active');
+  document.getElementById('vocab-quiz-view').classList.add('active');
+  _renderVQ();
+}
+
+/* ═══════════════════════════════════════════════
+   ② SRS — SM-2 lite
+══════════════════════════════════════════════════ */
+function _srsGet(){try{return JSON.parse(localStorage.getItem('ff_srs')||'{}');}catch(e){return {};}}
+function _srsUpdate(fr,correct){
+  var data=_srsGet();
+  var d=data[fr]||{i:1,e:2.5,due:0,reps:0};
+  if(correct){
+    d.reps++;
+    if(d.reps===1) d.i=1;
+    else if(d.reps===2) d.i=6;
+    else d.i=Math.round(d.i*d.e);
+    d.e=Math.max(1.3,d.e+0.1);
+  }else{
+    d.reps=0;d.i=1;d.e=Math.max(1.3,d.e-0.2);
+  }
+  d.due=Date.now()+d.i*86400000;
+  data[fr]=d;
+  try{localStorage.setItem('ff_srs',JSON.stringify(data));}catch(e){}
+  _updateSRSBadge();
+}
+function _srsDueWords(){
+  var data=_srsGet();var now=Date.now();
+  return VOCAB.filter(function(w){return data[w.fr]&&data[w.fr].due<=now;});
+}
+function _updateSRSBadge(){
+  var badge=document.getElementById('srs-due-badge');
+  if(!badge) return;
+  var n=_srsDueWords().length;
+  badge.textContent=n;
+  badge.style.display=n>0?'inline-block':'none';
+}
+function startSRSReview(){
+  var due=_srsDueWords();
+  var data=_srsGet();
+  var unseen=VOCAB.filter(function(w){return !data[w.fr];});
+  var pool=due.length>=4?due:(due.concat(unseen)).slice(0,20);
+  if(pool.length<2){
+    showStreakToast(lang==='en'?'Nothing to review right now!':lang==='zh'?'现在没有需要复习的内容！':'Rien à réviser pour l\'instant !');
+    return;
+  }
+  var shuffled=pool.slice();
+  for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=tmp;}
+  _vqWords=shuffled.slice(0,Math.min(10,shuffled.length));
+  _vqIndex=0;_vqScore=0;_vqAnswered=false;
+  document.getElementById('tab-vocab').classList.remove('active');
+  document.getElementById('vocab-quiz-view').classList.add('active');
+  _renderVQ();
+}
+
+/* ═══════════════════════════════════════════════
+   ③ STATS — précision par leçon
+══════════════════════════════════════════════════ */
+function _accGet(){try{return JSON.parse(localStorage.getItem('ff_accuracy')||'{}');}catch(e){return {};}}
+function _accUpdate(lessonId,correct,total){
+  var data=_accGet();
+  data[lessonId]={correct:correct,total:total,ts:Date.now()};
+  try{localStorage.setItem('ff_accuracy',JSON.stringify(data));}catch(e){}
+}
+function _renderAccuracyStats(){
+  var el=document.getElementById('progress-accuracy');
+  if(!el) return;
+  var data=_accGet();
+  var entries=Object.entries(data).filter(function(kv){return kv[1].total>0;});
+  if(entries.length===0){el.innerHTML='';return;}
+  entries.sort(function(a,b){return (b[1].correct/b[1].total)-(a[1].correct/a[1].total);});
+  var top3=entries.slice(0,3);
+  var bot3=entries.slice(-3).reverse();
+  var title=lang==='en'?'Accuracy by lesson':lang==='zh'?'各课精确率':'Précision par leçon';
+  var bestLbl=lang==='en'?'Best':lang==='zh'?'最佳':'Meilleures';
+  var worstLbl=lang==='en'?'Needs work':lang==='zh'?'需要练习':'À retravailler';
+  function makeBar(kv){
+    var id=parseInt(kv[0]);
+    var lesson=LESSONS.find(function(l){return l.id===id;});
+    var name=lesson?(lang==='en'&&lesson.title_en?lesson.title_en:lesson.title):('Leçon '+id);
+    if(name.length>18) name=name.slice(0,17)+'…';
+    var pct=Math.round(kv[1].correct/kv[1].total*100);
+    var color=pct>=80?'#10B981':pct>=60?'#F59E0B':'#EF4444';
+    return '<div class="acc-bar-wrap">'
+      +'<span class="acc-bar-label">'+name+'</span>'
+      +'<div class="acc-bar-bg"><div class="acc-bar-fill" style="width:'+pct+'%;background:'+color+';"></div></div>'
+      +'<span class="acc-bar-pct" style="color:'+color+'">'+pct+'%</span>'
+      +'</div>';
+  }
+  el.innerHTML='<div style="background:var(--card);border-radius:16px;padding:14px 16px 12px;margin-bottom:14px;">'
+    +'<div style="font-size:12px;font-weight:800;color:var(--muted);margin-bottom:10px;letter-spacing:0.3px;">'+title+'</div>'
+    +'<div style="font-size:11px;font-weight:700;color:#10B981;margin-bottom:6px;">🏆 '+bestLbl+'</div>'
+    +top3.map(makeBar).join('')
+    +(bot3.length?'<div style="font-size:11px;font-weight:700;color:#F59E0B;margin:10px 0 6px;">⚠️ '+worstLbl+'</div>'
+      +bot3.map(makeBar).join(''):'')
+    +'</div>';
+}
+
+/* ═══════════════════════════════════════════════
+   ④ MODE FRAPPE
+══════════════════════════════════════════════════ */
+var _typingMode=!!parseInt(localStorage.getItem('ff_typing_mode')||'0');
+var _listenMode=!!parseInt(localStorage.getItem('ff_listen_mode')||'0');
+function toggleTypingMode(){
+  _typingMode=!_typingMode;
+  localStorage.setItem('ff_typing_mode',_typingMode?'1':'0');
+  var tog=document.getElementById('typing-toggle');
+  if(tog) tog.classList.toggle('on',_typingMode);
+  showStreakToast(lang==='en'?(_typingMode?'Typing mode ON':'Typing mode OFF'):lang==='zh'?(_typingMode?'打字模式开启':'打字模式关闭'):(_typingMode?'Mode frappe activé':'Mode frappe désactivé'));
+}
+function toggleListenMode(){
+  _listenMode=!_listenMode;
+  localStorage.setItem('ff_listen_mode',_listenMode?'1':'0');
+  var tog=document.getElementById('listen-toggle');
+  if(tog) tog.classList.toggle('on',_listenMode);
+  showStreakToast(lang==='en'?(_listenMode?'Listen mode ON':'Listen mode OFF'):lang==='zh'?(_listenMode?'听力模式开启':'听力模式关闭'):(_listenMode?'Mode écoute activé':'Mode écoute désactivé'));
+}
+function _accentNorm(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/['']/g,"'").trim();
+}
+function _renderType(d){
+  var qTextEl=document.getElementById('q-text');
+  if(qTextEl) qTextEl.innerHTML=_esc(d.qText)+' <button class="quiz-speak-btn" onclick="speakQuestion()" title="\xc9couter">🔊</button>';
+  var optsEl=document.getElementById('q-options');
+  if(!optsEl) return;
+  optsEl.className='quiz-options';
+  var ph=lang==='en'?'Type the French word…':lang==='zh'?'输入法语单词…':'Écris le mot en français…';
+  var btnLbl=lang==='en'?'Check ✓':lang==='zh'?'检查 ✓':'Vérifier ✓';
+  optsEl.innerHTML='<div class="type-input-wrap">'
+    +'<input id="type-answer-input" class="type-input" type="text" placeholder="'+ph+'" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key===\'Enter\')_checkTypeAnswer()">'
+    +'<button class="type-check-btn" onclick="_checkTypeAnswer()">'+btnLbl+'</button>'
+    +'</div>';
+  setTimeout(function(){var inp=document.getElementById('type-answer-input');if(inp)inp.focus();},150);
+}
+function _checkTypeAnswer(){
+  if(quizAnswered) return;
+  var inp=document.getElementById('type-answer-input');
+  if(!inp||!inp.value.trim()) return;
+  var dataArr=window._wrongMode?window._wrongOnlyQuizData:_quizData;
+  var d=dataArr[quizIndex];
+  var correct=_accentNorm(inp.value)===_accentNorm(d.opts[d.ans]);
+  inp.style.borderColor=correct?'#10B981':'#EF4444';
+  inp.disabled=true;
+  var cb=document.querySelector('.type-check-btn');
+  if(cb) cb.disabled=true;
+  _selectAnswer(correct?d.ans:-1);
+}
+
+/* ═══════════════════════════════════════════════
+   ⑤ MODE ÉCOUTE
+══════════════════════════════════════════════════ */
+function _renderListen(d){
+  var qTextEl=document.getElementById('q-text');
+  if(qTextEl){
+    var replayLbl=lang==='en'?'▶ Replay':lang==='zh'?'▶ 重播':'▶ Rejouer';
+    var hintLbl=lang==='en'?'Listen and choose the correct answer:':lang==='zh'?'听并选择正确答案：':'Écoute et choisis la bonne réponse :';
+    qTextEl.innerHTML='<div class="listen-question-wrap">'
+      +'<button class="listen-play-btn" onclick="_listenPlay()">'+replayLbl+'</button>'
+      +'<div class="listen-hint">'+hintLbl+'</div>'
+      +'</div>';
+  }
+  var labels=['A','B','C','D'];
+  var optsEl=document.getElementById('q-options');
+  if(optsEl){
+    optsEl.className='quiz-options';
+    optsEl.innerHTML=d.opts.map(function(o,i){
+      return '<button class="quiz-option" onclick="_selectAnswer('+i+')">'
+        +'<span class="opt-letter">'+labels[i]+'</span>'+_esc(o)+'</button>';
+    }).join('');
+  }
+  window._listenWord=d.opts[d.ans];
+  setTimeout(function(){_listenPlay();},600);
+}
+function _listenPlay(){
+  if(window._listenWord) speak(window._listenWord,'fr-FR');
+}
+
+/* ═══════════════════════════════════════════════
+   ⑥ RECONNAISSANCE VOCALE
+══════════════════════════════════════════════════ */
+var _SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+var _voiceRecActive=false;
+function _levenshtein(a,b){
+  var m=a.length,n=b.length,dp=[];
+  for(var i=0;i<=m;i++){dp[i]=[i];for(var j=1;j<=n;j++) dp[i][j]=0;}
+  for(var j=0;j<=n;j++) dp[0][j]=j;
+  for(var i=1;i<=m;i++) for(var j=1;j<=n;j++)
+    dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+function startVoiceRec(targetFr,btn){
+  if(!_SpeechRec){
+    showStreakToast(lang==='en'?'Speech recognition not supported on this device':lang==='zh'?'此设备不支持语音识别':'Reconnaissance vocale non supportée sur cet appareil');
+    return;
+  }
+  if(_voiceRecActive) return;
+  _voiceRecActive=true;
+  if(btn){btn.textContent='🔴';btn.classList.add('recording');}
+  var rec=new _SpeechRec();
+  rec.lang='fr-FR';rec.interimResults=false;rec.maxAlternatives=5;
+  rec.onresult=function(e){
+    _voiceRecActive=false;
+    if(btn){btn.textContent='🎤';btn.classList.remove('recording');}
+    var alts=Array.from(e.results[0]);
+    var transcripts=alts.map(function(r){return r.transcript.trim();});
+    var bestConf=alts[0].confidence||0.5;
+    var normTarget=_accentNorm(targetFr);
+    var matchIdx=transcripts.findIndex(function(r){return _accentNorm(r)===normTarget;});
+    var score,scoreColor,emoji;
+    if(matchIdx!==-1){
+      var matchConf=alts[matchIdx].confidence||bestConf;
+      score=Math.max(Math.round(matchConf*100),80);
+      scoreColor='#10b981'; emoji='✅';
+    } else {
+      // Levenshtein-based partial score
+      var best=transcripts[0]||'';
+      var dist=_levenshtein(_accentNorm(best),normTarget);
+      var maxLen=Math.max(best.length,targetFr.length)||1;
+      var sim=Math.max(0,1-dist/maxLen);
+      score=Math.round(bestConf*0.4*100+sim*60);
+      score=Math.max(5,Math.min(79,score));
+      scoreColor=score>=60?'#f59e0b':'#ef4444'; emoji=score>=60?'🟡':'❌';
+    }
+    var scoreBar='<div style="display:inline-flex;align-items:center;gap:6px;background:'+scoreColor+'22;border:1.5px solid '+scoreColor+';border-radius:10px;padding:4px 10px;font-weight:700;color:'+scoreColor+';font-size:1rem;">'+emoji+' '+score+'/100</div>';
+    var heard=matchIdx!==-1?'':' — '+(lang==='en'?'Heard':'Entendu')+': "'+transcripts[0]+'"';
+    showStreakToast(scoreBar+(heard?'<br><span style="font-size:0.8rem;color:var(--muted);">'+heard+'</span>':''),3500);
+    if(matchIdx!==-1 && typeof playTickSound==='function') playTickSound();
+  };
+  rec.onerror=function(e){
+    _voiceRecActive=false;
+    if(btn){btn.textContent='🎤';btn.classList.remove('recording');}
+    if(e.error!=='no-speech') showStreakToast(lang==='en'?'Mic error — check permissions':lang==='zh'?'麦克风错误':'Erreur micro — vérifie les permissions');
+  };
+  rec.onend=function(){_voiceRecActive=false;if(btn){btn.textContent='🎤';btn.classList.remove('recording');}};
+  try{rec.start();}catch(e){_voiceRecActive=false;}
+}
+
+/* ═══════════════════════════════════════════════
+   ⑦ CERTIFICATS
+══════════════════════════════════════════════════ */
+var _CERT_LEVELS={
+  'A1':{label:'A1 — Débutant',lessonRange:[1,20],color:'#10B981',emoji:'🌱',level:'beginner'},
+  'A2':{label:'A2 — Élémentaire',lessonRange:[21,40],color:'#3B82F6',emoji:'📘',level:'intermediate'},
+  'B1':{label:'B1 — Intermédiaire',lessonRange:[41,60],color:'#8B5CF6',emoji:'⭐',level:'advanced'},
+  'B2':{label:'B2 — Avancé',lessonRange:[61,80],color:'#F59E0B',emoji:'🏆',level:'tcf'}
+};
+function checkLevelComplete(lessonId){
+  try{
+    for(var lvl in _CERT_LEVELS){
+      var def=_CERT_LEVELS[lvl];
+      var r=def.lessonRange;
+      if(lessonId<r[0]||lessonId>r[1]) continue;
+      var levelLessons=LESSONS.filter(function(l){return l.id>=r[0]&&l.id<=r[1];});
+      var allDone=levelLessons.length>0&&levelLessons.every(function(l){return state[l.id]&&state[l.id].completed;});
+      if(allDone){
+        var key='ff_cert_shown_'+lvl;
+        if(!localStorage.getItem(key)){
+          localStorage.setItem(key,'1');
+          window._certLevel=lvl;
+          var modal=document.getElementById('cert-modal');
+          var eEl=document.getElementById('cert-modal-emoji');
+          var tEl=document.getElementById('cert-modal-title');
+          var sEl=document.getElementById('cert-modal-sub');
+          if(eEl) eEl.textContent=def.emoji;
+          if(tEl) tEl.textContent=lang==='en'?'Level '+lvl+' complete!':lang==='zh'?lvl+'级完成！':'Niveau '+lvl+' complété !';
+          if(sEl) sEl.textContent=lang==='en'?'You\'ve mastered all '+lvl+' lessons 🎉':lang==='zh'?'你已掌握所有'+lvl+'课程 🎉':'Tu maîtrises toutes les leçons '+lvl+' 🎉';
+          if(modal) setTimeout(function(){modal.classList.add('active');},1200);
+        }
+      }
+    }
+  }catch(e){}
+}
+function downloadCertificate(){
+  try{
+    var level=window._certLevel||'A1';
+    var def=_CERT_LEVELS[level];
+    if(!def) return;
+    var canvas=document.createElement('canvas');
+    canvas.width=900;canvas.height=640;
+    var ctx=canvas.getContext('2d');
+    // BG
+    ctx.fillStyle='#F8FAFF';ctx.fillRect(0,0,900,640);
+    // Outer border
+    ctx.strokeStyle=def.color;ctx.lineWidth=8;ctx.strokeRect(18,18,864,604);
+    ctx.strokeStyle=def.color+'55';ctx.lineWidth=3;ctx.strokeRect(28,28,844,584);
+    // Header band
+    ctx.fillStyle=def.color;ctx.fillRect(18,18,864,90);
+    ctx.fillStyle='white';ctx.font='bold 30px Arial,sans-serif';ctx.textAlign='center';
+    ctx.fillText('🦊 FrenchGo — Certificat de Réussite',450,70);
+    // Big emoji
+    ctx.font='70px Arial,sans-serif';ctx.fillStyle=def.color;ctx.fillText(def.emoji,450,210);
+    // Level
+    ctx.font='bold 48px Arial,sans-serif';ctx.fillStyle='#1E1B4B';
+    ctx.fillText('Niveau '+level,450,282);
+    ctx.font='22px Arial,sans-serif';ctx.fillStyle='#64748B';
+    ctx.fillText(def.label,450,320);
+    // Separator
+    ctx.strokeStyle=def.color+'44';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(120,345);ctx.lineTo(780,345);ctx.stroke();
+    // Name
+    var uname='';
+    try{uname=firebase.auth().currentUser&&(firebase.auth().currentUser.displayName||firebase.auth().currentUser.email)||'';}catch(e){}
+    if(uname){
+      ctx.font='italic 18px Arial,sans-serif';ctx.fillStyle='#94A3B8';ctx.fillText('Décerné à',450,378);
+      ctx.font='bold 28px Arial,sans-serif';ctx.fillStyle='#1E1B4B';ctx.fillText(uname,450,416);
+    }
+    // Date
+    ctx.font='16px Arial,sans-serif';ctx.fillStyle='#94A3B8';
+    ctx.fillText(new Date().toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'}),450,uname?456:400);
+    // Footer
+    ctx.fillStyle=def.color+'18';ctx.fillRect(18,560,864,62);
+    ctx.font='14px Arial,sans-serif';ctx.fillStyle=def.color;
+    ctx.fillText('francaisgo.netlify.app',450,596);
+    // Download
+    var link=document.createElement('a');
+    link.download='FrenchGo_Certificat_'+level+'.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(e){showStreakToast('Erreur génération certificat');}
+}
+
+/* ═══════════════════════════════════════════════
+   ⑧ CLASSEMENT HEBDO
+══════════════════════════════════════════════════ */
+function _weekKey(){
+  var now=new Date();
+  var jan1=new Date(now.getFullYear(),0,1);
+  var wk=Math.ceil((((now-jan1)/86400000)+jan1.getDay()+1)/7);
+  return now.getFullYear()+'W'+String(wk).padStart(2,'0');
+}
+function _saveWeeklyXP(){
+  try{
+    var db=firebase&&firebase.firestore&&firebase.firestore();
+    var user=firebase&&firebase.auth&&firebase.auth().currentUser;
+    if(!db||!user) return;
+    var xp=getXP();
+    var uname=user.displayName||user.email||'Anonyme';
+    db.collection('leaderboard').doc(_weekKey())
+      .collection('users').doc(user.uid)
+      .set({xp:xp,name:uname,ts:Date.now()},{merge:true})
+      .catch(function(){});
+  }catch(e){}
+}
+function renderLeaderboard(){
+  var el=document.getElementById('progress-leaderboard');
+  if(!el) return;
+  var title=lang==='en'?'🏅 Weekly Leaderboard':lang==='zh'?'🏅 每周排行榜':'🏅 Classement de la semaine';
+  try{
+    var db=firebase&&firebase.firestore&&firebase.firestore();
+    var user=firebase&&firebase.auth&&firebase.auth().currentUser;
+    if(!db||!user){
+      el.innerHTML='<div style="background:var(--card);border-radius:16px;padding:14px 16px;margin-bottom:14px;">'
+        +'<div style="font-size:12px;font-weight:800;color:var(--muted);margin-bottom:8px;letter-spacing:0.3px;">'+title+'</div>'
+        +'<div style="font-size:13px;color:var(--muted);text-align:center;padding:10px 0;">'
+        +(lang==='en'?'Sign in to join the leaderboard':lang==='zh'?'登录参与排行榜':'Connecte-toi pour rejoindre le classement')
+        +'</div></div>';
+      return;
+    }
+    el.innerHTML='<div style="background:var(--card);border-radius:16px;padding:14px 16px;margin-bottom:14px;">'
+      +'<div style="font-size:12px;font-weight:800;color:var(--muted);margin-bottom:10px;letter-spacing:0.3px;">'+title+'</div>'
+      +'<div id="leaderboard-rows" style="min-height:50px;"></div></div>';
+    db.collection('leaderboard').doc(_weekKey()).collection('users')
+      .orderBy('xp','desc').limit(10)
+      .get().then(function(snap){
+        var rows=[];snap.forEach(function(doc){rows.push(Object.assign({id:doc.id},doc.data()));});
+        if(!rows.length){
+          var re=document.getElementById('leaderboard-rows');
+          if(re) re.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">'+(lang==='en'?'Be the first!':lang==='zh'?'成为第一个！':'Sois le premier !')+'</div>';
+          return;
+        }
+        var medals=['🥇','🥈','🥉'];
+        var html=rows.map(function(r,i){
+          var isMe=r.id===user.uid;
+          return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);'+(isMe?'font-weight:900;':'')+'">'
+            +'<span style="font-size:16px;width:24px;text-align:center;">'+(medals[i]||(i+1)+'.')+'</span>'
+            +'<span style="flex:1;font-size:14px;color:'+(isMe?'var(--indigo)':'var(--text)')+';">'+(r.name||'—')+'</span>'
+            +'<span style="font-size:14px;font-weight:800;color:var(--indigo);">'+r.xp+' XP</span>'
+            +'</div>';
+        }).join('');
+        var re=document.getElementById('leaderboard-rows');
+        if(re) re.innerHTML=html;
+      }).catch(function(){
+        var re=document.getElementById('leaderboard-rows');
+        if(re) re.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;">'+(lang==='en'?'Could not load':lang==='zh'?'加载失败':'Impossible de charger')+'</div>';
+      });
+  }catch(e){el.innerHTML='';}
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   ① ONBOARDING QUIZ DE NIVEAU
+══════════════════════════════════════════════════════════════ */
+var _OB_QUIZ = [
+  { q_fr:'Qu\'est-ce que "merci" signifie ?', q_en:'What does "merci" mean?', q_zh:'"merci"是什么意思？',
+    opts_fr:['Thank you','Please','Sorry','Hello'], ans:0, level:'A1' },
+  { q_fr:'Complète : "Je ___ étudiant."', q_en:'Complete: "Je ___ étudiant."', q_zh:'填空："Je ___ étudiant."',
+    opts_fr:['suis','es','est','sommes'], ans:0, level:'A1' },
+  { q_fr:'Quel est le pluriel de "un chat" ?', q_en:'What is the plural of "un chat"?', q_zh:'"un chat"的复数是？',
+    opts_fr:['des chats','des chat','un chats','les chat'], ans:0, level:'A2' },
+  { q_fr:'Conjuguez "avoir" au passé composé : "J\'___ mangé."', q_en:'Conjugate "avoir": "J\'___ mangé."', q_zh:'用"avoir"完成过去时："J\'___ mangé."',
+    opts_fr:['ai','est','as','a'], ans:0, level:'A2' },
+  { q_fr:'Choisissez la bonne forme : "Bien que je ___ fatigué, je travaille."', q_en:'Choose: "Bien que je ___ fatigué, je travaille."', q_zh:'选择正确形式："Bien que je ___ fatigué, je travaille."',
+    opts_fr:['sois','suis','soit','étais'], ans:0, level:'B1' }
+];
+var _obQuizIdx = 0;
+var _obQuizScore = 0;
+var _obQuizAnswered = false;
+
+function _obStartLevelQuiz() {
+  _obQuizIdx = 0; _obQuizScore = 0; _obQuizAnswered = false;
+  _obRenderQuestion();
+}
+function _obRenderQuestion() {
+  var q = _OB_QUIZ[_obQuizIdx];
+  var qEl = document.getElementById('ob-quiz-q');
+  var optsEl = document.getElementById('ob-quiz-opts');
+  var progEl = document.getElementById('ob-quiz-progress');
+  if (!q || !qEl || !optsEl) return;
+  _obQuizAnswered = false;
+  if (progEl) {
+    progEl.innerHTML = _OB_QUIZ.map(function(_,i){
+      return '<div class="ob-quiz-dot'+(i<_obQuizIdx?' done':i===_obQuizIdx?' current':'')+'"></div>';
+    }).join('');
+  }
+  var qText = lang==='zh' ? q.q_zh : lang==='en' ? q.q_en : q.q_fr;
+  qEl.textContent = qText;
+  optsEl.innerHTML = q.opts_fr.map(function(o,i){
+    return '<button class="ob-quiz-opt" onclick="_obAnswerQ('+i+')" id="ob-opt-'+i+'">'+o+'</button>';
+  }).join('');
+}
+function _obAnswerQ(i) {
+  if (_obQuizAnswered) return;
+  _obQuizAnswered = true;
+  var q = _OB_QUIZ[_obQuizIdx];
+  var correct = i === q.ans;
+  if (correct) _obQuizScore++;
+  var btn = document.getElementById('ob-opt-'+i);
+  var correct_btn = document.getElementById('ob-opt-'+q.ans);
+  if (btn && !correct) btn.classList.add('wrong');
+  if (correct_btn) correct_btn.classList.add('correct');
+  setTimeout(function() {
+    _obQuizIdx++;
+    if (_obQuizIdx < _OB_QUIZ.length) {
+      _obRenderQuestion();
+    } else {
+      _obShowLevelResult();
+    }
+  }, 700);
+}
+function _obShowLevelResult() {
+  var pct = _obQuizScore / _OB_QUIZ.length;
+  var suggestId, suggestLabel;
+  if (pct <= 0.2) { suggestId = 1; suggestLabel = lang==='en'?'Beginner (A1)':lang==='zh'?'初级 (A1)':'Débutant (A1)'; }
+  else if (pct <= 0.6) { suggestId = 16; suggestLabel = lang==='en'?'Elementary (A2)':lang==='zh'?'初中级 (A2)':'Élémentaire (A2)'; }
+  else { suggestId = 36; suggestLabel = lang==='en'?'Intermediate (B1)':lang==='zh'?'中级 (B1)':'Intermédiaire (B1)'; }
+  localStorage.setItem('ff_suggest_lesson', suggestId);
+  var qEl = document.getElementById('ob-quiz-q');
+  var optsEl = document.getElementById('ob-quiz-opts');
+  var progEl = document.getElementById('ob-quiz-progress');
+  if (progEl) progEl.innerHTML = _OB_QUIZ.map(function(){return '<div class="ob-quiz-dot done"></div>';}).join('');
+  var emoji = pct<=0.2?'🌱':pct<=0.6?'📘':'⭐';
+  var msgFr = 'Résultat : '+_obQuizScore+'/'+_OB_QUIZ.length+' — Niveau suggéré : '+suggestLabel;
+  var msgEn = 'Score: '+_obQuizScore+'/'+_OB_QUIZ.length+' — Suggested level: '+suggestLabel;
+  var msgZh = '得分：'+_obQuizScore+'/'+_OB_QUIZ.length+' — 建议级别：'+suggestLabel;
+  if (qEl) qEl.textContent = emoji+' '+(lang==='en'?msgEn:lang==='zh'?msgZh:msgFr);
+  if (optsEl) {
+    var startLbl = lang==='en'?'Start at '+suggestLabel+' →':lang==='zh'?'从'+suggestLabel+'开始 →':'Commencer en '+suggestLabel+' →';
+    optsEl.innerHTML = '<button class="ob-quiz-opt correct" onclick="finishOnboarding()" style="text-align:center;font-size:16px;padding:16px;">'+startLbl+'</button>';
+  }
+  var btn = document.getElementById('ob-next-btn');
+  if (btn) btn.style.display = 'none';
+  var skipBtn = document.getElementById('ob-skip-btn');
+  if (skipBtn) skipBtn.style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ② DÉFI QUOTIDIEN
+══════════════════════════════════════════════════════════════ */
+function _dailyKey() {
+  return new Date().toISOString().slice(0,10);
+}
+function _dailyWord() {
+  var key = _dailyKey();
+  var seed = key.split('-').reduce(function(a,b){return a*31+parseInt(b);},0);
+  return VOCAB[((seed % VOCAB.length) + VOCAB.length) % VOCAB.length];
+}
+function renderDailyChallenge() {
+  var wrap = document.getElementById('daily-challenge-wrap');
+  var card = document.getElementById('daily-challenge-card');
+  var lblTag = document.getElementById('daily-lbl-tag');
+  var lblWord = document.getElementById('daily-lbl-word');
+  var lblSub = document.getElementById('daily-lbl-sub');
+  var badge = document.getElementById('daily-badge');
+  if (!wrap) return;
+  wrap.style.display = 'block';
+  var word = _dailyWord();
+  var done = localStorage.getItem('ff_daily_done') === _dailyKey();
+  if (card) card.className = 'daily-challenge-card' + (done?' done':'');
+  if (lblTag) lblTag.textContent = lang==='en'?'Daily Challenge':lang==='zh'?'每日挑战':'Défi du jour';
+  if (lblWord) lblWord.textContent = done ? (lang==='en'?'✅ Challenge completed!':lang==='zh'?'✅ 挑战完成！':'✅ Défi complété !') : word.fr;
+  if (lblSub) lblSub.textContent = done
+    ? (lang==='en'?'Come back tomorrow!':lang==='zh'?'明天再来！':'Reviens demain !')
+    : (lang==='en'?'Tap to test — +20 XP':lang==='zh'?'点击测试 · +20 XP':'Tap pour tester · +20 XP');
+  var streak = parseInt(localStorage.getItem('ff_streak')||'0',10);
+  if (badge) badge.textContent = '🔥 '+streak;
+  if (card) card.onclick = done ? null : startDailyChallenge;
+}
+function startDailyChallenge() {
+  var done = localStorage.getItem('ff_daily_done') === _dailyKey();
+  if (done) { showStreakToast(lang==='en'?'Come back tomorrow!':lang==='zh'?'明天再来！':'Reviens demain !'); return; }
+  var word = _dailyWord();
+  // Build a mini-MCQ modal on top of everything
+  var distractors = VOCAB.filter(function(v){return v.fr!==word.fr;});
+  var shuffled = distractors.slice().sort(function(){return Math.random()-0.5;}).slice(0,3);
+  var opts = [word].concat(shuffled).sort(function(){return Math.random()-0.5;});
+  var correctIdx = opts.indexOf(word);
+  var question = lang==='en' ? 'What does "'+word.fr+'" mean?' : lang==='zh' ? '"'+word.fr+'"是什么意思？' : 'Que signifie "'+word.fr+'" ?';
+  var existing = document.getElementById('daily-quiz-overlay');
+  if (existing) existing.remove();
+  var overlay = document.createElement('div');
+  overlay.id = 'daily-quiz-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9000;display:flex;align-items:flex-end;justify-content:center;';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:var(--card);border-radius:24px 24px 0 0;padding:28px 20px 36px;width:100%;max-width:480px;';
+  var closeBtn = '<button onclick="document.getElementById(\'daily-quiz-overlay\').remove()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);">✕</button>';
+  var qHtml = '<div style="position:relative;font-size:19px;font-weight:900;color:var(--text);margin-bottom:18px;line-height:1.3;">'+closeBtn+question+'</div>';
+  var optsHtml = opts.map(function(o,i){
+    var trans = lang==='zh'?o.zh:o.en;
+    return '<button onclick="_dailyAnswer('+i+','+correctIdx+',\''+word.fr.replace(/'/g,"\\'")+'\')" style="display:block;width:100%;padding:13px 16px;margin-bottom:10px;background:var(--bg);border:2px solid var(--border);border-radius:14px;font-size:14px;font-weight:700;color:var(--text);cursor:pointer;text-align:left;" id="daily-opt-'+i+'">'+trans+'</button>';
+  }).join('');
+  box.innerHTML = qHtml + optsHtml;
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  speak(word.fr,'fr-FR');
+}
+function _dailyAnswer(i, correctIdx, fr) {
+  var correct = i === correctIdx;
+  var opt = document.getElementById('daily-opt-'+i);
+  var correctOpt = document.getElementById('daily-opt-'+correctIdx);
+  document.querySelectorAll('[id^="daily-opt-"]').forEach(function(b){b.disabled=true;});
+  if (opt&&!correct) { opt.style.background='#FFF1F2';opt.style.borderColor='#EF4444';opt.style.color='#B91C1C'; }
+  if (correctOpt) { correctOpt.style.background='#F0FDF4';correctOpt.style.borderColor='#10B981';correctOpt.style.color='#15803D'; }
+  if (correct) {
+    localStorage.setItem('ff_daily_done', _dailyKey());
+    addBonusXP(20);
+    if(typeof playTickSound==='function') playTickSound();
+    setTimeout(function(){
+      var ov = document.getElementById('daily-quiz-overlay');
+      if(ov) ov.remove();
+      showStreakToast(lang==='en'?'🎉 Daily challenge done! +20 XP':lang==='zh'?'🎉 每日挑战完成！+20 XP':'🎉 Défi complété ! +20 XP');
+      renderDailyChallenge();
+    }, 900);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ③ CONSTRUCTEUR DE PHRASES
+══════════════════════════════════════════════════════════════ */
+var _constructItems = [];
+var _constructIdx = 0;
+var _constructAnswerTokens = [];
+var _constructAnswered = false;
+
+function openConstructeur() {
+  var pool = VOCAB.filter(function(w){ return w.ex && w.ex.split(' ').length >= 3; });
+  if(pool.length < 1){ showStreakToast(lang==='en'?'Not enough data':lang==='zh'?'数据不足':'Données insuffisantes'); return; }
+  pool = pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,10);
+  _constructItems = pool;
+  _constructIdx = 0;
+  document.getElementById('constructeur-view').classList.add('active');
+  _renderConstructeur();
+}
+function closeConstructeur() {
+  document.getElementById('constructeur-view').classList.remove('active');
+}
+function _renderConstructeur() {
+  var w = _constructItems[_constructIdx];
+  _constructAnswerTokens = [];
+  _constructAnswered = false;
+  var sentence = w.ex;
+  var hint = lang==='en'?(w.ex_en||w.en):lang==='zh'?w.zh:w.en;
+  var counterEl = document.getElementById('construct-counter');
+  var hintEl = document.getElementById('construct-hint');
+  var answerEl = document.getElementById('construct-answer');
+  var bankEl = document.getElementById('construct-bank');
+  var feedbackEl = document.getElementById('construct-feedback');
+  var nextBtn = document.getElementById('construct-next-btn');
+  var checkBtn = document.getElementById('construct-check-btn');
+  var dotsEl = document.getElementById('construct-dots');
+  if(counterEl) counterEl.textContent = (_constructIdx+1)+' / '+_constructItems.length;
+  if(hintEl) hintEl.textContent = '💡 '+hint;
+  if(feedbackEl){feedbackEl.className='exercise-feedback';feedbackEl.textContent='';}
+  if(nextBtn) nextBtn.style.display='none';
+  if(checkBtn) checkBtn.style.display='block';
+  if(dotsEl) dotsEl.innerHTML = _constructItems.map(function(_,i){
+    return '<div style="width:8px;height:8px;border-radius:50%;background:'+(i===_constructIdx?'var(--indigo)':'var(--border)')+'"></div>';
+  }).join('');
+  // Shuffle words
+  var words = sentence.replace(/[.,!?;:]/g,'').split(' ').filter(function(w){return w.trim();});
+  var shuffled = words.slice().sort(function(){return Math.random()-0.5;});
+  if(answerEl) answerEl.innerHTML = '<span style="color:var(--muted);font-size:13px;">'+(lang==='en'?'Tap words to build the sentence':lang==='zh'?'点击单词组成句子':'Clique sur les mots pour former la phrase')+'</span>';
+  if(bankEl) {
+    bankEl.innerHTML = shuffled.map(function(word,i){
+      var safe = word.replace(/'/g,"\\'");
+      return '<button class="word-token" id="wt-'+i+'" onclick="_constructPick('+i+',\''+safe+'\')">' + word + '</button>';
+    }).join('');
+  }
+  window._constructCorrect = words;
+}
+function _constructPick(idx, word) {
+  if(_constructAnswered) return;
+  var btn = document.getElementById('wt-'+idx);
+  if(btn) btn.classList.add('used');
+  _constructAnswerTokens.push({idx:idx, word:word});
+  _updateConstructAnswer();
+}
+function _updateConstructAnswer() {
+  var answerEl = document.getElementById('construct-answer');
+  if(!answerEl) return;
+  if(_constructAnswerTokens.length === 0){
+    answerEl.innerHTML = '<span style="color:var(--muted);font-size:13px;">'+(lang==='en'?'Tap words to build the sentence':lang==='zh'?'点击单词组成句子':'Clique sur les mots pour former la phrase')+'</span>';
+    return;
+  }
+  answerEl.innerHTML = _constructAnswerTokens.map(function(t,i){
+    return '<button class="answer-token" onclick="_constructRemove('+i+')">' + t.word + '</button>';
+  }).join('');
+}
+function _constructRemove(i) {
+  if(_constructAnswered) return;
+  var t = _constructAnswerTokens[i];
+  var btn = document.getElementById('wt-'+t.idx);
+  if(btn) btn.classList.remove('used');
+  _constructAnswerTokens.splice(i,1);
+  _updateConstructAnswer();
+}
+function checkConstructeur() {
+  if(_constructAnswered) return;
+  var built = _constructAnswerTokens.map(function(t){return t.word;}).join(' ');
+  var correct = window._constructCorrect || [];
+  var correctStr = correct.join(' ');
+  var feedbackEl = document.getElementById('construct-feedback');
+  var nextBtn = document.getElementById('construct-next-btn');
+  var checkBtn = document.getElementById('construct-check-btn');
+  var isCorrect = _accentNorm(built) === _accentNorm(correctStr);
+  _constructAnswered = true;
+  if(feedbackEl){
+    feedbackEl.className = 'exercise-feedback '+(isCorrect?'correct':'wrong');
+    feedbackEl.textContent = isCorrect
+      ? (lang==='en'?'✅ Correct!':lang==='zh'?'✅ 正确！':'✅ Correct !')
+      : (lang==='en'?'❌ Correct order: '+correctStr:lang==='zh'?'❌ 正确顺序：'+correctStr:'❌ Ordre correct : '+correctStr);
+  }
+  if(nextBtn) nextBtn.style.display='block';
+  if(checkBtn) checkBtn.style.display='none';
+  if(isCorrect){ addBonusXP(5); if(typeof playTickSound==='function') playTickSound(); }
+}
+function nextConstructeur() {
+  _constructIdx++;
+  if(_constructIdx >= _constructItems.length) {
+    closeConstructeur();
+    showStreakToast(lang==='en'?'🎉 Session complete!':lang==='zh'?'🎉 练习完成！':'🎉 Session terminée !');
+  } else {
+    _renderConstructeur();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ④ DICTÉE
+══════════════════════════════════════════════════════════════ */
+var _dicteeItems = [];
+var _dicteeIdx = 0;
+var _dicteeAnswered = false;
+
+function openDictee() {
+  var pool = VOCAB.filter(function(w){ return w.ex && w.ex.length > 5; });
+  if(pool.length < 1){ showStreakToast(lang==='en'?'Not enough data':lang==='zh'?'数据不足':'Données insuffisantes'); return; }
+  _dicteeItems = pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,10);
+  _dicteeIdx = 0;
+  document.getElementById('dictee-view').classList.add('active');
+  _renderDictee();
+}
+function closeDictee() {
+  document.getElementById('dictee-view').classList.remove('active');
+}
+function _renderDictee() {
+  _dicteeAnswered = false;
+  var w = _dicteeItems[_dicteeIdx];
+  var inp = document.getElementById('dictee-input');
+  var fb = document.getElementById('dictee-feedback');
+  var nextBtn = document.getElementById('dictee-next-btn');
+  var checkBtn = document.getElementById('dictee-check-btn');
+  var counter = document.getElementById('dictee-counter');
+  var dots = document.getElementById('dictee-dots');
+  var titleEl = document.getElementById('dictee-title');
+  var playBtn = document.getElementById('dictee-play-btn');
+  if(titleEl) titleEl.textContent = lang==='en'?'Dictation':lang==='zh'?'听写':'Dictée';
+  if(counter) counter.textContent = (_dicteeIdx+1)+' / '+_dicteeItems.length;
+  if(inp){ inp.value=''; inp.style.borderColor=''; inp.disabled=false; }
+  if(fb){ fb.className='exercise-feedback'; fb.textContent=''; }
+  if(nextBtn) nextBtn.style.display='none';
+  if(checkBtn){ checkBtn.style.display='block'; checkBtn.textContent=lang==='en'?'Check ✓':lang==='zh'?'检查 ✓':'Vérifier ✓'; }
+  if(dots) dots.innerHTML = _dicteeItems.map(function(_,i){
+    return '<div style="width:8px;height:8px;border-radius:50%;background:'+(i===_dicteeIdx?'var(--indigo)':'var(--border)')+'"></div>';
+  }).join('');
+  if(playBtn) playBtn.textContent = '▶ '+(lang==='en'?'Listen':lang==='zh'?'听':'Écouter');
+  setTimeout(function(){ playDicteeAudio(); },400);
+}
+function playDicteeAudio() {
+  var w = _dicteeItems[_dicteeIdx];
+  if(w) speak(w.ex, 'fr-FR');
+}
+function checkDictee() {
+  if(_dicteeAnswered) return;
+  var w = _dicteeItems[_dicteeIdx];
+  var inp = document.getElementById('dictee-input');
+  var fb = document.getElementById('dictee-feedback');
+  var nextBtn = document.getElementById('dictee-next-btn');
+  var checkBtn = document.getElementById('dictee-check-btn');
+  if(!inp || !inp.value.trim()) return;
+  var typed = inp.value.trim();
+  var correct = _accentNorm(typed) === _accentNorm(w.ex);
+  _dicteeAnswered = true;
+  inp.style.borderColor = correct?'#10B981':'#EF4444';
+  inp.disabled = true;
+  if(fb){
+    fb.className = 'exercise-feedback '+(correct?'correct':'wrong');
+    fb.textContent = correct
+      ? (lang==='en'?'✅ Perfect!':lang==='zh'?'✅ 完美！':'✅ Parfait !')
+      : (lang==='en'?'❌ Answer: '+w.ex:lang==='zh'?'❌ 答案：'+w.ex:'❌ Réponse : '+w.ex);
+  }
+  if(nextBtn) nextBtn.style.display='block';
+  if(checkBtn) checkBtn.style.display='none';
+  if(correct){ addBonusXP(10); if(typeof playTickSound==='function') playTickSound(); }
+}
+function nextDictee() {
+  _dicteeIdx++;
+  if(_dicteeIdx >= _dicteeItems.length) {
+    closeDictee();
+    showStreakToast(lang==='en'?'🎉 Dictation complete!':lang==='zh'?'🎉 听写完成！':'🎉 Dictée terminée !');
+  } else {
+    _renderDictee();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ⑤ PARTAGE DE STREAK
+══════════════════════════════════════════════════════════════ */
+function shareStreak() {
+  try {
+    var streak = parseInt(localStorage.getItem('ff_streak')||'0',10);
+    var xp = getXP();
+    var lvl = getLevelInfo(xp);
+    var canvas = document.createElement('canvas');
+    canvas.width = 600; canvas.height = 400;
+    var ctx = canvas.getContext('2d');
+    // Background gradient
+    var grad = ctx.createLinearGradient(0,0,600,400);
+    grad.addColorStop(0,'#0F0A28'); grad.addColorStop(1,'#1E1B4B');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,600,400);
+    // Stars decorations
+    ctx.fillStyle='rgba(255,255,255,0.08)';
+    [[60,60,30],[540,80,20],[100,320,15],[500,300,25],[300,50,12]].forEach(function(s){
+      ctx.beginPath();ctx.arc(s[0],s[1],s[2],0,Math.PI*2);ctx.fill();
+    });
+    // Fox emoji
+    ctx.font = '64px Arial'; ctx.textAlign='center'; ctx.fillText('🦊',300,100);
+    // App name
+    ctx.font = 'bold 20px Arial'; ctx.fillStyle='rgba(255,255,255,0.6)';
+    ctx.fillText('FrenchGo',300,138);
+    // Streak
+    ctx.font = 'bold 80px Arial'; ctx.fillStyle='#F59E0B';
+    ctx.fillText(streak+'🔥',300,230);
+    ctx.font = 'bold 22px Arial'; ctx.fillStyle='white';
+    ctx.fillText(lang==='en'?'day streak!':lang==='zh'?'天连续！':'jours de série !',300,270);
+    // XP + level
+    ctx.font = 'bold 18px Arial'; ctx.fillStyle='rgba(255,255,255,0.7)';
+    ctx.fillText(lvl.icon+' '+lvl.label+' · '+xp+' XP',300,316);
+    // Tagline
+    ctx.font = '15px Arial'; ctx.fillStyle='rgba(255,255,255,0.45)';
+    ctx.fillText('francaisgo.netlify.app',300,360);
+    canvas.toBlob(function(blob){
+      if(navigator.share && blob) {
+        var file = new File([blob],'frenchgo-streak.png',{type:'image/png'});
+        navigator.share({title:'FrenchGo',text:streak+(lang==='en'?' day streak on FrenchGo!':lang==='zh'?'天法语学习连续！':' jours de série sur FrenchGo !'),files:[file]}).catch(function(){});
+      } else {
+        var url = canvas.toDataURL('image/png');
+        var a = document.createElement('a');
+        a.download='frenchgo-streak.png'; a.href=url; a.click();
+      }
+    });
+  } catch(e){ showStreakToast(lang==='en'?'Could not share':lang==='zh'?'无法分享':'Impossible de partager'); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ⑥ DEMANDE D'AVIS PLAY STORE
+══════════════════════════════════════════════════════════════ */
+function _maybeAskReview() {
+  if(localStorage.getItem('ff_review_prompted')) return;
+  var done = Object.values(state).filter(function(s){return s.completed;}).length;
+  if(done < 5) return;
+  localStorage.setItem('ff_review_prompted','1');
+  setTimeout(function(){
+    var existing = document.getElementById('review-overlay');
+    if(existing) return;
+    var overlay = document.createElement('div');
+    overlay.id = 'review-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9500;display:flex;align-items:flex-end;justify-content:center;';
+    var box = document.createElement('div');
+    box.style.cssText = 'background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 40px;width:100%;max-width:480px;text-align:center;';
+    var titleLbl = lang==='en'?'Enjoying FrenchGo? ⭐':lang==='zh'?'喜欢FrenchGo吗？⭐':'Tu aimes FrenchGo ? ⭐';
+    var subLbl = lang==='en'?'A quick rating helps us reach more learners!':lang==='zh'?'评分帮助我们触达更多学习者！':'Un avis rapide nous aide à toucher plus d\'apprenants !';
+    var rateLbl = lang==='en'?'⭐ Rate on Play Store':lang==='zh'?'⭐ 在Play商店评分':'⭐ Donner un avis';
+    var laterLbl = lang==='en'?'Later':lang==='zh'?'稍后':'Plus tard';
+    box.innerHTML = '<div style="font-size:48px;margin-bottom:10px;">🦊</div>'
+      +'<div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:8px;">'+titleLbl+'</div>'
+      +'<div style="font-size:14px;color:var(--muted);margin-bottom:22px;line-height:1.5;">'+subLbl+'</div>'
+      +'<button onclick="window.open(\'market://details?id=com.frenchgo.app\',\'_blank\');document.getElementById(\'review-overlay\').remove();" style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#F59E0B,#EF4444);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:10px;">'+rateLbl+'</button>'
+      +'<button onclick="document.getElementById(\'review-overlay\').remove();" style="display:block;width:100%;padding:12px;border:none;background:none;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;">'+laterLbl+'</button>';
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+  }, 2000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ⑦ CALENDRIER MENSUEL
+══════════════════════════════════════════════════════════════ */
+function _renderMonthCalendar() {
+  var el = document.getElementById('progress-heatmap');
+  if(!el) return;
+  var hist = {};
+  try { hist = JSON.parse(localStorage.getItem('ff_xp_history')||'{}'); } catch(e){}
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = today.getMonth();
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month+1, 0).getDate();
+  var dayNames = lang==='en'?['S','M','T','W','T','F','S']:lang==='zh'?['日','一','二','三','四','五','六']:['D','L','M','M','J','V','S'];
+  var monthNames = lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:lang==='zh'?['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']:['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  var title = monthNames[month]+' '+year;
+  var html = '<div style="background:var(--card);border-radius:16px;padding:14px 16px 16px;margin-bottom:14px;">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'
+    +'<div style="font-size:12px;font-weight:800;color:var(--muted);letter-spacing:0.3px;">📅 '+title+'</div>'
+    +'<div style="font-size:11px;color:var(--muted);">'+(lang==='en'?'Daily XP':lang==='zh'?'每日XP':'XP quotidien')+'</div>'
+    +'</div>'
+    +'<div class="month-cal-grid">';
+  // Day name headers
+  dayNames.forEach(function(d){ html += '<div class="month-cal-day-lbl">'+d+'</div>'; });
+  // Empty cells before first day
+  for(var e=0;e<firstDay;e++) html += '<div></div>';
+  // Day cells
+  for(var d=1;d<=daysInMonth;d++){
+    var dateStr = year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var xpDay = hist[dateStr]||0;
+    var isToday = d===today.getDate();
+    var isFuture = d > today.getDate();
+    var intensity = xpDay>0 ? Math.min(1, xpDay/60) : 0;
+    var bg = xpDay>0 ? 'rgba(16,185,129,'+(0.3+0.7*intensity)+')' : 'var(--border)';
+    html += '<div class="month-cal-cell'+(isToday?' today':'')+(isFuture?' future':'')+'" style="background:'+bg+'" title="'+dateStr+': '+xpDay+' XP"></div>';
+  }
+  html += '</div></div>';
+  el.innerHTML = html;
+}
+
 function speakQuestion() {
   var el = document.getElementById('q-text') || document.getElementById('q-text3');
   if (!el) return;
   var text = '';
   el.childNodes.forEach(function(n){ if (n.nodeType===3) text += n.textContent; });
   text = text.trim();
-  var langCode = lang === 'en' ? 'en-US' : lang === 'zh' ? 'zh-CN' : 'fr-FR';
+  var langCode = _detectLangCode(text) || 'fr-FR';
   speak(text, langCode);
 }
 function speakCurrentCard(btn) {
@@ -19883,6 +21450,8 @@ function showTab(tab) {
   if (tab==='home')       renderHome();
   if (tab==='lessons')    renderLessonsList();
   if (tab==='progress')   renderProgress();
+  if (tab==='vocab')      _updateSRSBadge();
+  if (tab==='pratique')   renderDailyChallenge();
   if (tab==='flashcards') renderFlashcard();
   if (tab==='settings')   renderSettings();
   if (tab==='vocab')      renderVocab();
@@ -20347,6 +21916,13 @@ function renderLessonPage() {
     ).join('');
   }
   set('lesson-body', lessonPages[idx]);
+  // Culture note card
+  if (l.culture) {
+    var _cultureText = lang==='en' ? (l.culture_en||l.culture) : l.culture;
+    var _cultureCard = '<div class="culture-card"><div class="culture-card-icon">🇫🇷</div><div class="culture-card-body"><div class="culture-card-title">Culture</div><div class="culture-card-text">'+_cultureText+'</div></div></div>';
+    var _bodyEl = document.getElementById('lesson-body');
+    if (_bodyEl) _bodyEl.innerHTML += _cultureCard;
+  }
   addVocabSpeakBtns(document.getElementById('lesson-body'));
   // prev/next buttons
   const prevBtn = document.getElementById('btn-prev-page');
@@ -20429,6 +22005,8 @@ function _buildQuizData(rawQuiz) {
 function _pickExType(qText, opts) {
   if (/___/.test(qText)) return 'fill';
   if (/…\s*$/.test(qText.trim()) || /\.{3}\s*$/.test(qText.trim())) return 'fill';
+  if (_listenMode) return 'listen';
+  if (_typingMode) return 'type';
   var avgLen = opts.reduce(function(s, o){ return s + o.length; }, 0) / opts.length;
   if (avgLen <= 11) return 'bubbles';
   return 'mcq';
@@ -20461,15 +22039,15 @@ function _startQuizTimer() {
   var num  = document.getElementById('quiz-timer-num');
   if (!wrap) return;
   wrap.style.display = 'flex';
-  _quizTimerSec = 15;
-  _quizDeadlineTs = Date.now() + 15000;
+  _quizTimerSec = 25;
+  _quizDeadlineTs = Date.now() + 25000;
   if (fill) { fill.style.transition='none'; fill.style.width='100%'; fill.classList.remove('urgent'); }
   if (num)  { num.textContent = _quizTimerSec; num.classList.remove('urgent'); }
   setTimeout(function() {
     if (fill) fill.style.transition = 'width 1s linear';
     _quizTimerInterval = setInterval(function() {
       _quizTimerSec = Math.max(0, Math.round((_quizDeadlineTs - Date.now()) / 1000));
-      var pct = Math.max(0, _quizTimerSec / 15 * 100);
+      var pct = Math.max(0, _quizTimerSec / 25 * 100);
       if (fill) { fill.style.width = pct + '%'; fill.classList.toggle('urgent', _quizTimerSec <= 5); }
       if (num)  { num.textContent = _quizTimerSec; num.classList.toggle('urgent', _quizTimerSec <= 5); }
       if (_quizTimerSec <= 0) {
@@ -20501,6 +22079,8 @@ function _renderQD(dataArr) {
   if (backBtn) backBtn.textContent = t('quit');
   if (d.type === 'fill') _renderFill(d);
   else if (d.type === 'bubbles') _renderBubbles(d);
+  else if (d.type === 'type') _renderType(d);
+  else if (d.type === 'listen') _renderListen(d);
   else _renderMCQ(d);
   _startQuizTimer();
 }
@@ -20609,7 +22189,11 @@ function _selectAnswer(i) {
       var q = d.q;
       var expLang = lang==='en'&&q.exp_en ? q.exp_en : lang==='zh'&&q.exp_zh ? q.exp_zh : q.exp;
       var expText = expLang ? ('<div class="feedback-exp">\u{1F4A1} ' + expLang + '</div>') : '';
-      fb.innerHTML = '<div><div class="feedback-answer">' + t('wrongMsg') + ' <strong>' + _esc(d.opts[d.ans]) + '</strong></div>' + expText + '</div>';
+      var _favFr=d.opts[d.ans].replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var _favTxt=isFav(d.opts[d.ans])?'❤️':'🤍';
+      fb.innerHTML = '<div><div class="feedback-answer">' + t('wrongMsg') + ' <strong>' + _esc(d.opts[d.ans]) + '</strong></div>' + expText
+        + '<button class="fav-btn'+(isFav(d.opts[d.ans])?' active':'')+'" style="margin-top:6px;font-size:13px;" onclick="toggleFav(\'' + _favFr + '\',this)">'+_favTxt+' '+(lang==='en'?'Save word':lang==='zh'?'保存单词':'Retenir ce mot')+'</button>'
+        + '</div>';
     }
   }
   var nextBtn = document.getElementById('next-btn');
@@ -20722,6 +22306,10 @@ function showResult() {
     updateXPDisplay();
     checkBadges();
     _maybePromptNotif();
+    _accUpdate(currentLesson.id, quizScore, total);
+    checkLevelComplete(currentLesson.id);
+    _saveWeeklyXP();
+    _maybeAskReview();
     // Level-up check
     var lvlBefore = getLevelInfo(xpBefore);
     var lvlAfter  = getLevelInfo(xpAfter);
@@ -21602,6 +23190,13 @@ function renderProgress() {
 
   const achTitle = lang==='en'?'Trophies':lang==='zh'?'成就徽章':'Trophées';
   set('lbl-achievements', achTitle + ' ' + getEarnedBadges().length + '/16');
+  _renderMonthCalendar();
+  _renderAccuracyStats();
+  renderLeaderboard();
+  _saveWeeklyXP();
+  _updateSRSBadge();
+  var _pdfBtn = document.getElementById('pdf-report-btn');
+  if (_pdfBtn) _pdfBtn.innerHTML = '📄 '+(lang==='en'?'Download Progress Report':lang==='zh'?'下载学习报告':'Télécharger le rapport PDF');
   const ach    = t('ach') || [];
   const cats   = t('achCats') || [];
   const conds  = getBadgeConditions();
@@ -21747,6 +23342,18 @@ function renderSettings() {
   set('set-lbl-dark', lang==='en'?'Dark mode':lang==='zh'?'深色模式':'Mode sombre');
   set('set-lbl-dark-sub', lang==='en'?'Reduce brightness':lang==='zh'?'降低亮度':'Réduire la luminosité');
   set('set-lbl-info', lang==='en'?'Information':lang==='zh'?'信息':'Informations');
+  set('share-streak-btn', lang==='en'?'📤 Share my streak':lang==='zh'?'📤 分享连续天数':'📤 Partager mon streak');
+  set('prac-lbl-dictee', lang==='en'?'Dictation':lang==='zh'?'听写':'Dictée');
+  set('prac-lbl-dictee-sub', lang==='en'?'Listen · Transcribe':lang==='zh'?'听·抄写':'Écoute · Transcris');
+  set('prac-lbl-construct', lang==='en'?'Sentence Builder':lang==='zh'?'句子构建':'Constructeur');
+  set('prac-lbl-construct-sub', lang==='en'?'Rearrange words in order':lang==='zh'?'重新排列单词':'Remets les mots dans l\'ordre');
+  set('set-lbl-quiz-modes', lang==='en'?'Quiz modes':lang==='zh'?'测验模式':'Modes quiz');
+  set('set-lbl-typing', lang==='en'?'Typing mode':lang==='zh'?'打字模式':'Mode frappe');
+  set('set-lbl-typing-sub', lang==='en'?'Type the answer instead of choosing':lang==='zh'?'输入答案而非选择':'Taper la réponse au lieu de choisir');
+  set('set-lbl-listen-mode', lang==='en'?'Listening mode':lang==='zh'?'听力模式':'Mode écoute');
+  set('set-lbl-listen-sub', lang==='en'?'Hear the word, choose the translation':lang==='zh'?'听词语，选择翻译':'Entendre le mot, choisir la traduction');
+  var tTog=document.getElementById('typing-toggle');if(tTog) tTog.classList.toggle('on',_typingMode);
+  var lTog=document.getElementById('listen-toggle');if(lTog) lTog.classList.toggle('on',_listenMode);
   set('set-lbl-privacy', lang==='en'?'Privacy policy':lang==='zh'?'隐私政策':'Politique de confidentialité');
   set('set-lbl-about-desc', lang==='en'?'Learning French has never been easier.':lang==='zh'?'学法语从未如此简单。':'Apprendre le français n\'a jamais été aussi simple.');
   set('set-ver', 'v6.4');
@@ -21770,6 +23377,7 @@ function renderSettings() {
   initNotifications();
   applyDarkMode();
   updateLangBtn();
+  _renderGoalUI();
   } catch(_e) { console.warn('[FG] renderSettings error:', _e); }
 }
 function openPrivacy() {
@@ -22068,8 +23676,14 @@ function obNext() {
     dots[obSlide].classList.add('active');
     if (obSlide === panels.length-1) {
       const btn = document.getElementById('ob-next-btn');
+      if (btn) btn.style.display='none';
+      var skipB=document.getElementById('ob-skip-btn');
+      if(skipB) skipB.style.display='none';
+      _obStartLevelQuiz();
+    } else if (obSlide === panels.length-2) {
+      const btn = document.getElementById('ob-next-btn');
       if (btn) {
-        const lbl = lang==='en'?"Let's go! 🚀":lang==='zh'?'开始！🚀':'C\'est parti ! 🚀';
+        const lbl = lang==='en'?"Test my level →":lang==='zh'?'测试我的级别 →':'Tester mon niveau →';
         btn.querySelector('.ob-i18n') ? (btn.querySelector('.ob-i18n').textContent=lbl) : (btn.textContent=lbl);
       }
     }
@@ -22238,11 +23852,33 @@ function registerFCMToken() {
   window._fbMsg.getToken({ vapidKey: VAPID_KEY })
     .then(function(token) {
       if (!token) return;
+      window._fcmToken = token;
+      setTimeout(_sendSrsNotification, 5000);
       window._fbDb.collection('users').doc(user.uid).set(
         { fcmToken: token, lastActive: Date.now() }, { merge: true }
       ).catch(console.warn);
     })
     .catch(function(e) { console.warn('FCM token:', e); });
+}
+
+function _sendSrsNotification() {
+  try {
+    var srsData = _srsGet();
+    var now = Date.now();
+    var dueWords = [];
+    Object.keys(srsData).forEach(function(fr) {
+      var d = srsData[fr];
+      if (d.due && d.due <= now) dueWords.push(fr);
+    });
+    if (!dueWords.length) return; // nothing due
+    var token = window._fcmToken;
+    if (!token) return;
+    fetch('/.netlify/functions/srs-reminder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: token, words: dueWords.slice(0,3), lang: lang })
+    }).catch(function(){});
+  } catch(e) {}
 }
 
 function updateLastActive() {
@@ -22272,6 +23908,9 @@ function saveToCloud() {
     unlocked: localStorage.getItem('ff_unlocked') === '1',
     lang: lang || 'fr',
     goal: localStorage.getItem('ff_goal') || '',
+    dailyGoal: localStorage.getItem('ff_daily_goal') || '1',
+    srs: JSON.parse(localStorage.getItem('ff_srs') || '{}'),
+    favs: JSON.parse(localStorage.getItem('ff_favs') || '[]'),
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
   window._fbDb.collection('users').doc(user.uid).set(data, { merge: true })
@@ -22302,12 +23941,58 @@ function loadFromCloud(uid) {
     const cb = d.badges || [];
     localStorage.setItem('ff_badges', JSON.stringify([...new Set([...lb, ...cb])]));
     if (d.unlocked) localStorage.setItem('ff_unlocked', '1');
+    // SRS: merge — take the entry with the later due date
+    if (d.srs) {
+      var localSRS = JSON.parse(localStorage.getItem('ff_srs') || '{}');
+      Object.keys(d.srs).forEach(function(k) {
+        if (!localSRS[k] || (d.srs[k].due||0) > (localSRS[k].due||0)) localSRS[k] = d.srs[k];
+      });
+      localStorage.setItem('ff_srs', JSON.stringify(localSRS));
+    }
+    // Favoris: union
+    if (d.favs && Array.isArray(d.favs)) {
+      var localFavs = JSON.parse(localStorage.getItem('ff_favs') || '[]');
+      d.favs.forEach(function(f) { if (localFavs.indexOf(f) === -1) localFavs.push(f); });
+      localStorage.setItem('ff_favs', JSON.stringify(localFavs));
+    }
+    // Daily goal
+    if (d.dailyGoal && !localStorage.getItem('ff_daily_goal')) localStorage.setItem('ff_daily_goal', d.dailyGoal);
     if (d.lang) { lang = d.lang; localStorage.setItem('ff_lang', d.lang); }
     if (d.goal) localStorage.setItem('ff_goal', d.goal);
     updateXPDisplay();
     updateLangBtn();
     renderCurrentView();
     setSyncIndicator(true);
+    // Real-time listener for multi-device sync
+    if (!window._firestoreUnsub) {
+      window._firestoreUnsub = window._fbDb.collection('users').doc(uid)
+        .onSnapshot(function(snap) {
+          if (!snap.exists) return;
+          var d = snap.data();
+          if (!d || !d.updatedAt) return;
+          var cloudTs = d.updatedAt.toMillis ? d.updatedAt.toMillis() : 0;
+          var localTs = parseInt(localStorage.getItem('ff_last_sync')||'0');
+          if (cloudTs <= localTs + 5000) return; // not newer, skip
+          localStorage.setItem('ff_last_sync', cloudTs);
+          if (d.srs) {
+            var ls = JSON.parse(localStorage.getItem('ff_srs')||'{}');
+            Object.keys(d.srs).forEach(function(k){ if(!ls[k]||(d.srs[k].due||0)>(ls[k].due||0)) ls[k]=d.srs[k]; });
+            localStorage.setItem('ff_srs', JSON.stringify(ls));
+          }
+          if (d.favs && Array.isArray(d.favs)) {
+            var lf = JSON.parse(localStorage.getItem('ff_favs')||'[]');
+            d.favs.forEach(function(f){ if(lf.indexOf(f)===-1) lf.push(f); });
+            localStorage.setItem('ff_favs', JSON.stringify(lf));
+          }
+          if (d.state) {
+            var lst = JSON.parse(localStorage.getItem('ff_state')||'{}');
+            Object.keys(d.state).forEach(function(k){ if(!lst[k]||(d.state[k].score||0)>(lst[k].score||0)) lst[k]=d.state[k]; });
+            localStorage.setItem('ff_state', JSON.stringify(lst));
+            state = lst;
+          }
+          setSyncIndicator(true);
+        }, function(err){ console.warn('[FG] Firestore listener:', err); });
+    }
   });
 }
 
@@ -23083,6 +24768,232 @@ var dlgData = [
       }
     ]
   }
+  ,
+  {
+    id: 'histoire1',
+    emoji: '📖',
+    level: 'B1',
+    story: true, episode: 1,
+    nameKey: { en: 'Ep.1 — Lucas Arrives', fr: 'Ép.1 — Lucas arrive', zh: '第1集——卢卡斯到达' },
+    descKey: { en: 'Arrival at Charles de Gaulle airport', fr: 'Arrivée à l\'aéroport CDG', zh: '抵达戴高乐机场' },
+    npcKey:  { en: 'Agent', fr: 'Agent', zh: '工作人员' },
+    userKey: { en: 'Lucas', fr: 'Lucas', zh: '卢卡斯' },
+    turns: [
+      {
+        npc: { en: 'Welcome to France! Purpose of your visit?', fr: 'Bienvenue en France ! Quel est l\'objet de votre visite ?', zh: '欢迎来法国！您此行的目的是什么？' },
+        choices: [
+          { text: { en: 'I\'m coming for a 6-month internship at a Paris company.', fr: 'Je viens effectuer un stage de 6 mois dans une entreprise parisienne.', zh: '我来巴黎一家公司实习6个月。' }, score: 3,
+            fb: { en: 'Perfect! Clear and complete answer.', fr: 'Parfait ! Réponse claire et complète.', zh: '完美！回答清晰完整。' } },
+          { text: { en: 'Tourism.', fr: 'Tourisme.', zh: '旅游。' }, score: 1,
+            fb: { en: 'Too vague for a 6-month stay. Give more details.', fr: 'Trop vague pour un séjour de 6 mois. Donnez plus de détails.', zh: '6个月的停留太模糊，请提供更多详情。' } },
+          { text: { en: 'Work.', fr: 'Travail.', zh: '工作。' }, score: 0,
+            fb: { en: 'Clarify: internship (stage) ≠ work contract.', fr: 'Précisez : stage ≠ contrat de travail.', zh: '请说明：实习(stage)≠工作合同。' } }
+        ]
+      },
+      {
+        npc: { en: 'Do you have your convention de stage?', fr: 'Avez-vous votre convention de stage ?', zh: '您有实习协议吗？' },
+        choices: [
+          { text: { en: 'Yes, here it is, signed by both parties.', fr: 'Oui, la voici, signée par les deux parties.', zh: '有的，这里，双方都已签署。' }, score: 3,
+            fb: { en: 'Excellent preparation!', fr: 'Excellente préparation !', zh: '准备充分！' } },
+          { text: { en: 'I have a letter from my university.', fr: 'J\'ai une lettre de mon université.', zh: '我有大学的信函。' }, score: 1,
+            fb: { en: 'The convention de stage is the key document, not a simple letter.', fr: 'La convention de stage est le document clé, pas une simple lettre.', zh: '实习协议才是关键文件，不是简单的信。' } },
+          { text: { en: 'I left it in my bag.', fr: 'Je l\'ai laissée dans ma valise.', zh: '我把它放在行李箱里了。' }, score: 0,
+            fb: { en: 'Always keep important documents at hand!', fr: 'Gardez toujours vos documents importants à portée de main !', zh: '重要文件要随时备好！' } }
+        ]
+      },
+      {
+        npc: { en: 'Everything is in order. Need information about transport?', fr: 'Tout est en ordre. Besoin d\'informations sur les transports ?', zh: '一切正常。需要交通信息吗？' },
+        choices: [
+          { text: { en: 'Which RER line goes to Paris center?', fr: 'Quelle ligne de RER va jusqu\'au centre de Paris ?', zh: '哪条RER线去巴黎市中心？' }, score: 3,
+            fb: { en: 'Great! The RER B is the direct connection CDG ↔ Paris.', fr: 'Super ! Le RER B est la liaison directe CDG ↔ Paris.', zh: '很好！RER B线直达CDG ↔ 巴黎。' } },
+          { text: { en: 'Is there a taxi stand?', fr: 'Y a-t-il une station de taxis ?', zh: '有出租车站吗？' }, score: 2,
+            fb: { en: 'Valid but more expensive. The RER is cheaper and faster.', fr: 'Valable mais plus cher. Le RER est moins cher et plus rapide.', zh: '可以，但更贵。RER更便宜快速。' } },
+          { text: { en: 'I\'ll figure it out on my own.', fr: 'Je me débrouillerai tout seul.', zh: '我自己想办法。' }, score: 0,
+            fb: { en: 'Use the resources available! A question is always better than getting lost.', fr: 'Profitez des ressources disponibles ! Une question vaut mieux que se perdre.', zh: '利用现有资源！问问题总比迷路好。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'histoire2',
+    emoji: '📖',
+    level: 'B1',
+    story: true, episode: 2,
+    nameKey: { en: 'Ep.2 — Lucas Finds a Flat', fr: 'Ép.2 — Lucas cherche un appart', zh: '第2集——卢卡斯找公寓' },
+    descKey: { en: 'Meeting with a real estate agent', fr: 'Rendez-vous avec une agence immobilière', zh: '与房产中介会面' },
+    npcKey:  { en: 'Agent', fr: 'Agent immo', zh: '中介' },
+    userKey: { en: 'Lucas', fr: 'Lucas', zh: '卢卡斯' },
+    turns: [
+      {
+        npc: { en: 'Hello! What kind of apartment are you looking for?', fr: 'Bonjour ! Quel type de logement recherchez-vous ?', zh: '您好！您在找什么类型的住所？' },
+        choices: [
+          { text: { en: 'A studio or one-bedroom near a metro, max 900€/month.', fr: 'Un studio ou un F1 proche du métro, maximum 900€/mois.', zh: '靠近地铁的单间或一居室，最高900欧/月。' }, score: 3,
+            fb: { en: 'Perfect criteria! Clear and realistic for Paris.', fr: 'Critères parfaits ! Clairs et réalistes pour Paris.', zh: '条件完美！明确且对巴黎来说很实际。' } },
+          { text: { en: 'Something not too expensive.', fr: 'Quelque chose pas trop cher.', zh: '不太贵的地方。' }, score: 1,
+            fb: { en: 'Too vague. Always specify a budget and location.', fr: 'Trop vague. Précisez toujours le budget et la localisation.', zh: '太模糊。要说明预算和位置。' } },
+          { text: { en: 'A big apartment, modern, with a view.', fr: 'Un grand appartement, moderne, avec vue.', zh: '一个大的、现代的、有风景的公寓。' }, score: 0,
+            fb: { en: 'Unrealistic for a student budget in Paris!', fr: 'Irréaliste pour un budget étudiant à Paris !', zh: '对巴黎学生预算来说不现实！' } }
+        ]
+      },
+      {
+        npc: { en: 'We have a studio in the 11th, 820€/month. What documents do you have?', fr: 'Nous avons un studio dans le 11e, 820€/mois. Quels documents avez-vous ?', zh: '我们在11区有一个单间，820欧/月。您有哪些文件？' },
+        choices: [
+          { text: { en: 'My internship contract, my last 3 pay slips and a guarantor.', fr: 'Mon contrat de stage, mes 3 dernières fiches de paie et un garant.', zh: '我的实习合同、最近3张工资单和一位担保人。' }, score: 3,
+            fb: { en: 'Complete file! That\'s exactly what\'s needed in France.', fr: 'Dossier complet ! C\'est exactement ce qu\'il faut en France.', zh: '材料完整！这正是法国所需要的。' } },
+          { text: { en: 'I have my passport.', fr: 'J\'ai mon passeport.', zh: '我有护照。' }, score: 0,
+            fb: { en: 'Insufficient. You need proof of income and a guarantor.', fr: 'Insuffisant. Il faut des justificatifs de revenus et un garant.', zh: '不够。需要收入证明和担保人。' } },
+          { text: { en: 'I can pay 3 months in advance.', fr: 'Je peux payer 3 mois d\'avance.', zh: '我可以预付3个月。' }, score: 1,
+            fb: { en: 'Helpful but not a substitute for the required documents.', fr: 'Utile mais ça ne remplace pas les documents exigés.', zh: '有帮助，但不能替代所需文件。' } }
+        ]
+      },
+      {
+        npc: { en: 'When would you be available to visit?', fr: 'Quand seriez-vous disponible pour visiter ?', zh: '您什么时候方便来看房？' },
+        choices: [
+          { text: { en: 'I\'m free tomorrow afternoon, if that suits you.', fr: 'Je suis libre demain après-midi, si cela vous convient.', zh: '如果方便的话，我明天下午有空。' }, score: 3,
+            fb: { en: 'Polite and flexible formula.', fr: 'Formule polie et flexible.', zh: '礼貌且灵活的表达。' } },
+          { text: { en: 'Now.', fr: 'Maintenant.', zh: '现在。' }, score: 1,
+            fb: { en: 'Too abrupt. Propose a specific time more politely.', fr: 'Trop abrupt. Proposez un créneau de façon plus polie.', zh: '太突然了。请更礼貌地提议一个时间。' } },
+          { text: { en: 'Send me an email.', fr: 'Envoyez-moi un e-mail.', zh: '发邮件给我吧。' }, score: 0,
+            fb: { en: 'Inefficient when you\'re already in conversation! Confirm directly.', fr: 'Inefficace quand vous êtes déjà en conversation ! Confirmez directement.', zh: '已经在对话了，发邮件效率太低！直接确认。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'histoire3',
+    emoji: '📖',
+    level: 'B1',
+    story: true, episode: 3,
+    nameKey: { en: 'Ep.3 — Lucas at the Office', fr: 'Ép.3 — Lucas au bureau', zh: '第3集——卢卡斯在办公室' },
+    descKey: { en: 'First day at the company', fr: 'Premier jour dans l\'entreprise', zh: '公司第一天' },
+    npcKey:  { en: 'Colleague', fr: 'Collègue', zh: '同事' },
+    userKey: { en: 'Lucas', fr: 'Lucas', zh: '卢卡斯' },
+    turns: [
+      {
+        npc: { en: 'Hi! I\'m Sophie, your tutor. How was your arrival in France?', fr: 'Salut ! Je suis Sophie, votre tutrice. Comment s\'est passée votre arrivée en France ?', zh: '你好！我是Sophie，你的导师。你抵达法国的过程怎么样？' },
+        choices: [
+          { text: { en: 'It went well, thank you. I was a little lost at the airport but I found the RER quickly.', fr: 'Ça s\'est bien passé, merci. J\'étais un peu perdu à l\'aéroport mais j\'ai vite trouvé le RER.', zh: '还不错，谢谢。我在机场有点迷路，但很快找到了RER。' }, score: 3,
+            fb: { en: 'Natural and friendly tone, perfect for a first conversation!', fr: 'Ton naturel et sympathique, parfait pour une première conversation !', zh: '语气自然友好，非常适合初次见面！' } },
+          { text: { en: 'Fine.', fr: 'Bien.', zh: '还好。' }, score: 1,
+            fb: { en: 'Too brief. French colleagues appreciate a little anecdote.', fr: 'Trop bref. Les collègues français apprécient une petite anecdote.', zh: '太简短了。法国同事喜欢听一个小故事。' } },
+          { text: { en: 'I had problems.', fr: 'J\'ai eu des problèmes.', zh: '我遇到了一些问题。' }, score: 0,
+            fb: { en: 'Too negative for a first meeting. Stay positive!', fr: 'Trop négatif pour une première rencontre. Restez positif !', zh: '初次见面太消极了，保持积极！' } }
+        ]
+      },
+      {
+        npc: { en: 'The team uses tutoiement. Is that okay for you?', fr: 'L\'équipe utilise le tutoiement. Ça vous convient ?', zh: '团队内部用"tu"互称，您可以吗？' },
+        choices: [
+          { text: { en: 'Of course, that suits me perfectly. I\'ll follow your lead.', fr: 'Bien sûr, ça me convient tout à fait. Je suivrai votre… ton exemple !', zh: '当然，完全没问题。我会跟着你们来。' }, score: 3,
+            fb: { en: 'Perfect! And the little slip "votre → ton" is funny and very natural.', fr: 'Parfait ! Et le petit lapsus "votre → ton" est drôle et très naturel.', zh: '完美！那个小失误"votre→ton"很幽默且自然。' } },
+          { text: { en: 'I prefer vouvoiement.', fr: 'Je préfère le vouvoiement.', zh: '我更喜欢用"vous"。' }, score: 1,
+            fb: { en: 'Acceptable but may seem stiff in a startup. Adapting is better.', fr: 'Acceptable mais peut sembler guindé dans une startup. Mieux vaut s\'adapter.', zh: '可以接受，但在创业公司可能显得正式。最好适应一下。' } },
+          { text: { en: 'What is tutoiement?', fr: 'C\'est quoi le tutoiement ?', zh: '"tu"互称是什么意思？' }, score: 0,
+            fb: { en: 'Tutoiement = using "tu" (informal you). Vouvoiement = using "vous" (formal you).', fr: 'Tutoiement = utiliser "tu". Vouvoiement = utiliser "vous" (formel).', zh: 'Tutoiement=用"tu"，Vouvoiement=用"vous"（正式）。' } }
+        ]
+      },
+      {
+        npc: { en: 'We have a team lunch at noon. Do you join us?', fr: 'On a un déjeuner d\'équipe à midi. Tu nous rejoins ?', zh: '中午我们有团队午餐，你来吗？' },
+        choices: [
+          { text: { en: 'With pleasure! It\'s a great opportunity to get to know everyone.', fr: 'Avec plaisir ! C\'est une super occasion de faire connaissance avec tout le monde.', zh: '很乐意！这是认识大家的好机会。' }, score: 3,
+            fb: { en: 'Enthusiastic and social — exactly the right attitude!', fr: 'Enthousiaste et sociable — exactement la bonne attitude !', zh: '热情而友善——正是正确的态度！' } },
+          { text: { en: 'I have things to do.', fr: 'J\'ai des choses à faire.', zh: '我有事要做。' }, score: 0,
+            fb: { en: 'Never refuse a first team lunch! It\'s important for integration.', fr: 'Ne refusez jamais un premier déjeuner d\'équipe ! C\'est important pour l\'intégration.', zh: '绝对不要拒绝第一次团队午餐！对融入团队很重要。' } },
+          { text: { en: 'I\'m not very hungry.', fr: 'Je n\'ai pas très faim.', zh: '我不太饿。' }, score: 1,
+            fb: { en: 'Understandable but it\'s more about meeting people than eating!', fr: 'Compréhensible mais c\'est plus pour faire connaissance que pour manger !', zh: '可以理解，但午餐更多是为了认识彼此，不只是吃饭！' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'histoire4',
+    emoji: '📖',
+    level: 'B2',
+    story: true, episode: 4,
+    nameKey: { en: 'Ep.4 — A Problem with the Landlord', fr: 'Ép.4 — Un souci avec le propriétaire', zh: '第4集——与房东的麻烦' },
+    descKey: { en: 'The heating is broken: negotiate a solution', fr: 'Le chauffage est en panne : négocier une solution', zh: '暖气坏了：协商解决' },
+    npcKey:  { en: 'Landlord', fr: 'Propriétaire', zh: '房东' },
+    userKey: { en: 'Lucas', fr: 'Lucas', zh: '卢卡斯' },
+    turns: [
+      {
+        npc: { en: 'Hello Lucas. You have a problem?', fr: 'Allô Lucas. Vous avez un problème ?', zh: '喂，卢卡斯，有什么问题吗？' },
+        choices: [
+          { text: { en: 'Hello, sorry to disturb you. The heating has been broken since yesterday and it\'s 8°C inside.', fr: 'Bonjour, désolé de vous déranger. Le chauffage est en panne depuis hier et il fait 8°C à l\'intérieur.', zh: '您好，很抱歉打扰您。暖气从昨天起就坏了，室内只有8°C。' }, score: 3,
+            fb: { en: 'Perfect: polite, factual, with precise details (temperature, duration).', fr: 'Parfait : poli, factuel, avec des détails précis (température, durée).', zh: '完美：礼貌、客观，包含精确信息（温度、时间）。' } },
+          { text: { en: 'The heating doesn\'t work. You need to fix it.', fr: 'Le chauffage marche pas. Faut réparer.', zh: '暖气不工作，得修。' }, score: 1,
+            fb: { en: 'Too direct and lacking politeness. French requires more diplomacy.', fr: 'Trop direct et sans politesse. Le français exige plus de diplomatie.', zh: '太直接，缺乏礼貌。法语需要更多外交技巧。' } },
+          { text: { en: 'I\'m cold.', fr: 'J\'ai froid.', zh: '我很冷。' }, score: 0,
+            fb: { en: 'Too vague. Describe the actual problem clearly.', fr: 'Trop vague. Décrivez le vrai problème clairement.', zh: '太模糊了。请清楚描述实际问题。' } }
+        ]
+      },
+      {
+        npc: { en: 'I understand. The plumber can come... next week.', fr: 'Je comprends. Le plombier peut venir... la semaine prochaine.', zh: '我理解。水暖工下周可以来……' },
+        choices: [
+          { text: { en: 'Next week is too late. The law requires a habitable temperature. Could you find a solution sooner?', fr: 'La semaine prochaine c\'est trop tard. La loi impose une température habitable. Pourriez-vous trouver une solution plus tôt ?', zh: '下周太晚了。法律要求居住温度达标。您能更快找到解决方案吗？' }, score: 3,
+            fb: { en: 'Excellent: you invoke the law (legitimate) while staying polite.', fr: 'Excellent : vous invoquez la loi (légitime) tout en restant poli.', zh: '很好：依法维权，同时保持礼貌。' } },
+          { text: { en: 'I\'ll call a plumber myself.', fr: 'Je vais appeler un plombier moi-même.', zh: '我自己叫水暖工。' }, score: 1,
+            fb: { en: 'You can, but it\'s the landlord\'s responsibility. Keep the invoice!', fr: 'Vous pouvez, mais c\'est la responsabilité du propriétaire. Gardez la facture !', zh: '可以，但这是房东的责任。记得保留发票！' } },
+          { text: { en: 'OK, I\'ll wait.', fr: 'D\'accord, j\'attendrai.', zh: '好的，我等。' }, score: 0,
+            fb: { en: 'You have rights! Don\'t accept unacceptable conditions without reacting.', fr: 'Vous avez des droits ! N\'acceptez pas des conditions inacceptables sans réagir.', zh: '您有权利！不要默默接受不合理的条件。' } }
+        ]
+      },
+      {
+        npc: { en: 'I\'ll call someone for Thursday. Does that work?', fr: 'Je vais appeler quelqu\'un pour jeudi. Ça vous convient ?', zh: '我叫人周四来，这样可以吗？' },
+        choices: [
+          { text: { en: 'Thursday works. Thank you. Could you confirm by message?', fr: 'Jeudi me convient. Merci. Pourriez-vous confirmer par message ?', zh: '周四可以。谢谢。能发短信确认吗？' }, score: 3,
+            fb: { en: 'Smart! Always get a written trace.', fr: 'Malin ! Toujours obtenir une trace écrite.', zh: '聪明！要求书面确认是好习惯。' } },
+          { text: { en: 'OK.', fr: 'D\'accord.', zh: '好的。' }, score: 1,
+            fb: { en: 'Acceptable but request written confirmation to protect yourself.', fr: 'Acceptable mais demandez une confirmation écrite pour vous protéger.', zh: '可以，但要求书面确认以保护自己。' } },
+          { text: { en: 'I expected sooner.', fr: 'J\'espérais plus tôt.', zh: '我希望能更早。' }, score: 2,
+            fb: { en: 'Reasonable reaction but don\'t block: Thursday is a good compromise.', fr: 'Réaction raisonnable mais ne bloquez pas : jeudi est un bon compromis.', zh: '反应合理，但不要僵持：周四是个好折中。' } }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'histoire5',
+    emoji: '📖',
+    level: 'B2',
+    story: true, episode: 5,
+    nameKey: { en: 'Ep.5 — Lucas\' Farewell Party', fr: 'Ép.5 — La fête d\'adieu de Lucas', zh: '第5集——卢卡斯的告别派对' },
+    descKey: { en: 'End of internship: speeches and goodbyes', fr: 'Fin de stage : discours et au-revoir', zh: '实习结束：致辞与道别' },
+    npcKey:  { en: 'Manager', fr: 'Responsable', zh: '经理' },
+    userKey: { en: 'Lucas', fr: 'Lucas', zh: '卢卡斯' },
+    turns: [
+      {
+        npc: { en: 'Lucas, would you like to say a few words to the team?', fr: 'Lucas, tu voudrais dire quelques mots à l\'équipe ?', zh: '卢卡斯，你想对团队说几句话吗？' },
+        choices: [
+          { text: { en: 'I\'d love to. These 6 months have been an incredible experience. I\'ve learned enormously, both professionally and personally.', fr: 'Avec plaisir. Ces 6 mois ont été une expérience incroyable. J\'ai énormément appris, professionnellement et personnellement.', zh: '很乐意。这6个月是难忘的经历。我学到了很多，无论是职业上还是个人成长上。' }, score: 3,
+            fb: { en: 'Excellent! Warm, sincere and well structured.', fr: 'Excellent ! Chaleureux, sincère et bien structuré.', zh: '非常好！热情、真诚且有条理。' } },
+          { text: { en: 'Thank you.', fr: 'Merci.', zh: '谢谢。' }, score: 1,
+            fb: { en: 'Too brief for a farewell speech. Say something personal!', fr: 'Trop bref pour un discours d\'adieu. Dites quelque chose de personnel !', zh: '告别演讲太简短了。说点个人感受！' } },
+          { text: { en: 'I\'m very tired.', fr: 'Je suis très fatigué.', zh: '我很累。' }, score: 0,
+            fb: { en: 'Not appropriate at all for a farewell party!', fr: 'Vraiment pas approprié pour une fête d\'adieu !', zh: '完全不适合告别派对！' } }
+        ]
+      },
+      {
+        npc: { en: 'Is there something in France that really surprised you?', fr: 'Il y a quelque chose en France qui t\'a vraiment surpris ?', zh: '在法国有什么让你真正感到惊讶的吗？' },
+        choices: [
+          { text: { en: 'The culture of debate! In France, people discuss everything, including with the boss, and I found that fascinating.', fr: 'La culture du débat ! En France, on discute de tout, même avec le patron, et j\'ai trouvé ça fascinant.', zh: '讨论文化！在法国，什么都可以讨论，甚至跟老板，这让我很着迷。' }, score: 3,
+            fb: { en: 'Brilliant observation! You\'ve really understood French culture.', fr: 'Observation brillante ! Vous avez vraiment compris la culture française.', zh: '观察精到！您真正理解了法国文化。' } },
+          { text: { en: 'The food.', fr: 'La nourriture.', zh: '食物。' }, score: 1,
+            fb: { en: 'True but a bit clichéd. Try to be more specific and original.', fr: 'Vrai mais un peu cliché. Essayez d\'être plus spécifique et original.', zh: '确实，但有点陈套。试着更具体更有新意。' } },
+          { text: { en: 'Nothing in particular.', fr: 'Rien de particulier.', zh: '没什么特别的。' }, score: 0,
+            fb: { en: 'Miss the opportunity to share a genuine observation!', fr: 'Manquez une occasion de partager une vraie observation !', zh: '错失分享真实感受的好机会！' } }
+        ]
+      },
+      {
+        npc: { en: 'Will you come back to France one day?', fr: 'Tu reviendras en France un jour ?', zh: '你以后会再来法国吗？' },
+        choices: [
+          { text: { en: 'Absolutely! I\'ve fallen in love with this country and I hope to find a job here after my studies.', fr: 'Sans aucun doute ! Je suis tombé amoureux de ce pays et j\'espère trouver un poste ici après mes études.', zh: '当然！我爱上了这个国家，希望毕业后能在这里找到工作。' }, score: 3,
+            fb: { en: 'Wonderful! "Tomber amoureux de" is a beautiful expression to remember.', fr: 'Magnifique ! "Tomber amoureux de" est une belle expression à retenir.', zh: '"Tomber amoureux de（爱上）"是个美丽的表达！' } },
+          { text: { en: 'Maybe.', fr: 'Peut-être.', zh: '也许吧。' }, score: 1,
+            fb: { en: 'Non-committal. On a farewell evening, be warmer!', fr: 'Peu engagé. Lors d\'une soirée d\'adieu, soyez plus chaleureux !', zh: '不置可否。在告别晚上，要更热情！' } },
+          { text: { en: 'I don\'t know.', fr: 'Je ne sais pas.', zh: '不知道。' }, score: 0,
+            fb: { en: 'Keep the connections you\'ve made. France awaits you!', fr: 'Gardez les liens que vous avez créés. La France vous attend !', zh: '保持联系，法国等着你！' } }
+        ]
+      }
+    ]
+  }
 ];
 
 var dlgState = { sceneIdx:0, turnIdx:0, scores:[], totalMax:0, done:false };
@@ -23106,7 +25017,15 @@ function renderDialogues() {
   if (!grid) return;
   grid.innerHTML = '';
   var dlgProg = JSON.parse(localStorage.getItem('ff_dlg_progress') || '{}');
+  var _storySectionShown = false;
   dlgData.forEach(function(scene, idx) {
+    if (scene.story && !_storySectionShown) {
+      var sep = document.createElement('div');
+      sep.className = 'dlg-section-header';
+      sep.textContent = lang==='en' ? '📖 Progressive Stories' : lang==='zh' ? '📖 连载故事' : '📖 Histoires progressives';
+      grid.appendChild(sep);
+      _storySectionShown = true;
+    }
     var card = document.createElement('div');
     var prog = dlgProg['dlg_' + idx];
     var bestPct = prog ? (prog.best || 0) : 0;
@@ -23118,6 +25037,7 @@ function renderDialogues() {
       ? '<span class="dlg-scene-done-badge '+(bestPct>=80?'good':bestPct>=50?'ok':'done')+'">'+
         (bestPct>=80?'✓ '+bestPct+'%':bestPct>=50?'~ '+bestPct+'%':'✓')+'</span>'
       : '';
+    var episodeHtml = scene.story ? '<span class="dlg-scene-episode">Ép.'+scene.episode+'</span>' : '';
     card.innerHTML =
       '<div class="dlg-scene-emoji">'+scene.emoji+'</div>'+
       '<div class="dlg-scene-info">'+
@@ -23125,6 +25045,7 @@ function renderDialogues() {
         '<div class="dlg-scene-desc">'+desc+'</div>'+
         '<div class="dlg-scene-meta">'+
           '<span class="dlg-scene-level">'+scene.level+'</span>'+
+          episodeHtml+
           badgeHtml+
         '</div>'+
       '</div>'+
@@ -24340,6 +26261,519 @@ function ecouteBackToLevels() {
 </div>
 <script>
 // Global error guard — prevents unhandled JS errors from crashing the WebView process
+/* ══ MINI-JEUX ══ */
+var _mgGame = null;
+var _mgWords = [];
+
+function openMinigame(type) {
+  _mgGame = type;
+  // Pick 8 random vocab words with FR+EN
+  var pool = VOCAB.filter(function(v){ return v.en && v.fr; });
+  _mgWords = [];
+  var used = {};
+  while (_mgWords.length < 8 && pool.length > 0) {
+    var idx = Math.floor(Math.random() * pool.length);
+    if (!used[idx]) { used[idx] = true; _mgWords.push(pool[idx]); }
+  }
+  var overlay = document.getElementById('minigame-overlay');
+  var title   = document.getElementById('minigame-title');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  if (type === 'matching') {
+    title.textContent = lang==='en' ? '🎯 Matching' : lang==='zh' ? '🎯 配对游戏' : '🎯 Matching';
+    _renderMatching();
+  } else {
+    title.textContent = lang==='en' ? '🕹️ Hangman' : lang==='zh' ? '🕹️ 猜词游戏' : '🕹️ Pendu';
+    _renderPendu();
+  }
+}
+
+function closeMinigame() {
+  var overlay = document.getElementById('minigame-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+/* ─── MATCHING ─── */
+var _matchState = { sel: null, matched: [], errors: 0 };
+function _renderMatching() {
+  _matchState = { sel: null, matched: [], errors: 0 };
+  var words = _mgWords.slice(0, 6);
+  var frWords = words.map(function(w){ return w.fr; });
+  var enWords = words.map(function(w){ return w.en; });
+  // shuffle en side
+  var enShuf = enWords.slice().sort(function(){ return Math.random()-0.5; });
+  var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">';
+  for (var i=0; i<words.length; i++) {
+    html += '<button class="mg-btn" data-mg-fr="'+frWords[i]+'" data-mg-idx="'+i+'" onclick="_matchClick(this,\'fr\','+i+')" style="background:var(--card);border:2px solid var(--border);border-radius:10px;padding:10px 8px;font-size:0.85rem;font-weight:600;color:var(--text);cursor:pointer;text-align:center;">'+frWords[i]+'</button>';
+    html += '<button class="mg-btn" data-mg-en="'+enShuf[i]+'" onclick="_matchClick(this,\'en\',-1)" style="background:var(--card);border:2px solid var(--border);border-radius:10px;padding:10px 8px;font-size:0.85rem;color:var(--text);cursor:pointer;text-align:center;">'+enShuf[i]+'</button>';
+  }
+  html += '</div>';
+  html += '<div id="mg-match-score" style="text-align:center;font-size:0.9rem;color:var(--muted);">'+(lang==='en'?'Tap a French word then its translation':'Touche un mot FR puis sa traduction')+'</div>';
+  document.getElementById('minigame-body').innerHTML = html;
+  // store mapping
+  window._mgFrToEn = {};
+  for (var j=0; j<words.length; j++) window._mgFrToEn[frWords[j]] = enWords[j];
+}
+
+function _matchClick(btn, side, idx) {
+  if (btn.disabled) return;
+  if (side === 'fr') {
+    // deselect previous FR
+    document.querySelectorAll('[data-mg-fr]').forEach(function(b){ b.style.borderColor='var(--border)'; b.style.background='var(--card)'; });
+    _matchState.sel = btn.dataset.mgFr;
+    btn.style.borderColor = '#6366f1';
+    btn.style.background = '#ede9fe';
+  } else {
+    if (!_matchState.sel) return;
+    var enVal = btn.dataset.mgEn;
+    var correct = window._mgFrToEn[_matchState.sel];
+    if (enVal === correct) {
+      // match!
+      document.querySelectorAll('[data-mg-fr="'+_matchState.sel+'"]').forEach(function(b){ b.style.borderColor='#10b981'; b.style.background='#d1fae5'; b.disabled=true; });
+      btn.style.borderColor = '#10b981'; btn.style.background = '#d1fae5'; btn.disabled = true;
+      _matchState.matched.push(_matchState.sel);
+      _matchState.sel = null;
+      if (_matchState.matched.length === _mgWords.slice(0,6).length) {
+        document.getElementById('mg-match-score').innerHTML = '<span style="color:#10b981;font-weight:700;">'+(lang==='en'?'🎉 Parfait ! All matched!':'🎉 Parfait ! Tout trouvé !')+'</span> <button onclick="openMinigame(\'matching\')" style="margin-left:8px;background:#6366f1;color:white;border:none;border-radius:8px;padding:6px 14px;cursor:pointer;">'+(lang==='en'?'Play again':'Rejouer')+'</button>';
+      }
+    } else {
+      _matchState.errors++;
+      btn.style.borderColor = '#ef4444'; btn.style.background = '#fee2e2';
+      setTimeout(function(){ btn.style.borderColor='var(--border)'; btn.style.background='var(--card)'; },600);
+      document.querySelectorAll('[data-mg-fr]').forEach(function(b){ b.style.borderColor='var(--border)'; b.style.background='var(--card)'; });
+      _matchState.sel = null;
+    }
+  }
+}
+
+/* ─── PENDU ─── */
+var _penduState = { word:'', guessed:[], wrong:[], maxWrong:6 };
+function _renderPendu() {
+  var w = _mgWords[Math.floor(Math.random()*_mgWords.length)];
+  _penduState = { word: w.fr.toLowerCase(), hint: w.en, guessed:[], wrong:[], maxWrong:6 };
+  _drawPendu();
+}
+function _drawPendu() {
+  var s = _penduState;
+  var display = s.word.split('').map(function(ch){
+    if (ch === ' ') return '&nbsp;&nbsp;';
+    if (s.guessed.indexOf(ch) !== -1) return '<span style="font-size:1.4rem;font-weight:700;">'+ch+'</span>';
+    return '<span style="display:inline-block;width:22px;border-bottom:2px solid var(--text);margin:0 2px;">&nbsp;</span>';
+  }).join('');
+  var wrongLeft = s.maxWrong - s.wrong.length;
+  var gallows = ['😶','😟','😰','😱','💀','☠️'];
+  var gallowIdx = Math.min(s.wrong.length, gallows.length-1);
+  var won = s.word.split('').every(function(ch){ return ch===' ' || s.guessed.indexOf(ch)!==-1; });
+  var lost = s.wrong.length >= s.maxWrong;
+  var html = '<div style="text-align:center;margin-bottom:12px;">';
+  html += '<div style="font-size:3rem;">'+gallows[gallowIdx]+'</div>';
+  html += '<div style="margin:12px 0;">'+display+'</div>';
+  html += '<div style="font-size:0.8rem;color:var(--muted);margin-bottom:8px;">'+(lang==='en'?'Hint: ':'Indice : ')+s.hint+'</div>';
+  if (s.wrong.length > 0) html += '<div style="font-size:0.85rem;color:#ef4444;margin-bottom:8px;">'+(lang==='en'?'Wrong: ':'Erreurs : ')+s.wrong.join(', ')+'</div>';
+  if (won) {
+    html += '<div style="color:#10b981;font-weight:700;font-size:1rem;">🎉 '+(lang==='en'?'You got it!':'Bravo !')+'</div>';
+    html += '<button onclick="_renderPendu()" style="margin-top:10px;background:#6366f1;color:white;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;">'+(lang==='en'?'Next word':'Mot suivant')+'</button>';
+  } else if (lost) {
+    html += '<div style="color:#ef4444;font-weight:700;">😢 '+(lang==='en'?'The word was: ':'Le mot était : ')+'<em>'+s.word+'</em></div>';
+    html += '<button onclick="_renderPendu()" style="margin-top:10px;background:#6366f1;color:white;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;">'+(lang==='en'?'Try again':'Réessayer')+'</button>';
+  } else {
+    html += '<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px;">';
+    'abcdefghijklmnopqrstuvwxyzéèêëàâùûîïôç'.split('').forEach(function(l){
+      var used = s.guessed.indexOf(l)!==-1 || s.wrong.indexOf(l)!==-1;
+      html += '<button onclick="_penduGuess(\''+l+'\')" '+(used?'disabled':'')+' style="width:32px;height:32px;border-radius:6px;border:1.5px solid var(--border);background:'+(used?'var(--border)':'var(--card)')+';color:'+(used?'var(--muted)':'var(--text)')+';font-size:0.85rem;cursor:pointer;">'+l+'</button>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  document.getElementById('minigame-body').innerHTML = html;
+}
+function _penduGuess(letter) {
+  var s = _penduState;
+  if (s.word.indexOf(letter) !== -1) {
+    s.guessed.push(letter);
+  } else {
+    s.wrong.push(letter);
+  }
+  _drawPendu();
+}
+
+/* ══ MODE DUEL ══ */
+var _duelState = { roomId: null, phase: 'lobby', myScore: 0, oppScore: 0, qIdx: 0, questions: [], timer: null };
+
+function openDuel() {
+  document.getElementById('duel-overlay').style.display = 'flex';
+  _renderDuelLobby();
+}
+function closeDuel() {
+  if (_duelState.timer) clearInterval(_duelState.timer);
+  document.getElementById('duel-overlay').style.display = 'none';
+  _duelState = { roomId: null, phase: 'lobby', myScore: 0, oppScore: 0, qIdx: 0, questions: [], timer: null };
+}
+
+function _renderDuelLobby() {
+  var html = '<div style="text-align:center;">';
+  html += '<div style="font-size:3rem;margin-bottom:8px;">⚔️</div>';
+  html += '<p style="color:var(--muted);font-size:0.9rem;margin-bottom:20px;">'+(lang==='en'?'Challenge a friend to a 5-question quiz duel!':lang==='zh'?'和朋友进行5题对决！':'Défie un ami en 5 questions !')+'</p>';
+  html += '<button onclick="_duelCreate()" style="width:100%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border:none;border-radius:12px;padding:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:10px;">'+(lang==='en'?'🆕 Create a Duel Room':lang==='zh'?'🆕 创建对决房间':'🆕 Créer une salle')+'</button>';
+  html += '<div style="display:flex;gap:8px;align-items:center;">';
+  html += '<input id="duel-code-input" placeholder="'+(lang==='en'?'Room code':'Code de salle')+'" style="flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:1rem;">';
+  html += '<button onclick="_duelJoin()" style="background:#10b981;color:white;border:none;border-radius:10px;padding:12px 16px;font-size:0.9rem;font-weight:700;cursor:pointer;">'+(lang==='en'?'Join':'Rejoindre')+'</button>';
+  html += '</div></div>';
+  document.getElementById('duel-body').innerHTML = html;
+}
+
+function _duelCreate() {
+  var db = firebase && firebase.firestore && firebase.firestore();
+  var user = firebase && firebase.auth && firebase.auth().currentUser;
+  if (!db) { showStreakToast(lang==='en'?'Firestore unavailable':'Firestore indisponible'); return; }
+  var code = Math.random().toString(36).substring(2,7).toUpperCase();
+  _duelState.roomId = code;
+  var qs = _duelPickQuestions();
+  _duelState.questions = qs;
+  db.collection('duels').doc(code).set({
+    created: Date.now(),
+    host: user ? (user.displayName || user.uid) : 'Player 1',
+    hostScore: 0,
+    guestScore: null,
+    guestName: null,
+    questions: qs.map(function(q){ return {q:q.q, opts:q.opts, ans:q.ans}; }),
+    status: 'waiting'
+  }).then(function() {
+    _renderDuelWaiting(code);
+  }).catch(function(e) { showStreakToast('Error: '+e.message); });
+}
+
+function _renderDuelWaiting(code) {
+  var html = '<div style="text-align:center;">';
+  html += '<div style="font-size:2.5rem;margin-bottom:8px;">⏳</div>';
+  html += '<p style="font-weight:700;font-size:1rem;margin-bottom:4px;">'+(lang==='en'?'Room created!':lang==='zh'?'房间已创建！':'Salle créée !')+'</p>';
+  html += '<p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">'+(lang==='en'?'Share this code with your friend:':lang==='zh'?'把代码分享给你的朋友：':'Partage ce code avec ton ami :')+'</p>';
+  html += '<div style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border-radius:16px;padding:16px;font-size:2rem;font-weight:900;letter-spacing:0.15em;margin-bottom:16px;">'+code+'</div>';
+  html += '<button onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+code+'\')" style="background:var(--border);border:none;border-radius:8px;padding:8px 16px;cursor:pointer;color:var(--text);font-size:0.85rem;margin-bottom:20px;">📋 '+(lang==='en'?'Copy code':'Copier')+'</button>';
+  html += '<p style="color:var(--muted);font-size:0.85rem;margin-bottom:12px;">'+(lang==='en'?'Start the quiz now (your friend joins with the code):':lang==='zh'?'现在开始测验（朋友用代码加入）：':'Commence le quiz maintenant (ton ami rejoindra avec le code) :')+'</p>';
+  html += '<button onclick="_duelStartQuiz()" style="width:100%;background:#10b981;color:white;border:none;border-radius:12px;padding:14px;font-size:1rem;font-weight:700;cursor:pointer;">'+(lang==='en'?'Start Quiz!':lang==='zh'?'开始测验！':'Commencer le quiz !')+'</button>';
+  html += '</div>';
+  document.getElementById('duel-body').innerHTML = html;
+}
+
+function _duelJoin() {
+  var code = (document.getElementById('duel-code-input').value||'').trim().toUpperCase();
+  if (!code) return;
+  var db = firebase && firebase.firestore && firebase.firestore();
+  if (!db) { showStreakToast(lang==='en'?'Firestore unavailable':'Firestore indisponible'); return; }
+  db.collection('duels').doc(code).get().then(function(doc) {
+    if (!doc.exists) { showStreakToast(lang==='en'?'Room not found!':'Salle introuvable !'); return; }
+    var data = doc.data();
+    _duelState.roomId = code;
+    _duelState.questions = data.questions.map(function(q){ return {q:q.q,opts:q.opts,ans:q.ans}; });
+    var user = firebase && firebase.auth && firebase.auth().currentUser;
+    db.collection('duels').doc(code).update({ guestName: user?(user.displayName||user.uid):'Player 2', status:'playing' });
+    _duelStartQuiz();
+  }).catch(function(e){ showStreakToast('Error: '+e.message); });
+}
+
+function _duelPickQuestions() {
+  var pool = VOCAB.filter(function(v){ return v.en && v.fr; });
+  var qs = [];
+  var used = {};
+  while (qs.length < 5 && pool.length > 0) {
+    var idx = Math.floor(Math.random()*pool.length);
+    if (used[idx]) continue;
+    used[idx] = true;
+    var w = pool[idx];
+    var opts = [w.en];
+    while (opts.length < 4) {
+      var r = pool[Math.floor(Math.random()*pool.length)];
+      if (opts.indexOf(r.en)===-1) opts.push(r.en);
+    }
+    opts.sort(function(){ return Math.random()-0.5; });
+    qs.push({ q: w.fr, opts: opts, ans: opts.indexOf(w.en) });
+  }
+  return qs;
+}
+
+function _duelStartQuiz() {
+  _duelState.phase = 'quiz';
+  _duelState.myScore = 0;
+  _duelState.qIdx = 0;
+  _renderDuelQuestion();
+}
+
+function _renderDuelQuestion() {
+  var qs = _duelState.questions;
+  var idx = _duelState.qIdx;
+  if (idx >= qs.length) { _duelFinish(); return; }
+  var q = qs[idx];
+  var html = '<div style="margin-bottom:12px;">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
+  html += '<span style="font-size:0.85rem;color:var(--muted);">'+(idx+1)+'/'+qs.length+'</span>';
+  html += '<span style="font-size:0.85rem;font-weight:700;color:#6366f1;">⚔️ '+(lang==='en'?'Duel':lang==='zh'?'对决':'Duel')+'</span>';
+  html += '</div>';
+  html += '<div style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;border-radius:14px;padding:18px;text-align:center;font-size:1.3rem;font-weight:700;margin-bottom:14px;">'+q.q+'</div>';
+  q.opts.forEach(function(opt, oi) {
+    html += '<button onclick="_duelAnswer('+oi+')" style="width:100%;text-align:left;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:0.95rem;color:var(--text);cursor:pointer;margin-bottom:8px;">'+opt+'</button>';
+  });
+  html += '</div>';
+  document.getElementById('duel-body').innerHTML = html;
+}
+
+function _duelAnswer(optIdx) {
+  var q = _duelState.questions[_duelState.qIdx];
+  var correct = optIdx === q.ans;
+  if (correct) _duelState.myScore++;
+  var btns = document.getElementById('duel-body').querySelectorAll('button');
+  btns.forEach(function(b, i) {
+    if (i === q.ans) { b.style.borderColor='#10b981'; b.style.background='#d1fae5'; }
+    else if (i === optIdx && !correct) { b.style.borderColor='#ef4444'; b.style.background='#fee2e2'; }
+    b.disabled = true;
+  });
+  setTimeout(function() {
+    _duelState.qIdx++;
+    _renderDuelQuestion();
+  }, 900);
+}
+
+function _duelFinish() {
+  var db = firebase && firebase.firestore && firebase.firestore();
+  var score = _duelState.myScore;
+  var total = _duelState.questions.length;
+  // Save my score to Firestore
+  if (db && _duelState.roomId) {
+    db.collection('duels').doc(_duelState.roomId).update({ hostScore: score, status: 'done' }).catch(function(){});
+  }
+  var html = '<div style="text-align:center;">';
+  html += '<div style="font-size:3rem;margin-bottom:8px;">'+(score===total?'🏆':score>=total/2?'⭐':'😅')+'</div>';
+  html += '<div style="font-size:1.4rem;font-weight:800;margin-bottom:4px;">'+score+'/'+total+'</div>';
+  html += '<p style="color:var(--muted);font-size:0.9rem;margin-bottom:16px;">'+(lang==='en'?'Your duel score!':lang==='zh'?'你的对决得分！':'Ton score de duel !')+'</p>';
+  if (_duelState.roomId) {
+    html += '<p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">'+(lang==='en'?'Your opponent\'s score will appear here when they finish.':lang==='zh'?'对手完成后，他们的得分将显示在这里。':'Le score de ton adversaire apparaîtra ici quand il aura terminé.')+'</p>';
+    html += '<button onclick="_duelCheckOpp()" style="background:#6366f1;color:white;border:none;border-radius:10px;padding:10px 20px;cursor:pointer;font-weight:700;margin-bottom:10px;">🔄 '+(lang==='en'?'Check opponent':lang==='zh'?'查看对手':'Voir l\'adversaire')+'</button><br>';
+  }
+  html += '<button onclick="closeDuel()" style="background:var(--border);color:var(--text);border:none;border-radius:10px;padding:10px 20px;cursor:pointer;">'+(lang==='en'?'Close':'Fermer')+'</button>';
+  html += '</div>';
+  document.getElementById('duel-body').innerHTML = html;
+}
+
+function _duelCheckOpp() {
+  var db = firebase && firebase.firestore && firebase.firestore();
+  if (!db || !_duelState.roomId) return;
+  db.collection('duels').doc(_duelState.roomId).get().then(function(doc) {
+    if (!doc.exists) return;
+    var data = doc.data();
+    var myScore = _duelState.myScore;
+    var oppScore = data.guestScore !== null ? data.guestScore : data.hostScore;
+    var oppName = data.guestName || data.host || '?';
+    var html = '<div style="text-align:center;">';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">';
+    html += '<div style="background:linear-gradient(135deg,#6366f1,#4f46e5);border-radius:14px;padding:16px;color:white;"><div style="font-size:0.8rem;opacity:0.8;">'+(lang==='en'?'You':'Toi')+'</div><div style="font-size:2rem;font-weight:800;">'+myScore+'</div></div>';
+    html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:14px;padding:16px;color:white;"><div style="font-size:0.8rem;opacity:0.8;">'+oppName+'</div><div style="font-size:2rem;font-weight:800;">'+(oppScore!==null?oppScore:'…')+'</div></div>';
+    html += '</div>';
+    var result = oppScore===null?'⏳':myScore>oppScore?'🏆 '+(lang==='en'?'You win!':'Tu gagnes !'):myScore<oppScore?'😢 '+(lang==='en'?'You lose':'Tu perds'):'🤝 '+(lang==='en'?'Tie!':'Égalité !');
+    html += '<div style="font-size:1.2rem;font-weight:700;margin-bottom:16px;">'+result+'</div>';
+    html += '<button onclick="closeDuel()" style="background:var(--border);color:var(--text);border:none;border-radius:10px;padding:10px 20px;cursor:pointer;">'+(lang==='en'?'Close':'Fermer')+'</button>';
+    html += '</div>';
+    document.getElementById('duel-body').innerHTML = html;
+  });
+}
+
+/* ══ RAPPORT DE PROGRESSION PDF ══ */
+function downloadProgressPDF() {
+  try {
+    var xp = getXP();
+    var done = Object.values(state).filter(function(s){ return s.completed; }).length;
+    var streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
+    var today = new Date().toLocaleDateString(lang==='zh'?'zh-CN':lang==='en'?'en-US':'fr-FR', {year:'numeric',month:'long',day:'numeric'});
+    var scored = Object.entries(state).filter(function(e){ return e[1].score > 0; });
+    var avgScore = 0;
+    if (scored.length) {
+      var total = scored.reduce(function(sum, e) {
+        var l = LESSONS.find(function(x){ return x.id===parseInt(e[0]); });
+        return sum + (l ? e[1].score/l.quiz.length*100 : 0);
+      }, 0);
+      avgScore = Math.round(total/scored.length);
+    }
+    var srsData = _srsGet();
+    var srsCount = Object.keys(srsData).length;
+    var favData = JSON.parse(localStorage.getItem('ff_favs')||'[]');
+    var favCount = favData.length;
+
+    // Build HTML for the PDF
+    var title = lang==='en'?'Français Go — Progress Report':lang==='zh'?'法语Go——学习报告':'Français Go — Rapport de progression';
+    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title>';
+    html += '<style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#1f2937;line-height:1.6;}';
+    html += 'h1{color:#4f46e5;border-bottom:3px solid #4f46e5;padding-bottom:10px;}';
+    html += 'h2{color:#374151;margin-top:28px;}';
+    html += '.stat-row{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0;}';
+    html += '.stat-box{flex:1;min-width:120px;background:#f3f4f6;border-radius:12px;padding:14px;text-align:center;}';
+    html += '.stat-num{font-size:1.8rem;font-weight:800;color:#4f46e5;}';
+    html += '.stat-lbl{font-size:0.8rem;color:#6b7280;margin-top:4px;}';
+    html += '.lesson-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e5e7eb;font-size:0.9rem;}';
+    html += '.badge{display:inline-block;background:#ddd6fe;color:#4f46e5;border-radius:6px;padding:2px 8px;font-size:0.75rem;font-weight:700;}';
+    html += '.footer{margin-top:40px;padding-top:16px;border-top:1px solid #e5e7eb;font-size:0.8rem;color:#9ca3af;text-align:center;}';
+    html += '</style></head><body>';
+    html += '<h1>'+title+'</h1>';
+    html += '<p style="color:#6b7280;">'+today+'</p>';
+    html += '<div class="stat-row">';
+    html += '<div class="stat-box"><div class="stat-num">'+xp+'</div><div class="stat-lbl">XP</div></div>';
+    html += '<div class="stat-box"><div class="stat-num">'+done+'</div><div class="stat-lbl">'+(lang==='en'?'Lessons done':lang==='zh'?'已完成课程':'Leçons terminées')+'</div></div>';
+    html += '<div class="stat-box"><div class="stat-num">'+streak+'🔥</div><div class="stat-lbl">'+(lang==='en'?'Day streak':lang==='zh'?'连续天数':'Série')+'</div></div>';
+    html += '<div class="stat-box"><div class="stat-num">'+(avgScore||'—')+(avgScore?'%':'')+'</div><div class="stat-lbl">'+(lang==='en'?'Avg quiz score':lang==='zh'?'平均成绩':'Score moy.')+'</div></div>';
+    html += '<div class="stat-box"><div class="stat-num">'+srsCount+'</div><div class="stat-lbl">'+(lang==='en'?'SRS words':lang==='zh'?'SRS词汇':'Mots SRS')+'</div></div>';
+    html += '<div class="stat-box"><div class="stat-num">'+favCount+'</div><div class="stat-lbl">'+(lang==='en'?'Favorites':lang==='zh'?'收藏':'Favoris')+'</div></div>';
+    html += '</div>';
+    // Lessons completed
+    html += '<h2>'+(lang==='en'?'Completed Lessons':lang==='zh'?'已完成的课程':'Leçons terminées')+'</h2>';
+    var completedLessons = scored.slice(0,20);
+    completedLessons.forEach(function(e) {
+      var l = LESSONS.find(function(x){ return x.id===parseInt(e[0]); });
+      if (!l) return;
+      var pct = Math.round(e[1].score/l.quiz.length*100);
+      var lvlColor = l.level==='advanced'?'#7c3aed':l.level==='intermediate'?'#f59e0b':'#10b981';
+      html += '<div class="lesson-row"><span>'+(lang==='en'&&l.title_en?l.title_en:l.title)+'&nbsp;<span class="badge" style="background:'+lvlColor+'22;color:'+lvlColor+'">'+l.level.slice(0,3).toUpperCase()+'</span></span>';
+      html += '<span style="color:'+(pct>=80?'#10b981':pct>=60?'#f59e0b':'#ef4444')+';font-weight:700;">'+pct+'%</span></div>';
+    });
+    if (completedLessons.length === 0) {
+      html += '<p style="color:#9ca3af;">'+(lang==='en'?'No lessons completed yet.':lang==='zh'?'还没有完成课程。':'Aucune leçon terminée.')+'</p>';
+    }
+    html += '<div class="footer">Français Go · francaisgo.netlify.app · Generated '+today+'</div>';
+    html += '</body></html>';
+
+    // Open in new tab for printing as PDF
+    var blob = new Blob([html], { type: 'text/html' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'francais-go-rapport-'+new Date().toISOString().slice(0,10)+'.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
+    showStreakToast('📄 '+(lang==='en'?'Report downloaded! Open it and print as PDF.':lang==='zh'?'报告已下载！用浏览器打印为PDF。':'Rapport téléchargé ! Ouvre-le et imprime en PDF.'), 4000);
+  } catch(e) {
+    console.error('PDF error', e);
+    showStreakToast(lang==='en'?'PDF generation failed':'Erreur génération PDF');
+  }
+}
+
+/* ══ OBJECTIF PERSONNALISÉ ══ */
+function setDailyGoal(n) {
+  localStorage.setItem('ff_daily_goal', n);
+  _renderGoalUI();
+  showStreakToast('🎯 '+(lang==='en'?'Goal set: '+n+' lesson'+(n>1?'s':'')+'/day':lang==='zh'?'目标设置：每天'+n+'节课':'Objectif : '+n+' leçon'+(n>1?'s':'')+'/jour'));
+}
+
+function _renderGoalUI() {
+  var goal = parseInt(localStorage.getItem('ff_daily_goal')||'1');
+  [1,2,5].forEach(function(n) {
+    var btn = document.getElementById('goal-btn-'+n);
+    if (btn) {
+      btn.classList.toggle('active', n===goal);
+      btn.textContent = n+' / '+(lang==='en'?'day':lang==='zh'?'天':'jour');
+    }
+  });
+  // Calculate plan
+  var done = Object.values(state).filter(function(s){ return s.completed; }).length;
+  var total = LESSONS.length;
+  var remaining = Math.max(0, total - done);
+  var days = remaining > 0 ? Math.ceil(remaining / goal) : 0;
+  var plan = document.getElementById('goal-plan-preview');
+  if (plan) {
+    if (days > 0) {
+      var fin = new Date();
+      fin.setDate(fin.getDate() + days);
+      var finStr = fin.toLocaleDateString(lang==='zh'?'zh-CN':lang==='en'?'en-US':'fr-FR', {month:'short',day:'numeric'});
+      plan.textContent = (lang==='en'?'At this pace, you\'ll finish all '+total+' lessons by '+finStr:lang==='zh'?'照这个节奏，你将在'+finStr+'前完成全部'+total+'节课':'À ce rythme, tu finiras les '+total+' leçons vers le '+finStr);
+    } else {
+      plan.textContent = (lang==='en'?'🎉 All lessons completed!':lang==='zh'?'🎉 所有课程已完成！':'🎉 Toutes les leçons terminées !');
+    }
+  }
+  // Update settings labels
+  var g1 = document.getElementById('set-lbl-goal');
+  if (g1) g1.textContent = (lang==='en'?'🎯 Personal Goal':lang==='zh'?'🎯 个人目标':'🎯 Objectif personnalisé');
+  var g2 = document.getElementById('set-lbl-goal-daily');
+  if (g2) g2.textContent = (lang==='en'?'Lessons per day':lang==='zh'?'每天课程数':'Leçons par jour');
+  var g3 = document.getElementById('set-lbl-goal-daily-sub');
+  if (g3) g3.textContent = (lang==='en'?'Customize your study plan':lang==='zh'?'自定义学习计划':'Adapte ton plan de révision');
+}
+
+/* ══ IndexedDB OFFLINE BACKUP ══ */
+var _idb = null;
+function _idbOpen(cb) {
+  if (_idb) { cb(_idb); return; }
+  try {
+    var req = indexedDB.open('francaisgo', 1);
+    req.onupgradeneeded = function(e) {
+      var db = e.target.result;
+      if (!db.objectStoreNames.contains('kv')) db.createObjectStore('kv');
+    };
+    req.onsuccess = function(e) { _idb = e.target.result; cb(_idb); };
+    req.onerror = function() { /* silently fail */ };
+  } catch(ex) {}
+}
+function _idbSet(key, val) {
+  _idbOpen(function(db) {
+    try {
+      var tx = db.transaction('kv', 'readwrite');
+      tx.objectStore('kv').put(val, key);
+    } catch(ex) {}
+  });
+}
+function _idbGet(key, cb) {
+  _idbOpen(function(db) {
+    try {
+      var tx = db.transaction('kv', 'readonly');
+      var req = tx.objectStore('kv').get(key);
+      req.onsuccess = function(e) { cb(e.target.result); };
+      req.onerror = function() { cb(null); };
+    } catch(ex) { cb(null); }
+  });
+}
+
+// Sync localStorage keys to IDB after every save
+var _origSetItem = localStorage.setItem.bind(localStorage);
+localStorage.setItem = function(k, v) {
+  _origSetItem(k, v);
+  if (['ff_state','ff_srs','ff_favs','ff_xp','ff_streak'].indexOf(k) !== -1) {
+    _idbSet(k, v);
+  }
+};
+
+// On boot: restore from IDB if localStorage is missing critical data
+function _idbRestoreIfNeeded() {
+  if (localStorage.getItem('ff_xp')) return; // already has data
+  var keys = ['ff_state','ff_srs','ff_favs','ff_xp','ff_streak'];
+  var pending = keys.length;
+  keys.forEach(function(k) {
+    _idbGet(k, function(val) {
+      if (val && !localStorage.getItem(k)) {
+        _origSetItem(k, val);
+      }
+      pending--;
+      if (pending === 0) {
+        // Re-initialize state after restore
+        try { state = JSON.parse(localStorage.getItem('ff_state')||'{}'); } catch(e){}
+        console.log('[FG] IDB restore complete');
+      }
+    });
+  });
+}
+
+// Pre-warm TTS for next lesson title
+function _prewarmNextLesson() {
+  try {
+    var done = Object.keys(state).filter(function(k){ return state[k].completed; }).map(Number);
+    var next = LESSONS.find(function(l){ return done.indexOf(l.id)===-1; });
+    if (!next) return;
+    var titleFr = next.title;
+    // Fire TTS request to warm cache (ignore response)
+    fetch('/.netlify/functions/tts', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({text: titleFr, lang:'fr-FR'})
+    }).catch(function(){});
+  } catch(ex) {}
+}
+
 window.onerror = function(msg, src, line, col, err) {
   console.warn('[FG] onerror', msg, src+':'+line);
   return true; // suppress default error handling
@@ -24361,5 +26795,28 @@ window.addEventListener('unhandledrejection', function(e) {
     </div>
   </div>
 
+
+<!-- ══ MINI-JEUX MODAL ══ -->
+<div id="minigame-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;align-items:center;justify-content:center;">
+  <div id="minigame-modal" style="background:var(--card);border-radius:20px;width:calc(100% - 32px);max-width:420px;max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div id="minigame-title" style="font-size:1.1rem;font-weight:800;color:var(--text);"></div>
+      <button onclick="closeMinigame()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);">✕</button>
+    </div>
+    <div id="minigame-body"></div>
+  </div>
+</div>
+
+
+<!-- ══ DUEL MODAL ══ -->
+<div id="duel-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;align-items:center;justify-content:center;">
+  <div id="duel-modal" style="background:var(--card);border-radius:20px;width:calc(100% - 32px);max-width:420px;max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="font-size:1.1rem;font-weight:800;color:var(--text);">⚔️ <span id="duel-title">Duel</span></div>
+      <button onclick="closeDuel()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);">✕</button>
+    </div>
+    <div id="duel-body"></div>
+  </div>
+</div>
 </body>
 </html>
