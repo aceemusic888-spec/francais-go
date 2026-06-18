@@ -93,15 +93,32 @@ self.addEventListener('fetch', e => {
   const isHTML = e.request.mode === 'navigate' || e.request.destination === 'document'
     || url.endsWith('/') || url.endsWith('/index.html');
   if (isHTML) {
-    e.respondWith(
-      fetch(e.request).then(res => {
-        if (res && res.status === 200) {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+    // Network-first avec timeout 3s → si réseau lent, sert le cache immédiatement
+    e.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const cached = await caches.match(e.request) || await caches.match('/index.html');
+      try {
+        const fetchPromise = fetch(e.request).then(res => {
+          if (res && res.status === 200) cache.put(e.request, res.clone());
+          return res;
+        });
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('sw-timeout')), 3000)
+        );
+        return await Promise.race([fetchPromise, timeoutPromise]);
+      } catch (err) {
+        // Réseau lent ou hors ligne → cache immédiat, rafraîchit en arrière-plan
+        if (err.message !== 'sw-timeout') {
+          // Hors ligne : servir le cache définitivement
+          return cached || new Response('Offline', { status: 503 });
         }
-        return res;
-      }).catch(() => caches.match(e.request).then(c => c || caches.match('/index.html')))
-    );
+        // Timeout : servir le cache ET continuer la requête en arrière-plan
+        fetch(e.request).then(res => {
+          if (res && res.status === 200) cache.put(e.request, res.clone());
+        }).catch(() => {});
+        return cached || new Response('Offline', { status: 503 });
+      }
+    })());
     return;
   }
   e.respondWith(
