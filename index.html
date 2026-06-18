@@ -23695,7 +23695,7 @@ function finishOnboarding() {
   localStorage.setItem('ff_onboarded','1');
   const ob = document.getElementById('onboarding');
   if (ob) ob.style.display='none';
-  initApp();
+  try { initApp(); } catch(_e) { console.warn('[FG] finishOnboarding initApp error:', _e); }
 }
 
 /* ══════════════════════════════════════
@@ -23761,17 +23761,16 @@ function initApp() {
     }
     // Let the app exit naturally on second press
   });
-  initApp();
+  try { initApp(); } catch(_bootErr) { console.warn('[FG] initApp error:', _bootErr); }
   const onboarded = localStorage.getItem('ff_onboarded');
   if (!onboarded) {
     // Nouvel utilisateur : afficher l'onboarding derrière le splash,
     // puis lancer la transition splash→onboarding
     const ob = document.getElementById('onboarding');
     if (ob) ob.classList.remove('hidden');
-    obUpdateLang(lang);
+    try { obUpdateLang(lang); } catch(_e) {}
   }
-  // Toujours appeler hideSplash() après la décision onboarding
-  // (délai calculé depuis _splashStart, min 3s)
+  // Toujours appeler hideSplash() — garanti même si initApp() échoue
   hideSplash();
 })();
 /* ══════════════════════════════════════
