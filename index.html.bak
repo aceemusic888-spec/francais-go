@@ -13,17 +13,17 @@
   <script>try{localStorage.removeItem("ff_dark");document.documentElement.classList.remove("dark");}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FrenchGo — Apprendre le français</title>
-  <meta name="description" content="Apprenez le français avec 81 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF." />
+  <meta name="description" content="Apprenez le français avec 60 leçons interactives, des quiz et des flashcards. Préparation TCF/TEF." />
   <!-- Open Graph / Social sharing -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://francaisgo.netlify.app/" />
   <meta property="og:title" content="FrenchGo — Apprendre le français" />
-  <meta property="og:description" content="81 leçons interactives, quiz, flashcards et préparation TCF/TEF. Apprenez le français gratuitement." />
+  <meta property="og:description" content="75 leçons interactives, quiz, flashcards et préparation TCF/TEF. Apprenez le français gratuitement." />
   <meta property="og:image" content="https://francaisgo.netlify.app/icon-512.png" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="FrenchGo — Apprendre le français" />
-  <meta name="twitter:description" content="81 leçons interactives, quiz, flashcards et préparation TCF/TEF." />
+  <meta name="twitter:description" content="75 leçons interactives, quiz, flashcards et préparation TCF/TEF." />
   <meta name="twitter:image" content="https://francaisgo.netlify.app/icon-512.png" />
   <meta name="theme-color" content="#4F46E5" />
   <meta name="color-scheme" content="only light" />
@@ -76,9 +76,9 @@
     .culture-card-title { font-weight: 700; color: #4285f4; font-size: 0.85rem; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
     .culture-card-text { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
     body.dark .tip-box { background: linear-gradient(135deg,#1E1B4B,#2D1B4E); }
-    .daily-goal-btn { flex:1; padding:10px 6px; border-radius:10px; border:2px solid var(--border); background:var(--card); color:var(--text); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all .15s; }
-    .daily-goal-btn.active { border-color:#6366f1; background:#ede9fe; color:#4f46e5; }
-    body.dark .daily-goal-btn.active { background:#3730a3; color:#c7d2fe; border-color:#818cf8; }
+    .goal-btn { flex:1; padding:10px 6px; border-radius:10px; border:2px solid var(--border); background:var(--card); color:var(--text); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all .15s; }
+    .goal-btn.active { border-color:#6366f1; background:#ede9fe; color:#4f46e5; }
+    body.dark .goal-btn.active { background:#3730a3; color:#c7d2fe; border-color:#818cf8; }
     body.dark .culture-card { background: linear-gradient(135deg,#1a2340 0%,#1a2850 100%); border-color: #5b8dee; }
     body.dark .culture-card-title { color: #5b8dee; }
     body.dark .example-box { background: linear-gradient(135deg,#0F2D1E,#0F2D25); }
@@ -518,15 +518,6 @@
     .stat-box { background: white; border-radius: 16px; padding: 18px 14px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
     .stat-num { font-size: 36px; font-weight: 900; background: linear-gradient(135deg, var(--indigo), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
     .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
-    .stat-icon { font-size: 22px; margin-bottom: 4px; display: block; line-height: 1; }
-    .stat-box.sb-xp     { border-top: 3px solid #F59E0B; }
-    .stat-box.sb-done   { border-top: 3px solid #10B981; }
-    .stat-box.sb-streak { border-top: 3px solid #EF4444; }
-    .stat-box.sb-avg    { border-top: 3px solid #3B82F6; }
-    .stat-box.sb-xp .stat-num     { background: linear-gradient(135deg,#F59E0B,#D97706); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .stat-box.sb-done .stat-num   { background: linear-gradient(135deg,#10B981,#059669); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .stat-box.sb-streak .stat-num { background: linear-gradient(135deg,#EF4444,#DC2626); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .stat-box.sb-avg .stat-num    { background: linear-gradient(135deg,#3B82F6,#2563EB); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .achievement { display: flex; align-items: center; gap: 14px; padding: 15px; background: white; border-radius: 16px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     .achievement-icon { font-size: 34px; }
     .achievement h4 { font-size: 15px; font-weight: 800; }
@@ -534,7 +525,7 @@
     .achievement.locked { opacity: 0.35; filter: grayscale(1); }
 
     /* ── Section title ── */
-    .section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin: 22px 0 10px; }
+    .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin: 22px 0 10px; }
     .section-title:first-child { margin-top: 0; }
 
     /* ── Premium badges ── */
@@ -548,15 +539,6 @@
     /* ── Paywall Modal ── */
     .modal-overlay { position: fixed; inset: 0; background: rgba(15,10,40,0.65); z-index: 200; display: none; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px); }
     .modal-overlay.show { display: flex; animation: slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1); }
-    /* ── Cert modal ── */
-    .cert-modal-overlay{position:fixed;inset:0;background:rgba(15,10,40,0.72);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-    .cert-modal-overlay.active{display:flex;animation:fadeIn 0.25s ease;}
-    .cert-modal-box{background:var(--card);border-radius:22px;padding:32px 24px;text-align:center;max-width:320px;width:88%;box-shadow:0 8px 40px rgba(0,0,0,0.25);}
-    .cert-modal-emoji{font-size:52px;margin-bottom:10px;}
-    .cert-modal-title{font-size:21px;font-weight:900;color:var(--text);margin-bottom:6px;}
-    .cert-modal-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
-    .cert-dl-btn{display:block;width:100%;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;}
-    .cert-close-btn{display:block;width:100%;padding:11px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:12px;font-size:14px;cursor:pointer;}
     @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .modal-box { background: white; border-radius: 28px 28px 0 0; padding: 28px 24px 36px; width: 100%; max-width: 600px; }
     .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 22px; }
@@ -927,28 +909,6 @@
     /* ── Pratique tab cards ───────────────────────────────── */
     .pratique-card { background:var(--card); border-radius:16px; padding:18px 16px; border:1.5px solid var(--border); cursor:pointer; text-align:left; transition:transform 0.15s,box-shadow 0.15s; width:100%; display:flex; flex-direction:column; gap:5px; box-shadow:0 2px 8px rgba(0,0,0,0.05); -webkit-tap-highlight-color:transparent; }
     .pratique-card:active { transform:scale(0.96); box-shadow:none; border-color:var(--indigo); }
-    /* Pratique card accent colors */
-    .pc-purple { border-top:3px solid #7C3AED; background:linear-gradient(160deg,#faf5ff 0%,#fff 60%); }
-    .pc-blue   { border-top:3px solid #3B82F6; background:linear-gradient(160deg,#eff6ff 0%,#fff 60%); }
-    .pc-teal   { border-top:3px solid #0EA5E9; background:linear-gradient(160deg,#f0f9ff 0%,#fff 60%); }
-    .pc-green  { border-top:3px solid #10B981; background:linear-gradient(160deg,#f0fdf4 0%,#fff 60%); }
-    .pc-orange { border-top:3px solid #F59E0B; background:linear-gradient(160deg,#fffbeb 0%,#fff 60%); }
-    .pc-pink   { border-top:3px solid #EC4899; background:linear-gradient(160deg,#fdf4ff 0%,#fff 60%); }
-    .pc-red    { border-top:3px solid #EF4444; background:linear-gradient(160deg,#fff1f2 0%,#fff 60%); }
-    .pc-indigo { border-top:3px solid #4F46E5; background:linear-gradient(160deg,#eef2ff 0%,#fff 60%); }
-    .pc-amber  { border-top:3px solid #D97706; background:linear-gradient(160deg,#fffbeb 0%,#fff 60%); }
-    .pc-rose   { border-top:3px solid #E11D48; background:linear-gradient(160deg,#fff1f2 0%,#fff 60%); }
-    body.dark .pc-purple,.pc-blue,.pc-teal,.pc-green,.pc-orange,.pc-pink,.pc-red,.pc-indigo,.pc-amber,.pc-rose { background:#1E1E38; border-top-width:3px; }
-    body.dark .pratique-card.pc-purple { background:linear-gradient(160deg,#2d1f4e 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-blue   { background:linear-gradient(160deg,#1a2d4e 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-teal   { background:linear-gradient(160deg,#0f2d3d 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-green  { background:linear-gradient(160deg,#0f2d20 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-orange { background:linear-gradient(160deg,#2d1f0f 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-pink   { background:linear-gradient(160deg,#2d0f28 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-red    { background:linear-gradient(160deg,#2d0f0f 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-indigo { background:linear-gradient(160deg,#1f1f3d 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-amber  { background:linear-gradient(160deg,#2d1a0a 0%,#1E1E38 60%); }
-    body.dark .pratique-card.pc-rose   { background:linear-gradient(160deg,#2d0f17 0%,#1E1E38 60%); }
     .pratique-card-icon { font-size:30px; margin-bottom:4px; }
     .pratique-card-title { font-size:15px; font-weight:800; color:var(--text); }
     .pratique-card-sub { font-size:12px; color:var(--muted); font-weight:500; }
@@ -1281,12 +1241,6 @@
     .streak-milestone-close{background:white;color:#EF4444;border:none;border-radius:14px;padding:12px 28px;font-size:15px;font-weight:800;cursor:pointer;width:100%}
     /* ── Homepage streak card ── */
     .streak-home-card{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:18px;padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:12px}
-    body.dark .streak-home-card{background:linear-gradient(135deg,#2d1f0a,#1a1208);border-color:#92400E;}
-    body.dark .streak-home-num{color:#FCD34D;}
-    body.dark .streak-home-next{color:#F59E0B;}
-    .streak-home-start{background:var(--card);border:1.5px dashed var(--border);border-radius:18px;padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:12px;}
-    .streak-home-start-icon{font-size:32px;flex-shrink:0;}
-    .streak-home-start-text{font-size:13px;color:var(--muted);font-weight:600;line-height:1.4;}
     .streak-home-fire{font-size:36px;flex-shrink:0;animation:firePulse 1.4s ease infinite}
     @keyframes firePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
     .streak-home-info{flex:1}
@@ -1304,8 +1258,8 @@
 .fs-btn.active{border-color:#6C63FF;background:#EDE9FE;color:#6C63FF;}
 body.font-lg{font-size:17px!important;}
 body.font-xl{font-size:20px!important;}
-body.font-lg .card,body.font-lg .lesson-content,body.font-lg p,body.font-lg li,body.font-lg .lesson-card h3,body.font-lg .lesson-card p,body.font-lg .hero-title,body.font-lg .hero-desc,body.font-lg .section-title{font-size:1.07rem!important;}
-body.font-xl .card,body.font-xl .lesson-content,body.font-xl p,body.font-xl li,body.font-xl .lesson-card h3,body.font-xl .lesson-card p,body.font-xl .hero-title,body.font-xl .hero-desc,body.font-xl .section-title{font-size:1.2rem!important;}
+body.font-lg .card,.body.font-lg .lesson-content,.body.font-lg p,.body.font-lg li{font-size:inherit;}
+body.font-xl .card,.body.font-xl .lesson-content,.body.font-xl p,.body.font-xl li{font-size:inherit;}
 
 /* ── Global search ── */
 .global-search-wrap{padding:10px 16px 0;position:relative;}
@@ -1345,19 +1299,7 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
 <body>
 
 <!-- SPLASH SCREEN -->
-<script>
-window._splashStart = Date.now();
-// Failsafe nucléaire : si l'app ne démarre pas en 8s, forcer l'affichage
-window._splashFailsafe = setTimeout(function() {
-  try {
-    var s = document.getElementById('splash-screen');
-    var o = document.getElementById('onboarding');
-    if (s) s.style.display = 'none';
-    if (o) o.style.display = 'none';
-    if (typeof showTab === 'function') try { showTab('home'); } catch(e) {}
-  } catch(e) {}
-}, 8000);
-</script>
+<script>window._splashStart = Date.now();</script>
 <div id="splash-screen">
   <!-- Decorative rings -->
   <div class="spl-ring spl-r1"></div>
@@ -1392,7 +1334,7 @@ window._splashFailsafe = setTimeout(function() {
     </div>
     <span class="ob-emoji">🦊</span>
     <div class="ob-title ob-i18n" data-fr="Bienvenue sur FrenchGo !" data-en="Welcome to FrenchGo!" data-zh="欢迎使用 FrenchGo！">Bienvenue sur FrenchGo !</div>
-    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 81 leçons interactives, 400+ quiz et un système de progression gamifié." data-en="Learn French at your own pace with 81 interactive lessons, 400+ quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，81节互动课程、400+测验和游戏化进度系统。">Apprenez le français à votre rythme avec 81 leçons interactives, 400+ quiz et un système de progression gamifié.</div>
+    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 70 leçons interactives, 365 quiz et un système de progression gamifié." data-en="Learn French at your own pace with 70 interactive lessons, 365 quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，70节互动课程、365道测验和游戏化进度系统。">Apprenez le français à votre rythme avec 70 leçons interactives, 365 quiz et un système de progression gamifié.</div>
   </div>
 
   <!-- Slide 1 : fonctionnalités -->
@@ -1403,14 +1345,14 @@ window._splashFailsafe = setTimeout(function() {
       <div class="ob-feat">
         <span class="ob-feat-icon">📚</span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="81 leçons structurées"    data-en="81 structured lessons"    data-zh="81节结构化课程">81 leçons structurées</strong>
+          <strong class="ob-i18n" data-fr="70 leçons structurées"    data-en="70 structured lessons"    data-zh="70节结构化课程">70 leçons structurées</strong>
           <span   class="ob-i18n" data-fr="Du débutant au niveau avancé" data-en="From beginner to advanced" data-zh="从初级到高级">Du débutant au niveau avancé</span>
         </div>
       </div>
       <div class="ob-feat">
         <span class="ob-feat-icon">🎯</span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="400+ quiz interactifs"    data-en="400+ interactive quizzes"   data-zh="400+互动测验">400+ quiz interactifs</strong>
+          <strong class="ob-i18n" data-fr="365 quiz interactifs"    data-en="365 interactive quizzes"   data-zh="365道互动测验">365 quiz interactifs</strong>
           <span   class="ob-i18n" data-fr="Testez vos connaissances à chaque étape" data-en="Test your knowledge at every step" data-zh="每一步测试您的知识">Testez vos connaissances à chaque étape</span>
         </div>
       </div>
@@ -1535,22 +1477,12 @@ window._splashFailsafe = setTimeout(function() {
         </div>
         <div class="hero-road-footer">
           <span>🏁 0</span>
-          <span id="hero-prog-pct">0 / 81</span>
-          <span id="hero-road-goal">81 🎯</span>
+          <span id="hero-prog-pct">0 / 65</span>
+          <span>65 🎯</span>
         </div>
       </div>
       <div class="hero-mascot" id="home-mascot"></div>
     </div>
-    <!-- TCF/DELF banner inside HOME tab -->
-    <div onclick="window.open('https://francaisgo.netlify.app/tests','_blank')" style="margin:12px 16px 4px;background:linear-gradient(135deg,#0F766E,#0D9488);border-radius:16px;padding:14px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 18px rgba(13,148,136,0.30);-webkit-tap-highlight-color:transparent;">
-      <div>
-        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);letter-spacing:.5px;text-transform:uppercase;" id="delf-home-label">Préparation officielle</div>
-        <div style="font-size:17px;font-weight:900;color:white;margin-top:1px;">TCF · TEF · DELF</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px;" id="delf-home-sub">Tests · Stratégies · Oral · Écrit →</div>
-      </div>
-      <div style="font-size:36px;flex-shrink:0;margin-left:10px;">🏆</div>
-    </div>
-    <div id="home-daily-wrap"></div>
     <div id="home-unlocked"></div>
     <div id="streak-card-wrap"></div>
     <div id="home-goal-tip"></div>
@@ -1631,10 +1563,10 @@ window._splashFailsafe = setTimeout(function() {
   <!-- PROGRESS -->
   <div id="tab-progress" class="section">
     <div class="stat-grid">
-      <div class="stat-box sb-xp"><span class="stat-icon">⚡</span><div class="stat-num" id="stat-xp">0</div><div class="stat-lbl" id="lbl-xp"></div></div>
-      <div class="stat-box sb-done"><span class="stat-icon">📚</span><div class="stat-num" id="stat-done">0</div><div class="stat-lbl" id="lbl-done"></div></div>
-      <div class="stat-box sb-streak"><span class="stat-icon">🔥</span><div class="stat-num" id="stat-streak">0</div><div class="stat-lbl" id="lbl-streak"></div></div>
-      <div class="stat-box sb-avg"><span class="stat-icon">🎯</span><div class="stat-num" id="stat-avg">—</div><div class="stat-lbl" id="lbl-avg"></div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-xp">0</div><div class="stat-lbl" id="lbl-xp"></div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-done">0</div><div class="stat-lbl" id="lbl-done"></div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-streak">0🔥</div><div class="stat-lbl" id="lbl-streak"></div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-avg">—</div><div class="stat-lbl" id="lbl-avg"></div></div>
     </div>
     <div class="section-title" id="lbl-level-progress" style="margin-top:18px;margin-bottom:10px;"></div>
     <div class="card level-progress-section">
@@ -1701,37 +1633,37 @@ window._splashFailsafe = setTimeout(function() {
       </div>
     </div>
     <div id="pratique-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 20px;">
-      <button class="pratique-card pc-purple" onclick="showTab('flashcards')">
+      <button class="pratique-card" onclick="showTab('flashcards')">
         <div class="pratique-card-icon">🃏</div>
         <div class="pratique-card-title" id="prac-lbl-fc">Cartes mémoire</div>
         <div class="pratique-card-sub" id="prac-lbl-fc-sub">SRS · Révision</div>
       </button>
-      <button class="pratique-card pc-blue" onclick="showTab('vocab')">
+      <button class="pratique-card" onclick="showTab('vocab')">
         <div class="pratique-card-icon">📖</div>
         <div class="pratique-card-title" id="prac-lbl-voc">Vocabulaire</div>
-        <div class="pratique-card-sub" id="prac-lbl-voc-sub">Dictionnaire · 500 mots</div>
+        <div class="pratique-card-sub" id="prac-lbl-voc-sub">Dictionnaire · 551 mots</div>
       </button>
-      <button class="pratique-card pc-teal" onclick="showTab('dialogues')">
+      <button class="pratique-card" onclick="showTab('dialogues')">
         <div class="pratique-card-icon">💬</div>
         <div class="pratique-card-title" id="prac-lbl-dlg">Dialogues</div>
         <div class="pratique-card-sub" id="prac-lbl-dlg-sub">Situations réelles · TTS</div>
       </button>
-      <button class="pratique-card pc-green" onclick="showTab('conjugaison')">
+      <button class="pratique-card" onclick="showTab('conjugaison')">
         <div class="pratique-card-icon">🔤</div>
         <div class="pratique-card-title" id="prac-lbl-conj">Conjugaison</div>
         <div class="pratique-card-sub" id="prac-lbl-conj-sub">Verbes · Quiz</div>
       </button>
-      <button class="pratique-card pc-orange" onclick="openDictee()">
+      <button class="pratique-card" onclick="openDictee()">
         <div class="pratique-card-icon">✍️</div>
         <div class="pratique-card-title" id="prac-lbl-dictee">Dictée</div>
         <div class="pratique-card-sub" id="prac-lbl-dictee-sub">Écoute · Transcris</div>
       </button>
-      <button class="pratique-card pc-pink" onclick="openConstructeur()">
+      <button class="pratique-card" onclick="openConstructeur()">
         <div class="pratique-card-icon">🧩</div>
         <div class="pratique-card-title" id="prac-lbl-construct">Constructeur</div>
         <div class="pratique-card-sub" id="prac-lbl-construct-sub">Remets les mots dans l'ordre</div>
       </button>
-      <button class="pratique-card pc-red" onclick="showTab('ecoute')" style="grid-column:span 2;">
+      <button class="pratique-card" onclick="showTab('ecoute')" style="grid-column:span 2;">
         <div style="display:flex;align-items:center;gap:14px;">
           <div class="pratique-card-icon" style="font-size:36px;">🔊</div>
           <div>
@@ -1740,17 +1672,17 @@ window._splashFailsafe = setTimeout(function() {
           </div>
         </div>
       </button>
-      <button class="pratique-card pc-indigo" onclick="openMinigame('matching')">
+      <button class="pratique-card" onclick="openMinigame('matching')">
         <div class="pratique-card-icon">🎯</div>
         <div class="pratique-card-title" id="prac-lbl-match">Matching</div>
         <div class="pratique-card-sub" id="prac-lbl-match-sub">Associe mot ↔ traduction</div>
       </button>
-      <button class="pratique-card pc-amber" onclick="openMinigame('pendu')">
+      <button class="pratique-card" onclick="openMinigame('pendu')">
         <div class="pratique-card-icon">🕹️</div>
         <div class="pratique-card-title" id="prac-lbl-pendu">Pendu</div>
         <div class="pratique-card-sub" id="prac-lbl-pendu-sub">Devine le mot français</div>
       </button>
-      <button class="pratique-card pc-rose" onclick="openDuel()" style="grid-column:span 2;">
+      <button class="pratique-card" onclick="openDuel()" style="grid-column:span 2;">
         <div style="display:flex;align-items:center;gap:14px;">
           <div class="pratique-card-icon" style="font-size:36px;">⚔️</div>
           <div>
@@ -1821,7 +1753,7 @@ window._splashFailsafe = setTimeout(function() {
       </select>
     </div>
     <div class="fc-header" style="flex-wrap:wrap;gap:8px;">
-      <span class="fc-counter" id="fc-counter">1 / 500</span>
+      <span class="fc-counter" id="fc-counter">1 / 551</span>
       <button class="fc-srs-toggle" id="fc-srs-btn" onclick="toggleFCSRS()">⏰ SRS</button>
       <button class="fc-reset-btn" id="fc-reset-btn" onclick="fcReset()">↺ Recommencer</button>
     </div>
@@ -1920,9 +1852,9 @@ window._splashFailsafe = setTimeout(function() {
           </div>
         </div>
         <div class="font-size-row" id="font-size-row">
-          <button class="fs-btn" id="fs-normal" onclick="setFontSize('normal')"><span style="font-size:15px;font-weight:900;">A</span><br><small id="fs-lbl-n">Normal</small></button>
-          <button class="fs-btn" id="fs-lg"     onclick="setFontSize('lg')"><span style="font-size:20px;font-weight:900;">A</span><br><small id="fs-lbl-g">Grand</small></button>
-          <button class="fs-btn" id="fs-xl"     onclick="setFontSize('xl')"><span style="font-size:26px;font-weight:900;">A</span><br><small id="fs-lbl-x">Très grand</small></button>
+          <button class="fs-btn" id="fs-normal" onclick="setFontSize('normal')">A<br><small id="fs-lbl-n">Normal</small></button>
+          <button class="fs-btn" id="fs-lg"     onclick="setFontSize('lg')">A<br><small id="fs-lbl-g">Grand</small></button>
+          <button class="fs-btn" id="fs-xl"     onclick="setFontSize('xl')" style="font-size:1.2em">A<br><small id="fs-lbl-x">Très grand</small></button>
         </div>
       </div>
     </div>
@@ -2006,9 +1938,9 @@ window._splashFailsafe = setTimeout(function() {
             <div class="settings-row-sub" id="set-lbl-goal-daily-sub">Adapte ton plan de révision</div>
           </div>
           <div style="display:flex;gap:8px;width:100%;">
-            <button class="daily-goal-btn" data-goal="1" onclick="setDailyGoal(1)" id="goal-btn-1">1 / jour</button>
-            <button class="daily-goal-btn" data-goal="2" onclick="setDailyGoal(2)" id="goal-btn-2">2 / jour</button>
-            <button class="daily-goal-btn" data-goal="5" onclick="setDailyGoal(5)" id="goal-btn-5">5 / jour</button>
+            <button class="goal-btn" data-goal="1" onclick="setDailyGoal(1)" id="goal-btn-1">1 / jour</button>
+            <button class="goal-btn" data-goal="2" onclick="setDailyGoal(2)" id="goal-btn-2">2 / jour</button>
+            <button class="goal-btn" data-goal="5" onclick="setDailyGoal(5)" id="goal-btn-5">5 / jour</button>
           </div>
           <div id="goal-plan-preview" style="font-size:0.82rem;color:var(--muted);margin-top:4px;"></div>
         </div>
@@ -2314,7 +2246,7 @@ window._splashFailsafe = setTimeout(function() {
     <div class="modal-sub" id="modal-sub">Ce contenu est disponible sur notre site web. Créez un compte sur francaisgo.netlify.app pour accéder à toutes les leçons.</div>
     <div class="modal-features">
       <div class="modal-feature"><span class="modal-feature-icon">📚</span><span id="mf1">63 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)</span></div>
-      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">400+ exercices de quiz interactifs</span></div>
+      <div class="modal-feature"><span class="modal-feature-icon">🎯</span><span id="mf2">365 exercices de quiz interactifs</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🔄</span><span id="mf3">Mises à jour gratuites à vie</span></div>
       <div class="modal-feature"><span class="modal-feature-icon">🌍</span><span id="mf4">Interface trilingue FR / EN / 中文</span></div>
     </div>
@@ -2487,7 +2419,6 @@ function initMascot() {
 }
 
 function hideSplash() {
-  clearTimeout(window._splashFailsafe); // annuler le failsafe nucléaire
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
   // Min 3s on all platforms — la page fait ~1MB, le parsing peut prendre 1s+
@@ -15242,11 +15173,7 @@ const LESSONS = [
    STATE & VARIABLES
 ══════════════════════════════════════ */
 let state      = JSON.parse(localStorage.getItem('ff_state') || '{}');
-// _idbRestoreIfNeeded est défini dans le bloc 10 (pas encore chargé ici)
-// On le défère à DOMContentLoaded pour éviter un ReferenceError qui tuerait le boot IIFE
-window.addEventListener('DOMContentLoaded', function() {
-  if (typeof _idbRestoreIfNeeded === 'function') _idbRestoreIfNeeded();
-});
+_idbRestoreIfNeeded();
 let lang       = localStorage.getItem('ff_lang') || 'fr';
 localStorage.removeItem('ff_dark'); let darkMode = false;
 let currentTab = 'home';
@@ -21552,7 +21479,7 @@ function updateNav() {
   var voc = document.getElementById('prac-lbl-voc');
   var vocS = document.getElementById('prac-lbl-voc-sub');
   if (voc)  voc.textContent  = lang==='en'?'Vocabulary':lang==='zh'?'词汇':'Vocabulaire';
-  if (vocS) vocS.textContent = (lang==='en'?'Dictionary':lang==='zh'?'词典':'Dictionnaire') + ' · 500 ' + (lang==='en'?'words':lang==='zh'?'词':'mots');
+  if (vocS) vocS.textContent = (lang==='en'?'Dictionary':lang==='zh'?'词典':'Dictionnaire') + ' · 551 ' + (lang==='en'?'words':lang==='zh'?'词':'mots');
   var dlg = document.getElementById('prac-lbl-dlg');
   var dlgS = document.getElementById('prac-lbl-dlg-sub');
   if (dlg)  dlg.textContent  = lang==='en'?'Dialogues':lang==='zh'?'对话':'Dialogues';
@@ -21629,15 +21556,7 @@ function startQuickReview() {
 function renderStreakCard(streak) {
   var wrap = document.getElementById('streak-card-wrap');
   if (!wrap) return;
-  if (!streak || streak < 1) {
-    var startMsg = lang==='en'
-      ? 'Complete a lesson today to start your streak! 🚀'
-      : lang==='zh'
-      ? '今天完成一节课，开始你的连续记录！🚀'
-      : "Complète une leçon aujourd'hui pour démarrer ta série ! 🚀";
-    wrap.innerHTML = '<div class="streak-home-start"><div class="streak-home-start-icon">🔥</div><div class="streak-home-start-text">'+startMsg+'</div></div>';
-    return;
-  }
+  if (!streak || streak < 1) { wrap.innerHTML = ''; return; }
   var milestones = [3, 7, 14, 30, 60, 100];
   var nextMs = milestones.find(function(m){ return m > streak; }) || null;
   var fireEmoji = streak >= 30 ? '🔥🔥🔥' : streak >= 7 ? '🔥🔥' : '🔥';
@@ -21659,22 +21578,6 @@ function renderStreakCard(streak) {
 function renderHome() {
   try {
 
-  // Daily challenge mini-card on homepage
-  (function(){
-    var wrap = document.getElementById('home-daily-wrap');
-    if (!wrap) return;
-    var word = _dailyWord();
-    var done = localStorage.getItem('ff_daily_done') === _dailyKey();
-    var tagLbl = lang==='en'?'Daily Challenge':lang==='zh'?'每日挑战':'Défi du jour';
-    var wordLbl = done ? (lang==='en'?'✅ Done! Come back tomorrow':lang==='zh'?'✅ 完成！明天再来':'✅ Complété ! Reviens demain') : word.fr;
-    var subLbl = done ? '' : (lang==='en'?'Tap to test · +20 XP':lang==='zh'?'点击测试 · +20 XP':'Tap pour tester · +20 XP');
-    var streak = parseInt(localStorage.getItem('ff_streak')||'0',10);
-    wrap.innerHTML = '<div onclick="'+(done?'':'startDailyChallenge()')+'" style="margin:0 16px 10px;background:'+(done?'linear-gradient(135deg,#10B981,#059669)':'linear-gradient(135deg,#F97316,#7C3AED)')+';border-radius:16px;padding:13px 16px;cursor:'+(done?'default':'pointer')+';display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 16px rgba(0,0,0,0.15);-webkit-tap-highlight-color:transparent;">'
-      +'<div><div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:.5px;">'+tagLbl+' · 🔥'+streak+'</div>'
-      +'<div style="font-size:18px;font-weight:900;color:white;margin-top:2px;">'+wordLbl+'</div>'
-      +(subLbl?'<div style="font-size:12px;color:rgba(255,255,255,0.85);margin-top:1px;">'+subLbl+'</div>':'')+'</div>'
-      +'<div style="font-size:30px;flex-shrink:0;margin-left:10px;">'+(done?'✅':'🎯')+'</div></div>';
-  })();
   updateXPDisplay();
   const streak = parseInt(localStorage.getItem('ff_streak')||'0', 10);
   const done   = Object.values(state).filter(s => s.completed).length;
@@ -21718,7 +21621,6 @@ function renderHome() {
     if (car)  { car.style.transition  = ''; car.style.left   = Math.max(2, Math.min(97, _pct)) + '%'; }
   }, 60);
   set('hero-prog-pct', done+' / '+LESSONS.length);
-  set('hero-road-goal', LESSONS.length+' 🎯');
   set('home-welcome', t('welcome'));
   set('home-title', t('title'));
   set('home-sub', t('sub'));
@@ -21736,7 +21638,7 @@ function renderHome() {
         ? (lang==='en'?'Discover all content on our website →':lang==='zh'?'访问网站了解更多 →':'Découvrir tout le contenu sur notre site →')
         : (lang==='en'?'Get full access — €9.99 (lifetime) →':lang==='zh'?'立即解锁 — €9.99（终身）→':'Accès complet — 9,99 € à vie →');
       var promoLink = isApp ? 'https://francaisgo.netlify.app' : GUMROAD_URL;
-      unlockedEl.innerHTML = `<div onclick="window.open('${promoLink}','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#EA580C,#F97316);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#EA580C;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
+      unlockedEl.innerHTML = `<div onclick="window.open('${promoLink}','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:16px;padding:16px 18px;margin-bottom:14px;color:white;"><div style="font-weight:800;font-size:15px;margin-bottom:4px;">${promoTitle}</div><div style="font-size:12px;opacity:0.85;margin-bottom:12px;">${promoSub}</div><div style="background:white;color:#4F46E5;font-weight:800;font-size:13px;border-radius:10px;padding:9px 0;text-align:center;">${promoCta}</div></div>`;
     }
   }
   // ── Bloc objectif personnalisé ──
@@ -23199,7 +23101,7 @@ function renderProgress() {
   const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
   set('stat-xp', xp);
   set('stat-done', done);
-  set('stat-streak', streak);
+  set('stat-streak', streak+'🔥');
   set('stat-avg', scored.length ? avgScore+'%' : '—');
   set('lbl-xp', t('xpLbl'));
   set('lbl-done', t('doneLbl'));
@@ -23445,12 +23347,6 @@ function renderSettings() {
   set('prac-lbl-dictee-sub', lang==='en'?'Listen · Transcribe':lang==='zh'?'听·抄写':'Écoute · Transcris');
   set('prac-lbl-construct', lang==='en'?'Sentence Builder':lang==='zh'?'句子构建':'Constructeur');
   set('prac-lbl-construct-sub', lang==='en'?'Rearrange words in order':lang==='zh'?'重新排列单词':'Remets les mots dans l\'ordre');
-  set('prac-lbl-pendu', lang==='en'?'Hangman':lang==='zh'?'猜词游戏':'Pendu');
-  set('prac-lbl-pendu-sub', lang==='en'?'Guess the French word':lang==='zh'?'猜法语单词':'Devine le mot français');
-  set('prac-lbl-match', lang==='en'?'Matching':lang==='zh'?'配对游戏':'Matching');
-  set('prac-lbl-match-sub', lang==='en'?'Match word ↔ translation':lang==='zh'?'配对词↔翻译':'Associe mot ↔ traduction');
-  set('prac-lbl-duel', lang==='en'?'Duel':lang==='zh'?'决斗':'Duel');
-  set('prac-lbl-duel-sub', lang==='en'?'Real-time quiz · Challenge a friend':lang==='zh'?'实时测验·挑战朋友':'Quiz en temps réel · Défie un ami');
   set('set-lbl-quiz-modes', lang==='en'?'Quiz modes':lang==='zh'?'测验模式':'Modes quiz');
   set('set-lbl-typing', lang==='en'?'Typing mode':lang==='zh'?'打字模式':'Mode frappe');
   set('set-lbl-typing-sub', lang==='en'?'Type the answer instead of choosing':lang==='zh'?'输入答案而非选择':'Taper la réponse au lieu de choisir');
@@ -23507,7 +23403,7 @@ function openPaywall() {
       ? 'This content is available on our website. Visit francaisgo.netlify.app to access all lessons.'
       : 'One-time payment — lifetime access. No subscription.');
     set('mf1','63 premium lessons (grammar, vocabulary, TCF/TEF 🍁, Advanced)');
-    set('mf2','400+ interactive quiz exercises');
+    set('mf2','365 interactive quiz exercises');
     set('mf3','Free lifetime updates');
     set('mf4','Trilingual interface FR / EN / 中文');
     if (inApp) {
@@ -23541,7 +23437,7 @@ function openPaywall() {
       ? 'Ce contenu est disponible sur notre site web. Visitez francaisgo.netlify.app pour accéder à toutes les leçons.'
       : 'Paiement unique — accès à vie. Aucun abonnement.');
     set('mf1','63 leçons premium (grammaire, vocabulaire, TCF/TEF 🍁, Avancé)');
-    set('mf2','400+ exercices de quiz interactifs');
+    set('mf2','365 exercices de quiz interactifs');
     set('mf3','Mises à jour gratuites à vie');
     set('mf4','Interface trilingue FR / EN / 中文');
     if (inApp) {
@@ -23799,7 +23695,7 @@ function finishOnboarding() {
   localStorage.setItem('ff_onboarded','1');
   const ob = document.getElementById('onboarding');
   if (ob) ob.style.display='none';
-  try { initApp(); } catch(_e) { console.warn('[FG] finishOnboarding initApp error:', _e); }
+  initApp();
 }
 
 /* ══════════════════════════════════════
@@ -23865,16 +23761,17 @@ function initApp() {
     }
     // Let the app exit naturally on second press
   });
-  try { initApp(); } catch(_bootErr) { console.warn('[FG] initApp error:', _bootErr); }
+  initApp();
   const onboarded = localStorage.getItem('ff_onboarded');
   if (!onboarded) {
     // Nouvel utilisateur : afficher l'onboarding derrière le splash,
     // puis lancer la transition splash→onboarding
     const ob = document.getElementById('onboarding');
     if (ob) ob.classList.remove('hidden');
-    try { obUpdateLang(lang); } catch(_e) {}
+    obUpdateLang(lang);
   }
-  // Toujours appeler hideSplash() — garanti même si initApp() échoue
+  // Toujours appeler hideSplash() après la décision onboarding
+  // (délai calculé depuis _splashStart, min 3s)
   hideSplash();
 })();
 /* ══════════════════════════════════════

@@ -39,7 +39,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 // ── Cache strategy ────────────────────────────────────────
-const CACHE_NAME = 'frenchgo-v6.5';
+const CACHE_NAME = 'frenchgo-v7';
 const TTS_CACHE  = 'frenchgo-tts-v1';   // TTS audio — cache séparé, survit aux mises à jour app
 const ASSETS = [
   '/manifest.json',
