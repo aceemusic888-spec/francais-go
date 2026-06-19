@@ -938,7 +938,7 @@
     .pc-indigo { border-top:3px solid #4F46E5; background:linear-gradient(160deg,#eef2ff 0%,#fff 60%); }
     .pc-amber  { border-top:3px solid #D97706; background:linear-gradient(160deg,#fffbeb 0%,#fff 60%); }
     .pc-rose   { border-top:3px solid #E11D48; background:linear-gradient(160deg,#fff1f2 0%,#fff 60%); }
-    body.dark .pc-purple,.pc-blue,.pc-teal,.pc-green,.pc-orange,.pc-pink,.pc-red,.pc-indigo,.pc-amber,.pc-rose { background:#1E1E38; border-top-width:3px; }
+    body.dark .pc-purple, body.dark .pc-blue, body.dark .pc-teal, body.dark .pc-green, body.dark .pc-orange, body.dark .pc-pink, body.dark .pc-red, body.dark .pc-indigo, body.dark .pc-amber, body.dark .pc-rose { background:#1E1E38; border-top-width:3px; }
     body.dark .pratique-card.pc-purple { background:linear-gradient(160deg,#2d1f4e 0%,#1E1E38 60%); }
     body.dark .pratique-card.pc-blue   { background:linear-gradient(160deg,#1a2d4e 0%,#1E1E38 60%); }
     body.dark .pratique-card.pc-teal   { background:linear-gradient(160deg,#0f2d3d 0%,#1E1E38 60%); }
@@ -21565,6 +21565,18 @@ function updateNav() {
   var ecoS = document.getElementById('prac-lbl-eco-sub');
   if (eco)  eco.textContent  = lang==='en'?'Listening':lang==='zh'?'听力':'Écoute';
   if (ecoS) ecoS.textContent = lang==='en'?'Oral comprehension · Dictation':lang==='zh'?'听力理解 · 听写':'Compréhension orale · Dictée';
+  // Pratique cards: dictée, constructeur, pendu, matching, duel
+  var set2 = function(id,v){ var e=document.getElementById(id); if(e) e.textContent=v; };
+  set2('prac-lbl-dictee',     lang==='en'?'Dictation'       :lang==='zh'?'听写'   :'Dictée');
+  set2('prac-lbl-dictee-sub', lang==='en'?'Listen · Transcribe':lang==='zh'?'听 · 抄写':'Écoute · Transcris');
+  set2('prac-lbl-construct',  lang==='en'?'Sentence Builder' :lang==='zh'?'句子构建':'Constructeur');
+  set2('prac-lbl-construct-sub', lang==='en'?'Rearrange words in order':lang==='zh'?'重新排列单词':"Remets les mots dans l'ordre");
+  set2('prac-lbl-pendu',      lang==='en'?'Hangman'          :lang==='zh'?'猜词游戏':'Pendu');
+  set2('prac-lbl-pendu-sub',  lang==='en'?'Guess the French word':lang==='zh'?'猜法语单词':'Devine le mot français');
+  set2('prac-lbl-match',      lang==='en'?'Matching'         :lang==='zh'?'配对游戏':'Matching');
+  set2('prac-lbl-match-sub',  lang==='en'?'Match word ↔ translation':lang==='zh'?'配对词 ↔ 翻译':'Associe mot ↔ traduction');
+  set2('prac-lbl-duel',       lang==='en'?'Duel'             :lang==='zh'?'决斗':'Duel');
+  set2('prac-lbl-duel-sub',   lang==='en'?'Real-time quiz · Challenge a friend':lang==='zh'?'实时测验 · 挑战朋友':'Quiz en temps réel · Défie un ami');
   var delfTitle = document.getElementById('delf-teaser-title');
   var delfSub   = document.getElementById('delf-teaser-sub');
   var delfBtn   = document.getElementById('delf-teaser-btn');
