@@ -1998,7 +1998,7 @@ window._splashFailsafe = setTimeout(function() {
       </div>
       <!-- Objectif personnalisé -->
     <div class="settings-group" id="goal-settings-group">
-      <div class="settings-group-title" id="set-lbl-goal">🎯 Objectif personnalisé</div>
+      <div class="settings-group-title" id="set-lbl-goal-perso">🎯 Objectif personnalisé</div>
       <div class="settings-row" style="cursor:default;">
         <div class="settings-row-left" style="flex-direction:column;align-items:flex-start;gap:8px;width:100%;">
           <div>
@@ -23486,6 +23486,7 @@ function renderSettings() {
   set('set-lbl-goal-title', lang==='en'?'Daily goal':lang==='zh'?'每日目标':'Objectif quotidien');
   set('set-lbl-goal', lang==='en'?'XP per day':lang==='zh'?'每日XP':'XP par jour');
   set('set-lbl-goal-sub', lang==='en'?'Choose your daily target':lang==='zh'?'选择每日目标':'Choisir ton objectif quotidien');
+  if (typeof _renderGoalUI === 'function') _renderGoalUI();
   var dg = getDailyGoal();
   [20,40,80].forEach(function(v){
     var b=document.getElementById('goal-btn-'+v); if(b) b.classList.toggle('active',v===dg);
@@ -26805,7 +26806,7 @@ function _renderGoalUI() {
     }
   }
   // Update settings labels
-  var g1 = document.getElementById('set-lbl-goal');
+  var g1 = document.getElementById('set-lbl-goal-perso');
   if (g1) g1.textContent = (lang==='en'?'🎯 Personal Goal':lang==='zh'?'🎯 个人目标':'🎯 Objectif personnalisé');
   var g2 = document.getElementById('set-lbl-goal-daily');
   if (g2) g2.textContent = (lang==='en'?'Lessons per day':lang==='zh'?'每天课程数':'Leçons par jour');
