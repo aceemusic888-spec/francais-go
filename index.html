@@ -1559,7 +1559,7 @@ window._splashFailsafe = setTimeout(function() {
     <div class="section-title" id="home-continue-title"></div>
     <div id="home-continue"></div>
     <div class="section-title" id="home-start-title"></div>
-    <div class="card lesson-card" onclick="openLesson(0)">
+    <div class="card lesson-card" id="home-first-card" onclick="openLesson(0)">
       <span class="level-tag beginner" id="home-first-tag"></span>
       <span class="done-icon" id="done-home-0"></span>
       <h3 id="home-first-title"></h3>
@@ -21864,7 +21864,7 @@ function renderHome() {
       + '<span class="qr-arrow">→</span></button>';
   }
 
-  const first = LESSONS[0]; const s0 = state[first.id]||{};
+  const first = LESSONS.find(function(l){ return l.id === 0; }) || LESSONS[0]; const s0 = state[first.id]||{};
   const pct0 = s0.completed ? 100 : (s0.score ? Math.round(s0.score/first.quiz.length*100) : 0);
   set('home-first-tag', t('beginner'));
   set('home-first-title', lang==='en'?first.title_en:lang==='zh'&&TITLES_ZH[first.id]?TITLES_ZH[first.id].title:first.title);
@@ -21873,6 +21873,8 @@ function renderHome() {
   if (f0) f0.style.width = pct0+'%';
   set('label-home-0', s0.completed ? t('completed') : (pct0>0 ? t('pctDone')(pct0) : t('notStarted')));
   set('done-home-0', s0.completed ? '✅' : '');
+  var homeFirstCard = document.getElementById('home-first-card');
+  if (homeFirstCard) homeFirstCard.onclick = function(){ openLesson(first.id); };
   const cont = document.getElementById('home-continue');
   if (cont) {
     // Find best target: in-progress first, then next unstarted (lesson 0 shown separately)
@@ -22071,6 +22073,7 @@ function nextLessonPage() {
   }
 }
 function closeLessonView() {
+  _clearQuizTimer();
   document.getElementById('lesson-view').classList.remove('active');
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('result-view').classList.remove('active');
@@ -22153,7 +22156,9 @@ function _startQuizTimer() {
   _quizDeadlineTs = Date.now() + 25000;
   if (fill) { fill.style.transition='none'; fill.style.width='100%'; fill.classList.remove('urgent'); }
   if (num)  { num.textContent = _quizTimerSec; num.classList.remove('urgent'); }
+  var _timerToken = _quizDeadlineTs;
   setTimeout(function() {
+    if (_timerToken !== _quizDeadlineTs) return; // quiz reset/cleared
     if (fill) fill.style.transition = 'width 1s linear';
     _quizTimerInterval = setInterval(function() {
       _quizTimerSec = Math.max(0, Math.round((_quizDeadlineTs - Date.now()) / 1000));
@@ -22264,7 +22269,7 @@ function _selectAnswer(i) {
     window.wrongAnswersList.push(quizIndex);
       if (!window._wrongAnswerDetails) window._wrongAnswerDetails = [];
       window._wrongAnswerDetails.push({
-        q: d.q || d.question || '',
+        q: d.qText || '',
         your: (d.opts && d.opts[i]) ? d.opts[i] : '',
         correct: (d.opts && d.ans !== undefined) ? d.opts[d.ans] : ''
       });
@@ -22478,6 +22483,7 @@ function showResult() {
   }
 
   // Switch views
+  window.scrollTo(0, 0);
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('result-view').classList.add('active');
 }
