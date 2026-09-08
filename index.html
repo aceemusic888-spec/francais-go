@@ -203,8 +203,8 @@
     .lesson-card.is-done .progress-fill { background: linear-gradient(90deg,#10B981,#34D399) !important; }
     body.dark .lesson-card.is-done { border-left-color: #34D399; }
     /* ── Level Filter Bar ── */
-    #level-filter-bar { display:flex; gap:8px; margin-bottom:16px; padding:4px 0; position:sticky; top:0; z-index:10; background:var(--bg); padding-bottom:10px; border-bottom:1px solid var(--border); }
-    .level-filter-btn { flex:1; min-width:0; padding:8px 4px; border:2px solid var(--border); border-radius:12px; background:white; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.18s; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    #level-filter-bar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; padding:4px 0; position:sticky; top:0; z-index:10; background:var(--bg); padding-bottom:10px; border-bottom:1px solid var(--border); }
+    .level-filter-btn { flex:0 0 auto; padding:8px 13px; border:2px solid var(--border); border-radius:12px; background:white; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.18s; color:var(--muted); white-space:nowrap; }
     .level-filter-btn:hover { border-color:var(--indigo); color:var(--indigo); }
     .level-filter-btn.active[data-level="all"] { background:var(--indigo); border-color:var(--indigo); color:white; }
     .level-filter-btn.active[data-level="beginner"] { background:#10B981; border-color:#10B981; color:white; }
@@ -1928,6 +1928,18 @@ window._splashFailsafe = setTimeout(function() {
           </div>
         </div>
         <div class="settings-toggle" id="dark-toggle">
+          <div class="settings-toggle-thumb"></div>
+        </div>
+      </div>
+      <div class="settings-row" onclick="toggleSound()" style="cursor:pointer">
+        <div class="settings-row-left">
+          <span class="settings-row-icon" id="sound-icon">🔊</span>
+          <div>
+            <div class="settings-row-label" id="set-lbl-sound">Sons</div>
+            <div class="settings-row-sub" id="set-lbl-sound-sub">Retours sonores et jingles</div>
+          </div>
+        </div>
+        <div class="settings-toggle" id="sound-toggle">
           <div class="settings-toggle-thumb"></div>
         </div>
       </div>
@@ -23268,6 +23280,7 @@ function _selectAnswer(i) {
   var correct = i === d.ans;
   // Haptic feedback (works on Android/iOS)
   if (navigator.vibrate) navigator.vibrate(correct ? 50 : [80,40,120]);
+  if (!correct) { try { playSfx('wrong'); } catch(_e) {} }
   if (correct) {
     quizScore++;
     quizCombo++;
@@ -23370,6 +23383,7 @@ function showResult() {
   var total = dataArr.length;
   var pct = total > 0 ? Math.round(quizScore / total * 100) : 0;
   var stars = pct >= 80 ? 3 : pct >= 60 ? 2 : 1;
+  try { playSfx('result' + stars); } catch(_e) {}
   var starsHtml = Array.from({length:3}, function(_, i) {
     return '<span style="opacity:' + (i < stars ? '1' : '0.22') + '">' + (i < stars ? '⭐' : '⭐') + '</span>';
   }).join('');
@@ -24480,6 +24494,8 @@ function renderSettings() {
   set('set-lbl-lang-sub', lang==='en'?'Interface language':lang==='zh'?'界面语言':'Langue de l\'interface');
   set('set-lbl-appearance', lang==='en'?'Appearance':lang==='zh'?'外观':'Apparence');
   set('set-lbl-dark', lang==='en'?'Dark mode':lang==='zh'?'深色模式':'Mode sombre');
+  set('set-lbl-sound', lang==='en'?'Sounds':lang==='zh'?'音效':'Sons');
+  set('set-lbl-sound-sub', lang==='en'?'Sound feedback and jingles':lang==='zh'?'答题音效与结果提示音':'Retours sonores et jingles');
   set('set-lbl-dark-sub', lang==='en'?'Reduce brightness':lang==='zh'?'降低亮度':'Réduire la luminosité');
   set('set-lbl-fontsize', lang==='en'?'Text size':lang==='zh'?'字体大小':'Taille du texte');
   set('set-lbl-fontsize-sub', lang==='en'?'Choose readability':lang==='zh'?'选择可读性':'Choisir la lisibilité');
@@ -24763,7 +24779,84 @@ function updateXPDisplay() {
   var el = document.getElementById('xp-display');
   if (el) el.textContent = lvl.icon+' '+xp+' XP · '+lvl.label;
 }
-function playTickSound() {
+
+/* ══════════════════════════════════════
+   SONS — synthétisés, aucun fichier audio
+══════════════════════════════════════ */
+var soundOn = localStorage.getItem('ff_sound') !== '0';   // activé par défaut
+var _actx = null;
+function _audioCtx() {
+  // Un seul contexte pour toute l'app : en créer un par son finit par
+  // dépasser la limite du navigateur et plus rien ne joue.
+  try {
+    if (!_actx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      _actx = new AC();
+    }
+    if (_actx.state === 'suspended') _actx.resume();
+    return _actx;
+  } catch (_e) { return null; }
+}
+function _note(ctx, freq, debut, duree, vol, forme) {
+  var o = ctx.createOscillator(), g = ctx.createGain();
+  o.connect(g); g.connect(ctx.destination);
+  o.type = forme || 'sine';
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0, debut);
+  g.gain.linearRampToValueAtTime(vol, debut + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.001, debut + duree);
+  o.start(debut); o.stop(debut + duree + 0.02);
+}
+function playSfx(nom) {
+  if (!soundOn) return;
+  var ctx = _audioCtx(); if (!ctx) return;
+  var t = ctx.currentTime;
+  try {
+    switch (nom) {
+      case 'correct':                       // deux notes qui montent
+        _note(ctx, 880,  t,        0.13, 0.22);
+        _note(ctx, 1318, t + 0.11, 0.15, 0.18);
+        break;
+      case 'wrong':                         // grave et doux : on n'humilie personne
+        _note(ctx, 233, t,        0.14, 0.13, 'triangle');
+        _note(ctx, 185, t + 0.10, 0.20, 0.11, 'triangle');
+        break;
+      case 'result3':                       // do-mi-sol-do, triomphal
+        [[523,0],[659,0.10],[784,0.20],[1046,0.30]].forEach(function(p){
+          _note(ctx, p[0], t + p[1], 0.42, 0.20);
+        });
+        _note(ctx, 1568, t + 0.42, 0.55, 0.11);
+        break;
+      case 'result2':                       // do-mi-sol, satisfait
+        [[523,0],[659,0.10],[784,0.20]].forEach(function(p){
+          _note(ctx, p[0], t + p[1], 0.34, 0.18);
+        });
+        break;
+      case 'result1':                       // deux notes calmes, encourageantes
+        _note(ctx, 440, t,        0.24, 0.15);
+        _note(ctx, 587, t + 0.16, 0.30, 0.14);
+        break;
+    }
+  } catch (_e) {}
+}
+function toggleSound() {
+  soundOn = !soundOn;
+  localStorage.setItem('ff_sound', soundOn ? '1' : '0');
+  applySoundSetting();
+  if (soundOn) playSfx('correct');   // on fait entendre ce qu'on vient d'activer
+}
+function applySoundSetting() {
+  var tg = document.getElementById('sound-toggle');
+  if (tg) tg.classList.toggle('on', soundOn);
+  var ic = document.getElementById('sound-icon');
+  if (ic) ic.textContent = soundOn ? '🔊' : '🔇';
+}
+
+function playTickSound() {   // conservée : de nombreux appels existants l'utilisent
+  playSfx('correct');
+}
+function _ancienPlayTick() {
   try {
     var ctx = new (window.AudioContext || window.webkitAudioContext)();
     function tone(freq, start, dur, vol) {
@@ -24886,6 +24979,7 @@ function initApp() {
   // Restore TTS speed preference
   if (_ttsSlowMode) document.querySelectorAll('.tts-speed-btn').forEach(function(b){ b.classList.add('slow'); });
   applyDarkMode();
+  applySoundSetting();
   initFontSize();
   updateLangBtn();
   updateXPDisplay();
