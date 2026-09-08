@@ -115,9 +115,15 @@
     /* ── Header ── */
     header { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; padding: calc(14px + env(safe-area-inset-top, 0px)) 18px 14px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 24px rgba(99,102,241,0.35); }
     header h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
-    .header-right { display: flex; align-items: center; gap: 8px; }
-    .xp-badge { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28); border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 700; }
-    .lang-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28); border-radius: 14px; padding: 5px 11px; color: white; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    /* Le bloc logo est le seul a pouvoir retrecir */
+    .app-logo { min-width: 0; }
+    .app-logo-sub { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* Sur telephone, la pastille n'affiche que les XP : le libelle de niveau
+       (Debutant / Intermediate / 初学者) est ce qui la faisait deborder. */
+    @media (max-width: 430px) { .xp-lvl { display: none; } }
+    .xp-badge { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28); border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+    .lang-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28); border-radius: 14px; padding: 5px 11px; color: white; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
     .lang-btn:hover { background: rgba(255,255,255,0.3); }
 
     /* ── Bottom Nav ── */
@@ -24777,7 +24783,7 @@ function updateXPDisplay() {
   var xp = getXP();
   var lvl = getLevelInfo(xp);
   var el = document.getElementById('xp-display');
-  if (el) el.textContent = lvl.icon+' '+xp+' XP · '+lvl.label;
+  if (el) el.innerHTML = lvl.icon+' '+xp+' XP<span class="xp-lvl"> · '+lvl.label+'</span>';
 }
 
 /* ══════════════════════════════════════
