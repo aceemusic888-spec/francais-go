@@ -39,7 +39,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 // ── Cache strategy ────────────────────────────────────────
-const CACHE_NAME = 'frenchgo-v21';
+const CACHE_NAME = 'frenchgo-v22';
 const TTS_CACHE  = 'frenchgo-tts-v1'; // TTS audio — cache séparé, survit aux mises à jour app
 // La coquille de l'app EN PREMIER : sans elle en cache, un démarrage réseau lent
 // n'a aucun repli et l'app reste bloquée sur le splash.
