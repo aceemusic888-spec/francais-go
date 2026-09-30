@@ -1693,6 +1693,9 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
     body.dark nav button { color: #A6ADBD !important; }
     body.dark nav button.active { color: #B9B5E6 !important; }
     body.dark .section-title { color: #A6ADBD !important; }
+  
+    #splash-screen { transition: opacity 0.35s ease !important; }
+    #splash-screen.hide { opacity: 0; pointer-events: none; visibility: hidden; }
   </style>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -2825,13 +2828,17 @@ function hideSplash() {
   clearTimeout(window._splashFailsafe); // annuler le failsafe nucléaire
   const splash = document.getElementById('splash-screen');
   if (!splash) return;
-  // Min 3s on all platforms — la page fait ~1MB, le parsing peut prendre 1s+
-  var minDelay = isStandaloneApp() ? 3500 : 3000;
+  // Le service worker sert la page depuis le cache : plus rien ne justifie
+  // d'immobiliser l'utilisateur trois secondes et demie devant un logo.
+  var minDelay = isStandaloneApp() ? 1200 : 900;
   var elapsed = Date.now() - (window._splashStart || Date.now());
   var remaining = Math.max(0, minDelay - elapsed);
   setTimeout(function() {
     splash.classList.add('hide');
-    setTimeout(function() { splash.style.display = 'none'; }, 550);
+    setTimeout(function() {
+      splash.style.display = 'none';
+      splash.style.visibility = 'hidden';
+    }, 360);
   }, remaining);
 }
 
@@ -25688,10 +25695,20 @@ if ('serviceWorker' in navigator) {
     messagingSenderId: "798535705126",
     appId: "1:798535705126:web:fdf97a6f0c4b80379efce7"
   };
+  // Si gstatic.com est injoignable (réseau filtré, Chine continentale, hors ligne),
+  // « firebase » n'existe pas. Sans ce garde-fou, la ReferenceError interrompait
+  // l'exécution du bloc et tout ce qui suit — dlgData, ecouteData, conjVerbs —
+  // restait indéfini : les onglets Dialogues, Conjugaison et Écoute devenaient vides.
+  window._fbAuth = null; window._fbDb = null; window._fbMsg = null;
+  if (typeof firebase === 'undefined') {
+    window._fbIndispo = true;
+    console.warn('[FG] Firebase indisponible : le compte et la synchronisation sont désactivés, le reste de l app fonctionne.');
+    return;
+  }
   try { firebase.initializeApp(firebaseConfig); } catch(e) {}
-  window._fbAuth    = firebase.auth();
-  window._fbDb      = firebase.firestore();
-  try { window._fbMsg = firebase.messaging(); } catch(e) { window._fbMsg = null; }
+  try { window._fbAuth = firebase.auth(); }      catch(e) { window._fbAuth = null; }
+  try { window._fbDb   = firebase.firestore(); } catch(e) { window._fbDb   = null; }
+  try { window._fbMsg  = firebase.messaging(); } catch(e) { window._fbMsg  = null; }
 })();
 
 let _syncTimeout = null;
@@ -25855,7 +25872,9 @@ function setSyncIndicator(ok) {
   if (el) { el.textContent = ok ? '✓ Sync' : '⚠ Erreur'; el.style.color = ok ? '#2F6B5E' : '#A8422F'; }
 }
 
-window._fbAuth.onAuthStateChanged(user => {
+// Sans Firebase (réseau filtré, hors ligne), on saute l'écoute d'authentification
+// au lieu de laisser l'erreur interrompre tout le reste du script.
+if (window._fbAuth) window._fbAuth.onAuthStateChanged(user => {
   updateAuthUI(user);
   if (user) {
     loadFromCloud(user.uid);
@@ -26864,7 +26883,7 @@ function renderDialogues() {
 
   var title = document.getElementById('dlg-title-main');
   var sub   = document.getElementById('dlg-sub-main');
-  if (title) title.textContent = lang==='en'?'💬 Dialogues':lang==='zh'?'💬 对话':'💬 Dialogues';
+  if (title) title.textContent = lang==='en'?'Dialogues':lang==='zh'?'对话':'Dialogues';
   if (sub)   sub.textContent   = lang==='en'?'Practice everyday conversations':lang==='zh'?'练习日常对话':'Pratique des conversations du quotidien';
 
   var grid = document.getElementById('dlg-scenes-grid');
@@ -27477,7 +27496,7 @@ function renderConjugaison() {
 
   var t = document.getElementById('conj-title-main');
   var s = document.getElementById('conj-sub-main');
-  if (t) t.textContent = lang==='en'?'🔤 Conjugation':lang==='zh'?'🔤 动词变位':'🔤 Conjugaison';
+  if (t) t.textContent = lang==='en'?'Conjugation':lang==='zh'?'动词变位':'Conjugaison';
   if (s) s.textContent = lang==='en'?'Master French verbs':lang==='zh'?'掌握法语动词变位':'Maîtrisez les verbes français';
 
   // ── Group filter bar ──────────────────────────────────────
@@ -27883,7 +27902,7 @@ function renderEcoute() {
 
   var t = document.getElementById('ecoute-title-main');
   var s = document.getElementById('ecoute-sub-main');
-  if (t) t.textContent = lang==='en'?'🔊 Listening':lang==='zh'?'🔊 听力':'🔊 Écoute';
+  if (t) t.textContent = lang==='en'?'Listening':lang==='zh'?'听力':'Écoute';
   if (s) s.textContent = lang==='en'?'Train your French ear':lang==='zh'?'训练您的法语耳朵':'Entraînez votre oreille au français';
 
   var grid = document.getElementById('ecoute-levels-grid');
