@@ -1504,6 +1504,37 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
     .map-view-toggle .map-toggle-btn { border-radius: 9px !important; padding: 9px 0 !important;
       font-size: 13px !important; box-shadow: none !important; }
     .map-toggle-btn.active { background: var(--indigo-dark) !important; color: #fff !important; }
+  
+    /* ══ Bloc Objectif ══ */
+    .goal-card {
+      margin: 0 16px 14px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 15px 16px 16px; box-sizing: border-box;
+    }
+    .goal-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .goal-head-lbl {
+      font-size: 10.5px; font-weight: 600; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .goal-chip {
+      border: 1px solid var(--border); background: var(--card); border-radius: 999px;
+      padding: 4px 10px; font-size: 11.5px; font-weight: 600; color: var(--indigo-dark);
+      display: flex; align-items: center; gap: 5px; line-height: 1.3; cursor: pointer;
+    }
+    .goal-chip svg { width: 11px; height: 11px; }
+    .goal-rows { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .goal-row-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+    .goal-row-lbl { font-size: 12.5px; font-weight: 500; color: var(--text); }
+    .goal-meter { position: relative; height: 7px; background: #EEEDE9; border-radius: 4px; }
+    .goal-meter-fill { height: 7px; border-radius: 4px; transition: width .6s ease; }
+    .goal-legend {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+      margin-top: 13px; padding-top: 12px; border-top: 1px solid #EEEDE9;
+    }
+    .goal-legend span { display: flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 600; color: var(--muted); }
+    .goal-legend i { width: 9px; height: 9px; border-radius: 3px; display: block; }
+    .goal-note { margin: 11px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
+    body.dark .goal-card { background: #191C24; border-color: #2C313D; }
+    body.dark .goal-meter { background: #2C313D; }
   </style>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1668,40 +1699,13 @@ window._splashFailsafe = setTimeout(function() {
 <main>
   <!-- HOME -->
   <div id="tab-home" class="section active">
-    <div class="hero-card">
-      <div class="hero-sub" id="home-welcome"></div>
-      <div class="hero-title" id="home-title"></div>
-      <div class="hero-desc" id="home-sub"></div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="hero-done-count">0</span>
-          <span class="hero-stat-lbl" id="hero-lessons-lbl">leçons</span>
-        </div>
-        <div class="hero-stat-sep"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="hero-xp-stat">0</span>
-          <span class="hero-stat-lbl">XP</span>
-        </div>
-        <div class="hero-stat-sep"></div>
-        <div class="hero-stat">
-          <span class="hero-stat-num" id="hero-streak-num">0</span>
-          <span class="hero-stat-lbl" id="hero-streak-lbl">série</span>
-        </div>
-      </div>
-      <div id="hero-level-wrap" style="text-align:center;margin:8px 0 2px;"></div>
-      <div id="hero-daily-goal-wrap" style="margin:4px 0 6px;padding:0 4px;"></div>
-      <div class="hero-prog-wrap">
-        <div class="hero-road-track">
-          <div class="hero-prog-fill" id="hero-prog-fill" style="width:0%"></div>
-          <div class="hero-road-car" id="hero-road-car" style="left:2%"></div>
-        </div>
-        <div class="hero-road-footer">
-          <span>0</span>
-          <span id="hero-prog-pct">0 / 81</span>
-          <span id="hero-road-goal">81</span>
-        </div>
-      </div>
-      <div class="hero-mascot" id="home-mascot"></div>
+    <div class="goal-card" id="goal-card"></div>
+    <div class="hero-hidden" style="display:none">
+      <span id="home-welcome"></span><span id="home-title"></span><span id="home-sub"></span>
+      <span id="hero-done-count"></span><span id="hero-xp-stat"></span><span id="hero-streak-num"></span>
+      <span id="hero-level-wrap"></span><span id="hero-daily-goal-wrap"></span>
+      <span id="hero-prog-fill"></span><span id="hero-road-car"></span>
+      <span id="hero-prog-pct"></span><span id="hero-road-goal"></span><span id="home-mascot"></span>
     </div>
     <!-- TCF/DELF banner inside HOME tab -->
     <div onclick="window.open('https://francaisgo.netlify.app/tests','_blank')" style="margin:12px 16px 4px;background:#0F766E;border-radius:16px;padding:14px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 18px rgba(13,148,136,0.30);-webkit-tap-highlight-color:transparent;">
@@ -22817,7 +22821,7 @@ function renderStreakCard(streak) {
   }
   var milestones = [3, 7, 14, 30, 60, 100];
   var nextMs = milestones.find(function(m){ return m > streak; }) || null;
-  var fireEmoji = streak >= 30 ? '🔥🔥🔥' : streak >= 7 ? '🔥🔥' : '🔥';
+  var fireEmoji = '';
   var dayLbl = lang==='en'?'days in a row':lang==='zh'?'天连续':streak > 1 ? 'jours de suite' : 'jour de suite';
   var nextLbl = nextMs
     ? (lang==='en'?'+'+(nextMs-streak)+' days to reach '+nextMs+'!':
@@ -22833,8 +22837,148 @@ function renderStreakCard(streak) {
     +'</div></div>';
 }
 
+
+/* ══════════════════════════════════════
+   OBJECTIF — progression par compétence d'examen
+   Règle : on n'affiche un niveau QUE s'il vient d'une épreuve blanche
+   au format officiel. Partout ailleurs on affiche la couverture des
+   leçons, clairement étiquetée « non évalué ».
+══════════════════════════════════════ */
+var SKILL_LESSONS = {
+  co: [36, 56, 75],
+  ce: [33, 37, 40, 41, 44, 58, 59, 85],
+  eo: [32, 39, 43, 53, 56, 71, 78, 84],
+  ee: [30, 38, 53, 57, 68, 69, 77, 81, 82, 83]
+};
+// Quelle leçon sert d'épreuve blanche pour quelle compétence.
+var SKILL_EXAMS = { ce: 85 };
+// Seuils de l'épreuve blanche de compréhension écrite, sur 30 questions.
+var CE_SEUILS = { 4: 0, 5: 17, 6: 21, 7: 24, 8: 27 };
+
+function skillLabel(s) {
+  var L = {
+    co: { fr:'Compréhension orale',  en:'Listening',        zh:'听力理解' },
+    ce: { fr:'Compréhension écrite', en:'Reading',          zh:'阅读理解' },
+    eo: { fr:'Expression orale',     en:'Speaking',         zh:'口语表达' },
+    ee: { fr:'Expression écrite',    en:'Writing',          zh:'书面表达' }
+  };
+  return (L[s] && L[s][lang]) || (L[s] && L[s].fr) || s;
+}
+function getTarget() {
+  var v = parseInt(localStorage.getItem('ff_target') || '7', 10);
+  return (v === 5 || v === 7 || v === 9) ? v : 7;
+}
+function cycleTarget() {
+  var suite = [5, 7, 9];
+  var i = suite.indexOf(getTarget());
+  localStorage.setItem('ff_target', String(suite[(i + 1) % 3]));
+  renderGoalCard();
+}
+function getExams() {
+  try { return JSON.parse(localStorage.getItem('ff_exams') || '{}'); }
+  catch (_e) { return {}; }
+}
+function saveExamResult(skill, score, total) {
+  if (!skill || !total) return;
+  var e = getExams();
+  e[skill] = { score: score, total: total, at: Date.now() };
+  try { localStorage.setItem('ff_exams', JSON.stringify(e)); } catch (_e) {}
+}
+// Niveau estimé à partir d'un score d'épreuve blanche. null si hors barème.
+function nclcFromExam(skill, score, total) {
+  if (skill !== 'ce') return null;
+  var s = Math.round(score / total * 30);          // ramené sur 30
+  var niv = 4;
+  [5, 6, 7, 8].forEach(function (k) { if (s >= CE_SEUILS[k]) niv = k; });
+  return niv;
+}
+function skillCoverage(skill) {
+  var ids = SKILL_LESSONS[skill] || [];
+  var faits = 0;
+  ids.forEach(function (id) { if (state[id] && state[id].completed) faits++; });
+  return { faits: faits, total: ids.length };
+}
+
+function renderGoalCard() {
+  var el = document.getElementById('goal-card');
+  if (!el) return;
+  var cible = getTarget();
+  var exams = getExams();
+  var ordre = ['co', 'ce', 'eo', 'ee'];
+  var T = {
+    objectif: { fr:'Objectif', en:'Target', zh:'目标' },
+    nonEval:  { fr:'Non évalué', en:'Not assessed', zh:'未测评' },
+    atteint:  { fr:'Niveau atteint', en:'Target met', zh:'已达标' },
+    sous:     { fr:"Sous l'objectif", en:'Below target', zh:'未达标' },
+    couv:     { fr:'Couverture des leçons', en:'Lesson coverage', zh:'课程覆盖' },
+    cible:    { fr:'Cible', en:'Target', zh:'目标线' },
+    regle:    { fr:'Ton score officiel sera celui de ta compétence la plus faible.',
+                en:'Your official score will be your weakest skill.',
+                zh:'你的官方成绩取决于最弱的那项技能。' },
+    faible:   { fr:"Aujourd'hui, c'est ", en:'Right now, that is ', zh:'目前是' },
+    art:      { co:{fr:'la ',en:'',zh:''}, ce:{fr:'la ',en:'',zh:''},
+                eo:{fr:"l'",en:'',zh:''}, ee:{fr:"l'",en:'',zh:''} },
+    fin:      { fr:'.', en:'.', zh:'。' },
+    passer:   { fr:'Passer l’épreuve blanche', en:'Take the mock test', zh:'参加模拟测试' },
+    aucune:   { fr:'Aucune épreuve blanche disponible pour l’instant',
+                en:'No mock test available yet', zh:'暂无模拟测试' }
+  };
+  function tr(k) { return T[k][lang] || T[k].fr; }
+
+  var lignes = '', plusFaible = null, plusFaibleNiv = 99;
+  ordre.forEach(function (sk) {
+    var ex = exams[sk];
+    var evalue = !!(ex && ex.total);
+    var droite, largeur, couleur, tick = '';
+    if (evalue) {
+      var niv = nclcFromExam(sk, ex.score, ex.total);
+      var ok = niv >= cible;
+      if (niv < plusFaibleNiv) { plusFaibleNiv = niv; plusFaible = sk; }
+      droite = '<span style="font-size:11.5px;font-weight:600;color:' + (ok ? '#38357B' : '#8A5310') + '">NCLC ' + niv + '</span>';
+      largeur = Math.max(4, Math.min(100, Math.round(ex.score / ex.total * 100)));
+      couleur = ok ? 'var(--indigo)' : '#B4690E';
+      var seuil = (sk === 'ce') ? Math.round(CE_SEUILS[cible] / 30 * 100) : 0;
+      if (seuil) tick = '<span style="position:absolute;left:' + seuil + '%;top:-3px;width:2px;height:13px;background:#15161C;opacity:.5;border-radius:1px"></span>';
+    } else {
+      var c = skillCoverage(sk);
+      droite = '<span style="font-size:11.5px;font-weight:600;color:var(--muted)">' + tr('nonEval')
+             + ' · ' + c.faits + '/' + c.total + '</span>';
+      largeur = c.total ? Math.round(c.faits / c.total * 100) : 0;
+      couleur = '#C9C6DF';
+    }
+    var exLesson = SKILL_EXAMS[sk];
+    var clic = exLesson ? ' onclick="event.stopPropagation();openLesson(' + exLesson + ')" style="cursor:pointer"' : '';
+    lignes += '<div class="goal-row"' + clic + '>'
+      + '<div class="goal-row-head"><span class="goal-row-lbl">' + skillLabel(sk) + '</span>' + droite + '</div>'
+      + '<div class="goal-meter"><div class="goal-meter-fill" style="width:' + largeur + '%;background:' + couleur + '"></div>' + tick + '</div>'
+      + '</div>';
+  });
+
+  var phrase = tr('regle');
+  if (plusFaible && plusFaibleNiv < cible) {
+    var art = (T.art[plusFaible] && T.art[plusFaible][lang]) || '';
+    phrase += ' ' + tr('faible') + art + '<strong style="color:#8A5310;font-weight:600">'
+            + skillLabel(plusFaible).toLowerCase() + '</strong>' + tr('fin');
+  }
+
+  el.innerHTML =
+      '<div class="goal-head">'
+    + '<span class="goal-head-lbl">' + tr('objectif') + '</span>'
+    + '<button type="button" class="goal-chip" onclick="cycleTarget()">NCLC ' + cible + ' · TCF / TEF'
+    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"></path></svg>'
+    + '</button></div>'
+    + '<div class="goal-rows">' + lignes + '</div>'
+    + '<div class="goal-legend">'
+    + '<span><i style="background:var(--indigo)"></i>' + tr('atteint') + '</span>'
+    + '<span><i style="background:#B4690E"></i>' + tr('sous') + '</span>'
+    + '<span><i style="background:#C9C6DF"></i>' + tr('couv') + '</span>'
+    + '</div>'
+    + '<p class="goal-note">' + phrase + '</p>';
+}
+
 function renderHome() {
   try {
+  renderGoalCard();
 
   // Daily challenge mini-card on homepage
   (function(){
@@ -22847,7 +22991,7 @@ function renderHome() {
     var subLbl = done ? '' : (lang==='en'?'Tap to test · +20 XP':lang==='zh'?'点击测试 · +20 XP':'Tap pour tester · +20 XP');
     var streak = parseInt(localStorage.getItem('ff_streak')||'0',10);
     wrap.innerHTML = '<div onclick="'+(done?'':'startDailyChallenge()')+'" style="margin:0 16px 10px;background:'+(done?'#2F6B5E':'#A85B18')+';border-radius:16px;padding:13px 16px;cursor:'+(done?'default':'pointer')+';display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 16px rgba(0,0,0,0.15);-webkit-tap-highlight-color:transparent;">'
-      +'<div><div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:.5px;">'+tagLbl+' · 🔥'+streak+'</div>'
+      +'<div><div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:.5px;">'+tagLbl+' · '+streak+'</div>'
       +'<div style="font-size:18px;font-weight:900;color:white;margin-top:2px;">'+wordLbl+'</div>'
       +(subLbl?'<div style="font-size:12px;color:rgba(255,255,255,0.85);margin-top:1px;">'+subLbl+'</div>':'')+'</div>'
       +'<div style="font-size:30px;flex-shrink:0;margin-left:10px;">'+(done?'✅':'🎯')+'</div></div>';
@@ -23586,6 +23730,14 @@ function showResult() {
   _clearQuizTimerAndExam();
   var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
   var total = dataArr.length;
+  // Une épreuve blanche complète (hors mode « revoir mes erreurs ») alimente le bloc Objectif.
+  try {
+    if (!window._wrongMode && currentLesson) {
+      Object.keys(SKILL_EXAMS).forEach(function (sk) {
+        if (SKILL_EXAMS[sk] === currentLesson.id) saveExamResult(sk, quizScore, total);
+      });
+    }
+  } catch (_e) {}
   var pct = total > 0 ? Math.round(quizScore / total * 100) : 0;
   var stars = pct >= 80 ? 3 : pct >= 60 ? 2 : 1;
   try { playSfx('result' + stars); } catch(_e) {}
