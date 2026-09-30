@@ -469,7 +469,7 @@
     /* ── Result ── */
     #result-view { display: none; }
     #result-view.active { display: block; }
-    .result-inner { text-align: center; background: #EFEEF7; border-radius: var(--radius); padding: 28px 24px 24px; box-shadow: 0 8px 32px rgba(99,102,241,0.18); overflow: hidden; position: relative; } .result-inner::before { content:""; position:absolute; inset:0; background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(139,92,246,0.12), transparent); pointer-events:none; }
+    .result-inner { text-align: center; background: var(--card); border-radius: var(--radius); padding: 28px 24px 24px; box-shadow: 0 8px 32px rgba(99,102,241,0.18); overflow: hidden; position: relative; } .result-inner::before { content:""; position:absolute; inset:0; background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(139,92,246,0.12), transparent); pointer-events:none; }
     .result-emoji { font-size: 72px; display: block; margin-bottom: 8px; animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
     .result-mascot { display:flex; justify-content:center; margin-bottom:6px; animation: pop 0.45s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -1535,6 +1535,164 @@ body.dark .result-wrong-item .wrong-correct{color:#4ADE80;}
     .goal-note { margin: 11px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
     body.dark .goal-card { background: #191C24; border-color: #2C313D; }
     body.dark .goal-meter { background: #2C313D; }
+  
+    /* ══ Écran de résultat ══ */
+    .result-inner { background: var(--card) !important; border: 1px solid var(--border);
+      box-shadow: none !important; padding: 26px 20px 22px !important; }
+    .result-mascot, .result-stars { display: none !important; }
+    .result-score {
+      font-family: 'Source Serif 4', Georgia, serif !important; font-size: 52px !important;
+      font-weight: 600 !important; letter-spacing: -0.02em !important;
+      background: none !important; -webkit-text-fill-color: var(--text) !important;
+      color: var(--text) !important; line-height: 1.05 !important;
+    }
+    .result-pct { font-size: 15px; font-weight: 600; color: var(--text); margin-top: 6px; }
+    .result-pct-lbl { font-weight: 400; color: var(--muted); font-size: 13px; }
+    .result-detail { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+    .result-band {
+      display: inline-block; margin-top: 11px; padding: 5px 12px; border-radius: 999px;
+      font-size: 12.5px; font-weight: 600;
+    }
+    .result-band.is-ok { background: #EFEEF7; color: var(--indigo-dark); border: 1px solid #DDDBF0; }
+    .result-band.is-low { background: #FBF3E7; color: #8A5310; border: 1px solid #EEDFC4; }
+    .result-pct-badge { display: none !important; }
+    .xp-gained {
+      background: none !important; border: none !important; color: var(--muted) !important;
+      font-size: 12px !important; font-weight: 600 !important; padding: 0 !important;
+      margin-top: 10px !important;
+    }
+    .result-msg { font-size: 19px !important; font-weight: 600 !important; margin-top: 16px !important; }
+    .result-sub { font-size: 13.5px !important; color: var(--muted) !important; margin-top: 4px !important; }
+    body.dark .result-inner { background: #191C24 !important; border-color: #2C313D; }
+    body.dark .result-band.is-ok { background: #23215C; border-color: #38357B; color: #B9B5E6; }
+    body.dark .result-band.is-low { background: #3A2B15; border-color: #5C441F; color: #E8A34A; }
+  
+    /* ══ Surcouches : plus de débordement ni d'ombres colorées ══ */
+    .streak-toast {
+      max-width: calc(100vw - 32px) !important; box-sizing: border-box !important;
+      white-space: normal !important; text-align: center !important;
+      line-height: 1.4 !important; font-size: 13.5px !important; font-weight: 600 !important;
+      background: #15161C !important; color: #F7F6F3 !important;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.22) !important; border-radius: 12px !important;
+      padding: 11px 16px !important;
+    }
+    #badge-toast, .badge-toast {
+      max-width: calc(100vw - 32px); box-sizing: border-box;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.20) !important;
+    }
+  
+    .result-time-row { font-size: 12.5px !important; color: var(--muted) !important; }
+    .result-summary-title { font-size: 10.5px !important; font-weight: 600 !important;
+      letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted) !important; }
+    .wrong-your { color: #8A5310 !important; }
+    .wrong-correct { color: var(--green-dark) !important; }
+  
+    /* ══ Onboarding ══ */
+    #onboarding { background: #23215C !important; }
+    .ob-emoji { display: none !important; }
+    .ob-wordmark {
+      font-family: 'Source Serif 4', Georgia, serif; font-size: 40px; font-weight: 600;
+      letter-spacing: -0.025em; color: #F7F6F3; line-height: 1; margin-bottom: 18px;
+    }
+    .ob-title { font-family: 'Source Serif 4', Georgia, serif !important; letter-spacing: -0.015em; }
+    .ob-lang-btn {
+      background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.22) !important;
+      border-radius: 10px !important; font-weight: 600 !important; box-shadow: none !important;
+      transform: none !important;
+    }
+    .ob-lang-btn.selected {
+      background: rgba(255,255,255,0.16) !important; border-color: #B9B5E6 !important;
+      box-shadow: none !important; transform: none !important;
+    }
+    .ob-particles { display: none !important; }
+    #consent-banner { max-width: 520px; margin: 0 auto; }
+  
+    /* ══════════════════════════════════════
+       MISE EN PAGE ORDINATEUR
+       Au-delà de 1024 px, la barre d'onglets du bas devient une barre
+       latérale : l'app cesse d'être un téléphone posé au milieu de l'écran.
+    ══════════════════════════════════════ */
+    @media (min-width: 1024px) {
+      body { padding-left: 236px !important; padding-bottom: 0 !important; }
+      header {
+        padding-left: 254px !important; position: sticky; top: 0; z-index: 120;
+      }
+      nav {
+        top: 0 !important; bottom: 0 !important; left: 0 !important; right: auto !important;
+        width: 236px !important; height: 100vh !important;
+        flex-direction: column !important; justify-content: flex-start !important;
+        align-items: stretch !important;
+        border-top: none !important; border-right: 1px solid var(--border) !important;
+        box-shadow: none !important; padding: 84px 14px 20px !important;
+        gap: 3px !important; overflow-y: auto !important; overflow-x: hidden !important;
+        z-index: 130 !important;
+      }
+      nav button {
+        flex-direction: row !important; width: 100% !important; min-width: 0 !important;
+        justify-content: flex-start !important; gap: 11px !important;
+        padding: 10px 12px !important; border-radius: 9px !important;
+        border-top: none !important; font-size: 13.5px !important;
+      }
+      nav button::before { display: none !important; }
+      nav button.active { background: #EFEEF7 !important; color: var(--indigo-dark) !important; }
+      body.dark nav button.active { background: #262A36 !important; color: #B9B5E6 !important; }
+      .nav-label { font-size: 13.5px !important; font-weight: 600 !important; }
+      .nav-icon svg { width: 19px; height: 19px; }
+      main { max-width: 860px !important; padding: 26px 32px 60px !important; margin: 0 !important; }
+      .goal-card, .daily-challenge-card { margin-left: 0 !important; margin-right: 0 !important; }
+      .section-title { margin-top: 26px; }
+    }
+    @media (min-width: 1400px) {
+      main { max-width: 980px !important; }
+    }
+
+    /* ══════════════════════════════════════
+       MODE SOMBRE — on retire les halos colorés de l'ancienne charte
+    ══════════════════════════════════════ */
+    body.dark .card, body.dark .lesson-card, body.dark .goal-card,
+    body.dark .result-inner, body.dark .stat-box, body.dark .pratique-card,
+    body.dark header, body.dark nav {
+      box-shadow: none !important;
+    }
+    body.dark { --bg: #12141A; --card: #191C24; --text: #E7E9EF; --muted: #A6ADBD; --border: #2C313D; }
+    body.dark .lesson-card, body.dark .card { border-color: #2C313D !important; }
+    body.dark .lc-icon { background: #232833 !important; }
+    body.dark .lc-title { color: #E7E9EF !important; }
+    body.dark .lc-desc, body.dark .lc-chev, body.dark .lc-lock { color: #A6ADBD !important; }
+    body.dark .lc-cefr, body.dark .lc-pct { color: #B9B5E6 !important; }
+    body.dark .goal-head-lbl, body.dark .goal-legend span, body.dark .goal-note { color: #A6ADBD !important; }
+    body.dark .goal-chip { background: #232833 !important; border-color: #2C313D !important; color: #B9B5E6 !important; }
+    body.dark .goal-row-lbl { color: #E7E9EF !important; }
+    body.dark .goal-legend { border-top-color: #2C313D !important; }
+    body.dark .streak-toast { background: #E7E9EF !important; color: #15161C !important; }
+    /* Les aplats de marque restent lisibles mais cessent de briller. */
+    body.dark [style*="box-shadow"] { box-shadow: none !important; }
+  
+    /* Hiérarchie des boutons du résultat : une seule action principale. */
+    #btn-retry {
+      background: var(--card) !important; color: var(--indigo-dark) !important;
+      border: 1px solid var(--border) !important;
+    }
+    body.dark #btn-retry { background: #232833 !important; color: #B9B5E6 !important; border-color: #2C313D !important; }
+    .result-actions { gap: 9px; }
+    @media (min-width: 1024px) {
+      /* Le nom de la marque s'aligne sur la barre latérale. */
+      header { padding-left: 26px !important; }
+      .app-logo { width: 210px; }
+    }
+  
+    /* ══ Mode sombre — en-tête ══ */
+    body.dark header { background: #191C24 !important; border-bottom-color: #2C313D !important; }
+    body.dark .app-logo-text { color: #B9B5E6 !important; }
+    body.dark .app-logo-sub { color: #A6ADBD !important; }
+    body.dark .lang-btn { background: #232833 !important; border-color: #2C313D !important; color: #A6ADBD !important; }
+    body.dark .xp-badge { background: #262A36 !important; border-color: #383E4D !important; color: #B9B5E6 !important; }
+    body.dark #header-avatar-btn { background: #262A36 !important; border-color: #383E4D !important; }
+    body.dark #header-avatar-icon svg { color: #B9B5E6 !important; }
+    body.dark nav { background: #191C24 !important; border-top-color: #2C313D !important; }
+    body.dark nav button { color: #A6ADBD !important; }
+    body.dark nav button.active { color: #B9B5E6 !important; }
+    body.dark .section-title { color: #A6ADBD !important; }
   </style>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1579,24 +1737,23 @@ window._splashFailsafe = setTimeout(function() {
   <!-- Slide 0 : langue + bienvenue -->
   <div class="ob-slide-panel" id="ob-panel-0">
     <div class="ob-lang-picker">
-      <button class="ob-lang-btn selected" id="ob-lang-fr">🇫🇷 Français</button>
-      <button class="ob-lang-btn"          id="ob-lang-en">🇬🇧 English</button>
-      <button class="ob-lang-btn"          id="ob-lang-zh">🇨🇳 中文</button>
+      <button class="ob-lang-btn selected" id="ob-lang-fr">Français</button>
+      <button class="ob-lang-btn"          id="ob-lang-en">English</button>
+      <button class="ob-lang-btn"          id="ob-lang-zh">中文</button>
     </div>
-    <span class="ob-emoji">🦊</span>
-    <div class="ob-title ob-i18n" data-fr="Bienvenue sur FrenchGo !" data-en="Welcome to FrenchGo!" data-zh="欢迎使用 FrenchGo！">Bienvenue sur FrenchGo !</div>
-    <div class="ob-desc  ob-i18n" data-fr="Apprenez le français à votre rythme avec 81 leçons interactives, 400+ quiz et un système de progression gamifié." data-en="Learn French at your own pace with 81 interactive lessons, 400+ quizzes, and a gamified progress system." data-zh="按照自己的节奏学习法语，81节互动课程、400+测验和游戏化进度系统。">Apprenez le français à votre rythme avec 81 leçons interactives, 400+ quiz et un système de progression gamifié.</div>
+    <div class="ob-wordmark">FrenchGo</div>
+    <div class="ob-title ob-i18n" data-fr="Préparez le TCF et le TEF Canada" data-en="Prepare for TCF and TEF Canada" data-zh="备考 TCF 与 TEF Canada">Préparez le TCF et le TEF Canada</div>
+    <div class="ob-desc  ob-i18n" data-fr="86 leçons, 400 quiz corrigés et des épreuves blanches au format officiel. Vous suivez votre niveau compétence par compétence, jusqu'à l'objectif visé." data-en="86 lessons, 400 explained quizzes and mock tests in the official format. Track your level skill by skill, up to your target." data-zh="86节课程、400道带解析的测验，以及官方格式的模拟考试。逐项技能追踪水平，直到达成目标。">86 leçons, 400 quiz corrigés et des épreuves blanches au format officiel. Vous suivez votre niveau compétence par compétence, jusqu'à l'objectif visé.</div>
   </div>
 
   <!-- Slide 1 : fonctionnalités -->
   <div class="ob-slide-panel" id="ob-panel-1" style="display:none">
-    <span class="ob-emoji">🚀</span>
     <div class="ob-title ob-i18n" data-fr="Tout ce qu'il vous faut" data-en="Everything you need" data-zh="您所需的一切">Tout ce qu'il vous faut</div>
     <div class="ob-features">
       <div class="ob-feat">
         <span class="ob-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.6S10 4.6 4 4.6v13c6 0 8 2 8 2s2-2 8-2v-13c-6 0-8 2-8 2z"></path><path d="M12 6.6v15"></path></svg></span>
         <div class="ob-feat-text">
-          <strong class="ob-i18n" data-fr="81 leçons structurées"    data-en="81 structured lessons"    data-zh="81节结构化课程">81 leçons structurées</strong>
+          <strong class="ob-i18n" data-fr="86 leçons structurées"    data-en="86 structured lessons"    data-zh="86节结构化课程">86 leçons structurées</strong>
           <span   class="ob-i18n" data-fr="Du débutant au niveau avancé" data-en="From beginner to advanced" data-zh="从初级到高级">Du débutant au niveau avancé</span>
         </div>
       </div>
@@ -1611,7 +1768,7 @@ window._splashFailsafe = setTimeout(function() {
         <span class="ob-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 21V4"></path><path d="M5.5 5h11l-2 3.5 2 3.5h-11"></path></svg></span>
         <div class="ob-feat-text">
           <strong class="ob-i18n" data-fr="Préparation TCF/TEF" data-en="TCF/TEF prep"      data-zh="TCF/TEF备考">Préparation TCF/TEF Canada</strong>
-          <span   class="ob-i18n" data-fr="10 leçons spéciales immigration" data-en="10 special immigration lessons" data-zh="10节特别移民课程">10 leçons spéciales immigration</span>
+          <span   class="ob-i18n" data-fr="20 leçons et une épreuve blanche" data-en="20 lessons and a mock test" data-zh="20节课程与一次模拟考试">20 leçons et une épreuve blanche</span>
         </div>
       </div>
     </div>
@@ -1619,7 +1776,6 @@ window._splashFailsafe = setTimeout(function() {
 
   <!-- Slide 2 : objectif -->
   <div class="ob-slide-panel" id="ob-panel-2" style="display:none">
-    <span class="ob-emoji">🎯</span>
     <div class="ob-title ob-i18n" data-fr="Quel est votre objectif ?" data-en="What is your goal?" data-zh="您的目标是什么？">Quel est votre objectif ?</div>
     <div class="ob-desc  ob-i18n" data-fr="Choisissez pour personnaliser votre parcours." data-en="Choose to personalize your learning journey." data-zh="选择以个性化您的学习旅程。" style="margin-bottom:0">Choisissez pour personnaliser votre parcours.</div>
     <div class="ob-levels">
@@ -7660,7 +7816,7 @@ const T = {
  correctMsg:'Correct ! Bravo !', wrongMsg:'Pas tout à fait. La bonne réponse est :',
  next:'Suivant →', seeResults:'Voir les résultats',
  retry:'Recommencer le quiz', backLessons:'Toutes les leçons',
- pctLabel:'% de réussite',
+ pctLabel:'de réussite',
  r100msg:'Parfait ! Score parfait !', r80msg:'Excellent travail !', r60msg:'Pas mal !', r0msg:'Continuez vos efforts !',
  r100sub:'Vous maîtrisez complètement cette leçon.', r80sub:'Leçon validée ! Passez à la suivante.',
  r60sub:'Encore un peu de pratique pour consolider.', r0sub:'Relisez la leçon et réessayez.',
@@ -7703,7 +7859,7 @@ const T = {
  correctMsg:'Correct! Well done!', wrongMsg:'Not quite. The correct answer is:',
  next:'Next →', seeResults:'See results',
  retry:'Retry quiz', backLessons:'All lessons',
- pctLabel:'% success rate',
+ pctLabel:'success rate',
  r100msg:'Perfect score!', r80msg:'Excellent work!', r60msg:'Not bad!', r0msg:'Keep it up!',
  r100sub:'You have fully mastered this lesson.', r80sub:'Lesson passed! Move to the next one.',
  r60sub:'A little more practice to consolidate.', r0sub:'Re-read the lesson and try again.',
@@ -7746,7 +7902,7 @@ const T = {
  correctMsg:'正确！太棒了！', wrongMsg:'不太对。正确答案是：',
  next:'下一题 →', seeResults:'查看结果',
  retry:'重新测验', backLessons:'所有课程',
- pctLabel:'% 正确率',
+ pctLabel:'正确率',
  r100msg:'满分！太厉害了！', r80msg:'非常好！', r60msg:'不错！', r0msg:'继续加油！',
  r100sub:'你已完全掌握这节课！', r80sub:'课程通过！继续下一课。',
  r60sub:'再多练习一下会更好。', r0sub:'重新阅读课程后再试。',
@@ -21411,7 +21567,10 @@ function speakLocal(text, forceLang, onEnd) {
     } else if (!window._voiceWarnShown && (langCode.startsWith('fr') || langCode.startsWith('zh'))) {
       window._voiceWarnShown = true;
       var _wl = langCode.startsWith('fr') ? (lang==='en'?'French':lang==='zh'?'法语':'français') : (lang==='en'?'Chinese':lang==='zh'?'中文':'chinois');
-      showStreakToast(lang==='en'?'⚠️ '+_wl+' voice not installed → Android Settings › TTS':lang==='zh'?'⚠️ 未安装'+_wl+'语音包 → 设置›文字转语音':'⚠️ Voix '+_wl+' manquante → Paramètres › Synthèse vocale');
+      var _accord = langCode.startsWith('fr') ? 'française' : 'chinoise';
+      showStreakToast(lang==='en' ? _wl+' voice not installed — Android Settings › Text-to-speech'
+                    : lang==='zh' ? '未安装'+_wl+'语音包 — 设置 › 文字转语音'
+                    : 'Voix '+_accord+' manquante — Paramètres › Synthèse vocale');
     }
     if (onEnd) u.onend = onEnd;
     window.speechSynthesis.speak(u);
@@ -22247,7 +22406,7 @@ function shareStreak() {
 /* ═══════════════════════════════════════════════════════════
    ⑥ DEMANDE D'AVIS PLAY STORE
 ══════════════════════════════════════════════════════════════ */
-function _maybeAskReview() {
+function _maybeAskReviewNow() {
   if(localStorage.getItem('ff_review_prompted')) return;
   var done = Object.values(state).filter(function(s){return s.completed;}).length;
   if(done < 5) return;
@@ -22459,7 +22618,39 @@ function closeStreakMilestone() {
   var ov = document.getElementById('streak-milestone-overlay');
   if (ov) ov.classList.remove('show');
 }
-function showStreakToast(n) {
+
+/* ══════════════════════════════════════
+   FILE D'ATTENTE DES SURCOUCHES
+   Une seule à la fois, et jamais par-dessus l'écran de résultat :
+   c'est le moment où l'utilisateur lit son score.
+══════════════════════════════════════ */
+var _fileNotifs = [];
+var _notifEnCours = false;
+function _resultatVisible() {
+  try {
+    if (window._ecranResultat) return true;
+    var r = document.getElementById('result-view');
+    return !!(r && r.offsetParent !== null);
+  } catch (_e) { return false; }
+}
+function fileNotif(fn, duree) {
+  _fileNotifs.push({ fn: fn, duree: duree || 3800 });
+  _drainerNotifs();
+}
+function _drainerNotifs() {
+  if (_notifEnCours || !_fileNotifs.length) return;
+  if (_resultatVisible()) { setTimeout(_drainerNotifs, 1500); return; }
+  var item = _fileNotifs.shift();
+  _notifEnCours = true;
+  try { item.fn(); } catch (_e) {}
+  setTimeout(function () { _notifEnCours = false; _drainerNotifs(); }, item.duree);
+}
+function showBadgeToast(badge) { fileNotif(function () { _showBadgeToastNow(badge); }, 3800); }
+function showStreakToast(n)    { fileNotif(function () { _showStreakToastNow(n); }, 3600); }
+function _maybePromptNotif()   { fileNotif(function () { _maybePromptNotifNow(); }, 1000); }
+function _maybeAskReview()     { fileNotif(function () { _maybeAskReviewNow(); }, 1000); }
+
+function _showStreakToastNow(n) {
   let el = document.getElementById('streak-toast');
   if (!el) {
     el = document.createElement('div');
@@ -22812,10 +23003,10 @@ function renderStreakCard(streak) {
   if (!wrap) return;
   if (!streak || streak < 1) {
     var startMsg = lang==='en'
-      ? 'Complete a lesson today to start your streak! 🚀'
+      ? 'Complete a lesson today to start your streak.'
       : lang==='zh'
-      ? '今天完成一节课，开始你的连续记录！🚀'
-      : "Complète une leçon aujourd'hui pour démarrer ta série ! 🚀";
+      ? '今天完成一节课，开始你的连续记录。'
+      : "Complète une leçon aujourd'hui pour démarrer ta série.";
     wrap.innerHTML = '<div class="streak-home-start"><div class="streak-home-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5s5 4 5 8.5a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 1.5 1 2.5 2 2.5 0-3 1-5.5 1-6.5z"></path></svg></div><div class="streak-home-start-text">'+startMsg+'</div></div>';
     return;
   }
@@ -23727,6 +23918,7 @@ function nextQuestion() {
 
 
 function showResult() {
+  window._ecranResultat = true;   // bloque les surcouches tant qu'on lit son score
   _clearQuizTimerAndExam();
   var dataArr = window._wrongMode ? window._wrongOnlyQuizData : _quizData;
   var total = dataArr.length;
@@ -23741,10 +23933,8 @@ function showResult() {
   var pct = total > 0 ? Math.round(quizScore / total * 100) : 0;
   var stars = pct >= 80 ? 3 : pct >= 60 ? 2 : 1;
   try { playSfx('result' + stars); } catch(_e) {}
-  var starsHtml = Array.from({length:3}, function(_, i) {
-    return '<span style="opacity:' + (i < stars ? '1' : '0.22') + '">' + (i < stars ? '⭐' : '⭐') + '</span>';
-  }).join('');
-  var mascot = pct === 100 ? '🦊🎉' : pct >= 80 ? '🦊✨' : pct >= 60 ? '🦊👍' : '🦊💪';
+  var starsHtml = '';
+  var mascot = '';
   var i18n = T[lang] || T.fr;
   var msg = pct === 100 ? i18n.r100msg : pct >= 80 ? i18n.r80msg : pct >= 60 ? i18n.r60msg : i18n.r0msg;
   var sub = pct === 100 ? i18n.r100sub : pct >= 80 ? i18n.r80sub : pct >= 60 ? i18n.r60sub : i18n.r0sub;
@@ -23752,18 +23942,43 @@ function showResult() {
 
   var el = function(id) { return document.getElementById(id); };
   var mascotEl = el('result-mascot');
-  if (mascotEl) mascotEl.innerHTML = '<span style="font-size:72px;display:inline-block;animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1)">' + mascot + '</span>';
+  if (mascotEl) { mascotEl.innerHTML = ''; mascotEl.style.display = 'none'; }
 
   var starsEl = el('result-stars');
-  if (starsEl) starsEl.innerHTML = starsHtml;
+  if (starsEl) { starsEl.innerHTML = ''; starsEl.style.display = 'none'; }
 
   var scoreEl = el('result-score');
   if (scoreEl) scoreEl.textContent = quizScore + '/' + total;
 
   var labelEl = el('result-label');
   if (labelEl) {
-    var pctBadge = '<div class="result-pct-badge">🎯 ' + pct + '%</div>';
-    labelEl.innerHTML = pctBadge + '<div style="margin-top:4px;font-size:13px;color:var(--muted)">' + i18n.pctLabel + '</div>';
+    var justes = quizScore, fautes = Math.max(0, total - quizScore);
+    var motJuste = lang==='en' ? (justes>1?'correct answers':'correct answer')
+                 : lang==='zh' ? '题正确' : (justes>1?'bonnes réponses':'bonne réponse');
+    var motFaute = lang==='en' ? (fautes>1?'mistakes':'mistake')
+                 : lang==='zh' ? '题错误' : (fautes>1?'erreurs':'erreur');
+    var detail = (lang==='zh')
+      ? (justes + motJuste + ' · ' + fautes + motFaute)
+      : (justes + ' ' + motJuste + ' · ' + fautes + ' ' + motFaute);
+    var lecture = '';
+    // Épreuve blanche : on traduit le score en niveau, comme sur l'accueil.
+    try {
+      var skExam = null;
+      Object.keys(SKILL_EXAMS).forEach(function (sk) {
+        if (currentLesson && SKILL_EXAMS[sk] === currentLesson.id) skExam = sk;
+      });
+      if (skExam && !window._wrongMode) {
+        var niv = nclcFromExam(skExam, quizScore, total);
+        var cible = getTarget();
+        var atteint = niv >= cible;
+        var txt = (lang==='en' ? 'Estimated level' : lang==='zh' ? '估计水平' : 'Niveau estimé')
+                + ' : NCLC ' + niv;
+        lecture = '<div class="result-band ' + (atteint ? 'is-ok' : 'is-low') + '">' + txt + '</div>';
+      }
+    } catch (_e) {}
+    labelEl.innerHTML = '<div class="result-pct">' + pct + '\u00a0% '
+      + '<span class="result-pct-lbl">' + i18n.pctLabel + '</span></div>'
+      + '<div class="result-detail">' + detail + '</div>' + lecture;
   }
 
   var msgEl = el('result-msg');
@@ -23773,23 +23988,23 @@ function showResult() {
   if (subEl) subEl.textContent = sub;
 
   var xpEl = el('xp-gained');
-  if (xpEl) xpEl.innerHTML = '⚡ +' + xpEarned + ' ' + (i18n.xpLbl || 'XP');
+  if (xpEl) xpEl.textContent = '+' + xpEarned + ' ' + (i18n.xpLbl || 'XP');
 
   var retryBtn = el('btn-retry');
-  if (retryBtn) retryBtn.textContent = i18n.retry || '🔄 Recommencer le quiz';
+  if (retryBtn) retryBtn.textContent = i18n.retry || 'Recommencer le quiz';
 
   var reviewBtn = el('btn-review-wrong');
   if (reviewBtn) {
     var hasWrong = window.wrongAnswersList && window.wrongAnswersList.length > 0;
     reviewBtn.style.display = hasWrong ? 'block' : 'none';
     var wrongCount = hasWrong ? window.wrongAnswersList.length : 0;
-    reviewBtn.textContent = lang==='en' ? '🔁 Review ' + wrongCount + ' wrong answer' + (wrongCount>1?'s':'') :
-                            lang==='zh' ? '🔁 复习 ' + wrongCount + ' 道错题' :
-                            '🔁 Revoir les ' + wrongCount + ' erreur' + (wrongCount>1?'s':'');
+    reviewBtn.textContent = lang==='en' ? 'Review ' + wrongCount + ' wrong answer' + (wrongCount>1?'s':'') :
+                            lang==='zh' ? '复习 ' + wrongCount + ' 道错题' :
+                            'Revoir ' + (wrongCount>1?'les ':'l\'') + wrongCount + ' erreur' + (wrongCount>1?'s':'');
   }
 
   var backBtn = el('btn-back-lessons');
-  if (backBtn) backBtn.textContent = i18n.backLessons || '📚 Toutes les leçons';
+  if (backBtn) backBtn.textContent = i18n.backLessons || 'Toutes les leçons';
 
   var shareLbl = el('btn-share-lbl');
   if (shareLbl) shareLbl.textContent = lang==='en'?'Share my score':lang==='zh'?'分享成绩':'Partager mon score';
@@ -23807,9 +24022,9 @@ function showResult() {
     var xpAfter = getXP();
     var xpGained = xpAfter - xpBefore;
     if (xpGained > 0) {
-      showXPFloat(xpGained);
+      // Pas d'animation flottante sur l'écran de résultat : elle se superposait au texte.
       _addDailyXP(xpGained);
-      if (xpEl) xpEl.innerHTML = '⚡ +' + xpGained + ' ' + (i18n.xpLbl || 'XP');
+      if (xpEl) xpEl.textContent = '+' + xpGained + ' ' + (i18n.xpLbl || 'XP');
     } else {
       if (xpEl) xpEl.style.display = 'none';
     }
@@ -23840,9 +24055,9 @@ function showResult() {
     var canNext = nextL && (FREE_LESSONS.includes(nextL.id) || isUnlocked());
     if (canNext) {
       nextLessonBtn.style.display = 'block';
-      nextLessonBtn.textContent = lang==='en' ? '➡️ Next lesson: '+nextL.title
-                                : lang==='zh' ? '➡️ 下一课：'+nextL.title
-                                : '➡️ Leçon suivante : '+nextL.title;
+      nextLessonBtn.textContent = lang==='en' ? 'Next lesson: '+nextL.title
+                                : lang==='zh' ? '下一课：'+nextL.title
+                                : 'Leçon suivante : '+nextL.title;
     } else {
       nextLessonBtn.style.display = 'none';
     }
@@ -23857,19 +24072,19 @@ function showResult() {
     var timeLbl = lang==='en'?'Time':lang==='zh'?'用时':'Temps';
     var minPart = elapsed >= 60 ? Math.floor(elapsed/60)+'min ' : '';
     var secPart = (elapsed%60)+'s';
-    summaryHtml += '<div class="result-time-row">⏱️ '+timeLbl+' : <strong>'+minPart+secPart+'</strong></div>';
+    summaryHtml += '<div class="result-time-row">'+timeLbl+' : <strong>'+minPart+secPart+'</strong></div>';
     // Wrong answers breakdown
     var wrongs = window._wrongAnswerDetails || [];
     if (wrongs.length > 0) {
       var wrongTitle = lang==='en'?'Mistakes to review':lang==='zh'?'需要复习的错误':'Erreurs à revoir';
-      summaryHtml += '<div class="result-summary-title">❌ '+wrongTitle+'</div>';
+      summaryHtml += '<div class="result-summary-title">'+wrongTitle+'</div>';
       wrongs.forEach(function(w) {
         var yourLbl  = lang==='en'?'Your answer:':lang==='zh'?'你的回答：':'Ta réponse :';
         var corrLbl  = lang==='en'?'Correct:':lang==='zh'?'正确答案：':'Correct :';
         summaryHtml += '<div class="result-wrong-item">'
           +'<div class="wrong-q">'+escHtml(w.q)+'</div>'
-          +(w.your?'<div class="wrong-your">✗ '+yourLbl+' '+escHtml(w.your)+'</div>':'')
-          +(w.correct?'<div class="wrong-correct">✓ '+corrLbl+' '+escHtml(w.correct)+'</div>':'')
+          +(w.your?'<div class="wrong-your">'+yourLbl+' '+escHtml(w.your)+'</div>':'')
+          +(w.correct?'<div class="wrong-correct">'+corrLbl+' '+escHtml(w.correct)+'</div>':'')
           +'</div>';
       });
     }
@@ -23884,6 +24099,7 @@ function showResult() {
 }
 
 function retryQuiz() {
+  window._ecranResultat = false;
   window.wrongAnswersList = []; window._wrongAnswerDetails = [];
   document.getElementById('result-view').classList.remove('active');
   document.getElementById('lesson-view').classList.add('active');
@@ -24326,12 +24542,14 @@ function clearLessonSearch() {
   if (input) { input.value = ''; filterLessons(''); input.focus(); }
 }
 function closeQuiz() {
+  window._ecranResultat = false;
   _clearQuizTimerAndExam();
   document.getElementById('quiz-view').classList.remove('active');
   document.getElementById('lesson-view').classList.add('active');
   renderLessonPage();
 }
 function backToLessons() {
+  window._ecranResultat = false;
   currentTab = 'lessons';
   closeLessonView();
 }
@@ -24565,7 +24783,7 @@ function getBadgeConditions() {
 }
 
 let _toastTimer = null;
-function showBadgeToast(badge) {
+function _showBadgeToastNow(badge) {
   const toast = document.getElementById('badge-toast');
   if (!toast) return;
   const toastLabel = lang === 'en' ? 'Trophy unlocked!' : lang === 'zh' ? '获得成就！' : 'Trophée débloqué !';
@@ -24744,7 +24962,7 @@ function initNotifications() {
   if (toggle) toggle.classList.toggle('on', enabled);
 }
 
-async function _maybePromptNotif() {
+async function _maybePromptNotifNow() {
   // Show a non-intrusive notification prompt after first lesson completed
   try {
     if (!('Notification' in window)) return;
@@ -28496,8 +28714,18 @@ window.addEventListener('unhandledrejection', function(e) {
     b.appendChild(p); b.appendChild(row);
     document.body.appendChild(b);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show);
-  else show();
+  // Ne jamais superposer le consentement à l'onboarding : on attend que
+  // le premier parcours soit terminé pour demander quoi que ce soit.
+  function showQuandPret() {
+    var pret = false;
+    try { pret = !!localStorage.getItem('ff_onboarded'); } catch (e) { pret = true; }
+    var ob = document.getElementById('onboarding');
+    var obVisible = ob && !ob.classList.contains('hidden') && ob.offsetParent !== null;
+    if (!pret || obVisible) { setTimeout(showQuandPret, 1200); return; }
+    show();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showQuandPret);
+  else showQuandPret();
 })();
 </script>
 </body>
